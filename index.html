@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, dan Tebak Angka.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, dan Sudoku Hitung.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,6 +25,8 @@
   --vault:#0A0E13; --vault-2:#12261D; --phos:#52F5A0; --amber:#FFC23D;
   /* Tebak Angka */
   --studio:#0B1640; --studio-2:#1B2F7A; --gold:#FFC83D; --gold-2:#FFE08A;
+  /* Sudoku Hitung */
+  --paper:#F4F1EA; --paper-ink:#1E2233; --sky:#2F6FEB;
 }
 *{box-sizing:border-box}
 html,body{min-height:100%}
@@ -49,6 +51,15 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .game.t24{background:radial-gradient(120% 90% at 50% 0%,var(--felt),var(--felt-deep) 75%)}
 .game.krypto{background:radial-gradient(120% 90% at 50% 0%,var(--vault-2),var(--vault) 75%)}
 .game.tebak{background:radial-gradient(120% 90% at 50% 0%,var(--studio-2),var(--studio) 75%)}
+.game.sudoku{background:var(--paper);color:var(--paper-ink)}
+.game.sudoku p{color:#5B6272}
+.game.sudoku .tags span{background:rgba(30,34,51,.06);border-color:rgba(30,34,51,.14)}
+.sd{display:grid;grid-template-columns:repeat(3,40px);grid-template-rows:repeat(3,40px);background:#fff;border:3px solid var(--paper-ink);border-radius:4px;box-shadow:0 6px 16px rgba(30,34,51,.12)}
+.sd b{position:relative;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.25rem;color:var(--paper-ink);padding-top:6px;
+  border-right:1px solid #C9CED8;border-bottom:1px solid #C9CED8}
+.sd b:nth-child(3n){border-right:0} .sd b:nth-child(n+7){border-bottom:0}
+.sd b.r{border-right:3px solid var(--paper-ink)} .sd b.d{border-bottom:3px solid var(--paper-ink)}
+.sd i{position:absolute;left:3px;top:0;font-style:normal;font-size:.62rem;font-weight:800;line-height:1.3}
 
 /* cuplikan: bentuk asli tiap game, digambar dengan CSS */
 .peek{height:150px;display:flex;align-items:center;justify-content:center}
@@ -81,6 +92,7 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .game.t24 h2 span{color:var(--lemon)}
 .game.krypto h2 span{color:var(--phos)}
 .game.tebak h2 span{color:var(--gold)}
+.game.sudoku h2 span{color:var(--sky)}
 .game p{margin:0;color:var(--muted);line-height:1.45;font-size:.97rem}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
 .tags span{font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line)}
@@ -90,6 +102,7 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .t24 .go{background:var(--coral)}
 .krypto .go{background:var(--phos);color:#04140C}
 .tebak .go{background:var(--gold);color:var(--studio)}
+.sudoku .go{background:var(--paper-ink);color:#fff}
 
 footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid var(--line);padding-top:14px}
 @media (prefers-reduced-motion:reduce){.game{transition:none}.game:hover{transform:none}}
@@ -148,6 +161,18 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Tebak <span>Angka</span></h2>
       <p>Kuis ala acara TV: pilih angka besar, lalu gabungkan enam angka dengan + − × ÷ sedekat mungkin ke target sebelum jam habis. Komputer menunjukkan solusinya.</p>
       <div class="tags"><span>3 tingkat</span><span>Tanding 2 pemain</span><span>Mode kelas</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game sudoku" href="sudoku-hitung/">
+      <div class="peek" aria-hidden="true">
+        <div class="sd"><b class="r"><i>2−</i>1</b><b class="d"><i>6×</i>2</b><b class="d"></b>
+          <b class="r d"></b><b class="d"><i>4+</i>1</b><b></b>
+          <b><i>5+</i></b><b class="r"></b><b></b></div>
+      </div>
+      <h2>Sudoku <span>Hitung</span></h2>
+      <p>Angka tidak boleh berulang di baris dan kolom, dan setiap kandang bergaris tebal harus menghasilkan targetnya. Setiap soal hanya punya satu jawaban.</p>
+      <div class="tags"><span>3×3 sampai 6×6</span><span>Pilih operasi</span><span>Catatan &amp; petunjuk</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
   </main>
