@@ -366,7 +366,32 @@ function runClock(on){
   if(!on&&S.startAt){ S.elapsed+=(Date.now()-S.startAt)/1000; S.startAt=0; }
 }
 setInterval(()=>{ $("time").textContent=fmt(now()); },250);
-document.addEventListener("visibilitychange",()=>runClock(!document.hidden));
+document.addEventListener("visibilitychange",()=>{ runClock(!document.hidden); if(document.hidden) save(); });
+window.addEventListener("pagehide",save);
+
+/* ---- simpan isian papan di HP ini, supaya bisa dilanjutkan setelah halaman ditutup ---- */
+const SAVE_KEY="sh_save";
+function save(){
+  if(!S.P) return;
+  if(S.won){ try{ localStorage.removeItem(SAVE_KEY); }catch(e){} return; }
+  store(SAVE_KEY,JSON.stringify({v:1,P:S.P,val:S.val,notes:S.notes.map(r=>r.map(x=>[...x])),given:S.given,hints:S.hints,elapsed:now()}));
+}
+function restore(){
+  try{
+    const d=JSON.parse(store(SAVE_KEY)||"null");
+    if(!d||d.v!==1||!d.P||![3,4,5,6].includes(d.P.n)||!OPS_NAME[d.P.ops]) return false;
+    const n=d.P.n, sq=a=>Array.isArray(a)&&a.length===n&&a.every(r=>Array.isArray(r)&&r.length===n);
+    if(!sq(d.val)||!sq(d.notes)||!sq(d.given)||!sq(d.P.grid)||!sq(d.P.id)||!Array.isArray(d.P.cages)) return false;
+    S.n=n; S.ops=d.P.ops; S.P=d.P;
+    S.val=d.val.map(r=>r.map(v=>(v>=1&&v<=n)?v:0));
+    S.notes=d.notes.map(r=>r.map(x=>new Set((x||[]).filter(v=>v>=1&&v<=n))));
+    S.given=d.given.map(r=>r.map(Boolean));
+    S.wrong=new Set(); S.sel=[0,0]; S.undo=[]; S.hints=!!d.hints; S.won=false;
+    S.elapsed=+d.elapsed||0; S.startAt=0; runClock(!document.hidden);
+    return true;
+  }catch(e){ return false; }
+}
+setInterval(()=>{ if(S.startAt) save(); },5000);
 
 function renderBest(){
   const b=parseFloat(store(bestKey()));
@@ -429,6 +454,7 @@ function cageState(cg){
   return cageOk(cg.op,cg.target,vals)?"ok":"bad";
 }
 function render(){
+  save();
   const n=S.n, conf=conflicts(), [sr,sc]=S.sel||[-1,-1];
   const selVal=S.sel?S.val[sr][sc]:0;
   const cells=$("board").children;
@@ -533,7 +559,7 @@ function checkWin(){
   const n=S.n;
   for(let r=0;r<n;r++)for(let c=0;c<n;c++) if(!S.val[r][c]) return;
   if(conflicts().size||S.P.cages.some(cg=>cageState(cg)!=="ok")){ setMsg("Papan penuh, tapi masih ada yang merah.","bad"); return; }
-  runClock(false); S.won=true;
+  runClock(false); S.won=true; save();
   const t=S.elapsed;
   let note;
   if(S.hints) note=`Memakai petunjuk, jadi waktu tidak masuk rekor.`;
@@ -595,7 +621,13 @@ document.addEventListener("keydown",e=>{
   }
 });
 
-newPuzzle();
+if(restore()){
+  $("board").classList.remove("win");
+  buildBoard(); buildPad(); renderBest(); render();
+  setMsg("Melanjutkan soal sebelumnya.");
+}else newPuzzle();
+$("segSize").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.v===String(S.n)));
+$("segOps").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x.dataset.v===S.ops));
 if(!store("sh_seen_help")){ store("sh_seen_help",1); setTimeout(()=>openDlg($("help")),400); }
 </script>
 </body>
