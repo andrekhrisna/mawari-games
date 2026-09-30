@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Candy Magic Square</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232A1140'/%3E%3Cg fill='%23FF5FA2'%3E%3Crect x='8' y='8' width='14' height='14' rx='4'/%3E%3Crect x='42' y='42' width='14' height='14' rx='4'/%3E%3C/g%3E%3Cg fill='%23FFF4E4'%3E%3Crect x='25' y='8' width='14' height='14' rx='4'/%3E%3Crect x='8' y='25' width='14' height='14' rx='4'/%3E%3Crect x='42' y='25' width='14' height='14' rx='4'/%3E%3Crect x='25' y='42' width='14' height='14' rx='4'/%3E%3C/g%3E%3Crect x='25' y='25' width='14' height='14' rx='4' fill='%23FFD23F'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#2A1140;
+  --night-2:#4A1D5E;
+  --panel:rgba(255,255,255,.07);
+  --panel-line:rgba(255,255,255,.14);
+  --cream:#FFF4E4;
+  --grape:#3B0F52;
+  --gum:#FF5FA2;
+  --gum-2:#FF8AB8;
+  --mint:#3FE0A8;
+  --lemon:#FFD23F;
+  --sour:#FF4D6D;
+  --muted:rgba(255,244,228,.55);
+  --r:16px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  margin:0;
+  background:
+    radial-gradient(120% 80% at 50% -10%, var(--night-2) 0%, var(--night) 60%) fixed;
+  color:var(--cream);
+  font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;
+  font-weight:500;
+  display:flex;flex-direction:column;align-items:center;
+  padding:14px 12px calc(16px + env(safe-area-inset-bottom));
+  min-height:100%;
+}
+.wrap{width:100%;max-width:440px;display:flex;flex-direction:column;gap:12px}
+
+/* ---------- header ---------- */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.brand{font-weight:800;font-size:1.15rem;letter-spacing:.2px;line-height:1}
+.brand span{color:var(--gum)}
+.icon-btn{
+  border:1px solid var(--panel-line);background:var(--panel);color:var(--cream);
+  font-family:inherit;font-weight:700;font-size:.85rem;
+  border-radius:999px;padding:6px 12px;cursor:pointer;
+}
+.icon-btn:focus-visible{outline:3px solid var(--lemon);outline-offset:2px}
+.home{display:none;align-items:center;gap:4px;color:inherit;opacity:.7;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:6px 10px;margin-right:8px}
+.home:hover,.home:focus-visible{opacity:1}
+.onweb .home{display:inline-flex}
+.home{white-space:nowrap;flex:none}
+.brand{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+.titlebox{display:flex;align-items:center;min-width:0;flex:1 1 auto}
+.topbar>div:last-child{flex:none}
+.emo{font-style:normal}
+@media (max-width:400px){.brand{font-size:1rem}.emo{display:none}}
+@media (max-width:340px){.brand{font-size:.88rem}.icon-btn{padding:6px 9px}.home{padding:6px 9px;margin-right:6px}}
+@media (max-width:440px){.home .hl{display:none}.home{padding:6px 11px}}
+
+
+/* ---------- target hero ---------- */
+.hero{
+  display:flex;align-items:center;gap:14px;
+  background:var(--panel);border:1px solid var(--panel-line);
+  border-radius:var(--r);padding:12px 16px;
+}
+.hero-num{
+  font-weight:800;font-size:2.6rem;line-height:.95;color:var(--lemon);
+  min-width:2.2ch;text-align:center;
+  text-shadow:0 0 22px rgba(255,210,63,.35);
+}
+.hero-txt{font-size:.9rem;line-height:1.3;color:var(--muted)}
+.hero-txt b{display:block;color:var(--cream);font-weight:700;font-size:1rem}
+.stats{margin-left:auto;text-align:right;font-size:.8rem;color:var(--muted);line-height:1.35}
+.stats b{color:var(--cream);font-weight:700}
+
+/* ---------- board ---------- */
+.board{
+  display:grid;
+  grid-template-columns:repeat(3,1fr) .52fr;
+  grid-template-rows:repeat(3,1fr) .52fr;
+  gap:7px;
+  width:100%;
+  aspect-ratio:1/1;
+}
+.cell{
+  border:none;border-radius:var(--r);
+  font-family:inherit;font-weight:800;font-size:clamp(1.2rem,6.2vw,1.9rem);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;padding:0;
+  transition:transform .12s ease, box-shadow .12s ease, background .2s ease;
+  will-change:transform;
+}
+.cell.clue{
+  background:linear-gradient(170deg,var(--gum-2),var(--gum));
+  color:#fff;cursor:default;
+  box-shadow:0 4px 0 #b7205f;
+}
+.cell.blank{
+  background:var(--cream);color:var(--grape);
+  box-shadow:0 4px 0 #b99a86;
+}
+.cell.blank.empty{background:rgba(255,244,228,.12);color:transparent;box-shadow:inset 0 0 0 2px rgba(255,244,228,.25)}
+.cell.blank.sel{transform:translateY(-3px);box-shadow:0 7px 0 #b99a86,0 0 0 3px var(--lemon)}
+.cell.dupe{box-shadow:0 4px 0 #b99a86,0 0 0 3px var(--sour)}
+.cell.blank.sel.dupe{box-shadow:0 7px 0 #b99a86,0 0 0 3px var(--sour)}
+.cell:focus-visible{outline:3px solid var(--lemon);outline-offset:2px}
+.cell.solved{background:linear-gradient(170deg,var(--mint),#1FB98A);color:#04382A;box-shadow:0 4px 0 #0E7E5C}
+
+.chip{
+  border-radius:10px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  font-weight:700;font-size:clamp(.65rem,3.1vw,.85rem);
+  background:rgba(255,255,255,.06);color:var(--muted);
+  border:1px solid transparent;line-height:1.1;
+  transition:background .2s,color .2s,border-color .2s;
+}
+.chip.ok{background:rgba(63,224,168,.18);color:var(--mint);border-color:rgba(63,224,168,.45)}
+.chip.bad{background:rgba(255,77,109,.16);color:var(--sour);border-color:rgba(255,77,109,.45)}
+.chip small{font-size:.62em;opacity:.7;font-weight:500}
+.chip.diag{gap:1px;font-size:clamp(.55rem,2.6vw,.72rem)}
+.chip.diag div{display:flex;gap:3px;align-items:center}
+.chip.diag .d-ok{color:var(--mint)}
+.chip.diag .d-bad{color:var(--sour)}
+
+/* ---------- keypad ---------- */
+.pad{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}
+.key{
+  border:1px solid var(--panel-line);background:var(--panel);color:var(--cream);
+  font-family:inherit;font-weight:700;font-size:1.25rem;
+  border-radius:12px;padding:11px 0;cursor:pointer;
+  transition:transform .08s ease,background .15s ease;
+}
+.key:active{transform:translateY(2px);background:rgba(255,255,255,.16)}
+.key:focus-visible{outline:3px solid var(--lemon);outline-offset:2px}
+.key.wide{grid-column:span 2}
+.key.act{background:rgba(255,210,63,.14);border-color:rgba(255,210,63,.4);color:var(--lemon);font-size:.95rem}
+.key.go{background:linear-gradient(170deg,var(--gum-2),var(--gum));border-color:transparent;color:#fff;font-size:.95rem}
+.key[disabled]{opacity:.35;cursor:not-allowed}
+
+/* ---------- baris kontrol ---------- */
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.row3{display:grid;grid-template-columns:1.3fr 1fr 1fr;gap:7px}
+.tbtn{
+  font-family:inherit;font-weight:700;font-size:.85rem;
+  background:var(--panel);color:var(--cream);border:1px solid var(--panel-line);
+  border-radius:12px;padding:10px 6px;cursor:pointer;text-align:center;
+}
+.tbtn.off{opacity:.5}
+.tbtn:focus-visible{outline:3px solid var(--lemon);outline-offset:2px}
+
+/* ---------- mode cari yang salah ---------- */
+.cell.safe{background:rgba(255,244,228,.16);color:var(--muted);box-shadow:none}
+.cell.culprit{background:linear-gradient(170deg,#FF7B93,var(--sour));color:#fff;box-shadow:0 4px 0 #A4172F}
+@keyframes nudge{0%,100%{transform:none}30%{transform:translateX(-5px)}70%{transform:translateX(5px)}}
+.nudge{animation:nudge .3s ease}
+
+/* ---------- select & pesan ---------- */
+select{
+  width:100%;font-family:inherit;font-weight:700;font-size:.9rem;
+  background:var(--panel);color:var(--cream);border:1px solid var(--panel-line);
+  border-radius:12px;padding:10px;appearance:none;text-align:center;cursor:pointer;
+}
+select:focus-visible{outline:3px solid var(--lemon);outline-offset:2px}
+select[disabled]{opacity:.4;cursor:not-allowed}
+option{background:#2A1140;color:#FFF4E4}
+
+.msg{min-height:1.3em;text-align:center;font-size:.9rem;font-weight:700;color:var(--muted)}
+.msg.good{color:var(--mint)}
+.msg.warn{color:var(--lemon)}
+
+/* ---------- dialog ---------- */
+.sheet{
+  position:fixed;inset:0;z-index:50;display:none;
+  align-items:center;justify-content:center;padding:20px;
+  background:rgba(20,5,32,.72);backdrop-filter:blur(4px);
+}
+.sheet.on{display:flex}
+.sheet-box{
+  background:#39174F;border:1px solid var(--panel-line);border-radius:20px;
+  padding:20px;max-width:380px;width:100%;max-height:82vh;overflow-y:auto;
+}
+.sheet-box h2{margin:0 0 10px;font-weight:800;font-size:1.25rem}
+.sheet-box p,.sheet-box li{font-size:.92rem;line-height:1.5;color:rgba(255,244,228,.85)}
+.sheet-box ul{padding-left:18px;margin:8px 0}
+.sheet-box .big{font-size:2.6rem;text-align:center;margin:6px 0}
+.sheet-box .stars{font-size:2rem;text-align:center;letter-spacing:4px}
+.sheet-box button{
+  width:100%;margin-top:12px;font-family:inherit;font-weight:700;font-size:1rem;
+  border:none;border-radius:12px;padding:12px;cursor:pointer;
+  background:linear-gradient(170deg,var(--gum-2),var(--gum));color:#fff;
+}
+
+/* ---------- confetti & gerak ---------- */
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.conf{position:absolute;width:10px;height:14px;top:-20px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(760deg)}}
+@keyframes deal{from{opacity:0;transform:scale(.6) translateY(-10px)}to{opacity:1;transform:none}}
+@keyframes pop{50%{transform:scale(1.12)}}
+.pop{animation:pop .18s ease}
+
+/* ---------- lembar soal A4 ---------- */
+#printArea{display:none}
+@media print{
+  html,body{background:#fff!important;color:#000!important;padding:0;margin:0;display:block}
+  .wrap,.sheet,#confetti{display:none!important}
+  #printArea{display:block!important;font-family:Arial,Helvetica,sans-serif;color:#000}
+}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+}
+</style>
+</head>
+<body>
+
+<div id="confetti"></div>
+
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="titlebox"><a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span><span class="hl">&nbsp;Menu</span></a><div class="brand"><i class="emo">🍭 </i>Candy <span>Magic Square</span></div></div>
+    <div style="display:flex;gap:6px">
+      <button class="icon-btn" id="langBtn">EN</button>
+      <button class="icon-btn" id="helpBtn">?</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-num" id="target">15</div>
+    <div class="hero-txt">
+      <b data-i18n="heroTitle">Setiap baris</b>
+      <span data-i18n="heroSub">baris, kolom, dan diagonal</span>
+    </div>
+    <div class="stats">
+      <div><span data-i18n="lblTime">Waktu</span> <b id="time">0:00</b></div>
+      <div><span data-i18n="lblBest">Rekor</span> <b id="best">–</b></div>
+    </div>
+  </div>
+
+  <div class="board" id="board"></div>
+
+  <div class="msg" id="msg"></div>
+
+  <div class="pad" id="pad">
+    <button class="key" data-k="1">1</button>
+    <button class="key" data-k="2">2</button>
+    <button class="key" data-k="3">3</button>
+    <button class="key act" data-k="undo" data-i18n="kUndo">Undo</button>
+    <button class="key" data-k="4">4</button>
+    <button class="key" data-k="5">5</button>
+    <button class="key" data-k="6">6</button>
+    <button class="key act" data-k="hint" id="hintKey">💡 3</button>
+    <button class="key" data-k="7">7</button>
+    <button class="key" data-k="8">8</button>
+    <button class="key" data-k="9">9</button>
+    <button class="key act" data-k="del">⌫</button>
+    <button class="key" data-k="neg">−</button>
+    <button class="key" data-k="0">0</button>
+    <button class="key go wide" data-k="new" data-i18n="kNew">Soal baru</button>
+  </div>
+
+  <div class="row2">
+    <select id="level"></select>
+    <select id="tier"></select>
+  </div>
+
+  <div class="row3">
+    <select id="mode"></select>
+    <button class="tbtn" id="helpToggle">Bantuan</button>
+    <button class="tbtn" id="wsBtn">🖨 Lembar</button>
+  </div>
+
+</div>
+
+<div class="sheet" id="wsSheet">
+  <div class="sheet-box">
+    <h2 id="wsTitle">Lembar soal A4</h2>
+    <p id="wsNote"></p>
+    <div class="row2" style="margin-bottom:7px">
+      <select id="wsLevel"></select>
+      <select id="wsTier"></select>
+    </div>
+    <div class="row2">
+      <select id="wsCount"></select>
+      <select id="wsKey"></select>
+    </div>
+    <button data-k="doPrint" id="wsGo">Cetak / Simpan PDF</button>
+    <button data-k="closeWs" style="background:var(--panel);border:1px solid var(--panel-line)" data-i18n="btnClose">Tutup</button>
+  </div>
+</div>
+
+<div id="printArea"></div>
+
+<div class="sheet" id="helpSheet">
+  <div class="sheet-box">
+    <h2 data-i18n="helpTitle">Cara main</h2>
+    <div id="helpBody"></div>
+    <button data-k="closeHelp" data-i18n="btnClose">Tutup</button>
+  </div>
+</div>
+
+<div class="sheet" id="winSheet">
+  <div class="sheet-box">
+    <div class="big">🍬</div>
+    <h2 style="text-align:center" data-i18n="winTitle">Manis sekali!</h2>
+    <div class="stars" id="winStars">⭐⭐⭐</div>
+    <p style="text-align:center" id="winInfo"></p>
+    <button data-k="new" data-i18n="kNew">Soal baru</button>
+  </div>
+</div>
+
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<script>
+"use strict";
+
+/* ============================================================
+   1. TEKS / TEXT
+   ============================================================ */
+const STR = {
+  id:{
+    heroTitle:"Jumlah target",
+    heroSub:"tiap baris, kolom & diagonal",
+    lblTime:"Waktu", lblBest:"Rekor",
+    kUndo:"Undo", kNew:"Soal baru", btnClose:"Tutup",
+    helpTitle:"Cara main",
+    winTitle:"Manis sekali!",
+    levels:["🍒 Angka 1–9","🫐 Kelipatan 2","🍋 Kelipatan 5","🧊 Ada minus","🔥 Angka besar"],
+    tiers:["Mudah · 3 kosong","Sedang · 4 kosong","Sulit · 5 kosong","Ahli · 6 kosong","Jenius · 7 kosong"],
+    pickCell:"Pilih kotak kosong dulu.",
+    noHint:"Petunjuk habis.",
+    hintGiven:"Satu permen terbuka.",
+    dupe:"Angka itu sudah dipakai di kotak lain.",
+    almost:"Tinggal sedikit lagi!",
+    start:"Isi kotak kosong sampai semua garis pas.",
+    nothingUndo:"Belum ada yang bisa di-undo.",
+    modes:["✏️ Isi kotak kosong","🔍 Cari yang salah"],
+    helpOn:"Bantuan: aktif", helpOff:"Bantuan: mati",
+    notPass:"Semua terisi, tapi belum pas.",
+    findStart:"Satu angka keliru. Ketuk kotak yang menurutmu salah.",
+    findSafe:"Kotak itu sudah benar. Coret dari daftar.",
+    findHint:"Satu kotak dipastikan aman.",
+    findInfo:(t,w)=>`Ketemu dalam ${t}${w?` · ${w} tebakan meleset`:" · sekali tebak"}`,
+    wsTitle:"Lembar soal A4",
+    wsNote:"Dicetak hitam-putih. Kotak abu-abu sudah terisi, kotak putih diisi murid.",
+    wsCounts:["6 soal (1 halaman)","12 soal (2 halaman)","18 soal (3 halaman)"],
+    wsKeyOpts:["Sertakan kunci jawaban","Tanpa kunci jawaban"],
+    wsGo:"Cetak / Simpan PDF",
+    wsSheet:"Magic Square — Lembar Latihan",
+    wsName:"Nama: ____________________  Tanggal: __________",
+    wsRule:"Isi kotak putih sehingga setiap baris, setiap kolom, dan kedua diagonal berjumlah sama dengan angka target.",
+    wsPuz:n=>`Soal ${n}`, wsTarget:"Target",
+    wsAnsPage:"Kunci Jawaban",
+    wsTip:"Pilih \u201cSimpan sebagai PDF\u201d di dialog cetak. Aktifkan \u201cGrafik latar\u201d agar kotak abu-abu ikut tercetak.",
+    wsOpened:"Lembar soal terbuka di tab baru.",
+    wsSaved:"Lembar soal diunduh. Buka berkasnya, lalu cetak.",
+    winInfo:(t,h)=>`Selesai dalam ${t}${h?` · pakai ${h} petunjuk`:" · tanpa petunjuk"}`,
+    newRecord:"Rekor baru! 🏆",
+    help:`<p>Isi semua kotak kosong sehingga <b>setiap baris, setiap kolom, dan kedua diagonal</b> berjumlah sama dengan angka target.</p>
+    <ul>
+      <li>Kotak merah muda sudah terisi dan tidak bisa diubah.</li>
+      <li>Angka kecil di pinggir papan menunjukkan jumlah garis itu sekarang. Hijau berarti sudah pas.</li>
+      <li>Ketuk kotak kosong, lalu ketik angkanya di tombol bawah.</li>
+    </ul>
+    <p><b>Trik 1.</b> Cari garis yang tinggal <b>satu</b> kotak kosong. Kurangi target dengan dua angka yang sudah ada — hasilnya pasti jawabannya.</p>
+    <p><b>Trik 2 (untuk level Jenius).</b> Kotak tengah selalu sama dengan <b>target ÷ 3</b>. Itu pintu masuknya.</p>
+    <p>Setiap soal dijamin bisa diselesaikan langkah demi langkah tanpa menebak, dan jawabannya hanya satu.</p>
+    <p><b>Mode Cari yang salah.</b> Papan sudah penuh, tepat satu angka keliru. Garis yang rusak selalu berpotongan di satu kotak saja — itu pelakunya.</p>
+    <p><b>Tombol Bantuan.</b> Matikan untuk menyembunyikan jumlah tiap garis. Papannya sama, tapi jauh lebih menantang.</p>
+    <p><b>Tombol Lembar.</b> Membuat lembar latihan A4 hitam-putih beserta kunci jawaban, siap dicetak atau disimpan sebagai PDF.</p>`
+  },
+  en:{
+    heroTitle:"Target sum",
+    heroSub:"every row, column & diagonal",
+    lblTime:"Time", lblBest:"Best",
+    kUndo:"Undo", kNew:"New puzzle", btnClose:"Close",
+    helpTitle:"How to play",
+    winTitle:"Sweet!",
+    levels:["🍒 Numbers 1–9","🫐 Multiples of 2","🍋 Multiples of 5","🧊 With negatives","🔥 Big numbers"],
+    tiers:["Easy · 3 blanks","Medium · 4 blanks","Hard · 5 blanks","Expert · 6 blanks","Genius · 7 blanks"],
+    pickCell:"Tap an empty tile first.",
+    noHint:"No hints left.",
+    hintGiven:"One candy revealed.",
+    dupe:"That number is already used elsewhere.",
+    almost:"So close!",
+    start:"Fill the blanks until every line matches.",
+    nothingUndo:"Nothing to undo yet.",
+    modes:["✏️ Fill the blanks","🔍 Spot the error"],
+    helpOn:"Helpers: on", helpOff:"Helpers: off",
+    notPass:"Board is full, but not right yet.",
+    findStart:"One number is wrong. Tap the tile you suspect.",
+    findSafe:"That tile is correct. Cross it off.",
+    findHint:"One tile confirmed correct.",
+    findInfo:(t,w)=>`Found in ${t}${w?` · ${w} wrong guess(es)`:" · first try"}`,
+    wsTitle:"A4 worksheet",
+    wsNote:"Printed in black and white. Grey tiles are given, white tiles are for the student.",
+    wsCounts:["6 puzzles (1 page)","12 puzzles (2 pages)","18 puzzles (3 pages)"],
+    wsKeyOpts:["Include answer key","No answer key"],
+    wsGo:"Print / Save as PDF",
+    wsSheet:"Magic Square — Practice Sheet",
+    wsName:"Name: ____________________  Date: __________",
+    wsRule:"Fill the white tiles so that every row, every column and both diagonals add up to the target number.",
+    wsPuz:n=>`Puzzle ${n}`, wsTarget:"Target",
+    wsAnsPage:"Answer Key",
+    wsTip:"Choose \u201cSave as PDF\u201d in the print dialog. Turn on \u201cBackground graphics\u201d so the grey tiles print.",
+    wsOpened:"Worksheet opened in a new tab.",
+    wsSaved:"Worksheet downloaded. Open the file, then print.",
+    winInfo:(t,h)=>`Solved in ${t}${h?` · ${h} hint(s) used`:" · no hints"}`,
+    newRecord:"New record! 🏆",
+    help:`<p>Fill every blank tile so that <b>each row, each column, and both diagonals</b> add up to the target number.</p>
+    <ul>
+      <li>Pink tiles are given and cannot be changed.</li>
+      <li>The small numbers around the board show each line's current sum. Green means it matches.</li>
+      <li>Tap an empty tile, then type with the keypad below.</li>
+    </ul>
+    <p><b>Trick 1.</b> Find a line with only <b>one</b> blank. Target minus the two known numbers is the answer.</p>
+    <p><b>Trick 2 (Genius level).</b> The centre tile always equals <b>target ÷ 3</b>. That is your way in.</p>
+    <p>Every puzzle is guaranteed solvable step by step without guessing, and has exactly one answer.</p>
+    <p><b>Spot the error mode.</b> The board is full and exactly one number is wrong. The broken lines always cross at a single tile — that is the culprit.</p>
+    <p><b>Helpers button.</b> Turn it off to hide each line's running sum. Same board, much harder.</p>
+    <p><b>Worksheet button.</b> Builds a black-and-white A4 practice sheet with an answer key, ready to print or save as PDF.</p>`
+  }
+};
+let LANG = "id";
+const T = k => STR[LANG][k];
+
+/* ============================================================
+   2. MATEMATIKA MAGIC SQUARE
+   Setiap magic square 3x3 dengan target S berbentuk:
+     pusat a = S/3, dan offset tiap sel terhadap a ditentukan (b,c):
+     [ b, -b-c,  c ]
+     [-b+c, 0, b-c ]
+     [ -c, b+c, -b  ]
+   Semua 9 angka berbeda  <=>  b≠0, c≠0, b≠c, b≠2c, c≠2b.
+   (Kode lama lupa syarat c≠2b -> 6,2% soal level Chaos mustahil dimenangkan.)
+   ============================================================ */
+const OFF = [[1,0],[-1,-1],[0,1],[-1,1],[0,0],[1,-1],[0,-1],[1,1],[-1,0]];
+const LINES = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+const SYM = [
+  [0,1,2,3,4,5,6,7,8],[2,1,0,5,4,3,8,7,6],
+  [6,7,8,3,4,5,0,1,2],[8,7,6,5,4,3,2,1,0],
+  [0,3,6,1,4,7,2,5,8],[2,5,8,1,4,7,0,3,6],
+  [6,3,0,7,4,1,8,5,2],[8,5,2,7,4,1,6,3,0]
+];
+const ri = n => Math.floor(Math.random()*n);
+const pick = a => a[ri(a.length)];
+
+function allDistinct(b,c){
+  const o=[b,-b-c,c,-b+c,0,b-c,-c,b+c,-b];
+  return new Set(o).size===9;
+}
+
+function buildSquare(a,b,c){
+  return OFF.map(([p,q]) => a + p*b + q*c);
+}
+
+/* Generator per level. Semua memakai syarat distinct yang lengkap. */
+/* grid = m * LoShu + x  <=>  a = 5m+x, b = m, c = 3m  (selalu distinct karena c=3b) */
+function makeSquare(level){
+  let a,b,c;
+  if(level===0){ b=1; c=3; a=5; }                                  // tepat angka 1..9
+  else if(level===1){ const m=pick([2,4,6]), x=2*ri(6); b=m; c=3*m; a=5*m+x; }
+  else if(level===2){ const m=pick([5,10]),  x=5*ri(6); b=m; c=3*m; a=5*m+x; }
+  else if(level===3){ const m=pick([1,2]),   x=-(ri(10)+10); b=m; c=3*m; a=5*m+x; }
+  else {                                                           // acak penuh
+    do{ a=ri(20)+10; b=ri(10)+1; c=ri(10)+1; }
+    while(!(a>b+c && allDistinct(b,c)));
+  }
+  if(!allDistinct(b,c)) return makeSquare(level);               // jaring pengaman
+  const raw = buildSquare(a,b,c);
+  const s = pick(SYM);
+  return { grid: s.map(i=>raw[i]), target: 3*a };
+}
+
+/* ---- pola kotak kosong yang DIJAMIN bisa dinalar langkah demi langkah ---- */
+function deducible(hidden, useCentre){
+  const known = new Set([0,1,2,3,4,5,6,7,8].filter(i=>!hidden.has(i)));
+  if(useCentre) known.add(4);
+  let moved = true;
+  while(moved && known.size<9){
+    moved=false;
+    for(const L of LINES){
+      const k = L.filter(i=>!known.has(i));
+      if(k.length===1){ known.add(k[0]); moved=true; }
+    }
+  }
+  return known.size===9;
+}
+const PATTERNS = (()=>{
+  const out={};
+  for(let n=3;n<=7;n++){
+    const list=[];
+    const rec=(start,cur)=>{
+      if(cur.length===n){ list.push(cur.slice()); return; }
+      for(let i=start;i<9;i++) rec(i+1,[...cur,i]);
+    };
+    rec(0,[]);
+    const useCentre = n===7;                       // tier Jenius perlu trik pusat
+    out[n]=list.filter(p=>deducible(new Set(p),useCentre));
+  }
+  return out;
+})();
+
+/* ============================================================
+   3. STATE
+   ============================================================ */
+const S = {
+  level:0, blanks:3, target:15, mode:0, help:true,
+  sol:[], clue:new Set(), val:[], txt:[],
+  bad:-1, safe:new Set(), miss:0,
+  sel:-1, hints:3, undo:[],
+  t0:0, tick:null, won:false, started:false
+};
+const $ = s => document.querySelector(s);
+const board=$("#board"), msgEl=$("#msg");
+let cells=[], rowChip=[], colChip=[], diagChip=null;
+
+/* ============================================================
+   4. RENDER
+   ============================================================ */
+function buildBoard(){
+  board.innerHTML=""; cells=[]; rowChip=[]; colChip=[];
+  for(let r=0;r<3;r++){
+    for(let col=0;col<3;col++){
+      const i=r*3+col;
+      const b=document.createElement("button");
+      b.className="cell"; b.dataset.i=i; b.type="button";
+      b.style.animation=`deal .3s ${i*0.035}s backwards`;
+      board.appendChild(b); cells.push(b);
+    }
+    const ch=document.createElement("div"); ch.className="chip";
+    board.appendChild(ch); rowChip.push(ch);
+  }
+  for(let col=0;col<3;col++){
+    const ch=document.createElement("div"); ch.className="chip";
+    board.appendChild(ch); colChip.push(ch);
+  }
+  diagChip=document.createElement("div");
+  diagChip.className="chip diag";
+  board.appendChild(diagChip);
+}
+
+function lineSum(L){
+  let sum=0, filled=0;
+  for(const i of L){ if(S.val[i]!==null){ sum+=S.val[i]; filled++; } }
+  return {sum, filled, full:filled===3};
+}
+function paintChip(el,L){
+  const {sum,filled,full}=lineSum(L);
+  el.className="chip";
+  if(!S.help&&!S.won){ el.textContent="·"; return; }
+  if(full) el.classList.add(sum===S.target?"ok":"bad");
+  if(filled===0) el.textContent="·";
+  else if(full)  el.textContent=sum;
+  else           el.innerHTML=`${sum}<small>…</small>`;
+}
+
+function render(){
+  $("#hintKey").textContent="💡 "+S.hints;
+  $("#hintKey").disabled=S.hints<=0||S.won;
+  if(!cells.length) return;
+
+  const counts={};
+  S.val.forEach(v=>{ if(v!==null) counts[v]=(counts[v]||0)+1; });
+
+  cells.forEach((el,i)=>{
+    const v=S.val[i], t=S.txt[i];
+    el.className="cell";
+    if(S.mode===1){
+      el.classList.add("blank");
+      if(S.safe.has(i)) el.classList.add("safe");
+      if(S.won&&i===S.bad) el.classList.add("culprit");
+      else if(S.won) el.classList.add("solved");
+      el.disabled=S.won||S.safe.has(i);
+    }else{
+      el.classList.add(S.clue.has(i)?"clue":"blank");
+      if(!S.clue.has(i)&&t==="") el.classList.add("empty");
+      if(S.sel===i&&!S.won) el.classList.add("sel");
+      if(v!==null&&counts[v]>1) el.classList.add("dupe");
+      if(S.won) el.classList.add("solved");
+      el.disabled=S.clue.has(i)||S.won;
+    }
+    el.textContent=t;
+    el.setAttribute("aria-label",(S.clue.has(i)?"terisi ":"kosong ")+t);
+  });
+
+  for(let r=0;r<3;r++) paintChip(rowChip[r],LINES[r]);
+  for(let c=0;c<3;c++) paintChip(colChip[c],LINES[3+c]);
+
+  const d1=lineSum(LINES[6]), d2=lineSum(LINES[7]);
+  const hide=!S.help&&!S.won;
+  const tag=d=> (hide||!d.full) ? "" : (d.sum===S.target?"d-ok":"d-bad");
+  const num=d=> hide ? "·" : (d.filled===0 ? "·" : d.sum);
+  diagChip.className="chip diag";
+  diagChip.innerHTML =
+    `<div>↘<b class="${tag(d1)}">${num(d1)}</b></div>`+
+    `<div>↙<b class="${tag(d2)}">${num(d2)}</b></div>`;
+
+  document.querySelectorAll('#pad .key').forEach(k=>{
+    const t=k.dataset.k;
+    if(t==="new") return;
+    if(t==="hint"){ k.disabled=S.hints<=0||S.won; return; }
+    k.disabled = S.won || S.mode===1;
+  });
+  $("#helpToggle").textContent = S.help?T("helpOn"):T("helpOff");
+  $("#helpToggle").classList.toggle("off",!S.help);
+  $("#tier").disabled = S.mode===1;
+}
+
+function say(text,cls){ msgEl.textContent=text; msgEl.className="msg"+(cls?" "+cls:""); }
+
+/* ============================================================
+   5. GAME FLOW
+   ============================================================ */
+const STEP=[1,2,5,1,1];   // besar kesalahan mengikuti gaya angka tiap level
+
+function newGame(){
+  const {grid,target}=makeSquare(S.level);
+  S.sol=grid; S.target=target;
+  S.bad=-1; S.safe=new Set(); S.miss=0;
+
+  if(S.mode===1){
+    S.clue=new Set([0,1,2,3,4,5,6,7,8]);
+    S.bad=ri(9);
+    const step=STEP[S.level];
+    const opsi=[1,2,3].flatMap(k=>[k*step,-k*step]);
+    // utamakan kesalahan yang tidak menghasilkan angka kembar; kalau tidak ada
+    // (level 1–9 hampir selalu begitu), pakai apa saja — jangan sampai loop abadi
+    const aman=opsi.filter(d=>!grid.includes(grid[S.bad]+d));
+    const d=pick(aman.length?aman:opsi);
+    S.val=grid.slice(); S.val[S.bad]=grid[S.bad]+d;
+    S.txt=S.val.map(String);
+  }else{
+    const pat=pick(PATTERNS[S.blanks]);
+    S.clue=new Set([0,1,2,3,4,5,6,7,8].filter(i=>!pat.includes(i)));
+    S.val=grid.map((v,i)=>S.clue.has(i)?v:null);
+    S.txt=grid.map((v,i)=>S.clue.has(i)?String(v):"");
+  }
+
+  S.sel=-1; S.hints=3; S.undo=[]; S.won=false; S.started=false;
+  clearInterval(S.tick); S.tick=null; $("#time").textContent="0:00";
+  $("#target").textContent=target;
+  $("#confetti").innerHTML="";
+  $("#winSheet").classList.remove("on");
+  buildBoard(); render(); say(T(S.mode===1?"findStart":"start"));
+  showBest();
+}
+
+function startClock(){
+  if(S.started) return;
+  S.started=true; S.t0=Date.now();
+  S.tick=setInterval(()=>{ $("#time").textContent=fmt((Date.now()-S.t0)/1000); },250);
+}
+const fmt = s => `${Math.floor(s/60)}:${String(Math.floor(s%60)).padStart(2,"0")}`;
+
+function commit(i,t){
+  S.undo.push([i,S.txt[i]]);
+  apply(i,t);
+  cells[i].classList.remove("pop"); void cells[i].offsetWidth; cells[i].classList.add("pop");
+  render(); checkWin();
+}
+function apply(i,t){
+  S.txt[i]=t;
+  S.val[i]=(t===""||t==="-")?null:parseInt(t,10);
+}
+
+function checkWin(){
+  if(S.mode===1||S.val.some(v=>v===null)) return;
+  const ok = LINES.every(L=>L.reduce((a,i)=>a+S.val[i],0)===S.target);
+  if(!ok){
+    const near = LINES.filter(L=>L.reduce((a,i)=>a+S.val[i],0)===S.target).length;
+    say(near>=6?T("almost"):T("notPass"),"warn");
+    return;
+  }
+  const used=3-S.hints;
+  finish(used===0?3:(used<=1?2:1), t=>T("winInfo")(t,used));
+}
+
+function guessCell(i){
+  if(S.won||S.safe.has(i)) return;
+  startClock();
+  if(i===S.bad){
+    S.txt[i]=String(S.sol[i]); S.val[i]=S.sol[i];
+    finish(S.miss===0?3:(S.miss<=2?2:1), t=>T("findInfo")(t,S.miss));
+    return;
+  }
+  S.miss++; S.safe.add(i);
+  cells[i].classList.remove("nudge"); void cells[i].offsetWidth; cells[i].classList.add("nudge");
+  say(T("findSafe"),"warn");
+  render();
+}
+
+function finish(stars,info){
+  S.won=true; clearInterval(S.tick);
+  const secs=(Date.now()-S.t0)/1000;
+  render();
+  $("#winStars").textContent="⭐".repeat(stars)+"☆".repeat(3-stars);
+  let extra="";
+  const key=bestKey();
+  try{
+    const prev=parseFloat(localStorage.getItem(key));
+    if(!prev||secs<prev){ localStorage.setItem(key,secs.toFixed(1)); extra=" · "+T("newRecord"); }
+  }catch(e){}
+  $("#winInfo").textContent=info(fmt(secs))+extra;
+  showBest();
+  confetti();
+  setTimeout(()=>$("#winSheet").classList.add("on"),700);
+}
+
+const bestKey = () => `cms_${S.mode}_${S.level}_${S.mode===1?0:S.blanks}`;
+
+function showBest(){
+  let v=null;
+  try{ v=localStorage.getItem(bestKey()); }catch(e){}
+  $("#best").textContent = v?fmt(parseFloat(v)):"–";
+}
+
+/* petunjuk: buka kotak yang SEDANG bisa dinalar, supaya mengajarkan urutan */
+function hint(){
+  if(S.hints<=0) return say(T("noHint"),"warn");
+  if(S.mode===1){
+    const cand=[...Array(9).keys()].filter(i=>i!==S.bad&&!S.safe.has(i));
+    if(!cand.length) return;
+    S.hints--; startClock(); S.safe.add(pick(cand));
+    say(T("findHint"),"warn"); render(); return;
+  }
+  const blanks=[...Array(9).keys()].filter(i=>S.val[i]===null);
+  if(!blanks.length) return;
+  let target = blanks.find(i =>
+    LINES.some(L=>L.includes(i) && L.filter(j=>S.val[j]===null).length===1));
+  if(target===undefined) target = blanks.includes(4)?4:pick(blanks);
+  S.hints--;
+  startClock();
+  commit(target,String(S.sol[target]));
+  S.sel=-1;
+  say(T("hintGiven"),"warn");
+  render();
+}
+
+function typeDigit(d){
+  if(S.won||S.mode===1) return;
+  if(S.sel<0) return say(T("pickCell"),"warn");
+  startClock();
+  let t=S.txt[S.sel];
+  const neg=t.startsWith("-");
+  let digits=neg?t.slice(1):t;
+  if(digits==="0"||digits.length>=3) digits="";   // mulai lagi, bukan "0123"
+  digits+=d;
+  commit(S.sel,(neg?"-":"")+digits);
+}
+function negate(){
+  if(S.won||S.mode===1) return;
+  if(S.sel<0) return say(T("pickCell"),"warn");
+  startClock();
+  const t=S.txt[S.sel];
+  commit(S.sel, t.startsWith("-") ? t.slice(1) : "-"+t);
+}
+function del(){
+  if(S.won||S.mode===1) return;
+  if(S.sel<0) return say(T("pickCell"),"warn");
+  const t=S.txt[S.sel];
+  if(t==="") return;
+  commit(S.sel,t.slice(0,-1));
+}
+function undo(){
+  if(S.won||S.mode===1) return;
+  if(!S.undo.length) return say(T("nothingUndo"),"warn");
+  const [i,t]=S.undo.pop();
+  apply(i,t); S.sel=i; render(); say("");
+}
+
+/* ============================================================
+   6. INPUT
+   ============================================================ */
+board.addEventListener("click",e=>{
+  const b=e.target.closest(".cell"); if(!b||b.disabled) return;
+  const i=parseInt(b.dataset.i,10);
+  if(S.mode===1) return guessCell(i);
+  S.sel=i; render(); say("");
+});
+
+$("#pad").addEventListener("click",e=>{
+  const b=e.target.closest(".key"); if(!b) return;
+  const k=b.dataset.k;
+  if(/^\d$/.test(k)) typeDigit(k);
+  else if(k==="neg") negate();
+  else if(k==="del") del();
+  else if(k==="undo") undo();
+  else if(k==="hint") hint();
+  else if(k==="new") newGame();
+});
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-k]"); if(!b) return;
+  if(b.dataset.k==="closeHelp") $("#helpSheet").classList.remove("on");
+  if(b.dataset.k==="closeWs") $("#wsSheet").classList.remove("on");
+  if(b.dataset.k==="doPrint") makeWorksheet();
+  if(b.dataset.k==="new" && b.closest(".sheet")) newGame();
+});
+
+document.addEventListener("keydown",e=>{
+  if(e.target.tagName==="SELECT"||e.target.closest(".sheet.on")) return;
+  if(e.metaKey||e.ctrlKey||e.altKey) return;
+  if(/^\d$/.test(e.key)) { typeDigit(e.key); e.preventDefault(); }
+  else if(e.key==="-") negate();
+  else if(e.key==="Backspace"){ del(); e.preventDefault(); }
+  else if(e.key==="Enter") newGame();
+  else if(e.key.startsWith("Arrow")&&S.sel>=0){
+    const d={ArrowLeft:-1,ArrowRight:1,ArrowUp:-3,ArrowDown:3}[e.key];
+    let n=S.sel+d;
+    if(n>=0&&n<9&&!(d===-1&&S.sel%3===0)&&!(d===1&&S.sel%3===2)){
+      while(n>=0&&n<9&&S.clue.has(n)) n+=d;
+      if(n>=0&&n<9){ S.sel=n; render(); }
+    }
+    e.preventDefault();
+  }
+});
+
+$("#helpBtn").onclick=()=>{ $("#helpBody").innerHTML=T("help"); $("#helpSheet").classList.add("on"); };
+$("#helpSheet").onclick=e=>{ if(e.target.id==="helpSheet") $("#helpSheet").classList.remove("on"); };
+
+$("#langBtn").onclick=()=>{ LANG = LANG==="id"?"en":"id"; applyLang(); };
+
+function applyLang(){
+  $("#langBtn").textContent = LANG==="id"?"EN":"ID";
+  document.documentElement.lang=LANG;
+  document.querySelectorAll("[data-i18n]").forEach(el=>{
+    const k=el.dataset.i18n;
+    if(STR[LANG][k]) el.textContent=STR[LANG][k];
+  });
+  fillSelect($("#level"),T("levels"),S.level);
+  fillSelect($("#tier"),T("tiers"),S.blanks-3);
+  fillSelect($("#mode"),T("modes"),S.mode);
+  fillSelect($("#wsLevel"),T("levels"),S.level);
+  fillSelect($("#wsTier"),T("tiers"),S.blanks-3);
+  fillSelect($("#wsCount"),T("wsCounts"),0);
+  fillSelect($("#wsKey"),T("wsKeyOpts"),0);
+  $("#wsTitle").textContent=T("wsTitle");
+  $("#wsNote").textContent=T("wsNote");
+  $("#wsGo").textContent=T("wsGo");
+  $("#helpBody").innerHTML=T("help");
+  render();
+}
+function fillSelect(el,items,sel){
+  el.innerHTML="";
+  items.forEach((t,i)=>{
+    const o=document.createElement("option");
+    o.value=i; o.textContent=t; if(i===sel) o.selected=true;
+    el.appendChild(o);
+  });
+}
+$("#level").onchange=e=>{ S.level=+e.target.value; newGame(); };
+$("#tier").onchange=e=>{ S.blanks=+e.target.value+3; newGame(); };
+$("#mode").onchange=e=>{ S.mode=+e.target.value; newGame(); };
+$("#helpToggle").onclick=()=>{
+  S.help=!S.help;
+  try{ localStorage.setItem("cms_help",S.help?"1":"0"); }catch(e){}
+  render();
+};
+$("#wsBtn").onclick=()=>{
+  fillSelect($("#wsLevel"),T("levels"),S.level);
+  fillSelect($("#wsTier"),T("tiers"),S.blanks-3);
+  $("#wsSheet").classList.add("on");
+};
+$("#wsSheet").onclick=e=>{ if(e.target.id==="wsSheet") $("#wsSheet").classList.remove("on"); };
+
+/* ============================================================
+   7. LEMBAR SOAL A4 (hitam-putih)
+   ============================================================ */
+const WS_CSS = `@page{size:A4;margin:0}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:#efefef;color:#000;
+  font-family:Arial,Helvetica,sans-serif}
+.bar{position:sticky;top:0;z-index:5;background:#111;color:#fff;
+  padding:12px 18px;display:flex;gap:14px;align-items:center;font-size:14px;line-height:1.35}
+.bar button{font:inherit;font-weight:700;padding:9px 18px;border:none;border-radius:6px;
+  background:#fff;color:#111;cursor:pointer;white-space:nowrap}
+.body{padding:16px 0}
+
+/* Margin kertas ada DI DALAM tiap halaman (padding), bukan di @page.
+   Dialog cetak Chrome bisa menimpa @page (pilihan "Minimum"),
+   tapi tidak bisa menimpa padding milik isi halaman. */
+.ws-page{
+  width:210mm;min-height:297mm;padding:14mm;
+  margin:0 auto 16px;background:#fff;
+  box-shadow:0 2px 14px rgba(0,0,0,.18);
+  page-break-after:always;break-after:page;
+}
+.ws-page:last-child{page-break-after:auto;break-after:auto;margin-bottom:0}
+
+.ws-head{display:flex;justify-content:space-between;align-items:baseline;
+  border-bottom:1.2pt solid #000;padding-bottom:5pt;margin-bottom:10pt;
+  font-size:10.5pt;font-weight:700}
+.ws-head span{font-weight:400;white-space:nowrap}
+.ws-rule{font-size:9pt;margin:0 0 10pt;line-height:1.35}
+
+.ws-grid{font-size:0;margin:0 -5mm}
+.ws-item{display:inline-block;vertical-align:top;width:50%;padding:0 5mm;
+  margin-bottom:9mm;break-inside:avoid;page-break-inside:avoid}
+.ws-t{font-size:9.5pt;font-weight:700;margin-bottom:3pt}
+
+table.ws{width:100%;table-layout:fixed;border-collapse:collapse}
+table.ws td{border:1pt solid #000;width:33.333%;height:22mm;
+  text-align:center;vertical-align:middle;font-size:17pt;font-weight:700}
+table.ws td.given{background:#e6e6e6;
+  -webkit-print-color-adjust:exact;print-color-adjust:exact}
+
+@media print{
+  html,body{background:#fff}
+  .bar{display:none}
+  .body{padding:0}
+  /* min-height dilepas: kalau area cetak sedikit lebih pendek dari 297mm,
+     sisa 1px bisa melahirkan halaman kosong di antara tiap lembar. */
+  .ws-page{width:auto;min-height:0;margin:0;box-shadow:none;padding:14mm}
+}`;
+
+function makeWorksheet(){
+  const lv=+$("#wsLevel").value, blanks=+$("#wsTier").value+3;
+  const n=[6,12,18][+$("#wsCount").value];
+  const withKey=$("#wsKey").value==="0";
+
+  const puzzles=[];
+  for(let i=0;i<n;i++){
+    const {grid,target}=makeSquare(lv);
+    puzzles.push({grid,target,hidden:new Set(pick(PATTERNS[blanks]))});
+  }
+
+  const tbl=(p,showAll)=>{
+    let h='<table class="ws">';
+    for(let r=0;r<3;r++){
+      h+="<tr>";
+      for(let c=0;c<3;c++){
+        const i=r*3+c, blank=p.hidden.has(i);
+        h+=`<td class="${blank?"blank":"given"}">${(!blank||showAll)?p.grid[i]:"&nbsp;"}</td>`;
+      }
+      h+="</tr>";
+    }
+    return h+"</table>";
+  };
+  const page=(list,from,showAll,title,rule)=>{
+    let h=`<div class="ws-page"><div class="ws-head"><div>${title}</div><span>${showAll?"":T("wsName")}</span></div>`;
+    if(rule) h+=`<p class="ws-rule">${rule}</p>`;
+    h+='<div class="ws-grid">';
+    list.forEach((p,k)=>{
+      h+=`<div class="ws-item"><div class="ws-t">${T("wsPuz")(from+k+1)} — ${T("wsTarget")}: ${p.target}</div>${tbl(p,showAll)}</div>`;
+    });
+    return h+"</div></div>";
+  };
+
+  let body="";
+  for(let i=0;i<n;i+=6)
+    body+=page(puzzles.slice(i,i+6),i,false,T("wsSheet"),i===0?T("wsRule"):"");
+  if(withKey)
+    for(let i=0;i<n;i+=6)
+      body+=page(puzzles.slice(i,i+6),i,true,T("wsAnsPage"),"");
+
+  const doc="<!DOCTYPE html><html lang=\""+LANG+"\"><head><meta charset=\"utf-8\">"+
+    "<title>"+T("wsSheet")+"</title><style>"+WS_CSS+"</style></head><body>"+
+    '<div class="bar"><button onclick="window.print()">'+T("wsGo")+"</button>"+
+    "<span>"+T("wsTip")+"</span></div>"+
+    '<div class="body">'+body+"</div></body></html>";
+
+  $("#wsSheet").classList.remove("on");
+
+  /* 1 — jendela baru: cara paling andal, window.print() di sana hanya mencetak lembarnya */
+  let w=null;
+  try{ w=window.open("","_blank"); }catch(e){}
+  if(w&&w.document){
+    w.document.open(); w.document.write(doc); w.document.close();
+    say(T("wsOpened"),"good");
+    return;
+  }
+
+  /* 2 — jendela diblokir (mis. di dalam iframe): unduh sebagai berkas HTML */
+  try{
+    const url=URL.createObjectURL(new Blob([doc],{type:"text/html"}));
+    const a=document.createElement("a");
+    a.href=url; a.download="lembar-soal-magic-square.html";
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),5000);
+    say(T("wsSaved"),"good");
+    return;
+  }catch(e){}
+
+  /* 3 — pilihan terakhir */
+  $("#printArea").innerHTML=body;
+  setTimeout(()=>window.print(),120);
+}
+
+/* ============================================================
+   8. CONFETTI
+   ============================================================ */
+function confetti(){
+  if(window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const c=$("#confetti");
+  const colors=["#FF5FA2","#FFD23F","#3FE0A8","#8A6BFF","#FF8AB8"];
+  for(let i=0;i<60;i++){
+    const d=document.createElement("div");
+    d.className="conf";
+    d.style.left=Math.random()*100+"vw";
+    d.style.background=colors[ri(colors.length)];
+    d.style.borderRadius=Math.random()<.5?"50%":"2px";
+    d.style.animationDuration=(1.8+Math.random()*1.6)+"s";
+    d.style.animationDelay=(Math.random()*.4)+"s";
+    c.appendChild(d);
+  }
+  setTimeout(()=>{ c.innerHTML=""; },4200);
+}
+
+/* ============================================================
+   9. GO
+   ============================================================ */
+try{ S.help = localStorage.getItem("cms_help")!=="0"; }catch(e){}
+applyLang();
+newGame();
+</script>
+</body>
+</html>
