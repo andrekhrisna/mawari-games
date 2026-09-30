@@ -8,6 +8,7 @@ Teka-teki angka untuk segala usia, dalam bentuk HTML statis untuk GitHub Pages.
 | `24/` | Jadikan 24 | Klasik, Kejar Waktu, Mungkin?, Tanding sampai 8 pemain, lembar A4 |
 | `krypto/` | Krypto | 5 angka menuju kode target, 3 tingkat, Latihan dengan petunjuk bertahap, Kejar Waktu 1/3/5 menit |
 | `sudoku-hitung/` | Sudoku Hitung | Teka-teki kandang (Mathdoku) 3×3–6×6, pilihan operasi + − / + − × / semua, jawaban selalu tunggal, catatan pensil, petunjuk, rekor waktu |
+| `silang-hitung/` | Silang Hitung | Teka-teki silang persamaan (ala Equate): papan 10×10, rak 9 kotak, seret sentuh atau ketuk, persamaan silang, petak bonus, tersimpan otomatis |
 | `tebak-angka/` | Tebak Angka | Kuis 6 angka ala acara TV, target 2–3 digit, 3 tingkat, timer 30/60/90 dtk atau bebas, sesi 5 ronde, Tanding 2 pemain, Mode Kelas (proyektor) |
 
 `index.html` di akar repo adalah halaman menu.
@@ -15,7 +16,7 @@ Teka-teki angka untuk segala usia, dalam bentuk HTML statis untuk GitHub Pages.
 ## Cara memasang di GitHub Pages
 
 1. Buat repo baru di GitHub, misalnya `mawari-games` (Public).
-2. Unggah **isi** folder ini (bukan foldernya) lewat *Add file → Upload files*: `index.html`, `README.md`, dan semua folder game (`candy`, `24`, `krypto`, `tebak-angka`, `sudoku-hitung`).
+2. Unggah **isi** folder ini (bukan foldernya) lewat *Add file → Upload files*: `index.html`, `README.md`, dan semua folder game (`candy`, `24`, `krypto`, `tebak-angka`, `sudoku-hitung`, `silang-hitung`).
 3. Buka *Settings → Pages*. Pada *Build and deployment*, pilih *Deploy from a branch*, cabang `main`, folder `/ (root)`, lalu *Save*.
 4. Tunggu 1–2 menit. Alamatnya menjadi `https://<nama-akun>.github.io/mawari-games/`.
 
