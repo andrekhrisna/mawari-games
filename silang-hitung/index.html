@@ -174,7 +174,7 @@ dialog .big{font-size:3rem;font-weight:800;color:var(--gold);line-height:1;margi
     <li>Giliran pertama harus menutup petak tengah ★. Setelah itu kotak baru harus <b>menyambung</b> ke kotak yang sudah ada.</li>
     <li>Satu giliran: satu baris lurus (mendatar atau menurun), tanpa celah.</li>
     <li>Semua deretan yang tersambung harus menjadi persamaan yang benar, termasuk yang terbentuk menyilang.</li>
-    <li>× dan ÷ dihitung dulu. Boleh lebih dari satu = (3 + 1 = 4 = 2 × 2). Angka tidak boleh diawali 0, dan tidak ada minus di depan angka.</li>
+    <li>× dan ÷ dihitung dulu. Boleh lebih dari satu = (3 + 1 = 4 = 2 × 2). Angka tidak boleh diawali 0, dan tidak ada minus di depan angka. Setiap persamaan harus memakai minimal satu + − × ÷ (6 = 6 tidak sah).</li>
     <li>Tekan <b>Cek giliran</b>. Kalau benar, kotak terkunci dan rak diisi lagi. Kalau salah, deretan yang salah ditandai merah dan kotak kembali ke rak.</li>
   </ul>
   <h3>SKOR</h3>
@@ -248,6 +248,7 @@ function evalSide(tokens){
 /* Persamaan sah: ada '=', setiap sisi sah, semua sisi sama */
 function checkEquation(tokens){
   if(!tokens.includes("=")) return {ok:false,why:"Belum ada tanda ="};
+  if(!tokens.some(t=>t==="+"||t==="−"||t==="×"||t==="÷")) return {ok:false,why:"Persamaan harus memakai minimal satu + − × ÷"};
   const sides=[[]];
   for(const t of tokens){ if(t==="=") sides.push([]); else sides[sides.length-1].push(t); }
   const vals=sides.map(evalSide);
