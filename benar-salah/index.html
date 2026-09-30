@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#FF6B6B">
+<title>Benar atau Salah?</title>
+<meta name="description" content="Geser kanan kalau benar, kiri kalau salah. Seberapa panjang streak-mu?">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23FF5E8A'/%3E%3Cstop offset='1' stop-color='%23FF9F43'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='14' fill='url(%23g)'/%3E%3Crect x='14' y='10' width='36' height='44' rx='8' fill='%23fff' transform='rotate(8 32 32)'/%3E%3Cpath d='M24 33l6 6 12-13' fill='none' stroke='%2322C55E' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --g1:#FF5E8A;
+  --g2:#FF9F43;
+  --ink:#2A1B2E;
+  --muted:#7A6A7E;
+  --card:#FFFFFF;
+  --yes:#22C55E;
+  --yes-d:#15803D;
+  --no:#F43F5E;
+  --no-d:#BE123C;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{height:100%;overflow:hidden}
+body{
+  margin:0;color:var(--ink);
+  font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  background:linear-gradient(160deg,var(--g1),var(--g2));
+  display:flex;justify-content:center;
+  padding:12px 16px calc(16px + env(safe-area-inset-bottom));
+  user-select:none;-webkit-user-select:none;
+}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid #fff;outline-offset:2px}
+.wrap{position:relative;width:100%;max-width:440px;height:100%;display:flex;flex-direction:column;gap:12px}
+
+/* angka streak raksasa di latar */
+.bgnum{position:fixed;left:0;right:0;top:calc(52px + 1vh);height:34vh;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:0;
+  font-weight:800;font-size:min(62vw,31vh);line-height:1;color:rgba(255,255,255,.34);letter-spacing:-.04em}
+.bgnum.bump{animation:bump .25s ease-out}
+@keyframes bump{0%{transform:scale(1.12)}100%{transform:scale(1)}}
+.flash{position:fixed;inset:0;pointer-events:none;z-index:40;opacity:0}
+.flash.ok{background:var(--yes);animation:fl .28s ease-out}
+.flash.bad{background:var(--no);animation:fl .6s ease-out}
+@keyframes fl{0%{opacity:.55}100%{opacity:0}}
+
+.topbar{position:relative;z-index:2;display:flex;align-items:center;gap:8px;color:#fff}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  background:rgba(255,255,255,.2);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hud{font-weight:800;font-size:1rem;background:rgba(255,255,255,.2);border-radius:999px;padding:5px 12px;flex:none}
+
+/* ---------- kartu ---------- */
+.deck{position:relative;z-index:2;flex:1;min-height:0;display:flex;align-items:flex-end;justify-content:center}
+.card{position:relative;width:100%;max-width:400px;height:min(46vh,420px);min-height:220px;border-radius:28px;background:var(--card);
+  box-shadow:0 20px 50px rgba(80,10,40,.35);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:24px;touch-action:none;will-change:transform;cursor:grab}
+.card.back{position:absolute;bottom:0;transform:scale(.94) translateY(14px);opacity:.55;box-shadow:0 10px 24px rgba(80,10,40,.2);cursor:default}
+.eq{font-weight:800;font-size:clamp(2.4rem,13vw,4rem);line-height:1.1;text-align:center;white-space:nowrap}
+.eq .op{color:var(--g1)}
+.eq .res{display:inline-block;padding:0 .15em;border-radius:.2em;background:#FFF1E6}
+.q{margin-top:10px;color:var(--muted);font-weight:700;font-size:1rem}
+.bar{position:absolute;left:18px;right:18px;top:16px;height:8px;border-radius:99px;background:#F3E8EE;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,var(--yes),#FACC15 60%,var(--no));
+  transform-origin:left center;animation:drain var(--t) linear forwards}
+@keyframes drain{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+.stamp{position:absolute;top:44px;padding:4px 14px;border:5px solid;border-radius:12px;font-weight:800;font-size:1.8rem;letter-spacing:.06em;opacity:0;pointer-events:none}
+.stamp.yes{left:22px;color:var(--yes);border-color:var(--yes);transform:rotate(-14deg)}
+.stamp.no{right:22px;color:var(--no);border-color:var(--no);transform:rotate(14deg)}
+.card.shake{animation:shake .45s}
+@keyframes shake{15%{transform:translateX(-14px) rotate(-3deg)}35%{transform:translateX(12px) rotate(3deg)}55%{transform:translateX(-9px) rotate(-2deg)}75%{transform:translateX(6px)}100%{transform:none}}
+.fly{position:fixed;z-index:30;pointer-events:none;transition:transform .32s cubic-bezier(.3,.7,.4,1),opacity .32s}
+
+/* ---------- tombol ---------- */
+.btns{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.big{height:78px;border:0;border-radius:24px;font-weight:800;font-size:1.5rem;color:#fff;cursor:pointer;touch-action:manipulation;
+  display:flex;align-items:center;justify-content:center;gap:8px}
+.big.no{background:var(--no);box-shadow:0 6px 0 var(--no-d)}
+.big.yes{background:var(--yes);box-shadow:0 6px 0 var(--yes-d)}
+.big:active{transform:translateY(3px);box-shadow:0 3px 0 rgba(0,0,0,.25)}
+.big small{font-size:.8rem;opacity:.85;font-weight:700}
+.keyhint{position:relative;z-index:2;text-align:center;color:rgba(255,255,255,.9);font-size:.85rem}
+
+/* ---------- panel mulai / kalah ---------- */
+.panel{position:relative;z-index:3;margin:auto 0;background:#fff;border-radius:28px;padding:22px 18px;box-shadow:0 20px 50px rgba(80,10,40,.35);
+  display:flex;flex-direction:column;gap:12px;text-align:center}
+.panel h1{margin:0;font-weight:800;font-size:1.9rem;line-height:1.1}
+.panel p{margin:0;color:var(--muted);line-height:1.45}
+.lbl{font-size:.8rem;font-weight:800;color:var(--muted);letter-spacing:.06em;text-align:left;margin-bottom:-6px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:14px;background:#FBEFF3}
+.seg button{border:0;background:transparent;border-radius:10px;padding:7px 4px;font-weight:800;font-size:.95rem;cursor:pointer;color:var(--muted);line-height:1.1;white-space:nowrap}
+.seg button small{display:block;font-size:.7rem;font-weight:600}
+.seg button[aria-pressed="true"]{background:linear-gradient(160deg,var(--g1),var(--g2));color:#fff}
+.go{height:60px;border:0;border-radius:18px;font-weight:800;font-size:1.3rem;color:#fff;cursor:pointer;
+  background:linear-gradient(160deg,var(--g1),var(--g2));box-shadow:0 5px 0 #C2410C}
+.go:active{transform:translateY(3px);box-shadow:0 2px 0 #C2410C}
+.best{font-size:.95rem;color:var(--muted)}
+.best b{color:var(--ink)}
+.final{font-size:4.5rem;font-weight:800;line-height:1;background:linear-gradient(160deg,var(--g1),var(--g2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.miss{background:#FFF1F2;border-radius:14px;padding:10px;font-weight:700}
+.miss .eqs{font-size:1.4rem;font-weight:800}
+.miss .ans{color:var(--muted);font-weight:600}
+.ghost{background:transparent;border:0;color:var(--muted);font-weight:700;font-size:.95rem;cursor:pointer;text-decoration:underline}
+@media (max-height:640px){.big{height:64px}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important;transition:none!important}.bar i{animation-duration:var(--t)!important}}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="bgnum" id="bgnum" aria-hidden="true">0</div>
+<div class="flash" id="flash" aria-hidden="true"></div>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Benar atau Salah?</div>
+    <div class="hud" id="hud" hidden></div>
+  </div>
+
+  <!-- mulai -->
+  <section class="panel" id="start">
+    <h1>Benar atau Salah?</h1>
+    <p>Geser kartu ke <b style="color:var(--yes)">kanan</b> kalau persamaannya benar, ke <b style="color:var(--no)">kiri</b> kalau salah. Makin lama makin cepat. Salah sekali atau kehabisan waktu, selesai.</p>
+    <div class="lbl">KECEPATAN</div>
+    <div class="seg" id="segSpeed">
+      <button type="button" data-v="santai" aria-pressed="false">Santai<small>5 dtk</small></button>
+      <button type="button" data-v="normal" aria-pressed="true">Normal<small>3 dtk</small></button>
+      <button type="button" data-v="kilat" aria-pressed="false">Kilat<small>2 dtk</small></button>
+    </div>
+    <div class="lbl">SOAL</div>
+    <div class="seg" id="segOps">
+      <button type="button" data-v="pm" aria-pressed="false">+ −</button>
+      <button type="button" data-v="pmx" aria-pressed="false">+ − ×</button>
+      <button type="button" data-v="all" aria-pressed="true">+ − × ÷</button>
+    </div>
+    <div class="best" id="startBest"></div>
+    <button class="go" type="button" id="startBtn">Mulai</button>
+  </section>
+
+  <!-- main -->
+  <div class="deck" id="deck" hidden>
+    <div class="card back" aria-hidden="true"></div>
+    <div class="card" id="card" role="group" aria-live="polite">
+      <div class="bar"><i id="barFill"></i></div>
+      <div class="stamp yes" id="stYes">BENAR</div>
+      <div class="stamp no" id="stNo">SALAH</div>
+      <div class="eq" id="eq"></div>
+      <div class="q">Benar atau salah?</div>
+    </div>
+  </div>
+  <div class="btns" id="btns" hidden>
+    <button class="big no" type="button" id="noBtn" aria-label="Salah"><span aria-hidden="true">✕</span> Salah</button>
+    <button class="big yes" type="button" id="yesBtn" aria-label="Benar">Benar <span aria-hidden="true">✓</span></button>
+  </div>
+  <div class="keyhint" id="keyhint" hidden>← salah · benar →</div>
+
+  <!-- kalah -->
+  <section class="panel" id="over" hidden>
+    <div class="best" id="overWhy"></div>
+    <div class="final" id="overStreak">0</div>
+    <div class="best">streak</div>
+    <div class="miss" id="overMiss"></div>
+    <div class="best" id="overBest"></div>
+    <button class="go" type="button" id="againBtn">Main lagi</button>
+    <button class="ghost" type="button" id="settingsBtn">Ubah pengaturan</button>
+  </section>
+</div>
+
+<script>
+/* ================= INTI: kecepatan & pembuat soal ================= */
+/* ===== Tingkat waktu (detik) ===== */
+const SPEEDS={santai:{start:5,floor:2.5},normal:{start:3,floor:1.5},kilat:{start:2,floor:1.0}};
+const DECAY=0.97;
+function timeFor(speed,streak){ const s=SPEEDS[speed]; return Math.max(s.floor,s.start*Math.pow(DECAY,streak)); }
+
+const OPS={pm:["+","−"],pmx:["+","−","×"],all:["+","−","×","÷"]};
+const ri=(a,b,rand)=>a+Math.floor(rand()*(b-a+1));
+
+/* ===== Soal yang benar: angka membesar seiring streak ===== */
+function trueFact(ops,streak,rand){
+  const op=OPS[ops][Math.floor(rand()*OPS[ops].length)];
+  const addMax=Math.min(10+2*Math.floor(streak/3),60);
+  const mulMax=Math.min(5+Math.floor(streak/4),12);
+  let a,b,c;
+  if(op==="+"){ a=ri(1,addMax,rand); b=ri(1,addMax,rand); c=a+b; }
+  else if(op==="−"){ c=ri(0,addMax,rand); b=ri(1,addMax,rand); a=c+b; }
+  else if(op==="×"){ a=ri(2,mulMax,rand); b=ri(2,mulMax,rand); c=a*b; }
+  else { b=ri(2,mulMax,rand); c=ri(1,mulMax,rand); a=b*c; }
+  return {a,op,b,c};
+}
+
+/* ===== Hasil salah yang menjebak: dekat dengan jawaban asli ===== */
+function trickyWrong(f,rand){
+  const {a,op,b,c}=f, cand=[];
+  for(const d of [1,-1,2,-2]) cand.push(c+d);
+  if(c>=10) cand.push(c+10,c-10); else cand.push(c+10);
+  const s=String(c); if(s.length===2&&s[0]!==s[1]&&s[1]!=="0") cand.push(+(s[1]+s[0]));
+  if(op==="×"){ cand.push(c+a,c-a,c+b,c-b); }          /* baris tabel perkalian tetangga */
+  if(op==="÷"){ cand.push(c+1,c-1); }
+  if(op==="+"||op==="−"){ cand.push(op==="+"?Math.abs(a-b):a+b); } /* salah operasi */
+  const ok=[...new Set(cand)].filter(x=>x!==c&&x>=0);
+  return ok[Math.floor(rand()*ok.length)];
+}
+function makeQuestion(ops,streak,rand){
+  rand=rand||Math.random;
+  const f=trueFact(ops,streak,rand);
+  const truth=rand()<0.5;
+  const shown=truth?f.c:trickyWrong(f,rand);
+  return {a:f.a,op:f.op,b:f.b,shown,correct:f.c,truth,text:`${f.a} ${f.op} ${f.b} = ${shown}`};
+}
+/* ================= AKHIR INTI ================= */
+</script>
+<script>
+/* ================= Permainan ================= */
+const $=id=>document.getElementById(id);
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,String(v)); }catch(e){ return null; } }
+const G={speed:"normal",ops:"all",streak:0,q:null,next:null,playing:false,timer:0,shownAt:0,limit:0};
+try{ const p=JSON.parse(store("bs_prefs")||"{}"); if(SPEEDS[p.speed]) G.speed=p.speed; if(OPS[p.ops]) G.ops=p.ops; }catch(e){}
+const bestKey=()=>"bs_best_"+G.speed+"_"+G.ops;
+const best=()=>+store(bestKey())||0;
+const OPS_NAME={pm:"+ −",pmx:"+ − ×",all:"+ − × ÷"};
+
+function renderSetup(){
+  for(const [id,key] of [["segSpeed","speed"],["segOps","ops"]])
+    $(id).querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===G[key]));
+  $("startBest").innerHTML=`Rekor ${G.speed} · ${OPS_NAME[G.ops]}: <b>${best()}</b>`;
+}
+for(const [id,key] of [["segSpeed","speed"],["segOps","ops"]])
+  $(id).onclick=e=>{ const b=e.target.closest("button"); if(!b) return; G[key]=b.dataset.v; store("bs_prefs",JSON.stringify({speed:G.speed,ops:G.ops})); renderSetup(); };
+
+function eqHTML(q){ return `${q.a} <span class="op">${q.op}</span> ${q.b} = <span class="res">${q.shown}</span>`; }
+function screen(which){
+  $("start").hidden=which!=="start"; $("over").hidden=which!=="over";
+  const play=which==="play";
+  $("deck").hidden=!play; $("btns").hidden=!play; $("keyhint").hidden=!play||matchMedia("(pointer:coarse)").matches; $("hud").hidden=!play;
+}
+function setBg(n,bump){ const b=$("bgnum"); b.textContent=n; if(bump){ b.classList.remove("bump"); void b.offsetWidth; b.classList.add("bump"); } }
+
+/* soal berikutnya sudah disiapkan sebelum pemain menjawab: tampil tanpa jeda */
+function prepareNext(){ let n; do{ n=makeQuestion(G.ops,G.streak+1); }while(G.q&&n.text===G.q.text); G.next=n; }
+function show(q){
+  G.q=q; G.limit=timeFor(G.speed,G.streak)*1000;
+  const card=$("card");
+  card.style.transform=""; card.classList.remove("shake");
+  $("stYes").style.opacity=0; $("stNo").style.opacity=0;
+  $("eq").innerHTML=eqHTML(q);
+  const bar=$("barFill"); bar.style.animation="none"; void bar.offsetWidth; bar.style.animation=""; card.style.setProperty("--t",G.limit+"ms");
+  $("hud").textContent=(G.limit/1000).toFixed(1)+" dtk";
+  clearTimeout(G.timer); G.timer=setTimeout(()=>lose("time"),G.limit);
+  G.shownAt=performance.now();
+  prepareNext();
+}
+function start(){
+  G.streak=0; G.q=null; G.playing=true; setBg(0);
+  screen("play");
+  show(makeQuestion(G.ops,0));
+}
+function answer(saysTrue,dir){
+  if(!G.playing) return;
+  if(performance.now()-G.shownAt>G.limit){ lose("time"); return; }
+  if(saysTrue!==G.q.truth){ lose("wrong",saysTrue); return; }
+  clearTimeout(G.timer);
+  flyAway(dir||(saysTrue?1:-1));
+  G.streak++; setBg(G.streak,true); flash("ok");
+  show(G.next);
+}
+/* kartu lama terbang (salinan), kartu asli langsung berisi soal baru */
+function flyAway(dir){
+  const card=$("card"), r=card.getBoundingClientRect();
+  const f=card.cloneNode(true); f.removeAttribute("id"); f.querySelectorAll("[id]").forEach(x=>x.removeAttribute("id"));
+  f.classList.add("fly"); f.style.left=r.left+"px"; f.style.top=r.top+"px"; f.style.width=r.width+"px"; f.style.height=r.height+"px";
+  f.style.transform=card.style.transform||"none";
+  (dir>0?f.querySelector(".stamp.yes"):f.querySelector(".stamp.no")).style.opacity=1;
+  document.body.appendChild(f);
+  requestAnimationFrame(()=>{ f.style.transform=`translateX(${dir*window.innerWidth}px) rotate(${dir*24}deg)`; f.style.opacity=0; });
+  setTimeout(()=>f.remove(),360);
+}
+function flash(kind){ const f=$("flash"); f.className="flash"; void f.offsetWidth; f.className="flash "+kind; }
+function lose(why){
+  if(!G.playing) return;
+  G.playing=false; clearTimeout(G.timer);
+  const card=$("card"); card.style.transform=""; card.classList.remove("shake"); void card.offsetWidth; card.classList.add("shake");
+  $("barFill").style.animationPlayState="paused";
+  flash("bad");
+  if(navigator.vibrate) try{ navigator.vibrate(180); }catch(e){}
+  const prev=best(), isNew=G.streak>prev;
+  if(isNew) store(bestKey(),G.streak);
+  const q=G.q;
+  $("overWhy").textContent=why==="time"?"Waktu habis!":"Ups, keliru!";
+  $("overStreak").textContent=G.streak;
+  $("overMiss").innerHTML=`<div class="eqs">${q.text}</div><div class="ans">${q.truth?"Ini <b style=\"color:var(--yes)\">BENAR</b>.":`Ini <b style="color:var(--no)">SALAH</b>. Seharusnya ${q.a} ${q.op} ${q.b} = ${q.correct}.`}</div>`;
+  $("overBest").innerHTML=isNew&&G.streak>0?`<b style="color:var(--yes)">Rekor baru!</b> (${G.speed} · ${OPS_NAME[G.ops]})`:`Rekor ${G.speed} · ${OPS_NAME[G.ops]}: <b>${Math.max(prev,G.streak)}</b>`;
+  setTimeout(()=>{ if(!G.playing){ screen("over"); $("againBtn").focus(); } },650);
+}
+
+/* ---- geser kartu ---- */
+let sw=null;
+$("card").addEventListener("pointerdown",e=>{
+  if(!G.playing) return;
+  sw={x:e.clientX,y:e.clientY,id:e.pointerId,t:performance.now()};
+  try{ $("card").setPointerCapture(e.pointerId); }catch(_){}
+});
+$("card").addEventListener("pointermove",e=>{
+  if(!sw||e.pointerId!==sw.id||!G.playing) return;
+  const dx=e.clientX-sw.x;
+  $("card").style.transform=`translateX(${dx}px) rotate(${dx/18}deg)`;
+  $("stYes").style.opacity=Math.max(0,Math.min(1,dx/90));
+  $("stNo").style.opacity=Math.max(0,Math.min(1,-dx/90));
+});
+function swipeEnd(e){
+  if(!sw||e.pointerId!==sw.id) return;
+  const dx=e.clientX-sw.x, v=Math.abs(dx)/Math.max(1,performance.now()-sw.t);
+  sw=null;
+  if(!G.playing) return;
+  if(Math.abs(dx)>80||(Math.abs(dx)>30&&v>.6)) answer(dx>0,dx>0?1:-1);
+  else{ $("card").style.transform=""; $("stYes").style.opacity=0; $("stNo").style.opacity=0; }
+}
+$("card").addEventListener("pointerup",swipeEnd);
+$("card").addEventListener("pointercancel",e=>{ if(sw&&e.pointerId===sw.id){ sw=null; $("card").style.transform=""; } });
+
+/* ---- tombol & keyboard ---- */
+$("yesBtn").addEventListener("pointerdown",e=>{ e.preventDefault(); answer(true,1); });
+$("noBtn").addEventListener("pointerdown",e=>{ e.preventDefault(); answer(false,-1); });
+$("yesBtn").addEventListener("click",e=>{ if(e.detail===0) answer(true,1); });   /* Enter/Spasi saat tombol difokus */
+$("noBtn").addEventListener("click",e=>{ if(e.detail===0) answer(false,-1); });
+document.addEventListener("keydown",e=>{
+  if(e.repeat||e.ctrlKey||e.metaKey||e.altKey) return;
+  if(G.playing){
+    if(e.key==="ArrowRight"){ answer(true,1); e.preventDefault(); }
+    else if(e.key==="ArrowLeft"){ answer(false,-1); e.preventDefault(); }
+  }else if(!$("over").hidden&&(e.key==="Enter"||e.key===" ")){ start(); e.preventDefault(); }
+  else if(!$("start").hidden&&e.key==="Enter"&&document.activeElement===document.body){ start(); e.preventDefault(); }
+});
+$("startBtn").onclick=start; $("againBtn").onclick=start;
+$("settingsBtn").onclick=()=>{ renderSetup(); screen("start"); setBg(0); };
+/* kalau HP dikunci / pindah aplikasi saat main, permainan berakhir (waktu tetap berjalan) */
+document.addEventListener("visibilitychange",()=>{ if(document.hidden&&G.playing) lose("time"); });
+
+renderSetup(); screen("start");
+</script>
+</body>
+</html>

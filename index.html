@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, dan Silang Hitung.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, dan Benar atau Salah?.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,6 +54,17 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .game.krypto{background:radial-gradient(120% 90% at 50% 0%,var(--vault-2),var(--vault) 75%)}
 .game.tebak{background:radial-gradient(120% 90% at 50% 0%,var(--studio-2),var(--studio) 75%)}
 .game.sudoku{background:var(--paper);color:var(--paper-ink)}
+.game.bs{background:linear-gradient(160deg,#FF5E8A,#FF9F43)}
+.game.bs p{color:rgba(255,255,255,.88)}
+.game.bs .tags span{background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.35)}
+.bs .go{background:#fff;color:#E0335F}
+.bsp{position:relative;width:170px;height:118px}
+.bsp div{position:absolute;inset:0;border-radius:18px;background:#fff;display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:1.6rem;color:#2A1B2E;box-shadow:0 10px 22px rgba(80,10,40,.3)}
+.bsp div:first-child{transform:rotate(-7deg) translateX(-10px);opacity:.55}
+.bsp div:last-child{transform:rotate(5deg)}
+.bsp b{color:#FF5E8A}
+.bsp i{position:absolute;top:8px;left:10px;font-style:normal;font-size:.8rem;color:#22C55E;border:3px solid #22C55E;border-radius:7px;padding:0 6px;transform:rotate(-12deg)}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -183,6 +194,16 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Sudoku <span>Hitung</span></h2>
       <p>Angka tidak boleh berulang di baris dan kolom, dan setiap kandang bergaris tebal harus menghasilkan targetnya. Setiap soal hanya punya satu jawaban.</p>
       <div class="tags"><span>3×3 sampai 6×6</span><span>Pilih operasi</span><span>Catatan &amp; petunjuk</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game bs" href="benar-salah/">
+      <div class="peek" aria-hidden="true">
+        <div class="bsp"><div>3 <b>×</b> 4 = 15</div><div><i>BENAR</i>7 <b>+</b> 5 = 12</div></div>
+      </div>
+      <h2>Benar atau Salah?</h2>
+      <p>Adu cepat: geser kartu ke kanan kalau persamaannya benar, ke kiri kalau salah. Makin lama makin cepat. Seberapa panjang streak-mu?</p>
+      <div class="tags"><span>Geser kartu</span><span>3 kecepatan</span><span>Rekor streak</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 
