@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Dua teka-teki angka untuk segala usia: Candy Magic Square dan Jadikan 24.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, dan Krypto.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,6 +21,8 @@
   --grape:#2A1140; --grape-2:#4A1D5E; --gum:#FF5FA2; --gum-2:#FF8AB8; --cream:#FFF4E4;
   /* 24 */
   --felt:#133F39; --felt-deep:#0B2824; --coral:#FF6B57; --ivory:#FFF6E6; --card-ink:#231B30;
+  /* Krypto */
+  --vault:#0A0E13; --vault-2:#12261D; --phos:#52F5A0; --amber:#FFC23D;
 }
 *{box-sizing:border-box}
 html,body{min-height:100%}
@@ -43,6 +45,7 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .game:focus-visible{outline:3px solid var(--lemon);outline-offset:3px}
 .game.candy{background:radial-gradient(120% 90% at 50% 0%,var(--grape-2),var(--grape) 70%)}
 .game.t24{background:radial-gradient(120% 90% at 50% 0%,var(--felt),var(--felt-deep) 75%)}
+.game.krypto{background:radial-gradient(120% 90% at 50% 0%,var(--vault-2),var(--vault) 75%)}
 
 /* cuplikan: bentuk asli tiap game, digambar dengan CSS */
 .peek{height:150px;display:flex;align-items:center;justify-content:center}
@@ -57,8 +60,15 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .cards b:nth-child(2){transform:rotate(3deg)} .cards b:nth-child(3){transform:rotate(-2deg)}
 
 .game h2{margin:0;font-weight:800;font-size:1.45rem;line-height:1.1}
+.kp{display:flex;flex-direction:column;align-items:center;gap:10px;font-family:ui-monospace,"SF Mono","Roboto Mono",Menlo,Consolas,monospace}
+.kp .tg{display:flex;align-items:center;gap:10px;font-weight:800;font-size:2.1rem;color:var(--amber);line-height:1;text-shadow:0 0 14px rgba(255,194,61,.35)}
+.kp .tg svg{width:26px;height:30px;color:var(--amber)}
+.kp .ks{display:grid;grid-template-columns:repeat(5,34px);gap:5px}
+.kp .ks b{height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1rem;font-weight:800;color:var(--phos);
+  background:#1C2833;border:1px solid rgba(150,255,200,.22);box-shadow:0 2px 0 #05080B}
 .game.candy h2 span{color:var(--gum)}
 .game.t24 h2 span{color:var(--lemon)}
+.game.krypto h2 span{color:var(--phos)}
 .game p{margin:0;color:var(--muted);line-height:1.45;font-size:.97rem}
 .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
 .tags span{font-size:.8rem;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid var(--line)}
@@ -66,6 +76,7 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
   padding:12px 16px;border-radius:14px;color:#fff}
 .candy .go{background:var(--gum)}
 .t24 .go{background:var(--coral)}
+.krypto .go{background:var(--phos);color:#04140C}
 
 footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid var(--line);padding-top:14px}
 @media (prefers-reduced-motion:reduce){.game{transition:none}.game:hover{transform:none}}
@@ -101,6 +112,19 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Jadikan <span>24</span></h2>
       <p>Gabungkan empat kartu angka dengan + − × ÷ sampai hasilnya 24. Tanding adu cepat sampai 8 pemain, masing-masing di HP sendiri.</p>
       <div class="tags"><span>4 mode</span><span>Tanding 8 pemain</span><span>Lembar A4</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game krypto" href="krypto/">
+      <div class="peek" aria-hidden="true">
+        <div class="kp">
+          <div class="tg"><svg viewBox="0 0 46 54"><path d="M12 25v-9a11 11 0 0 1 22 0v9" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"/><rect x="3" y="23" width="40" height="29" rx="7" fill="currentColor"/></svg>37</div>
+          <div class="ks"><b>4</b><b>12</b><b>3</b><b>9</b><b>7</b></div>
+        </div>
+      </div>
+      <h2><span>Krypto</span></h2>
+      <p>Pecahkan kode brankas: gabungkan lima angka dengan + − × ÷ sampai hasilnya sama dengan kode target. Setiap soal sudah dicek, pasti ada jawabannya.</p>
+      <div class="tags"><span>3 tingkat</span><span>Kejar Waktu</span><span>Petunjuk bertahap</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
   </main>
