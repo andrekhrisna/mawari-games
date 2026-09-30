@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0A0E13">
+<title>Krypto</title>
+<meta name="description" content="Pecahkan kode: gabungkan lima angka dengan + − × ÷ sampai hasilnya sama dengan kode target.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230A0E13'/%3E%3Cpath d='M22 30v-7a10 10 0 0 1 20 0v7' fill='none' stroke='%2352F5A0' stroke-width='6' stroke-linecap='round'/%3E%3Crect x='14' y='29' width='36' height='26' rx='6' fill='%2352F5A0'/%3E%3Crect x='29' y='36' width='6' height='12' rx='3' fill='%230A0E13'/%3E%3C/svg%3E">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0A0E13;
+  --bg-2:#101A17;
+  --panel:#111820;
+  --panel-2:#16202A;
+  --line:rgba(150,255,200,.13);
+  --line-2:rgba(150,255,200,.26);
+  --lcd:#07130D;
+  --phos:#52F5A0;
+  --phos-dim:rgba(82,245,160,.45);
+  --amber:#FFC23D;
+  --red:#FF5468;
+  --ink:#DCE9E1;
+  --muted:rgba(220,233,225,.58);
+  --key:#1A2530;
+  --key-top:#223140;
+  --mono:ui-monospace,"SF Mono","Cascadia Mono","Roboto Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  --r:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{
+  margin:0;color:var(--ink);font-family:var(--mono);
+  background:
+    repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px),
+    radial-gradient(120% 80% at 50% -10%,var(--bg-2),var(--bg) 65%) fixed;
+  background-color:var(--bg);
+  display:flex;justify-content:center;
+  padding:14px 16px calc(18px + env(safe-area-inset-bottom));
+}
+.wrap{width:100%;max-width:440px;display:flex;flex-direction:column;gap:12px}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+
+/* ---------- atas ---------- */
+.topbar{display:flex;align-items:center;gap:8px}
+.home{display:none;align-items:center;gap:4px;color:inherit;opacity:.72;text-decoration:none;font-weight:700;font-size:.82rem;
+  border:1px solid var(--line-2);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.home:hover,.home:focus-visible{opacity:1}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.15rem;letter-spacing:.22em;color:var(--phos);
+  text-shadow:0 0 12px rgba(82,245,160,.35);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pill{border:1px solid var(--line-2);background:var(--panel);border-radius:999px;padding:6px 12px;font-size:.82rem;font-weight:700;cursor:pointer;flex:none}
+
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--panel);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:8px 4px;font-size:.86rem;font-weight:700;cursor:pointer;color:var(--muted);letter-spacing:.04em}
+.seg button[aria-pressed="true"]{background:var(--panel-2);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line-2)}
+.seg.mode button[aria-pressed="true"]{color:var(--phos)}
+.seg button:disabled{opacity:.4;cursor:not-allowed}
+
+.status{display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:.84rem;color:var(--muted);padding:0 2px;min-height:1.3em}
+.status b{color:var(--ink);font-size:1rem}
+.status .timer b{color:var(--amber);font-size:1.25rem;letter-spacing:.06em}
+.status .timer.low b{color:var(--red)}
+
+/* ---------- brankas ---------- */
+.vault{position:relative;overflow:hidden;display:flex;align-items:center;gap:16px;padding:14px 16px;border-radius:18px;
+  background:linear-gradient(180deg,var(--panel-2),var(--panel));border:1px solid var(--line);
+  transition:border-color .3s,box-shadow .3s}
+.lock{width:46px;height:54px;flex:none;color:var(--amber);transition:color .3s}
+.lock .shackle{transform-box:fill-box;transform-origin:100% 100%;transition:transform .45s cubic-bezier(.3,1.6,.5,1)}
+.vault .lbl{font-size:.72rem;letter-spacing:.24em;color:var(--muted)}
+.code{font-size:3.1rem;font-weight:800;line-height:1;color:var(--amber);letter-spacing:.06em;
+  text-shadow:0 0 18px rgba(255,194,61,.35);font-variant-numeric:tabular-nums}
+.vault .lvl{margin-left:auto;align-self:flex-start;font-size:.7rem;letter-spacing:.18em;color:var(--muted);border:1px solid var(--line);border-radius:6px;padding:2px 6px}
+.vault.open{border-color:var(--phos);box-shadow:0 0 0 1px var(--phos),0 0 34px rgba(82,245,160,.28)}
+.vault.open .lock{color:var(--phos)}
+.vault.open .shackle{transform:translate(0,-7px) rotate(-26deg)}
+.vault.open .code{color:var(--phos);text-shadow:0 0 18px rgba(82,245,160,.5)}
+.burst{position:absolute;left:39px;top:50%;width:0;height:0;pointer-events:none}
+.burst i{position:absolute;font-style:normal;font-weight:800;font-size:.95rem;color:var(--phos);opacity:0;
+  animation:fly .8s ease-out forwards;animation-delay:var(--d)}
+@keyframes fly{0%{opacity:1;transform:translate(-50%,-50%) scale(.6)}
+  100%{opacity:0;transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1.1)}}
+
+/* ---------- layar persamaan ---------- */
+.screen{position:relative;border-radius:14px;background:var(--lcd);border:1px solid var(--line-2);
+  box-shadow:inset 0 0 24px rgba(0,0,0,.6);padding:14px 14px 10px;min-height:118px;display:flex;flex-direction:column;gap:8px}
+.screen::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(82,245,160,.035) 0 1px,transparent 1px 3px)}
+.eq{font-size:1.55rem;font-weight:700;line-height:1.35;min-height:2.1em;word-break:break-word;color:var(--phos);
+  text-shadow:0 0 10px rgba(82,245,160,.35)}
+.eq .o{color:var(--amber);text-shadow:0 0 10px rgba(255,194,61,.3);margin:0 .12em}
+.eq .p{color:rgba(82,245,160,.7)}
+.eq .ph{color:var(--phos-dim);font-size:.9rem;font-weight:500;text-shadow:none}
+.cur{display:inline-block;width:.55em;height:1.05em;vertical-align:-.15em;background:var(--phos);margin-left:.1em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.msg{font-size:.86rem;min-height:1.3em;color:var(--muted);letter-spacing:.02em}
+.msg.ok{color:var(--phos);font-weight:700;letter-spacing:.12em}
+.msg.err{color:var(--red)}
+.screen.shake{animation:shake .38s}
+.screen.bad{border-color:var(--red)}
+.screen.good{border-color:var(--phos)}
+@keyframes shake{20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+
+/* ---------- tombol ---------- */
+.keys{display:grid;gap:8px}
+.nums{grid-template-columns:repeat(5,1fr)}
+.ops{grid-template-columns:repeat(6,1fr)}
+.acts{grid-template-columns:1fr 1.3fr 1.5fr}
+.k{border:1px solid var(--line-2);border-radius:12px;background:linear-gradient(180deg,var(--key-top),var(--key));
+  box-shadow:0 3px 0 #060A0E;font-weight:800;cursor:pointer;touch-action:manipulation;
+  transition:transform .06s,box-shadow .06s,opacity .15s}
+.k:active:not(:disabled){transform:translateY(2px);box-shadow:0 1px 0 #060A0E}
+.k:disabled{opacity:.28;cursor:not-allowed}
+.nums .k{height:64px;font-size:1.65rem;color:var(--phos)}
+.nums .k.used{opacity:.16;text-decoration:line-through}
+.ops .k{height:52px;font-size:1.45rem;color:var(--amber)}
+.acts .k{height:50px;font-size:.92rem;letter-spacing:.06em;white-space:nowrap;padding:0 6px}
+.k.go{background:linear-gradient(180deg,#5CFFAB,#2FD886);color:#04140C;border-color:transparent;box-shadow:0 3px 0 #178150;font-size:1rem;letter-spacing:.16em}
+.k.go:disabled{opacity:.35}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.soft{height:46px;border-radius:12px;border:1px dashed var(--line-2);background:transparent;font-weight:700;font-size:.9rem;cursor:pointer;letter-spacing:.04em}
+.soft:disabled{opacity:.35;cursor:not-allowed}
+.soft.next{border-style:solid;border-color:var(--phos);color:var(--phos);grid-column:1/-1}
+
+/* ---------- petunjuk ---------- */
+.hint{border-radius:14px;border:1px solid rgba(255,194,61,.35);background:rgba(255,194,61,.06);padding:12px 14px;font-size:.92rem;line-height:1.55}
+.hint h3{margin:0 0 4px;font-size:.75rem;letter-spacing:.2em;color:var(--amber);font-weight:700}
+.hint .full{font-size:1.1rem;font-weight:800;color:var(--ink)}
+.hint ol{margin:6px 0 0;padding-left:1.4em;color:var(--muted)}
+.hint[hidden]{display:none}
+
+/* ---------- panel kejar waktu ---------- */
+.panel{border-radius:18px;border:1px solid var(--line);background:linear-gradient(180deg,var(--panel-2),var(--panel));padding:18px 16px;display:flex;flex-direction:column;gap:14px}
+.panel h2{margin:0;font-size:1.25rem;letter-spacing:.14em;color:var(--phos)}
+.panel p{margin:0;color:var(--muted);line-height:1.5;font-size:.9rem}
+.panel .big{font-size:3.2rem;font-weight:800;color:var(--amber);line-height:1}
+.panel .k.go{height:54px}
+.panel[hidden],.board[hidden]{display:none}
+.board{display:flex;flex-direction:column;gap:12px}
+
+footer{text-align:center;color:var(--muted);font-size:.75rem;padding-top:4px}
+
+/* ---------- dialog cara main ---------- */
+dialog{max-width:min(460px,calc(100% - 32px));border:1px solid var(--line-2);border-radius:18px;background:var(--panel);color:var(--ink);padding:18px 18px 16px;font-family:var(--mono)}
+dialog::backdrop{background:rgba(0,0,0,.65)}
+dialog h2{margin:0 0 8px;font-size:1.1rem;letter-spacing:.14em;color:var(--phos)}
+dialog h3{margin:14px 0 4px;font-size:.8rem;letter-spacing:.16em;color:var(--amber)}
+dialog ul{margin:0;padding-left:1.2em;line-height:1.55;font-size:.88rem}
+dialog li{margin:3px 0}
+dialog .k{width:100%;margin-top:14px}
+kbd{border:1px solid var(--line-2);border-radius:5px;padding:0 5px;font-family:inherit;font-size:.85em}
+
+@media (max-width:360px){.acts .k{font-size:.8rem;letter-spacing:.02em}.code{font-size:2.5rem}.nums .k{height:58px;font-size:1.4rem}.eq{font-size:1.3rem}.brand{letter-spacing:.12em}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">KRYPTO</div>
+    <button class="pill" id="helpBtn" type="button">Cara main</button>
+  </div>
+
+  <div class="seg mode" role="group" aria-label="Mode">
+    <button type="button" data-mode="latihan" aria-pressed="true">Latihan</button>
+    <button type="button" data-mode="waktu" aria-pressed="false">Kejar Waktu</button>
+  </div>
+  <div class="seg" id="levels" role="group" aria-label="Tingkat">
+    <button type="button" data-level="mudah" aria-pressed="false">Mudah</button>
+    <button type="button" data-level="sedang" aria-pressed="true">Sedang</button>
+    <button type="button" data-level="sulit" aria-pressed="false">Sulit</button>
+  </div>
+
+  <div class="status" id="status" aria-live="polite"></div>
+
+  <!-- panel mulai / hasil kejar waktu -->
+  <section class="panel" id="timePanel" hidden>
+    <h2 id="tpTitle">KEJAR WAKTU</h2>
+    <div id="tpBody"></div>
+    <div>
+      <p style="margin-bottom:8px">Durasi:</p>
+      <div class="seg" id="durs" role="group" aria-label="Durasi">
+        <button type="button" data-dur="1" aria-pressed="false">1 menit</button>
+        <button type="button" data-dur="3" aria-pressed="true">3 menit</button>
+        <button type="button" data-dur="5" aria-pressed="false">5 menit</button>
+      </div>
+    </div>
+    <p id="tpBest"></p>
+    <button class="k go" id="startBtn" type="button">MULAI</button>
+  </section>
+
+  <section class="board" id="board">
+    <div class="vault" id="vault">
+      <svg class="lock" viewBox="0 0 46 54" aria-hidden="true">
+        <path class="shackle" d="M12 25v-9a11 11 0 0 1 22 0v9" fill="none" stroke="currentColor" stroke-width="5.5" stroke-linecap="round"/>
+        <rect x="3" y="23" width="40" height="29" rx="7" fill="currentColor"/>
+        <circle cx="23" cy="35" r="4.2" fill="#0A0E13"/><rect x="21" y="36" width="4" height="9" rx="2" fill="#0A0E13"/>
+      </svg>
+      <div>
+        <div class="lbl">KODE TARGET</div>
+        <div class="code" id="target" aria-live="polite">--</div>
+      </div>
+      <div class="lvl" id="lvlTag"></div>
+      <div class="burst" id="burst" aria-hidden="true"></div>
+    </div>
+
+    <div class="screen" id="screen">
+      <div class="eq" id="eq" aria-label="Persamaan"></div>
+      <div class="msg" id="msg" role="status" aria-live="polite"></div>
+    </div>
+
+    <div class="keys nums" id="nums"></div>
+    <div class="keys ops">
+      <button class="k" type="button" data-op="+" aria-label="tambah">+</button>
+      <button class="k" type="button" data-op="−" aria-label="kurang">−</button>
+      <button class="k" type="button" data-op="×" aria-label="kali">×</button>
+      <button class="k" type="button" data-op="÷" aria-label="bagi">÷</button>
+      <button class="k" type="button" data-paren="(" aria-label="kurung buka">(</button>
+      <button class="k" type="button" data-paren=")" aria-label="kurung tutup">)</button>
+    </div>
+    <div class="keys acts">
+      <button class="k" type="button" id="undoBtn" aria-label="Hapus satu">⌫ HAPUS</button>
+      <button class="k" type="button" id="clearBtn">KOSONGKAN</button>
+      <button class="k go" type="button" id="submitBtn">CEK</button>
+    </div>
+    <div class="row2" id="practiceRow">
+      <button class="soft" type="button" id="hintBtn">Petunjuk</button>
+      <button class="soft" type="button" id="newBtn">Soal baru</button>
+    </div>
+    <div class="row2" id="timeRow" hidden>
+      <button class="soft" type="button" id="skipBtn" style="grid-column:1/-1">Lewati soal</button>
+    </div>
+
+    <div class="hint" id="hint" hidden></div>
+  </section>
+
+  <footer>Rekor disimpan di HP ini saja.</footer>
+</div>
+
+<dialog id="help" aria-labelledby="helpTitle">
+  <h2 id="helpTitle">CARA MAIN</h2>
+  <ul>
+    <li>Pakai <b>kelima angka</b>, masing-masing tepat satu kali.</li>
+    <li>Gabungkan dengan + − × ÷ dan tanda kurung sampai hasilnya sama dengan <b>kode target</b>.</li>
+    <li>× dan ÷ dihitung lebih dulu daripada + dan −, kecuali ada kurung.</li>
+    <li>Setiap soal sudah dicek komputer: pasti ada jawabannya.</li>
+    <li>Semua jawaban yang hasilnya tepat diterima, walaupun berbeda dari kunci.</li>
+  </ul>
+  <h3>TINGKAT</h3>
+  <ul>
+    <li><b>Mudah</b>: angka 1–10, target 10–30, banyak cara menjawab.</li>
+    <li><b>Sedang</b>: angka 1–20, target 10–50.</li>
+    <li><b>Sulit</b>: angka 1–20, target 10–50, cara menjawabnya sedikit. Pecahan dan bilangan negatif boleh muncul di tengah perhitungan.</li>
+  </ul>
+  <h3>LATIHAN</h3>
+  <ul>
+    <li><b>Beruntun</b> bertambah setiap soal terpecahkan tanpa bantuan.</li>
+    <li>Petunjuk pertama menunjukkan langkah pertama. Soalnya masih boleh diselesaikan, tapi tidak menambah beruntun.</li>
+    <li>Petunjuk kedua menunjukkan jawaban lengkap. Beruntun kembali ke 0, begitu juga kalau mengganti soal sebelum selesai.</li>
+  </ul>
+  <h3>KEJAR WAKTU</h3>
+  <ul>
+    <li>Pecahkan sebanyak mungkin kode sebelum waktu habis (1, 3, atau 5 menit).</li>
+    <li>Soal boleh dilewati, tanpa poin. Tidak ada petunjuk.</li>
+  </ul>
+  <h3>KEYBOARD</h3>
+  <ul>
+    <li><kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd> <kbd>/</kbd> <kbd>(</kbd> <kbd>)</kbd> · <kbd>Backspace</kbd> hapus · <kbd>Esc</kbd> kosongkan · <kbd>Enter</kbd> cek</li>
+  </ul>
+  <button class="k go" type="button" id="helpClose">MENGERTI</button>
+</dialog>
+
+<script>
+/* ================= INTI: pecahan, solver, pembuat soal ================= */
+/* ===== Bilangan pecahan eksak ===== */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){const t=a%b;a=b;b=t;}return a;}
+function R(n,d){if(d===undefined)d=1;if(d<0){n=-n;d=-d;}const g=gcd(n,d)||1;return{n:n/g,d:d/g};}
+const Q={
+  add:(a,b)=>R(a.n*b.d+b.n*a.d,a.d*b.d),
+  sub:(a,b)=>R(a.n*b.d-b.n*a.d,a.d*b.d),
+  mul:(a,b)=>R(a.n*b.n,a.d*b.d),
+  div:(a,b)=>b.n===0?null:R(a.n*b.d,a.d*b.n),
+  eq:(a,b)=>a.n===b.n&&a.d===b.d,
+  str:a=>a.d===1?String(a.n):a.n+"/"+a.d
+};
+
+/* ===== Tingkat ===== */
+/* min/max: rentang jumlah solusi (langkah bulat positif) yang diterima. Makin sedikit solusi, makin sulit. */
+const LEVELS={
+  mudah:{nMin:1,nMax:10,tMin:10,tMax:30,strict:true,min:12,max:Infinity},
+  sedang:{nMin:1,nMax:20,tMin:10,tMax:50,strict:true,min:3,max:25},
+  sulit:{nMin:1,nMax:20,tMin:10,tMax:50,strict:false,min:0,max:3}
+};
+
+/* ===== Solver =====
+   items: [{v:rational, e:node}], node: {k:number} atau {op,l,r}
+   strict: setiap langkah harus bilangan bulat positif */
+function combos(a,b,strict){
+  const out=[];
+  const push=(v,op,l,r)=>{ if(!v)return; if(strict&&(v.d!==1||v.n<=0))return; out.push({v,e:{op,l,r}}); };
+  push(Q.add(a.v,b.v),"+",a.e,b.e);
+  push(Q.mul(a.v,b.v),"×",a.e,b.e);
+  push(Q.sub(a.v,b.v),"−",a.e,b.e);
+  push(Q.sub(b.v,a.v),"−",b.e,a.e);
+  push(Q.div(a.v,b.v),"÷",a.e,b.e);
+  push(Q.div(b.v,a.v),"÷",b.e,a.e);
+  return out;
+}
+/* Jelajahi semua cara; panggil onSol(node) untuk tiap solusi. onSol mengembalikan true untuk berhenti. */
+function search(items,target,strict,onSol){
+  if(items.length===1) return Q.eq(items[0].v,target)?!!onSol(items[0].e):false;
+  for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++){
+    const rest=items.filter((_,k)=>k!==i&&k!==j);
+    for(const c of combos(items[i],items[j],strict)){
+      rest.push(c);
+      if(search(rest,target,strict,onSol)) return true;
+      rest.pop();
+    }
+  }
+  return false;
+}
+function leaves(nums){return nums.map(n=>({v:R(n),e:{k:n}}));}
+
+/* Bentuk kanonik untuk menghitung solusi yang benar-benar berbeda */
+function canon(e){
+  if(e.k!==undefined) return String(e.k);
+  const add=e.op==="+"||e.op==="−";
+  const pos=[],neg=[];
+  (function walk(x,sign){
+    const same=x.k===undefined&&((x.op==="+"||x.op==="−")===add);
+    if(!same){(sign?pos:neg).push(canon(x));return;}
+    walk(x.l,sign);
+    walk(x.r,(x.op==="+"||x.op==="×")?sign:!sign);
+  })(e,true);
+  pos.sort();neg.sort();
+  return (add?"S(":"P(")+pos.join(",")+"|"+neg.join(",")+")";
+}
+function allSolutions(nums,target,strict,limit){
+  const seen=new Map();
+  search(leaves(nums),R(target),strict,e=>{const c=canon(e);if(!seen.has(c))seen.set(c,e);return !!limit&&seen.size>=limit;});
+  return [...seen.values()];
+}
+function hasSolution(nums,target,strict){
+  return search(leaves(nums),R(target),strict,()=>true);
+}
+
+/* ===== Tampilan ekspresi ===== */
+const PREC={"+":1,"−":1,"×":2,"÷":2};
+function exprStr(e){
+  if(e.k!==undefined) return String(e.k);
+  const p=PREC[e.op];
+  let l=exprStr(e.l), r=exprStr(e.r);
+  if(e.l.k===undefined&&PREC[e.l.op]<p) l="("+l+")";
+  if(e.r.k===undefined&&(PREC[e.r.op]<p||(PREC[e.r.op]===p&&(e.op==="−"||e.op==="÷")))) r="("+r+")";
+  return l+" "+e.op+" "+r;
+}
+function evalNode(e){
+  if(e.k!==undefined) return R(e.k);
+  const a=evalNode(e.l),b=evalNode(e.r);
+  return e.op==="+"?Q.add(a,b):e.op==="−"?Q.sub(a,b):e.op==="×"?Q.mul(a,b):Q.div(a,b);
+}
+/* Langkah-langkah perhitungan: operasi terdalam dulu, kiri ke kanan */
+function steps(e){
+  const out=[];
+  (function walk(x){
+    if(x.k!==undefined) return R(x.k);
+    const a=walk(x.l),b=walk(x.r);
+    const v=x.op==="+"?Q.add(a,b):x.op==="−"?Q.sub(a,b):x.op==="×"?Q.mul(a,b):Q.div(a,b);
+    out.push({a,op:x.op,b,v});
+    return v;
+  })(e);
+  return out;
+}
+/* Skor "keindahan" solusi untuk petunjuk: makin kecil makin enak dibaca */
+function niceness(e){
+  let s=0;
+  for(const st of steps(e)){
+    if(st.v.d!==1) s+=40;
+    if(st.v.n<0) s+=30;
+    if(st.v.n===0) s+=15;
+    if(st.op==="÷") s+=4;
+    if(st.op==="−") s+=1;
+    if((st.op==="×"||st.op==="÷")&&(st.b.n===1&&st.b.d===1)) s+=6;
+    s+=Math.abs(st.v.n/st.v.d)/40;
+  }
+  return s;
+}
+function bestSolution(sols){
+  let best=null,bs=Infinity;
+  for(const e of sols){const s=niceness(e);if(s<bs){bs=s;best=e;}}
+  return best;
+}
+
+/* ===== Pembuat soal =====
+   Selalu memeriksa dengan solver: soal yang dikembalikan PASTI punya solusi. */
+function makePuzzle(level,rand){
+  rand=rand||Math.random;
+  const L=LEVELS[level];
+  const ri=(a,b)=>a+Math.floor(rand()*(b-a+1));
+  let fallback=null;
+  for(let tries=0;tries<80;tries++){
+    const nums=Array.from({length:5},()=>ri(L.nMin,L.nMax));
+    const target=ri(L.tMin,L.tMax);
+    /* hitung solusi langkah-bulat, berhenti lebih awal kalau sudah cukup untuk memutuskan */
+    const cap=L.max===Infinity?L.min:L.max+1;
+    let sols=allSolutions(nums,target,true,cap);
+    const n=sols.length;
+    if(n===0&&!L.strict){
+      if(!hasSolution(nums,target,false)) continue;
+      sols=allSolutions(nums,target,false,20);
+    }
+    if(sols.length===0) continue;
+    const p={nums,target,level,solution:readingOrder(bestSolution(sols))};
+    if(!fallback) fallback=p;
+    if(n>=L.min&&n<=L.max) return p;
+  }
+  return fallback||makePuzzle(level,rand);
+}
+
+/* ===== Pembaca persamaan pemain =====
+   token: {t:"n",v} angka · {t:"o",v:"+"|"−"|"×"|"÷"} · {t:"("} · {t:")"}
+   Hasil: {e:node} atau {err:"kosong"|"belum"|"kurung"} */
+function parseTokens(tokens){
+  if(!tokens.length) return {err:"kosong"};
+  let i=0;
+  const peek=()=>tokens[i];
+  function expr(){
+    let n=term(); if(!n) return null;
+    while(peek()&&peek().t==="o"&&(peek().v==="+"||peek().v==="−")){
+      const op=tokens[i++].v; const r=term(); if(!r) return null; n={op,l:n,r};
+    }
+    return n;
+  }
+  function term(){
+    let n=factor(); if(!n) return null;
+    while(peek()&&peek().t==="o"&&(peek().v==="×"||peek().v==="÷")){
+      const op=tokens[i++].v; const r=factor(); if(!r) return null; n={op,l:n,r};
+    }
+    return n;
+  }
+  function factor(){
+    const t=peek(); if(!t) return null;
+    if(t.t==="n"){i++;return {k:t.v};}
+    if(t.t==="("){
+      i++; const n=expr(); if(!n) return null;
+      if(!peek()||peek().t!==")"){ unclosed=true; return null; }
+      i++; return n;
+    }
+    return null;
+  }
+  let unclosed=false;
+  const e=expr();
+  if(e&&i===tokens.length) return {e};
+  return {err:unclosed?"kurung":"belum"};
+}
+/* Nilai ekspresi; null kalau ada pembagian dengan nol */
+function evalSafe(e){
+  if(e.k!==undefined) return R(e.k);
+  const a=evalSafe(e.l); if(!a) return null;
+  const b=evalSafe(e.r); if(!b) return null;
+  return e.op==="+"?Q.add(a,b):e.op==="−"?Q.sub(a,b):e.op==="×"?Q.mul(a,b):Q.div(a,b);
+}
+
+/* Susun ulang pohon solusi mengikuti cara orang membaca persamaannya (kiri ke kanan,
+   × ÷ dulu), supaya langkah-langkah petunjuk urut seperti yang tertulis. */
+function readingOrder(e){
+  const toks=exprStr(e).match(/\d+|[+−×÷()]/g).map(x=>/\d/.test(x)?{t:"n",v:+x}:x==="("||x===")"?{t:x}:{t:"o",v:x});
+  return parseTokens(toks).e;
+}
+/* ================= AKHIR INTI ================= */
+
+/* ================= Permainan ================= */
+const $=id=>document.getElementById(id);
+const LEVEL_NAMES={mudah:"MUDAH",sedang:"SEDANG",sulit:"SULIT"};
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,String(v)); }catch(e){ return null; } }
+function num(k){ const v=parseInt(store(k),10); return isNaN(v)?0:v; }
+
+const S={
+  mode:"latihan", level:"sedang", dur:3,
+  puzzle:null, tokens:[], hint:0, solved:false, busy:false,
+  streak:{mudah:0,sedang:0,sulit:0},
+  run:null   /* {end, score, level, dur, timer} */
+};
+try{ const p=JSON.parse(store("krypto_prefs")||"{}");
+  if(LEVELS[p.level]) S.level=p.level; if([1,3,5].includes(p.dur)) S.dur=p.dur; }catch(e){}
+function savePrefs(){ store("krypto_prefs",JSON.stringify({level:S.level,dur:S.dur})); }
+const bestStreakKey=l=>"krypto_best_streak_"+l;
+const bestRunKey=(d,l)=>"krypto_best_run_"+d+"_"+l;
+
+/* ---- soal cadangan: disiapkan di belakang layar supaya soal berikutnya langsung muncul ---- */
+const cache={};
+function prefetch(level){ if(cache[level]) return; setTimeout(()=>{ if(!cache[level]) cache[level]=makePuzzle(level); },60); }
+function takePuzzle(level){ const p=cache[level]||makePuzzle(level); cache[level]=null; prefetch(level); return p; }
+
+/* ---- tampilan status ---- */
+function fmtTime(ms){ const s=Math.max(0,Math.ceil(ms/1000)); return Math.floor(s/60)+":"+String(s%60).padStart(2,"0"); }
+function renderStatus(){
+  const st=$("status");
+  if(S.mode==="latihan"){
+    st.innerHTML=`<span>Beruntun <b>${S.streak[S.level]}</b></span><span>Rekor ${LEVEL_NAMES[S.level].toLowerCase()} <b>${num(bestStreakKey(S.level))}</b></span>`;
+  }else if(S.run){
+    const left=S.run.end-Date.now();
+    st.innerHTML=`<span class="timer${left<=10000?" low":""}">⏱ <b>${fmtTime(left)}</b></span><span>Terpecahkan <b>${S.run.score}</b></span>`;
+  }else st.innerHTML="";
+}
+function renderSegs(){
+  document.querySelectorAll("[data-mode]").forEach(b=>b.setAttribute("aria-pressed",b.dataset.mode===S.mode));
+  document.querySelectorAll("[data-level]").forEach(b=>{ b.setAttribute("aria-pressed",b.dataset.level===S.level); b.disabled=!!S.run; });
+  document.querySelectorAll("[data-dur]").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.dur===S.dur));
+  $("practiceRow").hidden=S.mode!=="latihan";
+  $("timeRow").hidden=S.mode!=="waktu";
+  $("board").hidden=S.mode==="waktu"&&!S.run;
+  $("timePanel").hidden=!(S.mode==="waktu"&&!S.run);
+  $("tpBest").textContent=`Rekor ${S.dur} menit · ${LEVEL_NAMES[S.level].toLowerCase()}: ${num(bestRunKey(S.dur,S.level))} kode`;
+  renderStatus();
+}
+
+/* ---- kode target berputar seperti mesin sandi ---- */
+let scrambleT=null;
+function showTarget(t){
+  const el=$("target"); clearInterval(scrambleT);
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches){ el.textContent=t; return; }
+  let n=0; scrambleT=setInterval(()=>{
+    if(++n>8){ clearInterval(scrambleT); el.textContent=t; return; }
+    el.textContent=String(10+Math.floor(Math.random()*90));
+  },45);
+}
+
+/* ---- soal ---- */
+function newPuzzle(){
+  S.puzzle=takePuzzle(S.level); S.tokens=[]; S.hint=0; S.solved=false;
+  $("vault").classList.remove("open");
+  $("screen").classList.remove("good","bad");
+  $("hint").hidden=true; $("hint").innerHTML=""; $("burst").innerHTML="";
+  $("lvlTag").textContent=LEVEL_NAMES[S.level];
+  showTarget(S.puzzle.target);
+  const box=$("nums"); box.innerHTML="";
+  S.puzzle.nums.forEach((v,i)=>{
+    const b=document.createElement("button");
+    b.className="k"; b.type="button"; b.textContent=v; b.dataset.tile=i;
+    b.setAttribute("aria-label","angka "+v);
+    box.appendChild(b);
+  });
+  setMsg("","");
+  renderInput(); renderStatus();
+}
+
+/* ---- aturan tombol: hanya urutan yang masuk akal yang bisa ditekan ---- */
+function depth(){ let d=0; for(const t of S.tokens){ if(t.t==="(")d++; else if(t.t===")")d--; } return d; }
+function lastT(){ return S.tokens[S.tokens.length-1]; }
+function canValue(){ const l=lastT(); return !l||l.t==="o"||l.t==="("; }
+function canOp(){ const l=lastT(); return !!l&&(l.t==="n"||l.t===")"); }
+function renderInput(){
+  const eq=$("eq");
+  const used=new Set(S.tokens.filter(t=>t.t==="n").map(t=>t.tile));
+  if(!S.tokens.length){
+    eq.innerHTML=`<span class="ph">Susun persamaan dari kelima angka</span><span class="cur"></span>`;
+  }else{
+    eq.innerHTML=S.tokens.map(t=>t.t==="n"?`<span>${t.v}</span>`:t.t==="o"?`<span class="o">${t.v}</span>`:`<span class="p">${t.t}</span>`).join("")
+      +(S.solved?"":`<span class="cur"></span>`);
+  }
+  const lock=S.solved||S.busy;
+  document.querySelectorAll("#nums .k").forEach(b=>{
+    const u=used.has(+b.dataset.tile);
+    b.classList.toggle("used",u);
+    b.disabled=lock||u||!canValue();
+  });
+  document.querySelectorAll("[data-op]").forEach(b=>b.disabled=lock||!canOp());
+  document.querySelector('[data-paren="("]').disabled=lock||!canValue();
+  document.querySelector('[data-paren=")"]').disabled=lock||!(canOp()&&depth()>0);
+  $("undoBtn").disabled=lock||!S.tokens.length;
+  $("clearBtn").disabled=lock||!S.tokens.length;
+  $("submitBtn").disabled=lock||!S.tokens.length;
+  $("hintBtn").disabled=S.solved||S.hint>=2;
+  $("hintBtn").textContent=S.hint===0?"Petunjuk":"Lihat jawaban";
+  $("newBtn").textContent=S.solved?"Soal berikutnya →":"Soal baru";
+  $("newBtn").classList.toggle("next",S.solved);
+  $("hintBtn").hidden=S.solved;
+  $("skipBtn").disabled=S.solved;
+}
+function push(tok){
+  if(S.solved||S.busy) return;
+  if(tok.t==="n"&&(!canValue()||S.tokens.some(t=>t.t==="n"&&t.tile===tok.tile))) return;
+  if(tok.t==="("&&!canValue()) return;
+  if(tok.t==="o"&&!canOp()) return;
+  if(tok.t===")"&&!(canOp()&&depth()>0)) return;
+  S.tokens.push(tok); clearFeedback(); renderInput();
+}
+function undo(){ if(S.solved||S.busy||!S.tokens.length) return; S.tokens.pop(); clearFeedback(); renderInput(); }
+function clearAll(){ if(S.solved||S.busy||!S.tokens.length) return; S.tokens=[]; clearFeedback(); renderInput(); }
+function clearFeedback(){ $("screen").classList.remove("bad"); if($("msg").className.includes("err")) setMsg("",""); }
+function setMsg(text,kind){ const m=$("msg"); m.textContent=text; m.className="msg"+(kind?" "+kind:""); }
+
+/* ---- cek jawaban ---- */
+function fail(text){
+  setMsg(text,"err");
+  const sc=$("screen"); sc.classList.remove("shake"); void sc.offsetWidth; sc.classList.add("shake","bad");
+}
+function submit(){
+  if(S.solved||S.busy||!S.tokens.length) return;
+  const usedCount=S.tokens.filter(t=>t.t==="n").length;
+  const p=parseTokens(S.tokens);
+  if(p.err==="kurung") return fail(`Masih ada ${depth()} kurung yang belum ditutup.`);
+  if(p.err) return fail("Persamaan belum lengkap.");
+  const v=evalSafe(p.e);
+  if(!v) return fail("Ada pembagian dengan 0. Itu tidak boleh.");
+  if(usedCount<5) return fail(`Hasilnya ${Q.str(v)}. Tapi masih ada ${5-usedCount} angka yang belum dipakai.`);
+  if(!Q.eq(v,R(S.puzzle.target))) return fail(`Hasilnya ${Q.str(v)}, bukan ${S.puzzle.target}.`);
+  success();
+}
+function success(){
+  S.solved=true;
+  $("screen").classList.remove("bad"); $("screen").classList.add("good");
+  $("vault").classList.add("open");
+  burst();
+  let note="";
+  if(S.mode==="latihan"){
+    if(S.hint===0){
+      const s=++S.streak[S.level];
+      if(s>num(bestStreakKey(S.level))){ store(bestStreakKey(S.level),s); note=" · REKOR BARU"; }
+    }else note=S.hint===1?" · dengan petunjuk":" · dengan jawaban";
+    if(navigator.vibrate) try{navigator.vibrate(40);}catch(e){}
+  }else if(S.run){
+    S.run.score++;
+    setTimeout(()=>{ if(S.run&&S.solved) newPuzzle(); },900);
+  }
+  setMsg("AKSES DITERIMA ✓"+note,"ok");
+  renderInput(); renderStatus();
+}
+function burst(){
+  const b=$("burst"); b.innerHTML="";
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const glyphs="0123456789+−×÷";
+  for(let i=0;i<16;i++){
+    const a=(i/16)*Math.PI*2+Math.random()*.3, r=60+Math.random()*70;
+    const g=document.createElement("i");
+    g.textContent=glyphs[Math.floor(Math.random()*glyphs.length)];
+    g.style.setProperty("--x",Math.cos(a)*r+"px"); g.style.setProperty("--y",Math.sin(a)*r*.6+"px");
+    g.style.setProperty("--d",(Math.random()*.12)+"s");
+    b.appendChild(g);
+  }
+  setTimeout(()=>{ b.innerHTML=""; },1100);
+}
+
+/* ---- petunjuk bertahap ---- */
+function stepText(s){ return `${Q.str(s.a)} ${s.op} ${Q.str(s.b)} = ${Q.str(s.v)}`; }
+function showHint(){
+  if(S.mode!=="latihan"||S.solved||S.hint>=2) return;
+  S.hint++;
+  const sol=S.puzzle.solution, st=steps(sol), h=$("hint");
+  if(S.hint===1){
+    h.innerHTML=`<h3>PETUNJUK · LANGKAH 1 DARI ${st.length}</h3>${stepText(st[0])}`;
+  }else{
+    S.streak[S.level]=0;
+    h.innerHTML=`<h3>JAWABAN</h3><div class="full">${exprStr(sol)} = ${S.puzzle.target}</div>`
+      +`<ol>${st.map(s=>`<li>${stepText(s)}</li>`).join("")}</ol>`;
+  }
+  h.hidden=false;
+  renderInput(); renderStatus();
+}
+function nextOrNew(){
+  if(S.mode!=="latihan") return;
+  if(!S.solved) S.streak[S.level]=0;
+  newPuzzle();
+}
+
+/* ---- kejar waktu ---- */
+function startRun(){
+  S.run={end:Date.now()+S.dur*60000,score:0,level:S.level,dur:S.dur,timer:null};
+  S.run.timer=setInterval(()=>{ if(S.run&&Date.now()>=S.run.end) endRun(); else renderStatus(); },250);
+  renderSegs(); newPuzzle();
+}
+function endRun(){
+  const r=S.run; if(!r) return;
+  clearInterval(r.timer); S.run=null;
+  const key=bestRunKey(r.dur,r.level), prev=num(key), isNew=r.score>prev;
+  if(isNew) store(key,r.score);
+  $("tpTitle").textContent="WAKTU HABIS";
+  $("tpBody").innerHTML=`<div class="big">${r.score}</div><p>kode terpecahkan dalam ${r.dur} menit (${LEVEL_NAMES[r.level].toLowerCase()})${isNew&&r.score>0?" — <b style=\"color:var(--phos)\">rekor baru!</b>":""}</p>`;
+  $("startBtn").textContent="MAIN LAGI";
+  renderSegs();
+}
+function stopRun(){ if(S.run){ clearInterval(S.run.timer); S.run=null; } }
+function skip(){ if(S.run&&!S.solved) newPuzzle(); }
+
+/* ---- pindah mode / tingkat ---- */
+function setMode(m){
+  if(m===S.mode) return;
+  stopRun(); S.mode=m;
+  if(m==="waktu"){
+    $("tpTitle").textContent="KEJAR WAKTU";
+    $("tpBody").innerHTML=`<p>Pecahkan sebanyak mungkin kode sebelum waktu habis. Tingkat soal mengikuti pilihan di atas.</p>`;
+    $("startBtn").textContent="MULAI";
+  }
+  renderSegs();
+  if(m==="latihan") newPuzzle();
+}
+function setLevel(l){
+  if(S.run||l===S.level) return;
+  S.level=l; savePrefs(); renderSegs();
+  if(S.mode==="latihan") newPuzzle();
+}
+
+/* ---- sambungan tombol ---- */
+document.querySelectorAll("[data-mode]").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
+document.querySelectorAll("[data-level]").forEach(b=>b.onclick=()=>setLevel(b.dataset.level));
+document.querySelectorAll("[data-dur]").forEach(b=>b.onclick=()=>{ S.dur=+b.dataset.dur; savePrefs(); renderSegs(); });
+$("nums").onclick=e=>{ const b=e.target.closest(".k"); if(!b) return; push({t:"n",v:S.puzzle.nums[+b.dataset.tile],tile:+b.dataset.tile}); };
+document.querySelectorAll("[data-op]").forEach(b=>b.onclick=()=>push({t:"o",v:b.dataset.op}));
+document.querySelectorAll("[data-paren]").forEach(b=>b.onclick=()=>push({t:b.dataset.paren}));
+$("undoBtn").onclick=undo; $("clearBtn").onclick=clearAll; $("submitBtn").onclick=submit;
+$("hintBtn").onclick=showHint; $("newBtn").onclick=nextOrNew; $("skipBtn").onclick=skip;
+$("startBtn").onclick=startRun;
+$("helpBtn").onclick=()=>{ const d=$("help"); if(d.showModal) d.showModal(); else d.setAttribute("open",""); };
+$("helpClose").onclick=()=>{ const d=$("help"); if(d.close) d.close(); else d.removeAttribute("open"); };
+document.addEventListener("keydown",e=>{
+  if($("help").open||e.ctrlKey||e.metaKey||e.altKey) return;
+  if($("board").hidden) return;
+  const map={"+":"+","-":"−","*":"×","x":"×","X":"×","/":"÷",":":"÷"};
+  if(map[e.key]){ push({t:"o",v:map[e.key]}); e.preventDefault(); }
+  else if(e.key==="("||e.key===")"){ push({t:e.key}); e.preventDefault(); }
+  else if(e.key==="Backspace"){ undo(); e.preventDefault(); }
+  else if(e.key==="Escape"){ clearAll(); }
+  else if(e.key==="Enter"){
+    if(document.activeElement&&document.activeElement.tagName==="BUTTON"&&document.activeElement!==$("submitBtn")) return;
+    if(S.solved&&S.mode==="latihan") nextOrNew(); else submit();
+    e.preventDefault();
+  }
+});
+
+/* ---- mulai ---- */
+renderSegs();
+$("eq").innerHTML=`<span class="ph">Menyiapkan soal…</span>`;
+setTimeout(()=>{ newPuzzle(); ["mudah","sedang","sulit"].forEach(prefetch); },30);
+if(!store("krypto_seen_help")){ store("krypto_seen_help",1); setTimeout(()=>$("helpBtn").click(),400); }
+</script>
+</body>
+</html>
