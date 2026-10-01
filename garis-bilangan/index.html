@@ -74,42 +74,33 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 .prompt{text-align:center}
 .prompt .ask{color:var(--muted);font-weight:700}
 .prompt .target{font-weight:800;font-size:clamp(2.6rem,12vw,3.6rem);line-height:1.1;color:var(--pin)}
-.big .prompt .target{font-size:min(9vw,7rem)}
 .fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1;font-size:.62em;margin:0 .05em}
 .fr span:first-child{border-bottom:.08em solid currentColor;padding:0 .12em .04em}
 .fr span:last-child{padding-top:.04em}
 
 /* ---------- garis bilangan (penggaris) ---------- */
 .nl{position:relative;height:150px;margin:0 2px;touch-action:none;user-select:none;-webkit-user-select:none;cursor:pointer}
-.big .nl{height:min(30vh,260px)}
 .nl .rail{position:absolute;left:6%;right:6%;top:58%;height:22px;transform:translateY(-50%);border-radius:6px;
   background:linear-gradient(180deg,var(--wood),var(--wood-2));box-shadow:0 4px 0 #B88A2C,inset 0 2px 0 rgba(255,255,255,.4)}
-.big .nl .rail{height:34px}
 .nl .tick{position:absolute;top:58%;width:2px;height:22px;background:var(--wood-ink);transform:translate(-1px,-50%)}
 .nl .tick.major{height:34px;width:3px;transform:translate(-1.5px,-50%)}
-.big .nl .tick{height:34px} .big .nl .tick.major{height:52px;width:4px}
 .nl .tl{position:absolute;top:calc(58% + 24px);transform:translateX(-50%);font-weight:800;font-size:1.05rem;color:var(--wood-ink);white-space:nowrap}
-.big .nl .tl{top:calc(58% + 36px);font-size:min(3vw,2rem)}
 .pin{position:absolute;top:58%;width:30px;height:46px;transform:translate(-50%,-100%);pointer-events:none;transition:left .05s}
 .pin svg{width:100%;height:100%;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
-.big .pin{width:48px;height:72px}
 .pin.a{color:var(--pin)} .pin.b{color:var(--teamB)} .pin.ans{color:var(--ok)}
 .pin .tag{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-weight:800;font-size:.95rem;white-space:nowrap;
   background:currentColor;border-radius:8px;padding:0 7px;margin-bottom:2px}
 .pin .tag span{color:#fff}
-.big .pin .tag{font-size:min(2.6vw,1.6rem)}
 .gap{position:absolute;top:58%;height:10px;transform:translateY(-50%);background:repeating-linear-gradient(90deg,rgba(230,57,70,.55) 0 6px,transparent 6px 10px);border-radius:4px;pointer-events:none}
 .hint{text-align:center;color:var(--muted);font-size:.9rem;min-height:1.3em}
 .opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .opt{border:2px solid var(--line);background:var(--card);border-radius:16px;min-height:64px;font-weight:800;font-size:1.6rem;cursor:pointer}
-.big .opt{font-size:min(4vw,2.8rem);min-height:100px}
 .opt.right{border-color:var(--ok);background:var(--ok-soft)}
 .opt.wrong{border-color:var(--pin);background:#FDECEC}
 .opt:disabled{cursor:default}
 .fb{text-align:center;font-weight:800;font-size:1.15rem;min-height:1.6em}
 .fb .pts{color:var(--ok)}
 .fb .zero{color:var(--pin)}
-.big .fb{font-size:min(3vw,2rem)}
 .acts{display:grid;grid-template-columns:1fr;gap:8px}
 
 /* ---------- hasil ---------- */
@@ -124,6 +115,19 @@ button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(-
 .winner{text-align:center;font-weight:800;font-size:1.5rem}
 footer{text-align:center;color:var(--muted);font-size:.76rem}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* layar besar hanya berlaku di layar lebar (proyektor/laptop), tidak di HP */
+@media (min-width:700px){
+.big .prompt .target{font-size:min(9vw,7rem)}
+.big .nl{height:min(30vh,260px)}
+.big .nl .rail{height:34px}
+.big .nl .tick{height:34px} .big .nl .tick.major{height:52px;width:4px}
+.big .nl .tl{top:calc(58% + 36px);font-size:min(3vw,2rem)}
+.big .pin{width:48px;height:72px}
+.big .pin .tag{font-size:min(2.6vw,1.6rem)}
+.big .opt{font-size:min(4vw,2.8rem);min-height:100px}
+.big .fb{font-size:min(3vw,2rem)}
+}
 </style>
 </head>
 <body>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#5B3A22">
+<title>Warung Kembalian</title>
+<meta name="description" content="Jadi kasir warung: hitung dan siapkan uang kembalian dengan lembar sesedikit mungkin.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%235B3A22'/%3E%3Crect x='8' y='20' width='34' height='20' rx='4' fill='%2384CC9A'/%3E%3Ccircle cx='46' cy='42' r='12' fill='%23F2C14E' stroke='%23B8891F' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --wall:#FFF4E2;
+  --wood:#8B5A33;
+  --wood-2:#5B3A22;
+  --ink:#2E1F14;
+  --muted:#7C6A5A;
+  --line:#EAD7BC;
+  --card:#FFFDF8;
+  --green:#2F9E58;
+  --green-soft:#E1F5E8;
+  --red:#D93A3A;
+  --blue:#2563EB;
+  --orange:#EA7A1E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  background:repeating-linear-gradient(0deg,rgba(139,90,51,.05) 0 2px,transparent 2px 22px),var(--wall);background-color:var(--wall);
+  display:flex;justify-content:center;padding:12px 14px calc(18px + env(safe-area-inset-bottom))}
+button,input{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:12px}
+.big .wrap{max-width:1180px}
+.topbar{display:flex;align-items:center;gap:8px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.25rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--orange)}
+.pill{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:700;cursor:pointer;flex:none;white-space:nowrap}
+@media (max-width:480px){.topbar .lg{display:none}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px;box-shadow:0 4px 0 var(--line)}
+.lbl{font-size:.8rem;font-weight:800;letter-spacing:.06em;color:var(--muted);margin-bottom:-6px}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tiers button{border:2px solid var(--line);background:var(--wall);border-radius:14px;padding:8px 10px;text-align:left;cursor:pointer;line-height:1.2}
+.tiers button b{display:block;font-size:1.02rem}
+.tiers button small{color:var(--muted);font-size:.8rem;display:block}
+.tiers button[aria-pressed="true"]{border-color:var(--orange);background:#FFE9D2}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--wall);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:7px 4px;font-weight:800;font-size:.95rem;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.names{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.names input{border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:1rem;font-weight:700;width:100%}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:800;font-size:1.1rem;cursor:pointer;background:var(--orange);color:#fff;box-shadow:0 4px 0 #A9530E}
+.btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 #A9530E}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.green{background:var(--green);box-shadow:0 4px 0 #1E6B3B}
+.btn.dark{background:var(--ink);box-shadow:0 4px 0 #000}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.best{color:var(--muted);font-size:.92rem}
+.best b{color:var(--ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ---------- warung ---------- */
+.hud{display:flex;justify-content:space-between;align-items:baseline;gap:8px;color:var(--muted);font-size:.92rem}
+.hud b{color:var(--ink);font-size:1.1rem}
+.counter{display:flex;gap:12px;align-items:flex-start}
+.buyer{font-size:3.4rem;line-height:1;flex:none;filter:drop-shadow(0 3px 2px rgba(0,0,0,.15))}
+.bubble{position:relative;flex:1;background:#fff;border:2px solid var(--line);border-radius:16px;padding:10px 12px}
+.bubble::before{content:"";position:absolute;left:-10px;top:18px;border:8px solid transparent;border-right-color:var(--line)}
+.bubble .say{color:var(--muted);font-weight:700;font-size:.9rem}
+.goods{list-style:none;margin:4px 0 0;padding:0;display:flex;flex-direction:column;gap:2px}
+.goods li{display:flex;justify-content:space-between;gap:8px;font-weight:700;font-size:1.05rem}
+.goods li span:last-child{font-weight:800}
+.totalrow{display:flex;justify-content:space-between;align-items:center;gap:8px;border-top:2px dashed var(--line);margin-top:6px;padding-top:6px;font-weight:800;font-size:1.15rem}
+.totalrow button{border:1px dashed var(--muted);background:transparent;border-radius:10px;padding:2px 10px;font-weight:700;font-size:.85rem;cursor:pointer}
+.paid{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin-top:6px;font-weight:700;color:var(--muted)}
+
+/* uang: bentuk & warna bergaya, bukan gambar uang asli */
+.m{border:0;cursor:pointer;font-weight:800;display:inline-flex;align-items:center;justify-content:center;line-height:1;touch-action:manipulation;color:#1E1E1E;
+  box-shadow:0 3px 0 rgba(0,0,0,.25);transition:transform .08s}
+.m:active{transform:translateY(2px)}
+.m.note{border-radius:8px;min-width:72px;height:40px;padding:0 8px;font-size:.98rem;border:2px solid rgba(0,0,0,.12);
+  background-image:linear-gradient(90deg,rgba(255,255,255,.25) 0 18%,transparent 18% 82%,rgba(255,255,255,.25) 82%)}
+.m.coin{border-radius:50%;width:44px;height:44px;font-size:.78rem;border:3px solid rgba(0,0,0,.18)}
+.m.sm{transform:scale(.82)}
+.v100,.v200{background:#D9DDE2} .v500{background:#F2C14E} .v1000{background:#B9D9C3}
+.v2000{background:#C9CDD3} .v5000{background:#D8B98A} .v10000{background:#C7A6D8}
+.v20000{background:#9FD6A9} .v50000{background:#93BCE6} .v100000{background:#F1A7A7}
+.drawer{background:linear-gradient(180deg,var(--wood),var(--wood-2));border-radius:18px;padding:12px;display:flex;flex-direction:column;gap:8px;box-shadow:inset 0 -6px 0 rgba(0,0,0,.2)}
+.drawer .lab{color:#FBE7CF;font-weight:800;font-size:.8rem;letter-spacing:.08em}
+.slots{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.tray{min-height:64px;border:2px dashed var(--line);border-radius:16px;padding:8px;display:flex;flex-wrap:wrap;gap:6px;align-items:center;justify-content:center;background:#fff}
+.tray:empty::before{content:"Ketuk uang di laci untuk menyiapkan kembalian";color:var(--muted);font-size:.9rem;text-align:center}
+.trayhead{display:flex;justify-content:space-between;align-items:baseline;font-weight:800}
+.trayhead .sum{font-size:1.3rem;color:var(--orange)}
+.trayhead small{color:var(--muted);font-weight:600}
+.fb{text-align:center;font-weight:800;font-size:1.1rem;min-height:1.5em;line-height:1.35}
+.fb .ok{color:var(--green)} .fb .no{color:var(--red)}
+.fb small{display:block;font-weight:600;color:var(--muted);font-size:.85em}
+.acts{display:grid;grid-template-columns:1fr 2fr;gap:8px}
+
+.total{font-size:4rem;font-weight:800;line-height:1;color:var(--orange);text-align:center}
+.total small{font-size:.35em;color:var(--muted)}
+.list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:.92rem}
+.list li{display:grid;grid-template-columns:26px 1fr auto;gap:8px;padding:6px 10px;border-radius:10px;background:var(--wall)}
+.teams{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center}
+.teams div{border-radius:16px;padding:10px;background:var(--wall)}
+.teams b{display:block;font-size:2.4rem;line-height:1.1}
+.winner{text-align:center;font-weight:800;font-size:1.5rem}
+footer{text-align:center;color:var(--muted);font-size:.76rem}
+/* layar besar hanya berlaku di layar lebar (proyektor/laptop), tidak di HP */
+@media (min-width:700px){
+.big .buyer{font-size:6rem}
+.big .goods li{font-size:min(2.6vw,1.9rem)}
+.big .m.note{min-width:120px;height:64px;font-size:1.5rem} .big .m.coin{width:70px;height:70px;font-size:1.1rem}
+.big .fb{font-size:min(2.6vw,1.9rem)}
+}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Warung <span>Kembalian</span></div>
+    <button class="pill" id="quitBtn" type="button" aria-label="Pengaturan" hidden><span aria-hidden="true">⚙</span><span class="lg" aria-hidden="true"> Pengaturan</span></button>
+  </div>
+
+  <section class="card" id="setup">
+    <div class="lbl">TINGKAT</div>
+    <div class="tiers" id="tiers"></div>
+    <div class="lbl">MODE</div>
+    <div class="seg" id="segMode"><button type="button" data-v="solo" aria-pressed="true">Sendiri</button><button type="button" data-v="tim" aria-pressed="false">2 Tim</button></div>
+    <div class="names" id="names" hidden>
+      <input id="nameA" maxlength="14" placeholder="Tim Oranye" aria-label="Nama tim pertama">
+      <input id="nameB" maxlength="14" placeholder="Tim Biru" aria-label="Nama tim kedua">
+    </div>
+    <label class="best" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="bigChk" style="width:20px;height:20px"> Layar besar (untuk proyektor kelas)</label>
+    <div class="best" id="setupBest"></div>
+    <p class="best" style="margin:0">Benar = 100 · lembar/koin paling sedikit = +20 · coba lagi = 50. Harga barang di game ini hanya contoh latihan.</p>
+    <button class="btn" type="button" id="startBtn">Buka warung (10 pembeli)</button>
+  </section>
+
+  <section class="card" id="play" hidden>
+    <div class="hud"><span id="hudQ"></span><span id="hudTeam" style="font-weight:800"></span><span id="hudScore"></span></div>
+    <div class="counter">
+      <div class="buyer" id="buyer" aria-hidden="true"></div>
+      <div class="bubble">
+        <div class="say" id="say">Saya beli:</div>
+        <ul class="goods" id="goods"></ul>
+        <div class="totalrow"><span>Total</span><span id="total"></span></div>
+        <div class="paid" id="paid"></div>
+      </div>
+    </div>
+    <div class="trayhead"><span>Kembalian: <span class="sum" id="traySum">Rp0</span></span><small id="trayCount"></small></div>
+    <div class="tray" id="tray" aria-label="Kembalian yang disiapkan"></div>
+    <div class="drawer"><div class="lab">LACI KASIR · ketuk untuk mengambil</div><div class="slots" id="slots"></div></div>
+    <div class="fb" id="fb" aria-live="polite"></div>
+    <div class="acts">
+      <button class="btn ghost" type="button" id="clearBtn">Kosongkan</button>
+      <button class="btn green" type="button" id="giveBtn">Serahkan ✓</button>
+    </div>
+    <button class="btn dark" type="button" id="nextBtn" hidden>Pembeli berikutnya →</button>
+  </section>
+
+  <section class="card" id="result" hidden>
+    <div id="resBody" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div class="row2"><button class="btn" type="button" id="againBtn">Main lagi</button><button class="btn ghost" type="button" id="setupBtn">Pengaturan</button></div>
+  </section>
+  <footer>Uang di game ini hanya gambar sederhana, bukan tiruan uang asli. Rekor disimpan di HP ini saja.</footer>
+</div>
+
+<script>
+/* ================= INTI: pecahan, pembeli, lembar paling sedikit ================= */
+/* ===== Pecahan rupiah yang masih beredar (koin 100–1.000, kertas 1.000–100.000) ===== */
+const ALL_DENOMS=[100,200,500,1000,2000,5000,10000,20000,50000,100000];
+const rp=n=>"Rp"+n.toLocaleString("id-ID").replace(/,/g,".");
+const ri=(a,b,rand)=>a+Math.floor(rand()*(b-a+1));
+const pick=(arr,rand)=>arr[Math.floor(rand()*arr.length)];
+
+const TIERS={
+  t1:{label:"Tingkat 1",grade:"Kelas 1–2",desc:"1 barang, ribuan bulat, bayar ≤ Rp10.000",denoms:[1000,2000,5000,10000],items:[1,1],step:1000,min:1000,max:9000,notes:[2000,5000,10000]},
+  t2:{label:"Tingkat 2",grade:"Kelas 3",desc:"harga kelipatan 500, bayar ≤ Rp50.000",denoms:[500,1000,2000,5000,10000,20000,50000],items:[1,1],step:500,min:1500,max:45000,notes:[5000,10000,20000,50000]},
+  t3:{label:"Tingkat 3",grade:"Kelas 4",desc:"2–3 barang, jumlahkan dulu",denoms:ALL_DENOMS,items:[2,3],step:100,min:1200,max:30000,notes:[10000,20000,50000,100000],hideTotal:true},
+  t4:{label:"Tingkat 4",grade:"Kelas 5–6",desc:"pembeli kadang bayar 'aneh' supaya kembalian bulat",denoms:ALL_DENOMS,items:[2,3],step:100,min:1200,max:30000,notes:[10000,20000,50000,100000],hideTotal:true,odd:true}
+};
+const GOODS=[["🍬","permen"],["🍞","roti"],["🥛","susu kotak"],["🍜","mi instan"],["🥚","telur"],["🧃","jus kotak"],["🍪","biskuit"],["🍫","cokelat"],["☕","kopi saset"],["🧂","garam"],["🍌","pisang"],["🍙","nasi kepal"],["🧼","sabun"],["✏️","pensil"],["📒","buku tulis"],["🧴","sampo"]];
+const BUYERS=["🧒","👧","👦","👩","👨","👵","👴","🧕","👷","👩‍🍳"];
+
+/* Jumlah lembar/koin paling sedikit (pemrograman dinamis, tidak bergantung pada cara rakus) */
+function minPieces(amount,denoms){
+  const n=amount/100, d=denoms.map(x=>x/100), best=new Array(n+1).fill(Infinity), from=new Array(n+1).fill(0);
+  best[0]=0;
+  for(let a=1;a<=n;a++) for(const c of d) if(c<=a&&best[a-c]+1<best[a]){ best[a]=best[a-c]+1; from[a]=c; }
+  if(best[n]===Infinity) return null;
+  const pieces=[]; for(let a=n;a>0;a-=from[a]) pieces.push(from[a]*100);
+  return {count:best[n],pieces:pieces.sort((x,y)=>y-x)};
+}
+
+/* Satu pembeli */
+function makeCustomer(tier,rand){
+  rand=rand||Math.random;
+  const T=TIERS[tier];
+  for(let tries=0;tries<200;tries++){
+    const k=ri(T.items[0],T.items[1],rand), goods=[], used=new Set();
+    for(let i=0;i<k;i++){
+      let g; do{ g=pick(GOODS,rand); }while(used.has(g[1])); used.add(g[1]);
+      const lo=Math.ceil(T.min/k/T.step), hi=Math.floor(T.max/k/T.step);
+      goods.push({emoji:g[0],name:g[1],price:ri(Math.max(1,lo),Math.max(lo,hi),rand)*T.step});
+    }
+    const total=goods.reduce((a,g)=>a+g.price,0);
+    /* bayar dengan uang kertas terkecil yang cukup, kadang yang lebih besar */
+    const ok=T.notes.filter(n=>n>total);
+    if(!ok.length) continue;
+    let payNote=rand()<.75?ok[0]:pick(ok,rand), pay=payNote, given=[payNote];
+    /* T4: tambah uang kecil supaya kembalian jadi bulat (contoh: belanja 15.500, bayar 20.500) */
+    if(T.odd&&rand()<.5){
+      const extra=total%1000;
+      if(extra>0&&ALL_DENOMS.includes(extra)){ pay+=extra; given.push(extra); }
+      else if(extra>0){ const p=minPieces(extra,[100,200,500]); if(p&&p.count<=2){ pay+=extra; given.push(...p.pieces); } }
+    }
+    const change=pay-total;
+    if(change<=0) continue;
+    const opt=minPieces(change,T.denoms);
+    if(!opt) continue;
+    return {buyer:pick(BUYERS,rand),goods,total,pay,given,change,opt};
+  }
+  return null;
+}
+/* ================= AKHIR INTI ================= */
+</script>
+<script>
+const $=id=>document.getElementById(id);
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,String(v)); }catch(e){ return null; } }
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ROUNDS=10, TEAMC=["var(--orange)","var(--blue)"];
+const S={tier:"t1",mode:"solo",names:["Tim Oranye","Tim Biru"],big:false,i:0,c:null,tray:[],tries:0,peeked:false,locked:false,scores:[0,0],log:[]};
+try{ const p=JSON.parse(store("wk_prefs")||"{}"); if(TIERS[p.tier]) S.tier=p.tier; if(["solo","tim"].includes(p.mode)) S.mode=p.mode;
+  if(Array.isArray(p.names)) S.names=[p.names[0]||"Tim Oranye",p.names[1]||"Tim Biru"]; S.big=!!p.big; }catch(e){}
+function savePrefs(){ store("wk_prefs",JSON.stringify({tier:S.tier,mode:S.mode,names:S.names,big:S.big})); }
+const T=()=>TIERS[S.tier];
+const bestKey=()=>"wk_best_"+S.tier;
+const money=(v,extra)=>`<span class="m ${isCoin(v)?"coin":"note"} v${v}${extra?" "+extra:""}">${v.toLocaleString("id-ID").replace(/,/g,".")}</span>`;
+const isCoin=v=>v<1000;
+
+/* ---- pengaturan ---- */
+function renderSetup(){
+  $("tiers").innerHTML=Object.entries(TIERS).map(([k,t])=>`<button type="button" data-v="${k}" aria-pressed="${k===S.tier}"><b>${t.label} · ${t.grade}</b><small>${t.desc}</small><small>rekor ${+store("wk_best_"+k)||0}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===S.mode));
+  $("names").hidden=S.mode!=="tim";
+  $("nameA").value=S.names[0]==="Tim Oranye"?"":S.names[0]; $("nameB").value=S.names[1]==="Tim Biru"?"":S.names[1];
+  $("bigChk").checked=S.big;
+  $("setupBest").innerHTML=S.mode==="solo"?`Rekor ${T().label}: <b>${+store(bestKey())||0}</b> / ${ROUNDS*120}`:`2 tim bergantian melayani pembeli: pembeli ganjil untuk tim pertama, genap untuk tim kedua.`;
+  document.documentElement.classList.toggle("big",S.big);
+}
+$("tiers").onclick=e=>{ const b=e.target.closest("button"); if(!b) return; S.tier=b.dataset.v; savePrefs(); renderSetup(); };
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(!b) return; S.mode=b.dataset.v; savePrefs(); renderSetup(); };
+$("bigChk").onchange=()=>{ S.big=$("bigChk").checked; savePrefs(); renderSetup(); };
+["nameA","nameB"].forEach((id,k)=>$(id).addEventListener("input",()=>{ S.names[k]=($(id).value.trim()||(k?"Tim Biru":"Tim Oranye")).slice(0,14); savePrefs(); }));
+function screen(w){ $("setup").hidden=w!=="setup"; $("play").hidden=w!=="play"; $("result").hidden=w!=="result"; $("quitBtn").hidden=w==="setup"; }
+
+/* ---- pembeli ---- */
+const team=()=>S.mode==="tim"?(S.i-1)%2:0;
+function start(){ S.i=0; S.scores=[0,0]; S.log=[]; screen("play"); nextCustomer(); }
+function nextCustomer(){
+  S.i++; S.c=makeCustomer(S.tier); S.tray=[]; S.tries=0; S.peeked=false; S.locked=false;
+  const c=S.c;
+  $("hudQ").innerHTML=`Pembeli <b>${S.i}</b>/${ROUNDS}`;
+  $("hudTeam").innerHTML=S.mode==="tim"?`<span style="color:${TEAMC[team()]}">${esc(S.names[team()])}</span>`:"";
+  renderScore();
+  $("buyer").textContent=c.buyer;
+  $("say").textContent="Saya beli:";
+  $("goods").innerHTML=c.goods.map(g=>`<li><span>${g.emoji} ${esc(g.name)}</span><span>${rp(g.price)}</span></li>`).join("");
+  renderTotal();
+  $("paid").innerHTML="Ini uangnya: "+c.given.map(v=>money(v,"sm")).join("");
+  $("slots").innerHTML=T().denoms.slice().reverse().map(v=>`<button type="button" class="m ${isCoin(v)?"coin":"note"} v${v}" data-v="${v}" aria-label="ambil ${rp(v)}">${v.toLocaleString("id-ID").replace(/,/g,".")}</button>`).join("");
+  $("fb").innerHTML=""; $("nextBtn").hidden=true; $("giveBtn").hidden=false; $("clearBtn").hidden=false;
+  renderTray();
+}
+function renderTotal(){
+  const c=S.c;
+  if(T().hideTotal&&!S.peeked&&!S.locked) $("total").innerHTML=`<button type="button" id="peekBtn">Lihat total (bonus hilang)</button>`;
+  else $("total").textContent=rp(c.total);
+  const p=$("peekBtn"); if(p) p.onclick=()=>{ S.peeked=true; renderTotal(); };
+}
+function renderScore(){ $("hudScore").innerHTML=S.mode==="tim"?`<b style="color:var(--orange)">${S.scores[0]}</b> : <b style="color:var(--blue)">${S.scores[1]}</b>`:`Skor <b>${S.scores[0]}</b>`; }
+function renderTray(){
+  const sum=S.tray.reduce((a,b)=>a+b,0);
+  $("tray").innerHTML=S.tray.slice().sort((a,b)=>b-a).map(v=>`<button type="button" class="m ${isCoin(v)?"coin":"note"} v${v}" data-v="${v}" aria-label="kembalikan ${rp(v)} ke laci">${v.toLocaleString("id-ID").replace(/,/g,".")}</button>`).join("");
+  $("traySum").textContent=rp(sum);
+  $("trayCount").textContent=S.tray.length?`${S.tray.length} lembar/koin`:"";
+  $("giveBtn").disabled=S.locked||!S.tray.length; $("clearBtn").disabled=S.locked||!S.tray.length;
+}
+$("slots").onclick=e=>{ const b=e.target.closest(".m"); if(!b||S.locked) return; S.tray.push(+b.dataset.v); renderTray(); };
+$("tray").onclick=e=>{ const b=e.target.closest(".m"); if(!b||S.locked) return; const v=+b.dataset.v, k=S.tray.indexOf(v); if(k>=0) S.tray.splice(k,1); renderTray(); };
+$("clearBtn").onclick=()=>{ if(S.locked) return; S.tray=[]; renderTray(); };
+
+/* ---- menyerahkan kembalian ---- */
+$("giveBtn").onclick=()=>{
+  if(S.locked||!S.tray.length) return;
+  const c=S.c, sum=S.tray.reduce((a,b)=>a+b,0), howTo=`${rp(c.pay)} − ${rp(c.total)} = ${rp(c.change)}`;
+  if(sum===c.change){
+    const minimal=S.tray.length===c.opt.count, first=S.tries===0;
+    const pts=first?100+(minimal&&!S.peeked?20:0):50;
+    done(pts,`<span class="ok">Terima kasih! 😊 +${pts}</span><small>${howTo}${first&&minimal&&!S.peeked?" · lembar paling sedikit ⭐":minimal?"":` · paling sedikit: ${c.opt.pieces.map(rp).join(" + ")}`}</small>`);
+    $("say").textContent="Pas, terima kasih!";
+    return;
+  }
+  const d=sum-c.change, msg=d<0?`Kurang ${rp(-d)}`:`Kelebihan ${rp(d)}`;
+  if(S.tries===0){
+    S.tries=1;
+    $("fb").innerHTML=`<span class="no">${msg}, Bu/Pak!</span><small>Coba sekali lagi (nilai 50).</small>`;
+    $("say").textContent=`Hmm, ${d<0?"kurang":"kelebihan"} ${rp(Math.abs(d))}…`;
+    return;
+  }
+  done(0,`<span class="no">${msg} 😕 +0</span><small>${howTo} = ${c.opt.pieces.map(rp).join(" + ")}</small>`);
+};
+function done(pts,html){
+  S.locked=true; S.scores[team()]+=pts;
+  S.log.push({total:S.c.total,pay:S.c.pay,change:S.c.change,pts,team:team()});
+  $("fb").innerHTML=html; renderTotal(); renderScore(); renderTray();
+  $("giveBtn").hidden=true; $("clearBtn").hidden=true;
+  $("nextBtn").hidden=false; $("nextBtn").textContent=S.i>=ROUNDS?"Tutup warung, lihat hasil →":"Pembeli berikutnya →";
+}
+$("nextBtn").onclick=()=>{ if(S.i>=ROUNDS) finish(); else nextCustomer(); };
+
+function finish(){
+  const list=`<ol class="list">${S.log.map((x,k)=>`<li><span>${k+1}</span><span>${rp(x.pay)} − ${rp(x.total)} = ${rp(x.change)}${S.mode==="tim"?` · <span style="color:${TEAMC[x.team]}">${esc(S.names[x.team])}</span>`:""}</span><b>${x.pts>100?"⭐ ":""}${x.pts}</b></li>`).join("")}</ol>`;
+  let h;
+  if(S.mode==="tim"){
+    const [a,b]=S.scores;
+    h=`<div class="winner">${a===b?"Seri!":`🏆 ${esc(S.names[a>b?0:1])} menang!`}</div>
+      <div class="teams"><div><span style="color:var(--orange);font-weight:800">${esc(S.names[0])}</span><b>${a}</b></div><div><span style="color:var(--blue);font-weight:800">${esc(S.names[1])}</span><b>${b}</b></div></div>`+list;
+  }else{
+    const s=S.scores[0], prev=+store(bestKey())||0, isNew=s>prev;
+    if(isNew) store(bestKey(),s);
+    h=`<div class="total">${s}<small> / ${ROUNDS*120}</small></div>
+      <div class="best" style="text-align:center">${T().label} · ${isNew&&s>0?'<b style="color:var(--green)">rekor baru!</b>':`rekor ${Math.max(prev,s)}`}</div>`+list;
+  }
+  $("resBody").innerHTML=h; screen("result");
+}
+$("startBtn").onclick=start; $("againBtn").onclick=start;
+$("setupBtn").onclick=()=>{ renderSetup(); screen("setup"); };
+$("quitBtn").onclick=()=>{ if(!$("play").hidden&&!confirm("Tutup warung sekarang? Skor sesi ini tidak dicatat.")) return; renderSetup(); screen("setup"); };
+renderSetup(); screen("setup");
+</script>
+</body>
+</html>
