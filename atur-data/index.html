@@ -242,9 +242,9 @@ function genUbah(level,r){
 }
 /* ---- Data Hilang: jawaban harus tunggal (dibuktikan dengan mencoba semua) ---- */
 function genHilang(level,r){
-  const spec={mudah:{miss:1,keys:["mean"]},sedang:{miss:2,keys:["mean","modus"]},sulit:{miss:2,keys:["median","q3","mean"]}}[level];
+  const spec={mudah:{miss:1,keys:["median"]},sedang:{miss:2,keys:["mean","modus"]},sulit:{miss:2,keys:["median","q3","mean"]}}[level];
   for(let t=0;t<2000;t++){
-    const a=randData(level,r), st=stats(a), keys=spec.keys.slice(0, level==="sulit"?ri(2,3,r):spec.keys.length);
+    const a=randData(level,r,level==="mudah"?6:0), st=stats(a), keys=spec.keys.slice(0, level==="sulit"?ri(2,3,r):spec.keys.length);
     const targets=keys.map(k=>[k,st[k]]);
     const pos=shuffle([...a.keys()],r).slice(0,spec.miss).sort((x,y)=>x-y);
     const known=a.filter((_,i)=>!pos.includes(i));
@@ -253,6 +253,7 @@ function genHilang(level,r){
     if(spec.miss===1){ for(let v=VMIN;v<=VMAX;v++) if(meets(known.concat(v),targets).every(Boolean)) sols.add(String(v)); }
     else for(let v=VMIN;v<=VMAX;v++) for(let w=v;w<=VMAX;w++) if(meets(known.concat(v,w),targets).every(Boolean)) sols.add(v+","+w);
     if(sols.size!==1) continue;
+    if(level==="mudah"&&+[...sols][0]===st.median) continue;   /* jawaban = angka median → terlalu mudah ditebak */
     return {kind:"hilang",level,data:a.map((v,i)=>pos.includes(i)?null:v),targets,ans:sorted(pos.map(i=>a[i]))};
   }
 }
@@ -299,7 +300,10 @@ function explain(p){
   if(meanT){ const tot=meanT[1]*full.length, ks=known.reduce((x,y)=>x+y,0);
     out.push(`Jumlah semua data = rata-rata × n = ${fmt(meanT[1])} × ${full.length} = ${fmt(tot)}. Yang diketahui berjumlah ${ks}, jadi data yang hilang berjumlah ${fmt(tot-ks)}.`); }
   if(p.ans.length===2) out.push(`Cari dua nilai 1–10${meanT?` berjumlah ${p.ans[0]+p.ans[1]}`:""} yang ${meanT?"juga ":""}memenuhi ${p.targets.filter(t=>t[0]!=="mean").map(t=>STATS[t[0]]+" = "+fmt(t[1])).join(", ")}. Hanya satu pasangan yang cocok: <b>${p.ans.join(" dan ")}</b>.`);
-  else out.push(`Data yang hilang = <b>${p.ans[0]}</b>.`);
+  else{ const m=p.targets[0][1], s=sorted(known), x=p.ans[0];
+    out.push(`Ada ${full.length} data, jadi median = (data ke-3 + data ke-4) ÷ 2. Supaya median ${fmt(m)}, jumlah data ke-3 dan ke-4 harus ${fmt(2*m)}.`,
+      `Data yang diketahui terurut: ${s.join(", ")}. Di mana pun nilai hilang diselipkan, ${s[2]} (yang ada di tengah) selalu menjadi data ke-3 atau ke-4.`,
+      `Jadi pasangannya = ${fmt(2*m)} − ${s[2]} = <b>${x}</b>. Cek: ${sorted(full).join(", ")} → median = (${sorted(full)[2]} + ${sorted(full)[3]}) ÷ 2 = ${fmt(m)} ✓`); }
   return out.concat(explainStats(full,p.targets.map(t=>t[0])));
 }
 
