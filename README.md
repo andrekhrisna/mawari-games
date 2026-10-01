@@ -8,6 +8,7 @@ Teka-teki angka untuk segala usia, dalam bentuk HTML statis untuk GitHub Pages.
 | `24/` | Jadikan 24 | Klasik, Kejar Waktu, Mungkin?, Tanding sampai 8 pemain, lembar A4 |
 | `krypto/` | Krypto | 5 angka menuju kode target, 3 tingkat, Latihan dengan petunjuk bertahap, Kejar Waktu 1/3/5 menit |
 | `sudoku-hitung/` | Sudoku Hitung | Teka-teki kandang (Mathdoku) 3×3–6×6, pilihan operasi + − / + − × / semua, jawaban selalu tunggal, catatan pensil, petunjuk, rekor waktu |
+| `ganjil-genap/` | Ganjil atau Genap? | Refleks: ketuk kiri (ganjil) / kanan (genap), 3 dtk makin cepat 5% sampai 0,6 dtk, jebakan bom 💣, angka makin besar, penjelasan lewat angka satuan |
 | `kejar-urutan/` | Kejar Urutan | Tabel Schulte: ketuk 1–9/16/25 berurutan secepatnya, stopwatch milidetik, salah ketuk +1 dtk, petunjuk bisa dimatikan, peringkat 3 tercepat dengan nama |
 | `pas-10/` | Pas 10 | Puzzle cepat 60 detik: sambungkan angka bersebelahan (8 arah) sampai jumlahnya 10, blok meledak & jatuh, combo sampai ×5, hukuman −3 detik |
 | `benar-salah/` | Benar atau Salah? | Adu refleks: geser kartu benar/salah, soal menjebak, 3 kecepatan (Santai/Normal/Kilat), pilihan operasi, rekor streak |
@@ -19,7 +20,7 @@ Teka-teki angka untuk segala usia, dalam bentuk HTML statis untuk GitHub Pages.
 ## Cara memasang di GitHub Pages
 
 1. Buat repo baru di GitHub, misalnya `mawari-games` (Public).
-2. Unggah **isi** folder ini (bukan foldernya) lewat *Add file → Upload files*: `index.html`, `README.md`, dan semua folder game (`candy`, `24`, `krypto`, `tebak-angka`, `sudoku-hitung`, `silang-hitung`, `benar-salah`, `pas-10`, `kejar-urutan`).
+2. Unggah **isi** folder ini (bukan foldernya) lewat *Add file → Upload files*: `index.html`, `README.md`, dan semua folder game (`candy`, `24`, `krypto`, `tebak-angka`, `sudoku-hitung`, `silang-hitung`, `benar-salah`, `pas-10`, `kejar-urutan`, `ganjil-genap`).
 3. Buka *Settings → Pages*. Pada *Build and deployment*, pilih *Deploy from a branch*, cabang `main`, folder `/ (root)`, lalu *Save*.
 4. Tunggu 1–2 menit. Alamatnya menjadi `https://<nama-akun>.github.io/mawari-games/`.
 

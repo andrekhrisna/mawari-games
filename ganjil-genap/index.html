@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0E0F14">
+<title>Ganjil atau Genap?</title>
+<meta name="description" content="Ketuk kiri kalau ganjil, kanan kalau genap. Awas bom! Makin lama makin cepat.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='32' height='64' fill='%231B3A8A'/%3E%3Crect x='32' width='32' height='64' fill='%238A1B2E'/%3E%3Ctext x='32' y='44' font-family='Arial' font-weight='900' font-size='30' fill='%23fff' text-anchor='middle'%3E7%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#0E0F14;
+  --odd:#3B82F6;
+  --even:#F43F5E;
+  --ink:#F8FAFC;
+  --muted:rgba(248,250,252,.6);
+  --gold:#FACC15;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
+body{background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;
+  user-select:none;-webkit-user-select:none;touch-action:manipulation}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+
+/* ---------- dua sisi ---------- */
+.side{position:fixed;top:0;bottom:0;width:50%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;
+  padding-bottom:calc(28px + env(safe-area-inset-bottom));cursor:pointer;overflow:hidden}
+.side.l{left:0;background:linear-gradient(180deg,rgba(59,130,246,.06),rgba(59,130,246,.2))}
+.side.r{right:0;background:linear-gradient(180deg,rgba(244,63,94,.06),rgba(244,63,94,.2))}
+.side .lab{font-weight:800;font-size:clamp(1.4rem,6vw,2.2rem);letter-spacing:.08em;line-height:1}
+.side.l .lab{color:var(--odd)} .side.r .lab{color:var(--even)}
+.side .sub{font-size:.85rem;color:var(--muted);margin-top:4px}
+.side .key{font-size:.75rem;color:var(--muted);margin-top:6px;opacity:.8}
+.side.hit::after{content:"";position:absolute;inset:0;animation:hit .25s ease-out}
+.side.l.hit::after{background:rgba(59,130,246,.35)} .side.r.hit::after{background:rgba(244,63,94,.35)}
+@keyframes hit{0%{opacity:1}100%{opacity:0}}
+.divider{position:fixed;left:50%;top:0;bottom:0;width:2px;transform:translateX(-1px);background:linear-gradient(180deg,transparent,rgba(255,255,255,.18) 30%,rgba(255,255,255,.18) 70%,transparent);pointer-events:none}
+
+/* tebasan pedang */
+.slash{position:fixed;left:50%;top:44%;width:140vmax;height:6px;pointer-events:none;z-index:6;border-radius:6px;
+  background:linear-gradient(90deg,transparent,#fff 40%,#fff 60%,transparent);box-shadow:0 0 18px #fff;
+  transform:translate(-50%,-50%) rotate(-28deg) scaleX(0);animation:slash .22s ease-out forwards}
+@keyframes slash{0%{transform:translate(-50%,-50%) rotate(var(--a)) scaleX(0);opacity:1}70%{opacity:1}100%{transform:translate(-50%,-50%) rotate(var(--a)) scaleX(1);opacity:0}}
+
+/* ---------- atas ---------- */
+.top{position:fixed;left:0;right:0;top:0;z-index:5;padding:10px 14px 0;pointer-events:none}
+.bar{height:12px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:inherit;transform-origin:left center;background:#E2E8F0}
+.bar i.run{animation:drain var(--t) linear forwards}
+@keyframes drain{0%{transform:scaleX(1);background:#E2E8F0}64%{background:#E2E8F0}70%{background:#FF3B5C}100%{transform:scaleX(0);background:#FF3B5C}}
+.row{display:flex;align-items:center;justify-content:space-between;margin-top:8px;gap:8px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;opacity:.8;pointer-events:auto;
+  border:1px solid rgba(255,255,255,.18);border-radius:999px;padding:5px 10px;white-space:nowrap}
+.onweb .home{display:inline-flex}
+.score{font-weight:800;font-size:1.5rem;line-height:1}
+.score small{font-size:.65em;color:var(--muted);font-weight:700}
+
+/* ---------- angka tengah ---------- */
+.center{position:fixed;left:0;right:0;top:44%;transform:translateY(-50%);display:flex;justify-content:center;pointer-events:none;z-index:4}
+.num{font-weight:800;font-size:min(42vw,34vh);line-height:1;color:#fff;text-shadow:0 8px 40px rgba(0,0,0,.6);letter-spacing:-.03em}
+.num.small{font-size:min(30vw,26vh)}
+.num.pop{animation:pop .18s cubic-bezier(.3,1.6,.5,1)}
+@keyframes pop{0%{transform:scale(.55);opacity:.3}100%{transform:scale(1);opacity:1}}
+.num.bomb{filter:drop-shadow(0 0 30px rgba(250,204,21,.55))}
+.num.bomb.pop{animation:pop .18s cubic-bezier(.3,1.6,.5,1),wob .5s ease-in-out .18s infinite}
+@keyframes wob{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+.warn{position:fixed;left:0;right:0;top:calc(44% + min(21vw,17vh) + 8px);text-align:center;font-weight:800;color:var(--gold);z-index:4;pointer-events:none;letter-spacing:.06em}
+.bad{position:fixed;inset:0;background:var(--even);opacity:0;pointer-events:none;z-index:7}
+.bad.on{animation:badf .5s ease-out}
+@keyframes badf{0%{opacity:.5}100%{opacity:0}}
+.shake{animation:shake .4s}
+@keyframes shake{20%{transform:translateY(-50%) translateX(-14px)}40%{transform:translateY(-50%) translateX(12px)}60%{transform:translateY(-50%) translateX(-8px)}80%{transform:translateY(-50%) translateX(5px)}}
+
+/* ---------- panel ---------- */
+.overlay{position:fixed;inset:0;z-index:10;display:flex;align-items:center;justify-content:center;padding:16px;background:rgba(14,15,20,.82);backdrop-filter:blur(3px)}
+.panel{width:100%;max-width:420px;border-radius:24px;background:#171923;border:1px solid rgba(255,255,255,.1);padding:22px 18px;text-align:center;display:flex;flex-direction:column;gap:12px}
+.panel h1{margin:0;font-weight:800;font-size:2rem;line-height:1.05}
+.panel h1 .o{color:var(--odd)} .panel h1 .e{color:var(--even)}
+.panel p{margin:0;color:var(--muted);line-height:1.5}
+.panel ul{margin:0;padding-left:1.2em;text-align:left;color:var(--muted);line-height:1.55}
+.panel ul b{color:var(--ink)}
+.go{height:58px;border:0;border-radius:18px;font-weight:800;font-size:1.3rem;cursor:pointer;color:#0E0F14;background:linear-gradient(90deg,#60A5FA,#FB7185)}
+.go:active{transform:translateY(2px)}
+.big{font-size:4.4rem;font-weight:800;line-height:1}
+.why{border-radius:14px;background:rgba(255,255,255,.06);padding:10px;font-weight:700}
+.why .n{font-size:1.6rem;font-weight:800}
+.best b{color:var(--gold)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01s!important}.bar i.run{animation-duration:var(--t)!important}}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="side l" id="left" aria-hidden="true"><div class="lab">GANJIL</div><div class="sub">1 3 5 7 9</div><div class="key">← / A</div></div>
+<div class="side r" id="right" aria-hidden="true"><div class="lab">GENAP</div><div class="sub">0 2 4 6 8</div><div class="key">→ / L</div></div>
+<div class="divider" aria-hidden="true"></div>
+
+<div class="top">
+  <div class="bar"><i id="bar"></i></div>
+  <div class="row">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="score" id="scoreBox"><span id="score">0</span> <small id="limit"></small></div>
+  </div>
+</div>
+<div class="center" id="center"><div class="num" id="num" aria-live="polite"></div></div>
+<div class="warn" id="warn" hidden>JANGAN SENTUH!</div>
+<div class="bad" id="bad" aria-hidden="true"></div>
+
+<div class="overlay" id="start">
+  <div class="panel">
+    <h1><span class="o">Ganjil</span> atau <span class="e">Genap?</span></h1>
+    <ul>
+      <li>Angka <b>ganjil</b>: ketuk sisi <b style="color:var(--odd)">kiri</b>. Angka <b>genap</b>: ketuk sisi <b style="color:var(--even)">kanan</b>.</li>
+      <li>Cukup lihat <b>angka satuan</b> (paling kanan). Ingat: <b>0 itu genap</b>.</li>
+      <li>Muncul 💣? <b>Jangan sentuh apa-apa</b> sampai waktunya habis.</li>
+      <li>Mulai 3 detik, makin lama makin cepat. Salah atau terlambat: selesai.</li>
+    </ul>
+    <div class="best" id="startBest"></div>
+    <button class="go" type="button" id="startBtn">Mulai</button>
+  </div>
+</div>
+<div class="overlay" id="over" hidden>
+  <div class="panel">
+    <p id="overTitle"></p>
+    <div class="big" id="overScore">0</div>
+    <div class="why" id="overWhy"></div>
+    <div class="best" id="overBest"></div>
+    <button class="go" type="button" id="againBtn">Main lagi</button>
+  </div>
+</div>
+
+<script>
+/* ================= INTI: waktu & angka ================= */
+/* ===== Waktu: mulai 3 dtk, 5% lebih cepat tiap benar, paling cepat 0,6 dtk ===== */
+const START_S=3, DECAY=0.95, FLOOR_S=0.6, BOMB_FACTOR=0.6, BOMB_RATE=0.10, BOMB_FROM=5;
+function limitFor(score){ return Math.max(FLOOR_S,START_S*Math.pow(DECAY,score)); }
+
+/* ===== Angka makin besar seiring skor. 0 tetap muncul: 0 itu GENAP. ===== */
+function maxFor(score){ return score<10?20:score<25?99:999; }
+function nextItem(score,prevWasBomb,rand){
+  rand=rand||Math.random;
+  if(score>=BOMB_FROM&&!prevWasBomb&&rand()<BOMB_RATE) return {bomb:true};
+  const n=Math.floor(rand()*(maxFor(score)+1));
+  return {bomb:false,n,even:n%2===0};
+}
+/* ================= AKHIR INTI ================= */
+</script>
+<script>
+const $=id=>document.getElementById(id);
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,String(v)); }catch(e){ return null; } }
+const BEST="gg_best";
+const G={playing:false,score:0,item:null,limit:0,timer:0,shownAt:0};
+
+function show(it){
+  G.item=it;
+  const base=limitFor(G.score)*1000;
+  G.limit=it.bomb?base*BOMB_FACTOR:base;
+  const num=$("num");
+  num.className="num"+(it.bomb?" bomb":(String(it.n).length>=3?" small":""));
+  num.textContent=it.bomb?"💣":it.n;
+  void num.offsetWidth; num.classList.add("pop");
+  $("warn").hidden=!it.bomb;
+  const bar=$("bar"); bar.classList.remove("run"); bar.style.setProperty("--t",G.limit+"ms"); void bar.offsetWidth; bar.classList.add("run");
+  $("limit").textContent=(base/1000).toFixed(2)+" dtk";
+  clearTimeout(G.timer);
+  G.timer=setTimeout(timeUp,G.limit);
+  G.shownAt=performance.now();
+}
+function next(){ show(nextItem(G.score,G.item&&G.item.bomb)); }
+function timeUp(){
+  if(!G.playing) return;
+  if(G.item.bomb){ G.score++; $("score").textContent=G.score; next(); }   /* selamat dari bom */
+  else lose("time");
+}
+function answer(saysEven,side){
+  if(!G.playing) return;
+  if(G.item.bomb){ lose("bomb"); return; }
+  if(performance.now()-G.shownAt>G.limit){ lose("time"); return; }
+  if(saysEven!==G.item.even){ lose("wrong"); return; }
+  G.score++; $("score").textContent=G.score;
+  const s=$(side); s.classList.remove("hit"); void s.offsetWidth; s.classList.add("hit");
+  slash(side==="left"?-28:28);
+  next();
+}
+function slash(a){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const d=document.createElement("div"); d.className="slash"; d.style.setProperty("--a",a+"deg");
+  document.body.appendChild(d); setTimeout(()=>d.remove(),260);
+}
+function explain(n){
+  const u=n%10, even=n%2===0;
+  const name=even?'<b style="color:var(--even)">GENAP</b>':'<b style="color:var(--odd)">GANJIL</b>';
+  if(n===0) return `<div class="n">0</div>0 itu ${name} (0 = 2 × 0).`;
+  return `<div class="n">${n}</div>${n>=10?`Angka satuannya ${u}, jadi `:""}${n} itu ${name}.`;
+}
+function lose(why){
+  G.playing=false; clearTimeout(G.timer);
+  $("bar").style.animationPlayState="paused";
+  const f=$("bad"); f.classList.remove("on"); void f.offsetWidth; f.classList.add("on");
+  const c=$("center"); c.classList.remove("shake"); void c.offsetWidth; c.classList.add("shake");
+  if(navigator.vibrate) try{ navigator.vibrate(why==="bomb"?[80,40,160]:150); }catch(e){}
+  if(why==="bomb") $("num").textContent="💥";
+  const prev=+store(BEST)||0, isNew=G.score>prev;
+  if(isNew) store(BEST,G.score);
+  $("overTitle").textContent=why==="bomb"?"Bom meledak!":why==="time"?"Waktu habis!":why==="hidden"?"Permainan berhenti (aplikasi ditinggalkan).":"Ups, keliru!";
+  $("overScore").textContent=G.score;
+  $("overWhy").innerHTML=G.item.bomb?"Saat 💣 muncul, jangan sentuh apa-apa sampai waktunya habis.":explain(G.item.n);
+  $("overBest").innerHTML=isNew&&G.score>0?'<b>Rekor baru!</b>':`Rekor: <b>${Math.max(prev,G.score)}</b>`;
+  setTimeout(()=>{ if(!G.playing){ $("over").hidden=false; $("againBtn").focus(); } },700);
+}
+function start(){
+  $("start").hidden=true; $("over").hidden=true;
+  G.score=0; G.item=null; G.playing=true; $("score").textContent=0;
+  $("bar").style.animationPlayState="";
+  next();
+}
+
+/* ketuk sisi layar: pointerdown, tanpa handler click supaya satu ketukan = satu jawaban */
+$("left").addEventListener("pointerdown",e=>{ e.preventDefault(); answer(false,"left"); });
+$("right").addEventListener("pointerdown",e=>{ e.preventDefault(); answer(true,"right"); });
+document.addEventListener("keydown",e=>{
+  if(e.repeat||e.ctrlKey||e.metaKey||e.altKey) return;
+  const k=e.key.toLowerCase();
+  if(G.playing){
+    if(k==="arrowleft"||k==="a"){ answer(false,"left"); e.preventDefault(); }
+    else if(k==="arrowright"||k==="l"){ answer(true,"right"); e.preventDefault(); }
+  }else if(!$("over").hidden&&(k==="enter"||k===" ")){ start(); e.preventDefault(); }
+});
+$("startBtn").onclick=start; $("againBtn").onclick=start;
+document.addEventListener("visibilitychange",()=>{ if(document.hidden&&G.playing) lose("hidden"); });
+$("startBest").innerHTML=`Rekor: <b>${+store(BEST)||0}</b>`;
+$("num").textContent="?";
+</script>
+</body>
+</html>
