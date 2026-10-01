@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ECFDF5">
+<title>Mesin Fungsi</title>
+<meta name="description" content="Teka-teki fungsi untuk SMP–SMA: rakit mesin, tebak rumus rahasia, mesin terbalik (invers), dan komposisi fungsi. Soal harian, latihan, mode kelas.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23059669'/%3E%3Crect x='14' y='20' width='36' height='26' rx='5' fill='%23fff'/%3E%3Ctext x='32' y='39' font-family='sans-serif' font-weight='800' font-size='16' text-anchor='middle' fill='%23059669'%3Ef(x)%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#ECFDF5;
+  --card:#FFFFFF;
+  --ink:#06302A;
+  --muted:#4F7A70;
+  --line:#C9EBDD;
+  --em:#059669;
+  --em-d:#047857;
+  --soft:#D1FAE5;
+  --rose:#E11D48;
+  --red-soft:#FFE4E6;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1000px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--em)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.q{font-weight:800;font-size:1.25rem;text-align:center;line-height:1.35}
+.q .fn{display:inline-block;background:var(--soft);border-radius:10px;padding:2px 10px;margin:2px 0}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+/* rakit */
+.goal{display:flex;justify-content:center;align-items:center;gap:10px;font-weight:800;font-size:1.1rem}
+.goal b{font-size:2rem;background:var(--soft);border-radius:12px;padding:0 12px}
+.goal .tg{background:#FEF3C7}
+.cur{text-align:center;font-weight:800;font-size:2.6rem;line-height:1.1}
+.cur.win{color:var(--em)}
+.chain{text-align:center;color:var(--muted);font-weight:700;font-size:.95rem;overflow-wrap:anywhere;min-height:1.4em}
+.chain i{font-style:normal;color:var(--em-d);background:var(--soft);border-radius:6px;padding:0 4px}
+.mach{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.mach button{border:0;border-radius:14px;background:var(--em);color:#fff;font-weight:800;font-size:1.25rem;padding:12px 6px;cursor:pointer;box-shadow:0 3px 0 var(--em-d)}
+.mach button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--em-d)}
+/* kotak isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.fld{min-width:56px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.fld.act{border-color:var(--em);background:#fff;box-shadow:0 0 0 3px #A7F3D0}
+.fld.ph{color:#9CC9BB}
+.probe{display:flex;gap:8px;justify-content:center;align-items:center;flex-wrap:wrap}
+table.io{border-collapse:collapse;margin:0 auto;font-weight:800;font-size:1.1rem}
+table.io th,table.io td{border:1px solid var(--line);padding:4px 14px;text-align:center}
+table.io th{background:var(--soft)}
+.pad{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:#D7F2E6;font-weight:800;font-size:1.3rem;cursor:pointer}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--em)} .fb .no{color:var(--rose)}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--em);color:#fff;box-shadow:0 3px 0 var(--em-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--em-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#C9DDD5}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--em-d)}
+.how i{font-style:normal;color:var(--em-d);background:var(--soft);border-radius:6px;padding:0 4px}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(5,40,30,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .q{font-size:1.9rem} .kelas .cur{font-size:4rem} .kelas .goal b{font-size:3rem}
+  .kelas .mach button{font-size:1.7rem;padding:16px} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:64px;min-width:80px}
+  .kelas .pad button{height:60px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Mesin <span>Fungsi</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="card" id="play"></div>
+  <div class="card" id="padCard" hidden>
+    <div class="fb" id="fb" aria-live="polite"></div>
+    <div class="pad" id="pad">
+      <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button>
+      <button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="−" aria-label="Tanda negatif">−</button><button type="button" data-k="del" aria-label="Hapus">⌫</button>
+    </div>
+    <button class="btn" type="button" id="okBtn">Cek jawaban ✓</button>
+    <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Lihat cara</button>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li><b>🔧 Rakit Mesin</b>: ubah angka awal menjadi target dengan menekan mesin (boleh berulang). Makin sedikit langkah, makin banyak bintang.</li>
+      <li><b>🔍 Tebak Mesin</b>: masukkan angka ke mesin rahasia, lihat keluarannya, lalu isi koefisien rumusnya. Makin sedikit percobaan, makin banyak bintang.</li>
+      <li><b>↩️ Mesin Terbalik</b>: cari angka masukan dari keluaran. Di Sulit: tulis rumus invers f⁻¹(x).</li>
+      <li><b>🔗 Komposisi</b>: (f∘g)(x) = f(g(x)) — masukkan g(x) ke dalam f.</li>
+      <li>Ketuk kotak, ketik angka (tombol <b>−</b> untuk negatif), lalu <b>Cek</b>.</li>
+      <li>Salah 3 kali? Tombol <b>💡 Lihat cara</b> muncul (bintang maksimal ⭐).</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+
+<script>
+/* ================= INTI: mesin, pembuat soal, pembahasan ================= */
+/* ===== Mesin Fungsi ===== */
+const KINDS={
+  rakit:{label:"Rakit Mesin",icon:"🔧"},
+  tebak:{label:"Tebak Mesin",icon:"🔍"},
+  balik:{label:"Mesin Terbalik",icon:"↩️"},
+  komp:{label:"Komposisi",icon:"🔗"}
+};
+const LEVELS={mudah:{label:"Mudah"},sedang:{label:"Sedang"},sulit:{label:"Sulit"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const fmtN=v=>v<0?"−"+(-v):String(v);
+const LIM=999;
+
+/* ---- mesin: {t:"add"|"mul"|"div"|"sq"|"neg"|"lin", a, b} ---- */
+function apply(m,x){
+  let y;
+  if(m.t==="add") y=x+m.a;
+  else if(m.t==="mul") y=x*m.a;
+  else if(m.t==="div"){ if(x%m.a!==0) return null; y=x/m.a; }
+  else if(m.t==="sq") y=x*x;
+  else if(m.t==="neg") y=-x;
+  else y=m.a*x+m.b;
+  return Math.abs(y)>LIM?null:y;
+}
+/* teks mesin: gaya panah (Mudah) atau f(x) */
+function linText(a,b,v){ v=v||"x"; let s=a===1?v:a===-1?"−"+v:fmtN(a)+v; if(b) s+=(b<0?" − ":" + ")+Math.abs(b); return s; }
+function machineText(m,arrow){
+  if(arrow){ if(m.t==="add") return m.a<0?"−"+(-m.a):"+"+m.a; if(m.t==="mul") return "×"+m.a; if(m.t==="div") return "÷"+m.a; if(m.t==="sq") return "x²"; if(m.t==="neg") return "×(−1)"; }
+  if(m.t==="add") return linText(1,m.a); if(m.t==="mul") return linText(m.a,0); if(m.t==="div") return "x ÷ "+m.a;
+  if(m.t==="sq") return "x²"; if(m.t==="neg") return "−x"; return linText(m.a,m.b);
+}
+/* BFS: langkah paling sedikit dari start ke target (mesin boleh berulang) */
+function shortest(start,target,ms,maxD){
+  if(start===target) return {d:0,path:[]};
+  let frontier=[start]; const prev=new Map([[start,null]]);
+  for(let d=1;d<=maxD;d++){
+    const next=[];
+    for(const x of frontier) for(let i=0;i<ms.length;i++){
+      const y=apply(ms[i],x); if(y===null||prev.has(y)) continue;
+      prev.set(y,[x,i]); if(y===target){ const path=[]; let c=y; while(prev.get(c)){ const [p,k]=prev.get(c); path.unshift(k); c=p; } return {d,path}; }
+      next.push(y);
+    }
+    frontier=next; if(!frontier.length) break;
+  }
+  return null;
+}
+function genRakit(level,r){
+  const L={mudah:{n:3,dmin:2,dmax:4},sedang:{n:4,dmin:3,dmax:5},sulit:{n:ri(4,5,r),dmin:3,dmax:6}}[level];
+  for(let tries=1;tries<5000;tries++){
+    let ms=[];
+    if(level==="mudah") ms=[{t:"add",a:ri(1,9,r)},{t:"add",a:-ri(1,9,r)},{t:"mul",a:ri(2,5,r)}];
+    else if(level==="sedang") ms=[{t:"add",a:ri(1,9,r)*pick([1,-1],r)},{t:"mul",a:ri(2,5,r)},{t:"div",a:ri(2,4,r)},{t:"sq"}];
+    else { ms=[{t:"lin",a:ri(2,4,r)*pick([1,-1],r),b:ri(-9,9,r)},{t:"lin",a:1,b:ri(1,9,r)*pick([1,-1],r)},{t:"sq"},{t:"neg"}];
+      if(L.n===5) ms.push({t:"lin",a:ri(2,3,r),b:ri(-5,5,r)}); }
+    if(new Set(ms.map(m=>JSON.stringify(m))).size<ms.length) continue;
+    if(ms.some(m=>m.t==="lin"&&m.a===1&&m.b===0)) continue;
+    const start=level==="sulit"?ri(-6,9,r):ri(1,9,r);
+    /* jalan acak sepanjang dmax, lalu BFS untuk langkah tersingkat */
+    let x=start; const len=ri(L.dmin,L.dmax,r); let ok=true;
+    for(let k=0;k<len;k++){ const opts=ms.map(m=>apply(m,x)).filter(y=>y!==null&&Math.abs(y)<=(level==="mudah"?99:200)); if(!opts.length){ ok=false; break; } x=pick(opts,r); }
+    if(!ok||x===start) continue;
+    if(level!=="sulit"&&x<0) continue;
+    const s=shortest(start,x,ms,L.dmax+1);
+    if(!s||s.d<L.dmin||s.d>L.dmax) continue;
+    return {kind:"rakit",level,start,target:x,ms,best:s.d,path:s.path,tries};
+  }
+}
+/* ---- Tebak Mesin: rumus rahasia, murid isi koefisien ---- */
+function genTebak(level,r){
+  /* Mudah: x + b (b −15..20) atau a·x (a 2..12): 46 rumus */
+  if(level==="mudah"){ if(r()<.6){ let b; do{ b=ri(-15,20,r); }while(b===0); return {kind:"tebak",level,form:"lin",a:1,b,c:0,need:1}; }
+    return {kind:"tebak",level,form:"lin",a:ri(2,12,r),b:0,c:0,need:1}; }
+  /* Sedang: ax + b, a −9..9 (bukan 0, 1), b −15..15 (bukan 0): 510 rumus */
+  if(level==="sedang"){ let a,b; do{ a=ri(-9,9,r); b=ri(-15,15,r); }while(a===0||a===1||b===0); return {kind:"tebak",level,form:"lin",a,b,c:0,need:2}; }
+  if(r()<.5){ let a,c; do{ a=ri(-3,3,r); c=ri(-9,9,r); }while(a===0); return {kind:"tebak",level,form:"quad",a,b:0,c,need:2}; }
+  let a,b,c; do{ a=ri(-3,3,r); b=ri(-6,6,r); c=ri(-9,9,r); }while(a===0||b===0); return {kind:"tebak",level,form:"quad",a,b,c,need:3};
+}
+const tebakF=(p,x)=>p.form==="lin"?p.a*x+p.b:p.a*x*x+p.b*x+p.c;
+/* ---- Mesin Terbalik ---- */
+function genBalik(level,r){
+  /* Sulit: f⁻¹ dari ax + b, |a| 2..9, b −15..15 (bukan 0): 480 rumus */
+  if(level==="sulit"){ let a,b; do{ a=ri(-9,9,r); b=ri(-15,15,r); }while(Math.abs(a)<2||b===0); return {kind:"balik",level,inv:true,a,b}; }
+  const n=level==="mudah"?ri(2,3,r):ri(3,4,r);
+  for(;;){
+    const x0=ri(1,level==="mudah"?12:20,r); let x=x0; const ms=[];
+    for(let k=0;k<n;k++){
+      const opts=[{t:"add",a:ri(1,12,r)},{t:"add",a:-ri(1,9,r)},{t:"mul",a:ri(2,5,r)}];
+      if(level==="sedang") opts.push({t:"div",a:ri(2,4,r)});
+      const m=pick(opts,r), y=apply(m,x); if(y===null||y<=0) continue;
+      /* tolak pasangan yang saling membatalkan (−2 lalu +2, ×3 lalu ÷3) */
+      const pv=ms[ms.length-1];
+      if(pv&&((pv.t==="add"&&m.t==="add"&&pv.a===-m.a)||(pv.t==="mul"&&m.t==="div"&&pv.a===m.a)||(pv.t==="div"&&m.t==="mul"&&pv.a===m.a))) continue;
+      ms.push(m); x=y;
+    }
+    if(ms.length===n&&x!==x0&&x<=300) return {kind:"balik",level,inv:false,ms,input:x0,output:x};
+  }
+}
+/* ---- Komposisi ---- */
+function genKomp(level,r){
+  const lin=()=>{ let a,b; do{ a=ri(-4,5,r); b=ri(-9,9,r); }while(a===0||(a===1&&b===0)); return {a,b}; };
+  if(level==="mudah"){ const f=lin(), g=lin(), x=pick([-3,-2,-1,2,3,4],r), order=pick(["fg","gf"],r);
+    const val=order==="fg"?f.a*(g.a*x+g.b)+f.b:g.a*(f.a*x+f.b)+g.b; return {kind:"komp",level,type:"nilai",f,g,order,x,ans:[val]}; }
+  if(level==="sedang"){ const f=lin(), g=lin(), order=pick(["fg","gf"],r);
+    const [o,i]=order==="fg"?[f,g]:[g,f]; return {kind:"komp",level,type:"lin",f,g,order,ans:[o.a*i.a,o.a*i.b+o.b]}; }
+  /* sulit: f linear, g kuadrat (x² + q x + s) */
+  const f=lin(); f.a=pick([2,3,-2,-1,1],r); if(f.a===1&&f.b===0) f.b=ri(1,5,r);
+  const g={p:pick([1,1,2,-1],r),q:ri(-4,4,r),s:ri(-6,6,r)};
+  const t=pick(["fg","gf","cariG"],r);
+  if(t==="fg") return {kind:"komp",level,type:"quad",f,g,order:"fg",ans:[f.a*g.p,f.a*g.q,f.a*g.s+f.b]};
+  if(t==="gf") return {kind:"komp",level,type:"quad",f,g,order:"gf",ans:[g.p*f.a*f.a,2*g.p*f.a*f.b+g.q*f.a,g.p*f.b*f.b+g.q*f.b+g.s]};
+  /* cari g: diketahui f dan h = f∘g; g = (h − b)/a */
+  return {kind:"komp",level,type:"cariG",f,g,order:"fg",h:[f.a*g.p,f.a*g.q,f.a*g.s+f.b],ans:[g.p,g.q,g.s]};
+}
+function quadText(c,v){ v=v||"x"; const parts=[]; const t=[[c[0],v+"²"],[c[1],v],[c[2],""]];
+  for(const [k,s] of t){ if(!k) continue; const a=Math.abs(k), body=(a===1&&s?"":a)+s;
+    parts.push(parts.length?(k<0?" − ":" + ")+body:(k<0?"−":"")+body); }
+  return parts.join("")||"0"; }
+
+function makePuzzle(kind,level,seed){
+  const r=mulberry32(seed>>>0);
+  return {rakit:genRakit,tebak:genTebak,balik:genBalik,komp:genKomp}[kind](level,r);
+}
+/* ---- pemeriksa jawaban ---- */
+function checkAnswer(p,vals){
+  if(p.kind==="tebak") return p.form==="lin"?vals[0]===p.a&&vals[1]===p.b:vals[0]===p.a&&vals[1]===p.b&&vals[2]===p.c;
+  if(p.kind==="balik") return p.inv?vals[0]===-p.b&&vals[1]===p.a:vals[0]===p.input;
+  return p.ans.every((v,i)=>vals[i]===v);
+}
+/* ---- bintang ---- */
+function starsRakit(steps,best){ return steps<=best?3:steps<=best+2?2:1; }
+function starsTebak(probes,wrong,need){ const n=probes+wrong*2; return n<=need+1?3:n<=need+4?2:1; }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+
+/* ---- harian: nomor 1 = 1 Okt 2026; tidak berulang 365 hari ---- */
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify(Object.assign({},p,{tries:0,path:0}));
+const DAILY={};
+function dailyPuzzle(kind,level,n){
+  const id=kind+"|"+level, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()});
+  while(c.list.length<n){
+    const d=c.list.length+1; let p=null, best=null, bestAge=-1;
+    /* cari soal yang belum muncul 365 hari; kalau semua sudah (variasi sedikit), pakai yang paling lama tidak muncul */
+    for(let k=0;k<60;k++){
+      const q=makePuzzle(kind,level,hashStr(`mesin-fungsi|${id}|${d}|${k}`)), key=puzzleKey(q);
+      const age=c.last.has(key)?d-c.last.get(key):1e9;
+      if(age>365){ p=q; break; }
+      if(age>bestAge){ best=q; bestAge=age; }
+    }
+    p=p||best;
+    c.list.push(p); c.last.set(puzzleKey(p),d);
+  }
+  return c.list[n-1];
+}
+
+/* ===== Pembahasan (dihitung dari soal, lalu dicek di pengujian) ===== */
+const par=v=>v<0?`(${fmtN(v)})`:String(v);
+const fText=(name,f)=>`${name}(x) = ${linText(f.a,f.b)}`;
+const gText=g=>g.p!==undefined?`g(x) = ${quadText([g.p,g.q,g.s])}`:fText("g",g);
+function invMachine(m){ if(m.t==="add") return {t:"add",a:-m.a}; if(m.t==="mul") return {t:"div",a:m.a}; if(m.t==="div") return {t:"mul",a:m.a}; }
+function explain(p){
+  const arrow=p.level==="mudah", out=[];
+  if(p.kind==="rakit"){
+    let x=p.start; const parts=[String(x)];
+    for(const k of p.path){ x=apply(p.ms[k],x); parts.push(`<i>${machineText(p.ms[k],arrow)}</i>`,fmtN(x)); }
+    out.push(`Jalur terpendek (${p.best} langkah): ${parts.join(" → ")}`);
+    out.push("Tips: mulai dari target dan pikirkan mundur, mesin apa yang bisa menghasilkan angka itu.");
+    return out;
+  }
+  if(p.kind==="tebak"){
+    const F=x=>tebakF(p,x);
+    if(p.form==="lin"&&p.level==="mudah"){
+      if(p.a===1){ out.push(`Masukkan 0: f(0) = ${fmtN(F(0))}. Karena f(0) = 0 + b, maka b = ${fmtN(p.b)}.`); }
+      else out.push(`Masukkan 1: f(1) = ${F(1)}. Mesin ini mengalikan, jadi a = ${p.a}. Cek: f(2) = ${F(2)} = 2 × ${p.a}.`);
+    }else if(p.form==="lin"){
+      out.push(`Masukkan 0: f(0) = a·0 + b = b, jadi <b>b = ${fmtN(p.b)}</b>.`);
+      out.push(`Masukkan 1: f(1) = a + b = ${fmtN(F(1))}, jadi a = ${fmtN(F(1))} − ${par(p.b)} = <b>${fmtN(p.a)}</b>.`);
+    }else if(p.b===0){
+      out.push(`Masukkan 0: f(0) = <b>c = ${fmtN(p.c)}</b>.`);
+      out.push(`Masukkan 1: f(1) = a + c = ${fmtN(F(1))}, jadi a = ${fmtN(F(1))} − ${par(p.c)} = <b>${fmtN(p.a)}</b>. (Cek f(−1) = ${fmtN(F(-1))} sama dengan f(1), jadi b = 0.)`);
+    }else{
+      out.push(`Masukkan 0: f(0) = <b>c = ${fmtN(p.c)}</b>.`);
+      out.push(`Masukkan 1 dan −1: f(1) = a + b + c = ${fmtN(F(1))}, f(−1) = a − b + c = ${fmtN(F(-1))}.`);
+      out.push(`Kurangkan: f(1) − f(−1) = 2b = ${fmtN(F(1)-F(-1))} → <b>b = ${fmtN(p.b)}</b>. Jumlahkan: f(1) + f(−1) = 2a + 2c = ${fmtN(F(1)+F(-1))} → a = ${fmtN((F(1)+F(-1))/2)} − ${par(p.c)} = <b>${fmtN(p.a)}</b>.`);
+    }
+    out.push(`Rumusnya: f(x) = ${p.form==="lin"?linText(p.a,p.b):quadText([p.a,p.b,p.c])}`);
+    return out;
+  }
+  if(p.kind==="balik"){
+    if(p.inv){
+      out.push(`Tulis y = ${linText(p.a,p.b)}.`);
+      out.push(`Pindahkan ${fmtN(p.b)}: y ${p.b<0?"+":"−"} ${Math.abs(p.b)} = ${linText(p.a,0)}.`);
+      out.push(`Bagi ${par(p.a)}: x = (y ${p.b<0?"+":"−"} ${Math.abs(p.b)}) / ${par(p.a)}.`);
+      out.push(`Jadi <b>f⁻¹(x) = (x ${p.b<0?"+":"−"} ${Math.abs(p.b)}) / ${par(p.a)}</b>. Cek: f(1) = ${fmtN(p.a+p.b)}, dan f⁻¹(${fmtN(p.a+p.b)}) = 1.`);
+      return out;
+    }
+    let y=p.output; const parts=[String(y)];
+    for(let i=p.ms.length-1;i>=0;i--){ const im=invMachine(p.ms[i]); y=apply(im,y); parts.push(`<i>${machineText(im,true)}</i>`,fmtN(y)); }
+    out.push(`Mulai dari ${p.output} dan jalankan mesin dari belakang dengan kebalikannya (+ jadi −, × jadi ÷):`);
+    out.push(parts.join(" → ")+` → jawaban <b>${p.input}</b>.`);
+    return out;
+  }
+  /* komposisi */
+  const f=p.f, g=p.g, isQ=g.p!==undefined;
+  out.push(`${fText("f",f)}, ${gText(g)}`);
+  if(p.type==="nilai"){
+    const [inner,outer,iN,oN]=p.order==="fg"?[g,f,"g","f"]:[f,g,"f","g"];
+    const v1=inner.a*p.x+inner.b;
+    out.push(`(${oN}∘${iN})(${fmtN(p.x)}) = ${oN}(${iN}(${fmtN(p.x)})). Hitung dalam dulu: ${iN}(${fmtN(p.x)}) = ${inner.a===1?"":par(inner.a)+"×"}${par(p.x)}${inner.b?(inner.b<0?" − ":" + ")+Math.abs(inner.b):""} = ${fmtN(v1)}.`);
+    out.push(`Lalu ${oN}(${fmtN(v1)}) = ${outer.a===1?"":par(outer.a)+"×"}${par(v1)}${outer.b?(outer.b<0?" − ":" + ")+Math.abs(outer.b):""} = <b>${fmtN(p.ans[0])}</b>.`);
+    return out;
+  }
+  if(p.type==="lin"){
+    const [o,i,oN,iN]=p.order==="fg"?[f,g,"f","g"]:[g,f,"g","f"];
+    out.push(`(${oN}∘${iN})(x) = ${oN}(${iN}(x)) = ${par(o.a)}(${linText(i.a,i.b)})${o.b?(o.b<0?" − ":" + ")+Math.abs(o.b):""}`);
+    const mid=`${linText(o.a*i.a,o.a*i.b)}${o.b?(o.b<0?" − ":" + ")+Math.abs(o.b):""}`, fin=linText(p.ans[0],p.ans[1]);
+    out.push(mid===fin?`= <b>${fin}</b>`:`= ${mid} = <b>${fin}</b>`);
+    return out;
+  }
+  if(p.type==="quad"&&p.order==="fg"){
+    out.push(`(f∘g)(x) = f(g(x)) = ${par(f.a)}(${quadText([g.p,g.q,g.s])})${f.b?(f.b<0?" − ":" + ")+Math.abs(f.b):""}`);
+    const mid=`${quadText([f.a*g.p,f.a*g.q,f.a*g.s])}${f.b?(f.b<0?" − ":" + ")+Math.abs(f.b):""}`, fin=quadText(p.ans);
+    out.push(mid===fin?`= <b>${fin}</b>`:`= ${mid} = <b>${fin}</b>`);
+    return out;
+  }
+  if(p.type==="quad"){
+    const sqTerms=[f.a*f.a,2*f.a*f.b,f.b*f.b];
+    out.push(`(g∘f)(x) = g(f(x)) = ${g.p===1?"":par(g.p)}(${linText(f.a,f.b)})²${g.q?(g.q<0?" − ":" + ")+(Math.abs(g.q)===1?"":Math.abs(g.q))+`(${linText(f.a,f.b)})`:""}${g.s?(g.s<0?" − ":" + ")+Math.abs(g.s):""}`);
+    out.push(`(${linText(f.a,f.b)})² = ${quadText(sqTerms)}`);
+    const t1=quadText(sqTerms.map(v=>v*g.p)), t2=g.q?quadText([0,g.q*f.a,g.q*f.b]):"";
+    out.push(`= ${t1}${t2?(t2.startsWith("−")?" − "+t2.slice(1):" + "+t2):""}${g.s?(g.s<0?" − ":" + ")+Math.abs(g.s):""}`);
+    out.push(`Jumlahkan suku-suku sejenis: <b>${quadText(p.ans)}</b>`);
+    return out;
+  }
+  out.push(`(f∘g)(x) = f(g(x)) = ${par(f.a)}·g(x)${f.b?(f.b<0?" − ":" + ")+Math.abs(f.b):""} = ${quadText(p.h)}`);
+  out.push(`${par(f.a)}·g(x) = ${quadText(p.h)} ${f.b<0?"+":"−"} ${Math.abs(f.b)} = ${quadText([p.h[0],p.h[1],p.h[2]-f.b])}`);
+  out.push(`g(x) = (${quadText([p.h[0],p.h[1],p.h[2]-f.b])}) ÷ ${par(f.a)} = <b>${quadText(p.ans)}</b>`);
+  return out;
+}
+/* ================= AKHIR INTI ================= */
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"rakit",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("mf_prefs",{}));
+const saveP=()=>lsSet("mf_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"];
+const ROUNDS=5;
+let G=null, K=null;   /* G: soal aktif, K: sesi kelas */
+let toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2200); }
+const stars=n=>`<span class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</span>`;
+
+/* ---------- mulai soal ---------- */
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={kind:P.kind,level:P.level,round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle();
+  G={p:np.p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,probes:[],steps:[],cur:null,done:false,stars:0,usedHint:false,fields:[],act:0};
+  if(G.kind==="rakit") G.cur=G.p.start;
+  setupFields();
+  if(G.mode==="harian"){ const st=lsGet(dayStoreKey(),null); if(st&&st.n===G.n) restore(st); }
+  $("res").hidden=true; $("fb").innerHTML="";
+  render();
+  if(G.done) showResult();
+}
+const dayStoreKey=()=>`mf_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode!=="harian") return; lsSet(dayStoreKey(),{n:G.n,wrong:G.wrong,probes:G.probes,steps:G.steps,done:G.done,stars:G.stars,usedHint:G.usedHint}); }
+function restore(st){
+  G.wrong=st.wrong||0; G.probes=st.probes||[]; G.steps=st.steps||[]; G.done=!!st.done; G.stars=st.stars||0; G.usedHint=!!st.usedHint;
+  if(G.kind==="rakit"){ let x=G.p.start; for(const k of G.steps){ const y=apply(G.p.ms[k],x); if(y===null) break; x=y; } G.cur=x; }
+}
+/* kotak isian sesuai jenis soal */
+function setupFields(){
+  const p=G.p; let n=0;
+  if(p.kind==="tebak") n=p.form==="lin"?2:3;
+  else if(p.kind==="balik") n=p.inv?2:1;
+  else if(p.kind==="komp") n=p.type==="nilai"?1:p.type==="lin"?2:3;
+  G.fields=Array(n).fill(""); G.probe=""; G.act=p.kind==="tebak"?"x":0;
+}
+/* ---------- tampilan ---------- */
+const fldHTML=(i)=>{ const v=i==="x"?G.probe:G.fields[i]; return `<span class="fld${G.act===i&&!G.done?" act":""}${v?"":" ph"}" data-f="${i}">${v||"?"}</span>`; };
+function render(){
+  const p=G.p, arrow=G.level==="mudah"; let h="";
+  if(p.kind==="rakit"){
+    const win=G.cur===p.target;
+    h=`<div class="goal">Mulai <b>${fmtN(p.start)}</b> → Target <b class="tg">${fmtN(p.target)}</b></div>
+      <div class="cur${win?" win":""}" aria-live="polite">${fmtN(G.cur)}</div>
+      <div class="chain">${chainText()}</div>
+      <p class="sub">Langkah: <b>${G.steps.length}</b> · bisa dalam <b>${p.best}</b> langkah</p>
+      <div class="mach">${p.ms.map((m,i)=>`<button type="button" data-m="${i}" ${G.done?"disabled":""}>${arrow?"":"f(x) = "}${machineText(m,arrow)}</button>`).join("")}</div>
+      <div class="row2"><button class="btn ghost" type="button" id="undoBtn" ${G.done||!G.steps.length?"disabled":""}>↶ Mundur</button><button class="btn ghost" type="button" id="resetBtn" ${G.done||!G.steps.length?"disabled":""}>⟲ Ulang</button></div>
+      <button class="btn ghost" type="button" id="rkHint" ${G.steps.length>=p.best+4&&!G.done?"":"hidden"}>💡 Lihat jalur terpendek</button>`;
+  }else if(p.kind==="tebak"){
+    const form=p.form==="lin"?`f(x) = ${fldHTML(0)} x + ${fldHTML(1)}`:`f(x) = ${fldHTML(0)} x² + ${fldHTML(1)} x + ${fldHTML(2)}`;
+    h=`<div class="q">Mesin rahasia <span class="fn">${p.form==="lin"?"f(x) = ax + b":"f(x) = ax² + bx + c"}</span></div>
+      <p class="sub">Masukkan angka (−20 sampai 20) untuk melihat keluarannya.</p>
+      <div class="probe"><span class="form">x = ${fldHTML("x")}</span><button class="btn" type="button" id="probeBtn" ${G.done?"disabled":""}>Masukkan ▶</button></div>
+      ${G.probes.length?`<table class="io"><tr><th>x</th><th>f(x)</th></tr>${G.probes.map(x=>`<tr><td>${fmtN(x)}</td><td>${fmtN(tebakF(p,x))}</td></tr>`).join("")}</table>`:""}
+      <p class="sub">Isi rumusnya (ketuk kotak):</p><div class="form">${form}</div>`;
+  }else if(p.kind==="balik"){
+    if(p.inv) h=`<div class="q"><span class="fn">${fText("f",{a:p.a,b:p.b})}</span></div><p class="sub">Tentukan rumus invers.</p>
+      <div class="form">f⁻¹(x) = ( x + ${fldHTML(0)} ) / ${fldHTML(1)}</div>`;
+    else h=`<div class="q">${["<b>?</b>",...p.ms.map(m=>`<span class="fn">${machineText(m,true)}</span>`),`<b>${fmtN(p.output)}</b>`].join(" → ")}</div>
+      <p class="sub">Angka berapa yang dimasukkan?</p><div class="form">masukan = ${fldHTML(0)}</div>`;
+  }else{
+    const nm=p.order==="fg"?"(f∘g)":"(g∘f)";
+    h=`<div class="q"><span class="fn">${fText("f",p.f)}</span><br><span class="fn">${p.type==="cariG"?`(f∘g)(x) = ${quadText(p.h)}`:gText(p.g)}</span></div>`;
+    if(p.type==="nilai") h+=`<div class="form">${nm}(${fmtN(p.x)}) = ${fldHTML(0)}</div>`;
+    else if(p.type==="lin") h+=`<div class="form">${nm}(x) = ${fldHTML(0)} x + ${fldHTML(1)}</div>`;
+    else if(p.type==="quad") h+=`<div class="form">${nm}(x) = ${fldHTML(0)} x² + ${fldHTML(1)} x + ${fldHTML(2)}</div>`;
+    else h+=`<p class="sub">Tentukan g(x).</p><div class="form">g(x) = ${fldHTML(0)} x² + ${fldHTML(1)} x + ${fldHTML(2)}</div>`;
+  }
+  $("play").innerHTML=h;
+  $("padCard").hidden=p.kind==="rakit"||G.done;
+  $("hintBtn").hidden=!(G.wrong>=3&&!G.done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+function chainText(){
+  const p=G.p, arrow=G.level==="mudah"; let x=p.start; const parts=[fmtN(x)];
+  for(const k of G.steps){ x=apply(p.ms[k],x); parts.push(`<i>${machineText(p.ms[k],arrow)}</i>`,fmtN(x)); }
+  return parts.join(" → ");
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Soal harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=G.kind==="rakit"?"":G.kind==="tebak"?`Percobaan: <b>${G.probes.length}</b> · Salah: <b>${G.wrong}</b>`:`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0;
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge="";
+    if(day){ const st=lsGet(`mf_day_${P.level}_${k}`,null); if(st&&st.n===day&&st.done) badge=`<small>${"⭐".repeat(st.stars)}</small>`; }
+    return `<button type="button" data-v="${k}">${v.icon} ${v.label.split(" ")[0]==="Mesin"?"Terbalik":v.label.split(" ")[0]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}</button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+/* ---------- rakit ---------- */
+$("play").addEventListener("click",e=>{
+  const m=e.target.closest("[data-m]");
+  if(m&&!G.done){ const y=apply(G.p.ms[+m.dataset.m],G.cur);
+    if(y===null){ toast(G.p.ms[+m.dataset.m].t==="div"?"Hasil bagi harus bulat — mesin ini tidak bisa dipakai sekarang.":"Angkanya terlalu besar."); return; }
+    G.steps.push(+m.dataset.m); G.cur=y;
+    if(y===G.p.target) finish(); else { saveDay(); render(); }
+    return; }
+  if(e.target.id==="undoBtn"&&G.steps.length){ G.steps.pop(); G.cur=G.p.start; for(const k of G.steps) G.cur=apply(G.p.ms[k],G.cur); saveDay(); render(); return; }
+  if(e.target.id==="resetBtn"){ G.steps=[]; G.cur=G.p.start; saveDay(); render(); return; }
+  if(e.target.id==="rkHint"){ G.usedHint=true; saveDay(); showHow(); return; }
+  if(e.target.id==="probeBtn"){ probe(); return; }
+  const f=e.target.closest(".fld"); if(f&&!G.done){ G.act=f.dataset.f==="x"?"x":+f.dataset.f; render(); }
+});
+/* ---------- isian ---------- */
+function press(k){
+  if(!G||G.done||G.kind==="rakit") return;
+  const get=()=>G.act==="x"?G.probe:G.fields[G.act], set=v=>{ if(G.act==="x") G.probe=v; else G.fields[G.act]=v; };
+  let v=get();
+  if(k==="del") v=v.slice(0,-1);
+  else if(k==="−") v=v.startsWith("−")?v.slice(1):"−"+v;
+  else if(k==="ok"){ if(G.act==="x") probe(); else check(); return; }
+  else if(v.replace("−","").length<4) v=(v==="0"?"":v==="−0"?"−":v)+k;
+  set(v); render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G) return;
+  if(G.kind==="rakit"){ const n=+e.key; if(n>=1&&n<=G.p.ms.length){ const b=$("play").querySelector(`[data-m="${n-1}"]`); if(b) b.click(); } return; }
+  if(e.key==="Tab"){ e.preventDefault(); const order=(G.kind==="tebak"?["x"]:[]).concat(G.fields.map((_,i)=>i)); G.act=order[(order.indexOf(G.act)+1)%order.length]; render(); return; }
+  const k=e.key==="-"?"−":e.key==="Backspace"?"del":e.key==="Enter"?"ok":e.key;
+  if(/^[0-9]$/.test(k)||k==="−"||k==="del"||k==="ok"){ e.preventDefault(); press(k); }
+});
+const toInt=s=>s===""||s==="−"?null:+(s.replace("−","-"));
+function probe(){
+  if(G.done) return;
+  const x=toInt(G.probe);
+  if(x===null){ toast("Ketik angka x dulu."); return; }
+  if(x<-20||x>20){ toast("Pilih x dari −20 sampai 20."); return; }
+  if(G.probes.includes(x)){ toast("Angka itu sudah dicoba — lihat tabel."); G.probe=""; render(); return; }
+  G.probes.push(x); G.probe=""; G.act=0; saveDay(); render();
+}
+function check(){
+  if(G.done) return;
+  const vals=G.fields.map(toInt);
+  if(vals.some(v=>v===null)){ toast("Isi semua kotak dulu (boleh 0)."); return; }
+  if(checkAnswer(G.p,vals)){ $("fb").innerHTML=`<span class="ok">✓ Benar!</span>`; finish(); return; }
+  G.wrong++; $("fb").innerHTML=`<span class="no">✗ Belum tepat. ${G.mode==="kelas"?"":"Coba lagi."}</span>`;
+  saveDay(); render();
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+function howHTML(){ return `<div class="how">${explain(G.p).map(x=>`<div>${x}</div>`).join("")}</div>`; }
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Cara penyelesaian</h2>${howHTML()}<p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+/* ---------- selesai ---------- */
+function computeStars(){
+  if(G.usedHint) return 1;
+  if(G.kind==="rakit") return starsRakit(G.steps.length,G.p.best);
+  if(G.kind==="tebak") return starsTebak(G.probes.length,G.wrong,G.p.need);
+  return starsWrong(G.wrong);
+}
+function finish(){
+  G.done=true; G.stars=computeStars();
+  if(G.mode==="harian") recordDay();
+  if(K){ K.score[K.turn]+=G.stars; }
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("mf_stats_"+l,{})); }
+function recordDay(){
+  /* satu hari dihitung selesai kalau keempat jenis sudah dikerjakan */
+  const all=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`mf_day_${G.level}_${k}`,null));
+  if(!all.every(st=>st&&st.n===G.n&&st.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=all.reduce((a,st)=>a+st.stars,0); s.lastN=G.n; lsSet("mf_stats_"+G.level,s);
+}
+function statsHTML(l){ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; }
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  const extra=G.kind==="rakit"?`${G.steps.length} langkah (minimal ${G.p.best})`:G.kind==="tebak"?`${G.probes.length} percobaan, ${G.wrong} salah`:`${G.wrong} kali salah`;
+  let h=`${stars(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${extra}${G.usedHint?" · memakai Lihat cara":""}</p>`;
+  h+=`<details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const st=lsGet(`mf_day_${G.level}_${k}`,null); return !(st&&st.n===G.n&&st.done); });
+    h+=left.length?`<p>Soal harian lain hari ini: ${left.map(k=>KINDS[k].icon+" "+KINDS[k].label).join(", ")}.</p><button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else{
+    if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo();
+      const [a,b]=K.score; h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+        <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+    else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  }
+  r.innerHTML=h;
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const st=lsGet(`mf_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(st&&st.done?st.stars:0); }).join(" ");
+    const t=`Mesin Fungsi #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+/* ---------- pengaturan ---------- */
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.steps.length||G.probes.length||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat jenis soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
