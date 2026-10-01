@@ -8,6 +8,7 @@ Teka-teki angka untuk segala usia, dalam bentuk HTML statis untuk GitHub Pages.
 | `24/` | Jadikan 24 | Klasik, Kejar Waktu, Mungkin?, Tanding sampai 8 pemain, lembar A4 |
 | `krypto/` | Krypto | 5 angka menuju kode target, 3 tingkat, Latihan dengan petunjuk bertahap, Kejar Waktu 1/3/5 menit |
 | `sudoku-hitung/` | Sudoku Hitung | Teka-teki kandang (Mathdoku) 3×3–6×6, pilihan operasi + − / + − × / semua, jawaban selalu tunggal, catatan pensil, petunjuk, rekor waktu |
+| `kuis-kelas/` | Kuis Kelas | Kuis buatan guru (pilihan ganda 2–4, benar/salah, angka, gambar) atau matematika otomatis; mode Satu Layar (2–6 tim, offline) atau HP Murid (kode/QR, real-time lewat PeerJS, bonus kecepatan opsional, unduh hasil CSV); ekspor/impor file kuis |
 | `petualangan-perkalian/` | Petualangan Tabel Perkalian | Peta 15 pulau (×1–×15, urutan mudah dulu); tiap pulau: berurutan, acak, pembagian, Bos berwaktu; bintang 1–3 membuka tahap/pulau; maks. 6 profil anak + profil Kelas (semua terbuka, 2 Tim, layar besar) |
 | `lanjutkan-pola/` | Lanjutkan Pola | Pola gambar, + −, × ÷ & campuran, bangun bertumbuh; pilihan ganda dengan penjelasan aturan; soal ambigu otomatis dibuang; 10 soal, 90 detik, 2 Tim; layar besar |
 | `pecahan-pizza/` | Pecahan Pizza | Pecahan dengan pizza & cokelat batang: mengenal (warnai/potong/baca), senilai, membandingkan, jumlah & kurang; Mudah/Sulit; 2 Tim; layar besar |
@@ -26,7 +27,7 @@ Teka-teki angka untuk segala usia, dalam bentuk HTML statis untuk GitHub Pages.
 ## Cara memasang di GitHub Pages
 
 1. Buat repo baru di GitHub, misalnya `mawari-games` (Public).
-2. Unggah **isi** folder ini (bukan foldernya) lewat *Add file → Upload files*: `index.html`, `README.md`, dan semua folder game (`candy`, `24`, `krypto`, `tebak-angka`, `sudoku-hitung`, `silang-hitung`, `benar-salah`, `pas-10`, `kejar-urutan`, `ganjil-genap`, `garis-bilangan`, `jam-berapa`, `warung-kembalian`, `pecahan-pizza`, `lanjutkan-pola`, `petualangan-perkalian`).
+2. Unggah **isi** folder ini (bukan foldernya) lewat *Add file → Upload files*: `index.html`, `README.md`, dan semua folder game (`candy`, `24`, `krypto`, `tebak-angka`, `sudoku-hitung`, `silang-hitung`, `benar-salah`, `pas-10`, `kejar-urutan`, `ganjil-genap`, `garis-bilangan`, `jam-berapa`, `warung-kembalian`, `pecahan-pizza`, `lanjutkan-pola`, `petualangan-perkalian`, `kuis-kelas`).
 3. Buka *Settings → Pages*. Pada *Build and deployment*, pilih *Deploy from a branch*, cabang `main`, folder `/ (root)`, lalu *Save*.
 4. Tunggu 1–2 menit. Alamatnya menjadi `https://<nama-akun>.github.io/mawari-games/`.
 

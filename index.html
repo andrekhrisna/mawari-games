@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, dan Petualangan Perkalian.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, dan Kuis Kelas.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -146,6 +146,13 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .tpp i{width:58px;height:44px;border-radius:50% 50% 46% 54%/60% 60% 40% 40%;background:#F7D58B;box-shadow:0 0 0 4px rgba(255,255,255,.7),0 4px 0 #D9B565;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:1.05rem;color:#123047}
 .tpp i.lk{background:#D7E3E8;box-shadow:0 0 0 4px rgba(255,255,255,.5),0 4px 0 #B7C6CC;color:#8AA0AA}
 .tpp b{color:#F2B705;font-size:.8rem;letter-spacing:1px}
+.game.kk{background:#FFF4E8;color:#2B1B10}
+.game.kk p{color:#8A7060}
+.game.kk h2 span{color:#FF6B35}
+.game.kk .tags span{background:rgba(43,27,16,.06);border-color:rgba(43,27,16,.14)}
+.kk .go{background:#FF6B35;color:#fff}
+.kkp{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:170px}
+.kkp i{border-radius:9px;color:#fff;font-style:normal;font-weight:800;font-size:.85rem;padding:6px 8px;display:flex;gap:6px;align-items:center}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -396,6 +403,16 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <p>Jelajahi 15 pulau ×1 sampai ×15. Tiap pulau: berurutan, acak, pembagian, lalu lawan Bos untuk membuka pulau berikutnya.</p>
       <div class="tags"><span>Profil anak</span><span>Kelas 2–5</span><span>Mode kelas &amp; 2 Tim</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game kk" href="kuis-kelas/">
+      <div class="peek" aria-hidden="true">
+        <div class="kkp"><i style="background:#E4572E">▲ 24</i><i style="background:#2563EB">◆ 32</i><i style="background:#E0A100">● 28</i><i style="background:#2F9E58">■ 36</i></div>
+      </div>
+      <h2>Kuis <span>Kelas</span></h2>
+      <p>Kuis buatan guru (pilihan ganda, benar/salah, angka, gambar) atau matematika otomatis. Main di satu layar, atau murid menjawab dari HP dengan kode kelas.</p>
+      <div class="tags"><span>Untuk guru</span><span>Satu Layar / HP Murid</span><span>Ekspor ke guru lain</span></div>
+      <span class="go">Buka <span aria-hidden="true">→</span></span>
     </a>
 
     <a class="game silang" href="silang-hitung/">
