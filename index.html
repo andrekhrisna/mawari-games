@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, dan Garis Bilangan.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, dan Jam Berapa?.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -100,6 +100,15 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .gbp .tl{position:absolute;top:82px;transform:translateX(-50%);font-weight:800;color:#5A3E1B;font-size:.95rem}
 .gbp .pn{position:absolute;top:22px;width:22px;height:34px;transform:translateX(-50%)}
 .gbp .q{position:absolute;top:0;transform:translateX(-50%);font-weight:800;color:#fff;background:#E63946;border-radius:7px;padding:0 6px;font-size:.85rem}
+.game.jb{background:#E8F5F2;color:#1E293B}
+.game.jb p{color:#5B6B7A}
+.game.jb h2 span{color:#0F766E}
+.game.jb .tags span{background:rgba(30,41,59,.06);border-color:rgba(30,41,59,.14)}
+.jb .go{background:#0F766E;color:#fff}
+.jbp{display:flex;align-items:center;gap:14px}
+.jbp svg{width:118px;height:118px}
+.jbp .t{font-weight:800;color:#0F766E;line-height:1.1;font-size:1rem;text-align:left}
+.jbp .t b{display:block;font-size:1.6rem;color:#1E293B}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -288,6 +297,24 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Garis <span>Bilangan</span></h2>
       <p>Taruh pin di garis bilangan dan baca letak angka: bilangan bulat, pecahan, desimal, sampai negatif. Untuk kelas 1 sampai 6, bisa dimainkan 2 tim di proyektor.</p>
       <div class="tags"><span>9 jenis garis</span><span>Kelas 1–6</span><span>2 Tim &amp; proyektor</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game jb" href="jam-berapa/">
+      <div class="peek" aria-hidden="true">
+        <div class="jbp">
+          <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="54" fill="#fff" stroke="#0F766E" stroke-width="6"/>
+            <text x="60" y="22" font-size="12" font-weight="800" text-anchor="middle" fill="#1E293B">12</text><text x="101" y="64" font-size="12" font-weight="800" text-anchor="middle" fill="#1E293B">3</text>
+            <text x="60" y="106" font-size="12" font-weight="800" text-anchor="middle" fill="#1E293B">6</text><text x="19" y="64" font-size="12" font-weight="800" text-anchor="middle" fill="#1E293B">9</text>
+            <line x1="60" y1="60" x2="60" y2="27" stroke="#F97316" stroke-width="4" stroke-linecap="round" transform="rotate(180 60 60)"/>
+            <line x1="60" y1="60" x2="60" y2="34" stroke="#1E293B" stroke-width="6" stroke-linecap="round" transform="rotate(225 60 60)"/>
+            <circle cx="60" cy="60" r="4" fill="#1E293B"/></svg>
+          <div class="t"><b>07.30</b>setengah<br>delapan</div>
+        </div>
+      </div>
+      <h2>Jam <span>Berapa?</span></h2>
+      <p>Belajar membaca jam: baca jam jarum, putar jarumnya sendiri, cocokkan kalimat seperti "setengah delapan" dan "kurang seperempat", sampai menghitung lama waktu.</p>
+      <div class="tags"><span>4 tingkat</span><span>Atur jarum</span><span>2 Tim &amp; proyektor</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 

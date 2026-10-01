@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#E8F5F2">
+<title>Jam Berapa?</title>
+<meta name="description" content="Belajar membaca jam: jam analog, atur jarum, kalimat waktu (setengah delapan, kurang seperempat), dan lama waktu.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='29' fill='%23fff' stroke='%230F766E' stroke-width='5'/%3E%3Cpath d='M32 32V14' stroke='%23F97316' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M32 32l11 7' stroke='%231E293B' stroke-width='5' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='32' r='3.5' fill='%231E293B'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#E8F5F2;
+  --card:#FFFFFF;
+  --ink:#1E293B;
+  --muted:#5B6B7A;
+  --line:#CFE5DF;
+  --teal:#0F766E;
+  --teal-soft:#D5F0EA;
+  --orange:#F97316;
+  --red:#E11D48;
+  --blue:#2563EB;
+  --ok:#16A34A;
+  --ok-soft:#DCFCE7;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:12px 16px calc(18px + env(safe-area-inset-bottom))}
+button,input{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:520px;display:flex;flex-direction:column;gap:12px}
+.big .wrap{max-width:1180px}
+.topbar{display:flex;align-items:center;gap:8px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.25rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--teal)}
+.pill{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:700;cursor:pointer;flex:none;white-space:nowrap}
+@media (max-width:480px){.topbar .lg{display:none}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.lbl{font-size:.8rem;font-weight:800;letter-spacing:.06em;color:var(--muted);margin-bottom:-6px}
+.tiers{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tiers button{border:2px solid var(--line);background:var(--bg);border-radius:14px;padding:8px 10px;text-align:left;cursor:pointer;line-height:1.2}
+.tiers button b{display:block;font-size:1.02rem}
+.tiers button small{color:var(--muted);font-size:.8rem;display:block}
+.tiers button[aria-pressed="true"]{border-color:var(--teal);background:var(--teal-soft)}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:7px 4px;font-weight:800;font-size:.95rem;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.names{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.names input{border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:1rem;font-weight:700;width:100%}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:800;font-size:1.1rem;cursor:pointer;background:var(--teal);color:#fff;box-shadow:0 4px 0 #0B4F4A}
+.btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 #0B4F4A}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.dark{background:var(--ink);box-shadow:0 4px 0 #000}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.best{color:var(--muted);font-size:.92rem}
+.best b{color:var(--ink)}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* ---------- soal ---------- */
+.hud{display:flex;justify-content:space-between;align-items:baseline;gap:8px;color:var(--muted);font-size:.92rem}
+.hud b{color:var(--ink);font-size:1.1rem}
+.ask{text-align:center;color:var(--muted);font-weight:700}
+.prompt{text-align:center;font-weight:800;font-size:clamp(1.6rem,8vw,2.4rem);line-height:1.15;color:var(--teal)}
+.prompt.digit{font-size:clamp(2.6rem,13vw,3.8rem);letter-spacing:.03em}
+.big .prompt{font-size:min(5vw,4rem)} .big .prompt.digit{font-size:min(8vw,6.5rem)}
+.tag{display:inline-block;margin-left:6px;font-size:.55em;vertical-align:middle;background:var(--teal-soft);color:var(--teal);border-radius:999px;padding:0 12px}
+.clockbox{display:flex;justify-content:center}
+.clock{width:min(78vw,320px);height:min(78vw,320px);touch-action:none;user-select:none;-webkit-user-select:none}
+.big .clock{width:min(58vh,520px);height:min(58vh,520px)}
+.clock.drag{cursor:grab}
+.clock .face{fill:#fff;stroke:var(--teal);stroke-width:7}
+.clock .mt{stroke:#9FB3C0;stroke-width:1.2}
+.clock .ht{stroke:var(--ink);stroke-width:3}
+.clock .num{font-weight:800;font-size:15px;fill:var(--ink);text-anchor:middle;dominant-baseline:central;font-family:inherit}
+.clock .hh{stroke:var(--ink);stroke-width:7;stroke-linecap:round}
+.clock .mh{stroke:var(--orange);stroke-width:4.5;stroke-linecap:round}
+.clock .ghost .hh,.clock .ghost .mh{stroke:var(--ok);opacity:.85}
+.clock .grip{fill:var(--orange);opacity:.18}
+.adj{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.adj button{border:1px solid var(--line);background:var(--bg);border-radius:12px;padding:8px 2px;font-weight:800;font-size:.9rem;cursor:pointer}
+.hint{text-align:center;color:var(--muted);font-size:.9rem;min-height:1.3em}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opts.words{grid-template-columns:1fr}
+.opt{border:2px solid var(--line);background:var(--card);border-radius:16px;min-height:60px;font-weight:800;font-size:1.5rem;cursor:pointer;padding:6px 10px}
+.opts.words .opt{font-size:1.15rem;text-align:left;padding:10px 14px}
+.big .opt{font-size:min(3.6vw,2.6rem);min-height:90px} .big .opts.words .opt{font-size:min(2.6vw,1.9rem)}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--red);background:#FFE4E8}
+.opt:disabled{cursor:default}
+.fb{text-align:center;font-weight:800;font-size:1.1rem;min-height:1.5em;line-height:1.35}
+.fb .ok{color:var(--ok)} .fb .no{color:var(--red)}
+.fb small{display:block;font-weight:600;color:var(--muted);font-size:.85em}
+.big .fb{font-size:min(2.8vw,2rem)}
+.acts{display:grid;gap:8px}
+
+.total{font-size:4rem;font-weight:800;line-height:1;color:var(--teal);text-align:center}
+.total small{font-size:.35em;color:var(--muted)}
+.list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:.92rem}
+.list li{display:grid;grid-template-columns:26px 1fr auto;gap:8px;padding:6px 10px;border-radius:10px;background:var(--bg)}
+.teams{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center}
+.teams div{border-radius:16px;padding:10px;background:var(--bg)}
+.teams b{display:block;font-size:2.4rem;line-height:1.1}
+.winner{text-align:center;font-weight:800;font-size:1.5rem}
+footer{text-align:center;color:var(--muted);font-size:.76rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Jam <span>Berapa?</span></div>
+    <button class="pill" id="quitBtn" type="button" aria-label="Pengaturan" hidden><span aria-hidden="true">⚙</span><span class="lg" aria-hidden="true"> Pengaturan</span></button>
+  </div>
+
+  <section class="card" id="setup">
+    <div class="lbl">TINGKAT</div>
+    <div class="tiers" id="tiers"></div>
+    <div class="lbl">MODE</div>
+    <div class="seg" id="segMode"><button type="button" data-v="solo" aria-pressed="true">Sendiri</button><button type="button" data-v="tim" aria-pressed="false">2 Tim</button></div>
+    <div class="names" id="names" hidden>
+      <input id="nameA" maxlength="14" placeholder="Tim Oranye" aria-label="Nama tim pertama">
+      <input id="nameB" maxlength="14" placeholder="Tim Biru" aria-label="Nama tim kedua">
+    </div>
+    <label class="best" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="bigChk" style="width:20px;height:20px"> Layar besar (untuk proyektor kelas)</label>
+    <div class="best" id="setupBest"></div>
+    <button class="btn" type="button" id="startBtn">Mulai 10 soal</button>
+  </section>
+
+  <section class="card" id="play" hidden>
+    <div class="hud"><span id="hudQ"></span><span id="hudTeam" style="font-weight:800"></span><span id="hudScore"></span></div>
+    <div class="ask" id="ask"></div>
+    <div class="prompt" id="prompt"></div>
+    <div class="clockbox" id="clockbox"></div>
+    <div class="adj" id="adj" hidden>
+      <button type="button" data-d="-60">◀ 1 jam</button><button type="button" data-d="-s" id="mDown">◀ menit</button>
+      <button type="button" data-d="+s" id="mUp">menit ▶</button><button type="button" data-d="60">1 jam ▶</button>
+    </div>
+    <div class="hint" id="hint"></div>
+    <div class="opts" id="opts" hidden></div>
+    <div class="fb" id="fb" aria-live="polite"></div>
+    <div class="acts">
+      <button class="btn" type="button" id="lockBtn" hidden>Kunci ✓</button>
+      <button class="btn dark" type="button" id="nextBtn" hidden>Lanjut →</button>
+    </div>
+  </section>
+
+  <section class="card" id="result" hidden>
+    <div id="resBody" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div class="row2"><button class="btn" type="button" id="againBtn">Main lagi</button><button class="btn ghost" type="button" id="setupBtn">Pengaturan</button></div>
+  </section>
+  <footer>Rekor disimpan di HP ini saja.</footer>
+</div>
+
+<script>
+/* ================= INTI: kalimat waktu, tingkat, soal ================= */
+/* ===== Kata bilangan jam (1–12) dan menit ===== */
+const JAM=["dua belas","satu","dua","tiga","empat","lima","enam","tujuh","delapan","sembilan","sepuluh","sebelas","dua belas"];
+const SATUAN=["","satu","dua","tiga","empat","lima","enam","tujuh","delapan","sembilan"];
+function kataAngka(n){                       /* 1–59 */
+  if(n<10) return SATUAN[n];
+  if(n===10) return "sepuluh";
+  if(n===11) return "sebelas";
+  if(n<20) return SATUAN[n-10]+" belas";
+  const p=Math.floor(n/10), s=n%10;
+  return SATUAN[p]+" puluh"+(s?" "+SATUAN[s]:"");
+}
+const h12=h=>((h%12)+12)%12||12;
+const pad=n=>String(n).padStart(2,"0");
+
+/* ===== Waktu: t = menit sejak 00.00 (0–1439) ===== */
+const digital=t=>pad(Math.floor(t/60)%24)+"."+pad(t%60);          /* 24 jam: 19.15 */
+const digital12=t=>pad(h12(Math.floor(t/60)))+"."+pad(t%60);        /* 12 jam: 07.15 */
+
+/* Kalimat: menit 0 tepat, 1–29 lewat, 15 lewat seperempat, 30 setengah (jam berikutnya), 31–59 kurang, 45 kurang seperempat */
+function kalimat(t){
+  const h=Math.floor(t/60), m=t%60, j=JAM[h12(h)], jn=JAM[h12(h+1)];
+  if(m===0) return `jam ${j} tepat`;
+  if(m===15) return `jam ${j} lewat seperempat`;
+  if(m<30) return `jam ${j} lewat ${kataAngka(m)} menit`;
+  if(m===30) return `setengah ${jn}`;
+  if(m===45) return `jam ${jn} kurang seperempat`;
+  return `jam ${jn} kurang ${kataAngka(60-m)} menit`;
+}
+/* Keterangan waktu (kesepakatan yang dipakai di game ini) */
+function bagianHari(t){
+  const h=Math.floor(t/60)%24;
+  if(h>=4&&h<11) return "pagi";
+  if(h>=11&&h<15) return "siang";
+  if(h>=15&&h<18) return "sore";
+  return "malam";
+}
+function lamaText(d){ const j=Math.floor(d/60), m=d%60; return (j?`${j} jam`:"")+(j&&m?" ":"")+(m?`${m} menit`:""); }
+
+/* ===== Tingkat ===== */
+const TIERS={
+  t1:{label:"Tingkat 1",grade:"Kelas 1",desc:"jam tepat & setengah",step:30,types:["baca","atur","kalimat"]},
+  t2:{label:"Tingkat 2",grade:"Kelas 2",desc:"seperempat & 5 menit",step:5,types:["baca","atur","kalimat"]},
+  t3:{label:"Tingkat 3",grade:"Kelas 3",desc:"per menit & lama waktu",step:1,types:["baca","atur","kalimat","lama"]},
+  t4:{label:"Tingkat 4",grade:"Kelas 3–4",desc:"24 jam, pagi–malam & lama waktu",step:1,types:["baca","atur","kalimat","lama"],h24:true}
+};
+const ri=(a,b,rand)=>a+Math.floor(rand()*(b-a+1));
+function randTime(tier,rand){
+  const T=TIERS[tier];
+  const h=T.h24?ri(0,23,rand):ri(1,12,rand);
+  let m;
+  if(T.step===30) m=rand()<.5?0:30;
+  else if(T.step===5){ m=ri(0,11,rand)*5; if(rand()<.35) m=[15,45][ri(0,1,rand)]; }
+  else { m=ri(0,59,rand); if(m%5===0&&rand()<.6) m=ri(1,59,rand); }
+  return (h%24)*60+m;
+}
+/* Pengecoh "baca jam" dari kesalahan yang sering terjadi */
+function readDistractors(t,tier,rand){
+  const T=TIERS[tier], h=Math.floor(t/60), m=t%60, out=new Set();
+  const add=x=>{ out.add(((x%1440)+1440)%1440); };
+  add(t+60); add(t-60);                                   /* salah satu jam (paling sering untuk menit ≥30) */
+  const hh=h12(h); if(m%5===0&&m/5!==hh%12){ add(((m/5)||12)*60+(hh%12)*5); } /* jarum tertukar */
+  add(h*60+(60-m)%60);                                    /* cermin: 15 ↔ 45 */
+  const near=T.step===1?5:T.step;                        /* per menit: geser 5, bukan 1 (terlalu sulit dibedakan di layar HP) */
+  add(t+near); add(t-near); add(t+(T.step===30?30:15));
+  out.delete(t);
+  /* hanya waktu yang sesuai ketelitian tingkat (T1: kelipatan 30 menit, T2: 5 menit) */
+  const far=x=>{ const d=Math.abs(x-t)%720; return Math.min(d,720-d)>=5; };   /* minimal 5 menit dari jawaban */
+  let res=[...out].filter(x=>x%T.step===0&&far(x));
+  for(const x of [t+10,t-10,t+20,t-20]) if(res.length<3){ const y=((x%1440)+1440)%1440; if(!res.includes(y)&&y%T.step===0) res.push(y); }
+  return res;
+}
+function lamaQuestion(tier,rand){
+  const T=TIERS[tier], step=T.h24?5:5;
+  const a=(T.h24?ri(5,20,rand):ri(6,10,rand))*60+ri(0,11,rand)*step;
+  const d=ri(3,48,rand)*5;                               /* 15 menit – 4 jam */
+  return {a,b:(a+d)%1440,d};
+}
+function shuffle(a,rand){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(rand()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const fmtT=(t,tier)=>TIERS[tier].h24?digital(t):digital12(t);
+
+/* ===== Soal ===== */
+function makeQuestion(tier,rand,type){
+  rand=rand||Math.random;
+  const T=TIERS[tier];
+  type=type||T.types[ri(0,T.types.length-1,rand)];
+  if(type==="lama"){
+    const q=lamaQuestion(tier,rand), opts=new Set([q.d]);
+    for(const x of [q.d+60,q.d-60,q.d+15,q.d-15,q.d+30,q.d-30,q.d+10,q.d-5]) if(x>0&&opts.size<4) opts.add(x);
+    return {type,q,answer:q.d,opts:shuffle([...opts].map(d=>({v:d,text:lamaText(d)})),rand),
+      text:`Dari ${fmtT(q.a,tier)} sampai ${fmtT(q.b,tier)}, berapa lama?`};
+  }
+  const t=randTime(tier,rand);
+  if(type==="atur") return {type,t,answer:t,text:T.h24?`${digital(t)} (${bagianHari(t)})`:digital12(t)};
+  const ds=shuffle(readDistractors(t,tier,rand),rand).slice(0,3);
+  if(type==="baca"){
+    const opts=shuffle([t,...ds].map(x=>({v:x,text:T.h24?digital(x):digital12(x)})),rand);
+    return {type,t,answer:t,opts,hint:T.h24?bagianHari(t):""};
+  }
+  /* kalimat: separuh soal digital → kalimat, separuh kalimat → digital */
+  const toWords=rand()<.5;
+  const word=x=>kalimat(x)+(T.h24?" "+bagianHari(x):"");
+  const opts=shuffle([t,...ds].map(x=>({v:x,text:toWords?word(x):(T.h24?digital(x):digital12(x))})),rand);
+  return {type,t,answer:t,toWords,opts,prompt:toWords?(T.h24?digital(t):digital12(t)):word(t)};
+}
+/* ================= AKHIR INTI ================= */
+</script>
+<script>
+const $=id=>document.getElementById(id);
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,String(v)); }catch(e){ return null; } }
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ROUNDS=10;
+const S={tier:"t1",mode:"solo",names:["Tim Oranye","Tim Biru"],big:false,i:0,q:null,set:720,locked:false,scores:[0,0],log:[]};
+try{ const p=JSON.parse(store("jb_prefs")||"{}"); if(TIERS[p.tier]) S.tier=p.tier; if(["solo","tim"].includes(p.mode)) S.mode=p.mode;
+  if(Array.isArray(p.names)) S.names=[p.names[0]||"Tim Oranye",p.names[1]||"Tim Biru"]; S.big=!!p.big; }catch(e){}
+function savePrefs(){ store("jb_prefs",JSON.stringify({tier:S.tier,mode:S.mode,names:S.names,big:S.big})); }
+const bestKey=()=>"jb_best_"+S.tier;
+const TEAMC=["var(--orange)","var(--blue)"];
+
+/* ---- jam analog (SVG) ---- */
+function clockSVG(t,ghost,interactive){
+  const h=Math.floor(t/60)%12, m=t%60;
+  const ha=(h+m/60)*30, ma=m*6;
+  let s=`<svg class="clock${interactive?" drag":""}" id="clock" viewBox="0 0 220 220" role="img" aria-label="Jam analog">`;
+  s+=`<circle class="face" cx="110" cy="110" r="100"/>`;
+  for(let k=0;k<60;k++){ const a=k*6*Math.PI/180, r1=k%5?92:86, r2=96;
+    s+=`<line class="${k%5?"mt":"ht"}" x1="${110+r1*Math.sin(a)}" y1="${110-r1*Math.cos(a)}" x2="${110+r2*Math.sin(a)}" y2="${110-r2*Math.cos(a)}"/>`; }
+  for(let k=1;k<=12;k++){ const a=k*30*Math.PI/180; s+=`<text class="num" x="${110+73*Math.sin(a)}" y="${110-73*Math.cos(a)}">${k}</text>`; }
+  const hands=(hA,mA,cls,main)=>`<g class="${cls}"><line class="hh"${main?' id="hh"':""} x1="110" y1="110" x2="${110+48*Math.sin(hA*Math.PI/180)}" y2="${110-48*Math.cos(hA*Math.PI/180)}"/>`
+    +`<line class="mh"${main?' id="mh"':""} x1="110" y1="110" x2="${110+76*Math.sin(mA*Math.PI/180)}" y2="${110-76*Math.cos(mA*Math.PI/180)}"/></g>`;
+  if(ghost!==undefined){ const gh=Math.floor(ghost/60)%12, gm=ghost%60; s+=hands((gh+gm/60)*30,gm*6,"ghost"); }
+  if(interactive) s+=`<circle class="grip" id="grip" cx="${110+76*Math.sin(ma*Math.PI/180)}" cy="${110-76*Math.cos(ma*Math.PI/180)}" r="14"/>`;
+  s+=hands(ha,ma,"",true);
+  s+=`<circle cx="110" cy="110" r="6" fill="#1E293B"/></svg>`;
+  return s;
+}
+
+/* ---- pengaturan ---- */
+function renderSetup(){
+  $("tiers").innerHTML=Object.entries(TIERS).map(([k,t])=>`<button type="button" data-v="${k}" aria-pressed="${k===S.tier}"><b>${t.label} · ${t.grade}</b><small>${t.desc}</small><small>rekor ${+store("jb_best_"+k)||0}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===S.mode));
+  $("names").hidden=S.mode!=="tim";
+  $("nameA").value=S.names[0]==="Tim Oranye"?"":S.names[0]; $("nameB").value=S.names[1]==="Tim Biru"?"":S.names[1];
+  $("bigChk").checked=S.big;
+  $("setupBest").innerHTML=S.mode==="solo"?`Rekor ${TIERS[S.tier].label}: <b>${+store(bestKey())||0}</b> / ${ROUNDS*100}`:`2 tim bergantian menjawab: soal ganjil untuk tim pertama, soal genap untuk tim kedua.`;
+  document.documentElement.classList.toggle("big",S.big);
+}
+$("tiers").onclick=e=>{ const b=e.target.closest("button"); if(!b) return; S.tier=b.dataset.v; savePrefs(); renderSetup(); };
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(!b) return; S.mode=b.dataset.v; savePrefs(); renderSetup(); };
+$("bigChk").onchange=()=>{ S.big=$("bigChk").checked; savePrefs(); renderSetup(); };
+["nameA","nameB"].forEach((id,k)=>$(id).addEventListener("input",()=>{ S.names[k]=($(id).value.trim()||(k?"Tim Biru":"Tim Oranye")).slice(0,14); savePrefs(); }));
+function screen(w){ $("setup").hidden=w!=="setup"; $("play").hidden=w!=="play"; $("result").hidden=w!=="result"; $("quitBtn").hidden=w==="setup"; }
+
+/* ---- soal ---- */
+const T=()=>TIERS[S.tier];
+const showT=t=>T().h24?digital(t):digital12(t);
+function team(){ return S.mode==="tim"?(S.i-1)%2:0; }
+function start(){ S.i=0; S.scores=[0,0]; S.log=[]; S.off=Math.floor(Math.random()*4); screen("play"); nextQ(); }
+function nextQ(){
+  S.i++; S.locked=false;
+  /* jenis soal bergiliran supaya setiap sesi berisi semua jenis */
+  const types=T().types, type=types[(S.i-1+S.off)%types.length];
+  S.q=makeQuestion(S.tier,Math.random,type);
+  $("hudQ").innerHTML=`Soal <b>${S.i}</b>/${ROUNDS}`;
+  $("hudTeam").innerHTML=S.mode==="tim"?`<span style="color:${TEAMC[team()]}">${esc(S.names[team()])}</span>`:"";
+  renderScore();
+  $("fb").innerHTML=""; $("nextBtn").hidden=true; $("hint").textContent=""; $("prompt").className="prompt";
+  $("opts").hidden=true; $("adj").hidden=true; $("lockBtn").hidden=true; $("clockbox").innerHTML="";
+  const q=S.q;
+  if(q.type==="baca"){
+    $("ask").textContent="Jam berapa sekarang?";
+    $("prompt").innerHTML=q.hint?`<span class="tag">${q.hint}</span>`:"";
+    $("clockbox").innerHTML=clockSVG(q.t);
+    showOpts(q.opts,false);
+  }else if(q.type==="atur"){
+    $("ask").textContent="Putar jarum panjang sampai menunjukkan";
+    $("prompt").className="prompt digit"; $("prompt").textContent=q.text;
+    S.set=0; drawSet();
+    $("adj").hidden=false; $("lockBtn").hidden=false;
+    $("hint").textContent="Seret jarum panjang (oranye). Jarum pendek ikut bergerak.";
+  }else if(q.type==="kalimat"){
+    $("ask").textContent=q.toWords?"Bagaimana cara membacanya?":"Tulisan angkanya yang mana?";
+    if(q.toWords){ $("prompt").className="prompt digit"; $("prompt").textContent=q.prompt; }
+    else $("prompt").textContent=q.prompt;
+    showOpts(q.opts,q.toWords);
+  }else{
+    $("ask").textContent="Lama waktu";
+    $("prompt").textContent=q.text;
+    showOpts(q.opts,false);
+  }
+}
+function showOpts(opts,words){
+  const o=$("opts"); o.hidden=false; o.className="opts"+(words?" words":"");
+  o.innerHTML=opts.map((x,k)=>`<button class="opt" type="button" data-k="${k}">${esc(x.text)}</button>`).join("");
+}
+function renderScore(){
+  $("hudScore").innerHTML=S.mode==="tim"?`<b style="color:var(--orange)">${S.scores[0]}</b> : <b style="color:var(--blue)">${S.scores[1]}</b>`:`Skor <b>${S.scores[0]}</b>`;
+}
+
+/* ---- atur jarum: jarum panjang diseret, jarum pendek ikut ---- */
+const norm=t=>((t%1440)+1440)%1440;
+function drawSet(ghost){
+  $("clockbox").innerHTML=clockSVG(norm(S.set),ghost,ghost===undefined&&!S.locked);
+  if(!S.locked) bindClock();
+}
+/* saat menyeret hanya posisi jarum yang diperbarui (gambar jam tidak dibuat ulang) */
+function updateHands(){
+  const t=norm(S.set), h=Math.floor(t/60)%12, m=t%60, ha=(h+m/60)*30*Math.PI/180, ma=m*6*Math.PI/180;
+  const set=(id,r,a)=>{ const el=$(id); if(el){ el.setAttribute("x2",110+r*Math.sin(a)); el.setAttribute("y2",110-r*Math.cos(a)); } };
+  set("hh",48,ha); set("mh",76,ma);
+  const g=$("grip"); if(g){ g.setAttribute("cx",110+76*Math.sin(ma)); g.setAttribute("cy",110-76*Math.cos(ma)); }
+}
+function bindClock(){
+  const c=$("clock"); let drag=false;
+  const minuteAt=e=>{ const r=c.getBoundingClientRect(), x=e.clientX-(r.left+r.width/2), y=e.clientY-(r.top+r.height/2);
+    let a=Math.atan2(x,-y)*180/Math.PI; if(a<0) a+=360; return a/6; };
+  const apply=e=>{
+    const st=T().step, m=Math.round(minuteAt(e)/st)*st%60, cur=((S.set%60)+60)%60;
+    let d=m-cur; if(d>30) d-=60; if(d<-30) d+=60;   /* melewati angka 12: jam ikut maju/mundur */
+    if(d){ S.set+=d; updateHands(); }
+  };
+  c.addEventListener("pointerdown",e=>{ if(S.locked) return; drag=true; try{ c.setPointerCapture(e.pointerId); }catch(_){} apply(e); e.preventDefault(); });
+  c.addEventListener("pointermove",e=>{ if(drag&&!S.locked) apply(e); });
+  c.addEventListener("pointerup",()=>{ drag=false; });
+  c.addEventListener("pointercancel",()=>{ drag=false; });
+}
+$("adj").onclick=e=>{
+  const b=e.target.closest("button"); if(!b||S.locked) return;
+  const d=b.dataset.d, st=T().step;
+  S.set+=d==="+s"?st:d==="-s"?-st:+d; updateHands();
+};
+document.addEventListener("keydown",e=>{
+  if($("play").hidden) return;
+  if(S.q&&S.q.type==="atur"&&!S.locked&&(e.key==="ArrowLeft"||e.key==="ArrowRight")){ S.set+=(e.key==="ArrowRight"?1:-1)*T().step; updateHands(); e.preventDefault(); }
+  else if(e.key==="Enter"&&document.activeElement===document.body){ if(!$("nextBtn").hidden) $("nextBtn").click(); else if(!$("lockBtn").hidden) $("lockBtn").click(); e.preventDefault(); }
+});
+
+/* ---- menjawab ---- */
+function explainTime(t){ return `${showT(t)} = ${kalimat(t)}${T().h24?" "+bagianHari(t):""}`; }
+$("lockBtn").onclick=()=>{
+  if(S.locked) return;
+  S.locked=true; $("lockBtn").hidden=true; $("adj").hidden=true; $("hint").textContent="";
+  const set=((S.set%720)+720)%720, ans=S.q.t%720, ok=set===ans;
+  finishQ(ok,ok?`<span class="ok">Benar! ⭐ +100</span><small>${explainTime(S.q.t)}</small>`
+    :`<span class="no">Belum tepat</span><small>Jarummu menunjukkan ${digital12(set)}. Jawaban (hijau): ${explainTime(S.q.t)}</small>`);
+  drawSet(ok?undefined:S.q.t);
+};
+$("opts").onclick=e=>{
+  const b=e.target.closest(".opt"); if(!b||S.locked) return;
+  S.locked=true;
+  const q=S.q, pick=q.opts[+b.dataset.k], ok=pick.v===q.answer;
+  $("opts").querySelectorAll(".opt").forEach((x,k)=>{ x.disabled=true; if(q.opts[k].v===q.answer) x.classList.add("right"); });
+  if(!ok) b.classList.add("wrong");
+  let why;
+  if(q.type==="lama") why=`${q.text.replace("berapa lama?","")} = ${lamaText(q.answer)}`;
+  else why=explainTime(q.t);
+  finishQ(ok,`<span class="${ok?"ok":"no"}">${ok?"Benar! ⭐ +100":"Belum tepat"}</span><small>${esc(why)}</small>`);
+};
+function finishQ(ok,html){
+  const k=team(); if(ok) S.scores[k]+=100;
+  S.log.push({q:S.q.type==="lama"?S.q.text:(S.q.type==="kalimat"&&!S.q.toWords?S.q.prompt:showT(S.q.t)),type:S.q.type,ok,team:k});
+  $("fb").innerHTML=html; renderScore();
+  $("nextBtn").hidden=false; $("nextBtn").textContent=S.i>=ROUNDS?"Lihat hasil →":"Lanjut →";
+}
+$("nextBtn").onclick=()=>{ if(S.i>=ROUNDS) finish(); else nextQ(); };
+const TYPE_NAME={baca:"Baca jam",atur:"Atur jarum",kalimat:"Kalimat",lama:"Lama waktu"};
+function finish(){
+  let h;
+  const list=`<ol class="list">${S.log.map((x,k)=>`<li><span>${k+1}</span><span>${TYPE_NAME[x.type]}: ${esc(x.q)}${S.mode==="tim"?` · <span style="color:${TEAMC[x.team]}">${esc(S.names[x.team])}</span>`:""}</span><b>${x.ok?"⭐":"✗"}</b></li>`).join("")}</ol>`;
+  if(S.mode==="tim"){
+    const [a,b]=S.scores;
+    h=`<div class="winner">${a===b?"Seri!":`🏆 ${esc(S.names[a>b?0:1])} menang!`}</div>
+      <div class="teams"><div><span style="color:var(--orange);font-weight:800">${esc(S.names[0])}</span><b>${a}</b></div><div><span style="color:var(--blue);font-weight:800">${esc(S.names[1])}</span><b>${b}</b></div></div>`+list;
+  }else{
+    const s=S.scores[0], prev=+store(bestKey())||0, isNew=s>prev;
+    if(isNew) store(bestKey(),s);
+    h=`<div class="total">${s}<small> / ${ROUNDS*100}</small></div>
+      <div class="best" style="text-align:center">${T().label} · ${T().desc} · ${isNew&&s>0?'<b style="color:var(--ok)">rekor baru!</b>':`rekor ${Math.max(prev,s)}`}</div>`+list;
+  }
+  $("resBody").innerHTML=h; screen("result");
+}
+$("startBtn").onclick=start; $("againBtn").onclick=start;
+$("setupBtn").onclick=()=>{ renderSetup(); screen("setup"); };
+$("quitBtn").onclick=()=>{ if(!$("play").hidden&&!confirm("Berhenti? Skor sesi ini tidak dicatat.")) return; renderSetup(); screen("setup"); };
+renderSetup(); screen("setup");
+</script>
+</body>
+</html>
