@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, Kuis Kelas, Tebak Persamaan, Teka-Teki Simbol, Mesin Fungsi, Ubin Aljabar, Atur Data, Sniper Grafik, dan Kapal Perang Kartesius.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, Kuis Kelas, Tebak Persamaan, Teka-Teki Simbol, Mesin Fungsi, Ubin Aljabar, Atur Data, Sniper Grafik, Kapal Perang Kartesius, dan Eksperimen Peluang.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -204,6 +204,12 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .game.kpk .tags span{background:rgba(12,42,67,.06);border-color:rgba(12,42,67,.14)}
 .kpk .go{background:#0369A1;color:#fff}
 .kpp{width:120px;height:72px}
+.game.epk{background:#FFF7ED;color:#431407}
+.game.epk p{color:#7C5A48}
+.game.epk h2 span{color:#C2410C}
+.game.epk .tags span{background:rgba(67,20,7,.06);border-color:rgba(67,20,7,.14)}
+.epk .go{background:#C2410C;color:#fff}
+.epkp{width:130px;height:72px}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -533,6 +539,16 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Kapal Perang <span>Kartesius</span></h2>
       <p>Tebak koordinat kapal dari petunjuk jarak, tenggelamkan kapal dengan garis y = mx + c, pindahkan kapal dengan transformasi, atau main Battleship 2 tim.</p>
       <div class="tags"><span>SMP–SMA</span><span>Koordinat</span><span>Transformasi</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game epk" href="eksperimen-peluang/">
+      <div class="peek" aria-hidden="true">
+        <svg class="epkp" viewBox="0 0 130 72"><rect x="4" y="10" width="44" height="44" rx="9" fill="#fff" stroke="#B91C1C" stroke-width="3"/><circle cx="16" cy="22" r="4" fill="#B91C1C"/><circle cx="26" cy="32" r="4" fill="#B91C1C"/><circle cx="36" cy="42" r="4" fill="#B91C1C"/><path d="M60 64H126M60 64V8" stroke="#C9A58F" stroke-width="1.5"/><path d="M62 30H126" stroke="#059669" stroke-width="2" stroke-dasharray="5 4"/><path d="M62 60L68 14L76 44L86 22L98 36L110 28L124 31" fill="none" stroke="#C2410C" stroke-width="2.5"/></svg>
+      </div>
+      <h2>Eksperimen <span>Peluang</span></h2>
+      <p>Hitung peluang lalu buktikan dengan ribuan percobaan, rancang isi kantong atau spinner, dan tebak isi kantong dari data.</p>
+      <div class="tags"><span>SMP–SMA</span><span>Peluang</span><span>Simulasi</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 
