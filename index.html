@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, dan Ganjil atau Genap?.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, dan Garis Bilangan.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -89,6 +89,17 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .ggp span{position:absolute;bottom:0;font-weight:800;font-size:.85rem;letter-spacing:.08em}
 .ggp .l{left:6px;color:#3B82F6} .ggp .r{right:6px;color:#F43F5E}
 .ggp i{position:absolute;top:2px;right:10px;font-style:normal;font-size:1.5rem}
+.game.gb{background:#FBF5E8;color:#2B2118}
+.game.gb p{color:#7A6A58}
+.game.gb h2 span{color:#E63946}
+.game.gb .tags span{background:rgba(43,33,24,.06);border-color:rgba(43,33,24,.14)}
+.gb .go{background:#E63946;color:#fff}
+.gbp{position:relative;width:230px;height:110px}
+.gbp .rail{position:absolute;left:10px;right:10px;top:58px;height:14px;border-radius:4px;background:linear-gradient(180deg,#E9C46A,#D9A93F);box-shadow:0 3px 0 #B88A2C}
+.gbp .tk{position:absolute;top:54px;width:2px;height:22px;background:#5A3E1B}
+.gbp .tl{position:absolute;top:82px;transform:translateX(-50%);font-weight:800;color:#5A3E1B;font-size:.95rem}
+.gbp .pn{position:absolute;top:22px;width:22px;height:34px;transform:translateX(-50%)}
+.gbp .q{position:absolute;top:0;transform:translateX(-50%);font-weight:800;color:#fff;background:#E63946;border-radius:7px;padding:0 6px;font-size:.85rem}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -263,6 +274,20 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Ganjil atau Genap?</h2>
       <p>Ketuk kiri kalau ganjil, kanan kalau genap. Makin lama makin cepat. Awas bom: jangan sentuh apa-apa sampai waktunya habis!</p>
       <div class="tags"><span>Refleks</span><span>Jebakan bom</span><span>0 itu genap</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game gb" href="garis-bilangan/">
+      <div class="peek" aria-hidden="true">
+        <div class="gbp"><div class="rail"></div>
+          <i class="tk" style="left:10px"></i><i class="tk" style="left:115px"></i><i class="tk" style="left:218px"></i>
+          <span class="tl" style="left:11px">0</span><span class="tl" style="left:116px">½</span><span class="tl" style="left:219px">1</span>
+          <span class="q" style="left:166px">¾</span>
+          <svg class="pn" style="left:166px" viewBox="0 0 30 46"><path d="M15 46 3 22A13 13 0 1 1 27 22Z" fill="#E63946"/><circle cx="15" cy="14" r="5" fill="#fff"/></svg></div>
+      </div>
+      <h2>Garis <span>Bilangan</span></h2>
+      <p>Taruh pin di garis bilangan dan baca letak angka: bilangan bulat, pecahan, desimal, sampai negatif. Untuk kelas 1 sampai 6, bisa dimainkan 2 tim di proyektor.</p>
+      <div class="tags"><span>9 jenis garis</span><span>Kelas 1–6</span><span>2 Tim &amp; proyektor</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 
