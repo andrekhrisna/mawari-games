@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, dan Kuis Kelas.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, Kuis Kelas, dan Tebak Persamaan.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -153,6 +153,15 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .kk .go{background:#FF6B35;color:#fff}
 .kkp{display:grid;grid-template-columns:1fr 1fr;gap:6px;width:170px}
 .kkp i{border-radius:9px;color:#fff;font-style:normal;font-weight:800;font-size:.85rem;padding:6px 8px;display:flex;gap:6px;align-items:center}
+.game.tq{background:#EEF0FB;color:#1E1B4B}
+.game.tq p{color:#6B6F94}
+.game.tq h2 span{color:#4338CA}
+.game.tq .tags span{background:rgba(30,27,75,.06);border-color:rgba(30,27,75,.14)}
+.tq .go{background:#4338CA;color:#fff}
+.tqp{display:flex;flex-direction:column;gap:4px}
+.tqp div{display:flex;gap:4px}
+.tqp i{width:26px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:.95rem;color:#fff}
+.tqp .g{background:#2F9E58} .tqp .y{background:#E0A100} .tqp .x{background:#7C8199}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -413,6 +422,16 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <p>Kuis buatan guru (pilihan ganda, benar/salah, angka, gambar) atau matematika otomatis. Main di satu layar, atau murid menjawab dari HP dengan kode kelas.</p>
       <div class="tags"><span>Untuk guru</span><span>Satu Layar / HP Murid</span><span>Ekspor ke guru lain</span></div>
       <span class="go">Buka <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game tq" href="tebak-persamaan/">
+      <div class="peek" aria-hidden="true">
+        <div class="tqp"><div><i class="x">1</i><i class="y">2</i><i class="x">+</i><i class="x">5</i><i class="y">=</i><i class="x">1</i><i class="x">7</i></div><div><i class="g">8</i><i class="g">8</i><i class="g">÷</i><i class="g">2</i><i class="g">2</i><i class="g">=</i><i class="g">4</i></div></div>
+      </div>
+      <h2>Tebak <span>Persamaan</span></h2>
+      <p>Tebak persamaan tersembunyi dalam 6 kali. Warna hijau, kuning, dan abu-abu memberi petunjuk. Soal harian, latihan, dan mode kelas 2 tim.</p>
+      <div class="tags"><span>SMP–SMA</span><span>Soal harian</span><span>Pangkat &amp; kurung</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 
     <a class="game silang" href="silang-hitung/">
