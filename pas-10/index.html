@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#1A0F2E">
+<title>Pas 10</title>
+<meta name="description" content="Sambungkan angka sampai jumlahnya pas 10, ledakkan, kejar combo. 60 detik!">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A0F2E'/%3E%3Crect x='8' y='8' width='22' height='22' rx='6' fill='%23FFC93D'/%3E%3Crect x='34' y='34' width='22' height='22' rx='6' fill='%235B7CFF'/%3E%3Crect x='34' y='8' width='22' height='22' rx='6' fill='%23FF4D6D'/%3E%3Crect x='8' y='34' width='22' height='22' rx='6' fill='%232ED3A3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:dark;
+  --bg:#1A0F2E;
+  --bg-2:#2E1A52;
+  --ink:#FFF7FD;
+  --muted:rgba(255,247,253,.62);
+  --line:rgba(255,255,255,.14);
+  --gold:#FFC93D;
+  --red:#FF4D6D;
+  --green:#2ED3A3;
+  --d1:#FF4D6D; --d2:#FF8A3D; --d3:#FFC93D; --d4:#7CDA4A; --d5:#2ED3A3; --d6:#2BB8F0; --d7:#5B7CFF; --d8:#A35BFF; --d9:#F05BD8;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{
+  margin:0;color:var(--ink);
+  font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  background:radial-gradient(120% 80% at 50% 0%,var(--bg-2),var(--bg) 70%) fixed;background-color:var(--bg);
+  display:flex;justify-content:center;
+  padding:12px 14px calc(16px + env(safe-area-inset-bottom));
+  user-select:none;-webkit-user-select:none;overscroll-behavior:none;
+}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.wrap{width:100%;max-width:460px;display:flex;flex-direction:column;gap:10px}
+.topbar{display:flex;align-items:center;gap:8px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;opacity:.8;
+  border:1px solid var(--line);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.3rem;line-height:1}
+.brand span{background:linear-gradient(90deg,var(--d3),var(--d1),var(--d9));-webkit-background-clip:text;background-clip:text;color:transparent}
+.pill{border:1px solid var(--line);background:rgba(255,255,255,.06);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:700;cursor:pointer;flex:none}
+
+/* ---------- HUD ---------- */
+.hud{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:8px}
+.stat small{display:block;font-size:.72rem;font-weight:800;letter-spacing:.08em;color:var(--muted)}
+.stat b{font-size:1.7rem;line-height:1}
+.stat.r{text-align:right}
+.time b.low{color:var(--red)}
+.combo{position:relative;width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:conic-gradient(var(--gold) calc(var(--p,0)*1turn),rgba(255,255,255,.1) 0);transition:opacity .2s}
+.combo::before{content:"";position:absolute;inset:6px;border-radius:50%;background:var(--bg)}
+.combo span{position:relative;font-weight:800;font-size:1.3rem;color:var(--gold)}
+.combo.off{opacity:.25}
+.combo.pop span{animation:cpop .3s ease-out}
+@keyframes cpop{0%{transform:scale(1.7)}100%{transform:scale(1)}}
+.tbar{height:6px;border-radius:99px;background:rgba(255,255,255,.1);overflow:hidden}
+.tbar i{display:block;height:100%;background:linear-gradient(90deg,var(--d5),var(--d3),var(--d1));transform-origin:left;border-radius:inherit}
+
+/* ---------- jumlah ---------- */
+.sum{display:flex;align-items:center;justify-content:center;gap:6px;min-height:44px;flex-wrap:wrap;font-weight:800;font-size:1.4rem}
+.sum .chip{min-width:34px;height:34px;padding:0 6px;border-radius:10px;display:inline-flex;align-items:center;justify-content:center;color:#1A0F2E}
+.sum .plus{color:var(--muted)}
+.sum .tot{margin-left:4px;color:var(--gold)}
+.sum .hint{color:var(--muted);font-size:1rem;font-weight:600}
+.meter{height:10px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:-4px}
+.meter i{display:block;height:100%;width:calc(var(--s,0)*10%);background:linear-gradient(90deg,var(--d6),var(--d5));border-radius:inherit;transition:width .12s}
+
+/* ---------- papan ---------- */
+.board{--bw:min(calc(100vw - 28px),460px);--cell:calc(var(--bw) / 5);position:relative;width:var(--bw);height:var(--bw);align-self:center;
+  border-radius:20px;background:rgba(0,0,0,.25);box-shadow:inset 0 0 0 1px var(--line);overflow:hidden;touch-action:none}
+.board.shake{animation:shake .4s}
+@keyframes shake{20%{transform:translateX(-10px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(4px)}}
+.blk{position:absolute;left:0;top:0;width:var(--cell);height:var(--cell);padding:5px;
+  transform:translate(calc(var(--c) * var(--cell)),calc(var(--r) * var(--cell)));
+  transition:transform .32s cubic-bezier(.3,1.25,.55,1)}
+.blk.nofx{transition:none}
+.blk b{display:flex;width:100%;height:100%;align-items:center;justify-content:center;border-radius:16px;
+  font-weight:800;font-size:calc(var(--cell) * .48);color:#1A0F2E;background:var(--col);
+  box-shadow:0 5px 0 rgba(0,0,0,.28),inset 0 2px 0 rgba(255,255,255,.45);transition:transform .1s,box-shadow .1s}
+.blk.sel b{transform:scale(.9);box-shadow:0 0 0 4px #fff,0 0 22px var(--col)}
+.blk.boom b{animation:boom .26s ease-in forwards}
+@keyframes boom{0%{transform:scale(1.1)}100%{transform:scale(0);opacity:0}}
+.blk.bad b{box-shadow:0 0 0 4px var(--red)}
+.spark{position:absolute;width:10px;height:10px;border-radius:3px;pointer-events:none;z-index:5;animation:spark .6s ease-out forwards}
+@keyframes spark{0%{transform:translate(0,0) scale(1)}100%{transform:translate(var(--x),var(--y)) scale(.2);opacity:0}}
+.float{position:absolute;z-index:6;pointer-events:none;font-weight:800;font-size:1.5rem;color:#fff;text-shadow:0 2px 6px rgba(0,0,0,.6);
+  transform:translate(-50%,-50%);animation:rise .9s ease-out forwards;white-space:nowrap}
+.float.bad{color:var(--red)}
+@keyframes rise{0%{opacity:0;transform:translate(-50%,-30%) scale(.7)}20%{opacity:1;transform:translate(-50%,-60%) scale(1.1)}100%{opacity:0;transform:translate(-50%,-160%)}}
+.banner{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:8;pointer-events:none;
+  font-weight:800;font-size:3.4rem;color:#fff;text-shadow:0 4px 20px rgba(0,0,0,.6)}
+.banner.cd span{animation:cd .9s ease-out}
+@keyframes cd{0%{transform:scale(2);opacity:0}30%{transform:scale(1);opacity:1}100%{opacity:.2}}
+.redflash{position:fixed;inset:0;background:var(--red);opacity:0;pointer-events:none;z-index:20}
+.redflash.on{animation:rf .45s ease-out}
+@keyframes rf{0%{opacity:.4}100%{opacity:0}}
+
+/* ---------- panel ---------- */
+.panel{border-radius:24px;border:1px solid var(--line);background:rgba(255,255,255,.06);padding:20px 18px;display:flex;flex-direction:column;gap:12px;text-align:center}
+.panel h1{margin:0;font-size:2rem;font-weight:800;line-height:1.05}
+.panel p{margin:0;color:var(--muted);line-height:1.5}
+.panel ul{margin:0;padding-left:1.2em;text-align:left;line-height:1.55;color:var(--muted)}
+.panel ul b{color:var(--ink)}
+.go{height:58px;border:0;border-radius:18px;font-weight:800;font-size:1.3rem;cursor:pointer;color:#1A0F2E;
+  background:linear-gradient(90deg,var(--d3),var(--d2));box-shadow:0 5px 0 #B8641D}
+.go:active{transform:translateY(3px);box-shadow:0 2px 0 #B8641D}
+.big{font-size:4.2rem;font-weight:800;line-height:1;color:var(--gold)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.grid3 div{border-radius:14px;background:rgba(0,0,0,.2);padding:8px 4px}
+.grid3 small{display:block;font-size:.72rem;color:var(--muted);font-weight:700}
+.grid3 b{font-size:1.3rem}
+.best{color:var(--muted)}
+.best b{color:var(--ink)}
+footer{text-align:center;color:var(--muted);font-size:.76rem}
+@media (prefers-reduced-motion:reduce){.blk{transition:none}*,*::before,*::after{animation-duration:.01s!important}}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="redflash" id="redflash" aria-hidden="true"></div>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Pas <span>10</span></div>
+    <button class="pill" id="quitBtn" type="button" hidden>Berhenti</button>
+  </div>
+
+  <section class="panel" id="start">
+    <h1>Pas <span style="color:var(--gold)">10</span></h1>
+    <p>60 detik. Sambungkan angka sampai jumlahnya <b style="color:var(--ink)">pas 10</b>.</p>
+    <ul>
+      <li>Ketuk angka satu per satu, atau <b>seret jari</b> melintasinya. Angka berikutnya harus <b>menempel</b> (termasuk diagonal) ke angka yang sudah dipilih.</li>
+      <li>Pas 10: kotak meledak, angka baru jatuh dari atas. <b>10 poin per kotak</b>, jadi makin banyak angka makin untung.</li>
+      <li>Ledakan berikutnya dalam <b>2 detik</b> = combo ×2, ×3, … sampai ×5.</li>
+      <li>Lewat dari 10: pilihan batal, combo putus, <b>waktu −3 detik</b>.</li>
+      <li>Ketuk angka terakhir yang dipilih untuk membatalkannya.</li>
+    </ul>
+    <div class="best" id="startBest"></div>
+    <button class="go" type="button" id="startBtn">Mulai</button>
+  </section>
+
+  <section id="game" hidden style="display:flex;flex-direction:column;gap:10px">
+    <div class="hud">
+      <div class="stat"><small>SKOR</small><b id="score">0</b></div>
+      <div class="combo off" id="combo" aria-live="polite"><span id="comboTxt">×1</span></div>
+      <div class="stat r time"><small>WAKTU</small><b id="time">60</b></div>
+    </div>
+    <div class="tbar"><i id="tbar"></i></div>
+    <div class="sum" id="sum" aria-live="polite"></div>
+    <div class="meter"><i id="meter"></i></div>
+    <div class="board" id="board" aria-label="Papan 5 kali 5"></div>
+  </section>
+
+  <section class="panel" id="over" hidden>
+    <p id="overWhy">Waktu habis!</p>
+    <div class="big" id="overScore">0</div>
+    <div class="grid3">
+      <div><small>LEDAKAN</small><b id="oClears">0</b></div>
+      <div><small>COMBO TERTINGGI</small><b id="oCombo">×1</b></div>
+      <div><small>KOTAK</small><b id="oBlocks">0</b></div>
+    </div>
+    <div class="best" id="overBest"></div>
+    <button class="go" type="button" id="againBtn">Main lagi</button>
+  </section>
+  <footer>Rekor disimpan di HP ini saja.</footer>
+</div>
+
+<script>
+/* ================= INTI: papan, sambungan, pencari langkah ================= */
+/* ===== Papan 5×5, angka 1–9 ===== */
+const SIZE=5, TARGET=10;
+const rdigit=rand=>1+Math.floor(rand()*9);
+/* 8 arah: termasuk diagonal */
+function neighbors(i){
+  const r=Math.floor(i/SIZE), c=i%SIZE, out=[];
+  for(let dr=-1;dr<=1;dr++)for(let dc=-1;dc<=1;dc++){
+    if(!dr&&!dc) continue;
+    const rr=r+dr, cc=c+dc;
+    if(rr>=0&&rr<SIZE&&cc>=0&&cc<SIZE) out.push(rr*SIZE+cc);
+  }
+  return out;
+}
+const NB=[...Array(SIZE*SIZE)].map((_,i)=>neighbors(i));
+function adjacentToSet(i,set){ return NB[i].some(j=>set.includes(j)); }
+
+/* Cari rangkaian bersambung berjumlah tepat 10.
+   Mengembalikan satu rangkaian (untuk petunjuk / cek buntu) atau null. countAll=true: hitung semua himpunan berbeda. */
+function findMoves(vals,countAll){
+  const seen=new Set(); let first=null;
+  function grow(set,sum){
+    if(sum===TARGET){
+      const key=set.slice().sort((a,b)=>a-b).join(",");
+      if(!seen.has(key)){ seen.add(key); if(!first) first=set.slice(); }
+      return !countAll;
+    }
+    /* kandidat: tetangga dari mana pun di himpunan */
+    const cand=new Set();
+    for(const i of set) for(const j of NB[i]) if(!set.includes(j)&&sum+vals[j]<=TARGET) cand.add(j);
+    for(const j of cand){
+      set.push(j);
+      if(grow(set,sum+vals[j])) return true;
+      set.pop();
+    }
+    return false;
+  }
+  for(let i=0;i<vals.length;i++){ if(grow([i],vals[i])&&!countAll) break; }
+  return countAll?{count:seen.size,first}:first;
+}
+function newBoard(rand){
+  rand=rand||Math.random;
+  let v;
+  do{ v=[...Array(SIZE*SIZE)].map(()=>rdigit(rand)); }while(!findMoves(v));
+  return v;
+}
+/* ================= AKHIR INTI ================= */
+</script>
+<script>
+/* ================= Permainan ================= */
+const $=id=>document.getElementById(id);
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,String(v)); }catch(e){ return null; } }
+const BEST="p10_best", DURATION=60000, COMBO_WINDOW=2000, PENALTY=3000, MAX_COMBO=5;
+let uid=0;
+const G={vals:[],ids:[],sel:[],playing:false,endAt:0,score:0,combo:0,lastClear:0,clears:0,blocks:0,maxCombo:1,lock:false,raf:0};
+
+/* ---- kotak: setiap angka punya elemen sendiri supaya bisa "jatuh" dengan transisi ---- */
+const els=new Map();   /* id -> elemen */
+function blockEl(id,v){
+  const d=document.createElement("div");
+  d.className="blk"; d.dataset.id=id;
+  d.style.setProperty("--col",`var(--d${v})`);
+  d.innerHTML=`<b>${v}</b>`;
+  $("board").appendChild(d); els.set(id,d);
+  return d;
+}
+function place(i,id,startRow){
+  const d=els.get(id), r=Math.floor(i/SIZE), c=i%SIZE;
+  if(startRow!==undefined){ d.classList.add("nofx"); d.style.setProperty("--r",startRow); d.style.setProperty("--c",c); void d.offsetWidth; d.classList.remove("nofx"); }
+  d.style.setProperty("--r",r); d.style.setProperty("--c",c); d.dataset.i=i;
+}
+function fillBoard(vals,fromAbove){
+  $("board").querySelectorAll(".blk").forEach(x=>x.remove()); els.clear();
+  G.vals=vals; G.ids=vals.map(v=>"b"+(++uid));
+  G.ids.forEach((id,i)=>{ blockEl(id,vals[i]); place(i,id,fromAbove?Math.floor(i/SIZE)-SIZE:undefined); });
+}
+
+/* ---- pilihan ---- */
+function renderSel(){
+  els.forEach(d=>d.classList.remove("sel"));
+  G.sel.forEach(i=>els.get(G.ids[i]).classList.add("sel"));
+  const s=G.sel.reduce((a,i)=>a+G.vals[i],0);
+  $("sum").innerHTML=G.sel.length
+    ?G.sel.map(i=>`<span class="chip" style="background:var(--d${G.vals[i]})">${G.vals[i]}</span>`).join('<span class="plus">+</span>')+`<span class="tot">= ${s}</span>`
+    :`<span class="hint">Sambung angka sampai pas 10</span>`;
+  $("meter").style.setProperty("--s",Math.min(s,10));
+}
+function trySelect(i){
+  if(!G.playing||G.lock||i<0) return;
+  const k=G.sel.indexOf(i);
+  if(k>=0){
+    if(k===G.sel.length-1){ G.sel.pop(); renderSel(); }      /* ketuk yang terakhir: batal satu */
+    return;
+  }
+  if(G.sel.length&&!adjacentToSet(i,G.sel)) return;           /* harus menempel */
+  G.sel.push(i);
+  const s=G.sel.reduce((a,j)=>a+G.vals[j],0);
+  renderSel();
+  if(s===TARGET) explode();
+  else if(s>TARGET) penalty();
+}
+
+/* ---- ledakan, gravitasi, isi ulang ---- */
+function explode(){
+  const now=performance.now();
+  G.combo=(G.combo&&now-G.lastClear<=COMBO_WINDOW)?Math.min(G.combo+1,MAX_COMBO):1;
+  G.lastClear=now; G.maxCombo=Math.max(G.maxCombo,G.combo);
+  const n=G.sel.length, pts=10*n*G.combo;
+  G.score+=pts; G.clears++; G.blocks+=n;
+  $("score").textContent=G.score;
+  const cm=$("combo"); cm.classList.toggle("off",G.combo<2); $("comboTxt").textContent="×"+G.combo;
+  cm.classList.remove("pop"); void cm.offsetWidth; cm.classList.add("pop");
+  /* titik tengah untuk tulisan poin */
+  const cx=G.sel.reduce((a,i)=>a+i%SIZE+.5,0)/n, cy=G.sel.reduce((a,i)=>a+Math.floor(i/SIZE)+.5,0)/n;
+  floatText(`+${pts}`+(G.combo>1?` ×${G.combo}`:""),cx,cy,"");
+  const gone=G.sel.slice(); G.sel=[]; G.lock=true;
+  gone.forEach(i=>{ const d=els.get(G.ids[i]); d.classList.add("boom"); sparks(i,G.vals[i]); });
+  renderSel();
+  if(navigator.vibrate) try{ navigator.vibrate(15); }catch(e){}
+  setTimeout(()=>{ gravity(gone); G.lock=false; },200);
+}
+function gravity(gone){
+  gone.forEach(i=>{ const id=G.ids[i]; els.get(id).remove(); els.delete(id); });
+  const nv=Array(SIZE*SIZE), nid=Array(SIZE*SIZE), fresh=[];
+  for(let c=0;c<SIZE;c++){
+    let w=SIZE-1;
+    for(let r=SIZE-1;r>=0;r--){ const i=r*SIZE+c; if(gone.includes(i)) continue; nv[w*SIZE+c]=G.vals[i]; nid[w*SIZE+c]=G.ids[i]; w--; }
+    let above=-1;
+    for(;w>=0;w--){ const v=rdigit(Math.random), id="b"+(++uid); nv[w*SIZE+c]=v; nid[w*SIZE+c]=id; fresh.push([w*SIZE+c,id,v,above--]); }
+  }
+  G.vals=nv; G.ids=nid;
+  nid.forEach((id,i)=>{ if(els.has(id)) place(i,id); });
+  fresh.forEach(([i,id,v,startRow])=>{ blockEl(id,v); place(i,id,startRow); });
+  if(!findMoves(G.vals)) reshuffle();
+}
+function reshuffle(){
+  G.lock=true;
+  banner("Acak!",700);
+  setTimeout(()=>{ if(!G.playing) return; fillBoard(newBoard(),true); G.lock=false; },450);
+}
+function penalty(){
+  G.sel.forEach(i=>els.get(G.ids[i]).classList.add("bad"));
+  const bad=G.sel.slice(); G.sel=[]; G.combo=0;
+  $("combo").classList.add("off"); $("comboTxt").textContent="×1";
+  G.endAt-=PENALTY;
+  const b=$("board"); b.classList.remove("shake"); void b.offsetWidth; b.classList.add("shake");
+  const f=$("redflash"); f.classList.remove("on"); void f.offsetWidth; f.classList.add("on");
+  const last=bad[bad.length-1]; floatText("−3 detik",last%SIZE+.5,Math.floor(last/SIZE)+.5,"bad");
+  if(navigator.vibrate) try{ navigator.vibrate(120); }catch(e){}
+  setTimeout(()=>bad.forEach(i=>{ const d=els.get(G.ids[i]); if(d) d.classList.remove("bad"); }),350);
+  renderSel();
+}
+function floatText(t,cx,cy,cls){
+  const f=document.createElement("div"); f.className="float "+cls; f.textContent=t;
+  f.style.left=Math.min(78,Math.max(22,cx/SIZE*100))+"%"; f.style.top=Math.max(12,cy/SIZE*100)+"%";
+  $("board").appendChild(f); setTimeout(()=>f.remove(),950);
+}
+function sparks(i,v){
+  if(matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const r=Math.floor(i/SIZE), c=i%SIZE, b=$("board");
+  for(let k=0;k<7;k++){
+    const s=document.createElement("i"); s.className="spark";
+    s.style.background=`var(--d${v})`;
+    s.style.left=`calc(${(c+.5)/SIZE*100}% - 5px)`; s.style.top=`calc(${(r+.5)/SIZE*100}% - 5px)`;
+    const a=Math.random()*Math.PI*2, d=30+Math.random()*50;
+    s.style.setProperty("--x",Math.cos(a)*d+"px"); s.style.setProperty("--y",Math.sin(a)*d+"px");
+    b.appendChild(s); setTimeout(()=>s.remove(),650);
+  }
+}
+function banner(text,ms,cls){
+  const d=document.createElement("div"); d.className="banner "+(cls||""); d.innerHTML=`<span>${text}</span>`;
+  $("board").appendChild(d); setTimeout(()=>d.remove(),ms);
+}
+
+/* ---- sentuh / seret ---- */
+let dragging=false;
+function cellAt(x,y){
+  const el=document.elementFromPoint(x,y), blk=el&&el.closest(".blk");
+  if(!blk||blk.classList.contains("boom")) return -1;
+  /* hanya bagian tengah kotak yang dihitung saat menyeret, supaya diagonal tidak tersentuh tak sengaja */
+  const r=blk.getBoundingClientRect(), mx=r.width*.18, my=r.height*.18;
+  if(dragging&&(x<r.left+mx||x>r.right-mx||y<r.top+my||y>r.bottom-my)) return -1;
+  return +blk.dataset.i;
+}
+$("board").addEventListener("pointerdown",e=>{
+  if(!G.playing) return;
+  e.preventDefault();
+  const i=cellAt(e.clientX,e.clientY);
+  dragging=true;
+  try{ $("board").setPointerCapture(e.pointerId); }catch(_){}
+  trySelect(i);
+});
+$("board").addEventListener("pointermove",e=>{
+  if(!dragging||!G.playing) return;
+  const i=cellAt(e.clientX,e.clientY);
+  if(i<0||i===G.sel[G.sel.length-1]) return;
+  if(G.sel.length>1&&i===G.sel[G.sel.length-2]){ G.sel.pop(); renderSel(); return; }   /* mundur saat menyeret */
+  if(!G.sel.includes(i)) trySelect(i);
+});
+["pointerup","pointercancel"].forEach(t=>$("board").addEventListener(t,()=>{ dragging=false; }));
+
+/* ---- waktu & combo ---- */
+function tick(){
+  if(!G.playing) return;
+  const now=performance.now(), left=Math.max(0,G.endAt-now);
+  $("time").textContent=Math.ceil(left/1000);
+  $("time").classList.toggle("low",left<=10000);
+  $("tbar").style.transform=`scaleX(${left/DURATION})`;
+  const cw=G.combo?Math.max(0,1-(now-G.lastClear)/COMBO_WINDOW):0;
+  $("combo").style.setProperty("--p",cw);
+  if(G.combo&&cw<=0){ G.combo=0; $("combo").classList.add("off"); $("comboTxt").textContent="×1"; }
+  if(left<=0){ endGame(); return; }
+  G.raf=requestAnimationFrame(tick);
+}
+function screen(w){ $("start").hidden=w!=="start"; $("game").hidden=w!=="game"; $("over").hidden=w!=="over"; $("quitBtn").hidden=w!=="game"; }
+function start(){
+  Object.assign(G,{sel:[],playing:false,score:0,combo:0,lastClear:0,clears:0,blocks:0,maxCombo:1,lock:true});
+  $("score").textContent=0; $("time").textContent=60; $("time").classList.remove("low"); $("tbar").style.transform="scaleX(1)";
+  $("combo").classList.add("off"); $("comboTxt").textContent="×1";
+  screen("game"); fillBoard(newBoard(),true); renderSel();
+  let n=3;
+  const step=()=>{
+    if(n>0){ banner(n,850,"cd"); n--; setTimeout(step,700); }
+    else{ G.playing=true; G.lock=false; G.endAt=performance.now()+DURATION; tick(); }
+  };
+  step();
+}
+function endGame(why){
+  G.playing=false; dragging=false; cancelAnimationFrame(G.raf);
+  const prev=+store(BEST)||0, isNew=G.score>prev;
+  if(isNew) store(BEST,G.score);
+  $("overWhy").textContent=why||"Waktu habis!";
+  $("overScore").textContent=G.score;
+  $("oClears").textContent=G.clears; $("oCombo").textContent="×"+G.maxCombo; $("oBlocks").textContent=G.blocks;
+  $("overBest").innerHTML=isNew&&G.score>0?`<b style="color:var(--green)">Rekor baru!</b>`:`Rekor: <b>${Math.max(prev,G.score)}</b>`;
+  setTimeout(()=>{ screen("over"); $("againBtn").focus(); },500);
+}
+$("startBtn").onclick=start; $("againBtn").onclick=start;
+$("quitBtn").onclick=()=>{ if(G.playing) endGame("Permainan dihentikan."); else screen("start"); };
+document.addEventListener("keydown",e=>{ if((e.key==="Enter"||e.key===" ")&&!$("over").hidden){ start(); e.preventDefault(); } });
+$("startBest").innerHTML=`Rekor: <b>${+store(BEST)||0}</b>`;
+screen("start");
+</script>
+</body>
+</html>

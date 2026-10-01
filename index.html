@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, dan Benar atau Salah?.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, dan Pas 10.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,6 +65,12 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .bsp div:last-child{transform:rotate(5deg)}
 .bsp b{color:#FF5E8A}
 .bsp i{position:absolute;top:8px;left:10px;font-style:normal;font-size:.8rem;color:#22C55E;border:3px solid #22C55E;border-radius:7px;padding:0 6px;transform:rotate(-12deg)}
+.game.p10{background:radial-gradient(120% 90% at 50% 0%,#2E1A52,#1A0F2E 75%)}
+.game.p10 h2 span{background:linear-gradient(90deg,#FFC93D,#FF4D6D,#F05BD8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.p10 .go{background:linear-gradient(90deg,#FFC93D,#FF8A3D);color:#1A0F2E}
+.pg{display:grid;grid-template-columns:repeat(4,34px);gap:5px}
+.pg b{height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#1A0F2E;box-shadow:0 3px 0 rgba(0,0,0,.3)}
+.pg b.s{box-shadow:0 0 0 3px #fff,0 0 14px rgba(255,255,255,.5);transform:scale(.92)}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -204,6 +210,20 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Benar atau Salah?</h2>
       <p>Adu cepat: geser kartu ke kanan kalau persamaannya benar, ke kiri kalau salah. Makin lama makin cepat. Seberapa panjang streak-mu?</p>
       <div class="tags"><span>Geser kartu</span><span>3 kecepatan</span><span>Rekor streak</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game p10" href="pas-10/">
+      <div class="peek" aria-hidden="true">
+        <div class="pg">
+          <b style="background:#5B7CFF">7</b><b style="background:#FFC93D" class="s">3</b><b style="background:#A35BFF">8</b><b style="background:#2BB8F0">6</b>
+          <b style="background:#7CDA4A" class="s">4</b><b style="background:#F05BD8">9</b><b style="background:#FF4D6D" class="s">1</b><b style="background:#FF8A3D">2</b>
+          <b style="background:#2ED3A3">5</b><b style="background:#FF8A3D" class="s">2</b><b style="background:#5B7CFF">7</b><b style="background:#F05BD8">9</b>
+        </div>
+      </div>
+      <h2>Pas <span>10</span></h2>
+      <p>60 detik! Sambungkan angka yang bersebelahan sampai jumlahnya pas 10, ledakkan, dan kejar combo sebelum waktu habis.</p>
+      <div class="tags"><span>60 detik</span><span>Combo ×5</span><span>Seret jari</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 
