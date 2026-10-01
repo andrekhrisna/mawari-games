@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, dan Jam Berapa?.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, dan Warung Kembalian.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -109,6 +109,16 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .jbp svg{width:118px;height:118px}
 .jbp .t{font-weight:800;color:#0F766E;line-height:1.1;font-size:1rem;text-align:left}
 .jbp .t b{display:block;font-size:1.6rem;color:#1E293B}
+.game.wk{background:repeating-linear-gradient(0deg,rgba(139,90,51,.06) 0 2px,transparent 2px 18px),#FFF4E2;color:#2E1F14}
+.game.wk p{color:#7C6A5A}
+.game.wk h2 span{color:#EA7A1E}
+.game.wk .tags span{background:rgba(46,31,20,.06);border-color:rgba(46,31,20,.14)}
+.wk .go{background:#EA7A1E;color:#fff}
+.wkp{display:flex;flex-direction:column;align-items:center;gap:8px}
+.wkp .r{display:flex;align-items:center;gap:8px;font-weight:800;color:#2E1F14}
+.wkp .n{border-radius:7px;padding:6px 10px;font-weight:800;font-size:.95rem;box-shadow:0 2px 0 rgba(0,0,0,.2);border:2px solid rgba(0,0,0,.1)}
+.wkp .c{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;border:3px solid rgba(0,0,0,.15)}
+.wkp .b{font-size:2.4rem;line-height:1}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -315,6 +325,19 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Jam <span>Berapa?</span></h2>
       <p>Belajar membaca jam: baca jam jarum, putar jarumnya sendiri, cocokkan kalimat seperti "setengah delapan" dan "kurang seperempat", sampai menghitung lama waktu.</p>
       <div class="tags"><span>4 tingkat</span><span>Atur jarum</span><span>2 Tim &amp; proyektor</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game wk" href="warung-kembalian/">
+      <div class="peek" aria-hidden="true">
+        <div class="wkp">
+          <div class="r"><span class="b">🧒</span><span>🍞 Rp7.500 · bayar</span><span class="n" style="background:#C7A6D8">10.000</span></div>
+          <div class="r">kembali: <span class="n" style="background:#C9CDD3">2.000</span><span class="c" style="background:#F2C14E">500</span></div>
+        </div>
+      </div>
+      <h2>Warung <span>Kembalian</span></h2>
+      <p>Jadi kasir warung: hitung belanjaan, lalu siapkan uang kembalian dari laci dengan lembar dan koin sesedikit mungkin.</p>
+      <div class="tags"><span>4 tingkat</span><span>Bonus lembar paling sedikit</span><span>2 Tim &amp; proyektor</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 
