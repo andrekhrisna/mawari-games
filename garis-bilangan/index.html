@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FBF5E8">
+<title>Garis Bilangan</title>
+<meta name="description" content="Taruh angka di garis bilangan dan baca letaknya: bilangan bulat, pecahan, desimal, dan negatif.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%23FBF5E8'/%3E%3Crect x='6' y='36' width='52' height='12' rx='3' fill='%23E9C46A'/%3E%3Cpath d='M12 36v6M22 36v4M32 36v6M42 36v4M52 36v6' stroke='%235A3E1B' stroke-width='2'/%3E%3Cpath d='M40 30l-6-12a7 7 0 1 1 12 0z' fill='%23E63946'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FBF5E8;
+  --card:#FFFFFF;
+  --ink:#2B2118;
+  --muted:#7A6A58;
+  --line:#E7DCC7;
+  --wood:#E9C46A;
+  --wood-2:#D9A93F;
+  --wood-ink:#5A3E1B;
+  --pin:#E63946;
+  --teamB:#2A6FDB;
+  --ok:#2A9D5C;
+  --ok-soft:#DDF3E6;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:12px 16px calc(18px + env(safe-area-inset-bottom))}
+button,input{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--teamB);outline-offset:2px}
+.wrap{width:100%;max-width:560px;display:flex;flex-direction:column;gap:12px}
+.big .wrap{max-width:1180px}
+.topbar{display:flex;align-items:center;gap:8px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.25rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media (max-width:480px){.topbar .lg{display:none}}
+.brand span{color:var(--pin)}
+.pill{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:700;cursor:pointer;flex:none;white-space:nowrap}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.lbl{font-size:.8rem;font-weight:800;letter-spacing:.06em;color:var(--muted);margin-bottom:-6px}
+.topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px}
+.topics button{border:2px solid var(--line);background:var(--bg);border-radius:14px;padding:8px 10px;text-align:left;cursor:pointer;line-height:1.2}
+.topics button b{display:block;font-size:1.02rem}
+.topics button small{color:var(--muted);font-size:.78rem}
+.topics button small i{font-style:normal;color:var(--wood-ink)}
+.topics button[aria-pressed="true"]{border-color:var(--pin);background:#FDECEC}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:7px 4px;font-weight:800;font-size:.92rem;cursor:pointer;color:var(--muted);line-height:1.15}
+.seg button small{display:block;font-weight:600;font-size:.7rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.names{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.names input{border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:1rem;font-weight:700;width:100%}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:800;font-size:1.1rem;cursor:pointer;background:var(--pin);color:#fff;box-shadow:0 4px 0 #A82833}
+.btn:active:not(:disabled){transform:translateY(2px);box-shadow:0 2px 0 #A82833}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.btn.dark{background:var(--ink);box-shadow:0 4px 0 #000}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.best{color:var(--muted);font-size:.92rem}
+.best b{color:var(--ink)}
+
+/* ---------- soal ---------- */
+.hud{display:flex;justify-content:space-between;align-items:baseline;gap:8px;color:var(--muted);font-size:.92rem}
+.hud b{color:var(--ink);font-size:1.1rem}
+.hud .team{font-weight:800}
+.prompt{text-align:center}
+.prompt .ask{color:var(--muted);font-weight:700}
+.prompt .target{font-weight:800;font-size:clamp(2.6rem,12vw,3.6rem);line-height:1.1;color:var(--pin)}
+.big .prompt .target{font-size:min(9vw,7rem)}
+.fr{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1;font-size:.62em;margin:0 .05em}
+.fr span:first-child{border-bottom:.08em solid currentColor;padding:0 .12em .04em}
+.fr span:last-child{padding-top:.04em}
+
+/* ---------- garis bilangan (penggaris) ---------- */
+.nl{position:relative;height:150px;margin:0 2px;touch-action:none;user-select:none;-webkit-user-select:none;cursor:pointer}
+.big .nl{height:min(30vh,260px)}
+.nl .rail{position:absolute;left:6%;right:6%;top:58%;height:22px;transform:translateY(-50%);border-radius:6px;
+  background:linear-gradient(180deg,var(--wood),var(--wood-2));box-shadow:0 4px 0 #B88A2C,inset 0 2px 0 rgba(255,255,255,.4)}
+.big .nl .rail{height:34px}
+.nl .tick{position:absolute;top:58%;width:2px;height:22px;background:var(--wood-ink);transform:translate(-1px,-50%)}
+.nl .tick.major{height:34px;width:3px;transform:translate(-1.5px,-50%)}
+.big .nl .tick{height:34px} .big .nl .tick.major{height:52px;width:4px}
+.nl .tl{position:absolute;top:calc(58% + 24px);transform:translateX(-50%);font-weight:800;font-size:1.05rem;color:var(--wood-ink);white-space:nowrap}
+.big .nl .tl{top:calc(58% + 36px);font-size:min(3vw,2rem)}
+.pin{position:absolute;top:58%;width:30px;height:46px;transform:translate(-50%,-100%);pointer-events:none;transition:left .05s}
+.pin svg{width:100%;height:100%;filter:drop-shadow(0 3px 2px rgba(0,0,0,.25))}
+.big .pin{width:48px;height:72px}
+.pin.a{color:var(--pin)} .pin.b{color:var(--teamB)} .pin.ans{color:var(--ok)}
+.pin .tag{position:absolute;bottom:100%;left:50%;transform:translateX(-50%);font-weight:800;font-size:.95rem;white-space:nowrap;
+  background:currentColor;border-radius:8px;padding:0 7px;margin-bottom:2px}
+.pin .tag span{color:#fff}
+.big .pin .tag{font-size:min(2.6vw,1.6rem)}
+.gap{position:absolute;top:58%;height:10px;transform:translateY(-50%);background:repeating-linear-gradient(90deg,rgba(230,57,70,.55) 0 6px,transparent 6px 10px);border-radius:4px;pointer-events:none}
+.hint{text-align:center;color:var(--muted);font-size:.9rem;min-height:1.3em}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{border:2px solid var(--line);background:var(--card);border-radius:16px;min-height:64px;font-weight:800;font-size:1.6rem;cursor:pointer}
+.big .opt{font-size:min(4vw,2.8rem);min-height:100px}
+.opt.right{border-color:var(--ok);background:var(--ok-soft)}
+.opt.wrong{border-color:var(--pin);background:#FDECEC}
+.opt:disabled{cursor:default}
+.fb{text-align:center;font-weight:800;font-size:1.15rem;min-height:1.6em}
+.fb .pts{color:var(--ok)}
+.fb .zero{color:var(--pin)}
+.big .fb{font-size:min(3vw,2rem)}
+.acts{display:grid;grid-template-columns:1fr;gap:8px}
+
+/* ---------- hasil ---------- */
+.total{font-size:4rem;font-weight:800;line-height:1;color:var(--pin);text-align:center}
+.total small{font-size:.35em;color:var(--muted)}
+.list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:.95rem}
+.list li{display:grid;grid-template-columns:28px 1fr auto;gap:8px;padding:6px 10px;border-radius:10px;background:var(--bg)}
+.list li b{text-align:right}
+.teams{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center}
+.teams div{border-radius:16px;padding:10px;background:var(--bg)}
+.teams b{display:block;font-size:2.4rem;line-height:1.1}
+.winner{text-align:center;font-weight:800;font-size:1.5rem}
+footer{text-align:center;color:var(--muted);font-size:.76rem}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Garis <span>Bilangan</span></div>
+    <button class="pill" id="quitBtn" type="button" aria-label="Pengaturan" hidden><span aria-hidden="true">⚙</span><span class="lg" aria-hidden="true"> Pengaturan</span></button>
+  </div>
+
+  <!-- pengaturan -->
+  <section class="card" id="setup">
+    <div class="lbl">GARIS BILANGAN</div>
+    <div class="topics" id="topics"></div>
+    <div class="row2">
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="lbl">TINGKAT</div>
+        <div class="seg" id="segLevel"><button type="button" data-v="mudah" aria-pressed="true">Mudah<small>ada skala</small></button><button type="button" data-v="sulit" aria-pressed="false">Sulit<small>hanya ujung</small></button></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="lbl">MODE</div>
+        <div class="seg" id="segMode"><button type="button" data-v="solo" aria-pressed="true">Sendiri</button><button type="button" data-v="tim" aria-pressed="false">2 Tim</button></div>
+      </div>
+    </div>
+    <div class="names" id="names" hidden>
+      <input id="nameA" maxlength="14" placeholder="Tim Merah" aria-label="Nama tim pertama">
+      <input id="nameB" maxlength="14" placeholder="Tim Biru" aria-label="Nama tim kedua">
+    </div>
+    <label class="best" style="display:flex;align-items:center;gap:8px;cursor:pointer"><input type="checkbox" id="bigChk" style="width:20px;height:20px"> Layar besar (untuk proyektor kelas)</label>
+    <div class="best" id="setupBest"></div>
+    <button class="btn" type="button" id="startBtn">Mulai 10 soal</button>
+  </section>
+
+  <!-- main -->
+  <section class="card" id="play" hidden>
+    <div class="hud"><span id="hudQ"></span><span class="team" id="hudTeam"></span><span id="hudScore"></span></div>
+    <div class="prompt"><div class="ask" id="ask"></div><div class="target" id="target"></div></div>
+    <div class="nl" id="nl" aria-label="Garis bilangan"></div>
+    <div class="hint" id="hint"></div>
+    <div class="opts" id="opts" hidden></div>
+    <div class="fb" id="fb" aria-live="polite"></div>
+    <div class="acts">
+      <button class="btn" type="button" id="lockBtn" disabled>Kunci ✓</button>
+      <button class="btn dark" type="button" id="nextBtn" hidden>Lanjut →</button>
+    </div>
+  </section>
+
+  <!-- hasil -->
+  <section class="card" id="result" hidden>
+    <div id="resBody" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div class="row2"><button class="btn" type="button" id="againBtn">Main lagi</button><button class="btn ghost" type="button" id="setupBtn">Pengaturan</button></div>
+  </section>
+  <footer>Rekor disimpan di HP ini saja.</footer>
+</div>
+
+<script>
+/* ================= INTI: jenis garis, soal, skor ================= */
+/* ===== Jenis garis bilangan ===== */
+function gcd(a,b){a=Math.abs(a);b=Math.abs(b);while(b){[a,b]=[b,a%b];}return a;}
+const ri=(a,b,rand)=>a+Math.floor(rand()*(b-a+1));
+/* desimal ala Indonesia: koma, tanpa nol di belakang (0,1 bukan 0,10) */
+const DEC=(v,d)=>String(Number(v.toFixed(d))).replace(".",",");
+/* tulisan angka: {text (polos), html (dengan pecahan bertumpuk)} */
+function fracParts(n,d){ const w=Math.floor(n/d), r=n%d; return {w,r,d}; }
+function fracHTML(n,d){
+  if(n%d===0) return String(n/d);
+  const {w,r}=fracParts(n,d);
+  return `${w?w:""}<span class="fr"><span>${r}</span><span>${d}</span></span>`;
+}
+function fracText(n,d){ if(n%d===0) return String(n/d); const {w,r}=fracParts(n,d); return (w?w+" ":"")+r+"/"+d; }
+
+const DENOMS=[2,3,4,5,6,8,10];
+function intTopic(key,label,grade,min,max,easyStep,labelStep){
+  return {key,label,grade,min,max,
+    gen(rand){ let v; do{ v=ri(min+1,max-1,rand); }while(v%labelStep===0&&rand()<.8); return {v,text:String(v),html:String(v)}; },
+    ticks(easy){ const t=[]; const st=easy?easyStep:(max-min); for(let v=min;v<=max;v+=st) t.push({v,label:(v===min||v===max||(easy&&v%labelStep===0))?String(v):""}); return t; },
+    fmt:v=>String(Math.round(v))};
+}
+const TOPICS=[
+  intTopic("b10","0 – 10","Kelas 1",0,10,1,5),
+  intTopic("b20","0 – 20","Kelas 1–2",0,20,1,5),
+  intTopic("b100","0 – 100","Kelas 2–3",0,100,10,50),
+  intTopic("b1000","0 – 1000","Kelas 3–4",0,1000,100,500),
+  {key:"p1",label:"Pecahan 0 – 1",grade:"Kelas 3–5",min:0,max:1,
+    gen(rand){ let d,n; do{ d=DENOMS[ri(0,DENOMS.length-1,rand)]; n=ri(1,d-1,rand); }while(gcd(n,d)!==1); return {v:n/d,text:fracText(n,d),html:fracHTML(n,d),n,d}; },
+    ticks(easy){ return easy?[0,1,2,3,4].map(k=>({v:k/4,label:k===0?"0":k===4?"1":k===2?fracHTML(1,2):""})):[{v:0,label:"0"},{v:1,label:"1"}]; },
+    fmt:v=>DEC(v,2)},
+  {key:"p2",label:"Pecahan 0 – 2",grade:"Kelas 4–6",min:0,max:2,
+    gen(rand){ let d,n; do{ d=DENOMS[ri(0,DENOMS.length-1,rand)]; n=ri(1,2*d-1,rand); }while(gcd(n,d)!==1||n===d); return {v:n/d,text:fracText(n,d),html:fracHTML(n,d),n,d}; },
+    ticks(easy){ return easy?[0,1,2,3,4].map(k=>({v:k/2,label:k%2===0?String(k/2):""})):[{v:0,label:"0"},{v:2,label:"2"}]; },
+    fmt:v=>DEC(v,2)},
+  {key:"d1",label:"Desimal 0 – 1",grade:"Kelas 4–5",min:0,max:1,
+    gen(rand){ const h=rand()<.5?ri(1,9,rand)*10+(rand()<.5?5:0):ri(1,19,rand)*5; const v=Math.min(95,h)/100; return {v,text:DEC(v,2),html:DEC(v,2)}; },
+    ticks(easy){ const t=[]; for(let k=0;k<=10;k++) if(easy||k===0||k===10) t.push({v:k/10,label:k===0?"0":k===10?"1":(easy&&k===5?"0,5":"")}); return t; },
+    fmt:v=>DEC(v,2)},
+  {key:"d10",label:"Desimal 0 – 10",grade:"Kelas 5–6",min:0,max:10,
+    gen(rand){ let t; do{ t=ri(1,99,rand); }while(t%10===0); const v=t/10; return {v,text:DEC(v,1),html:DEC(v,1)}; },
+    ticks(easy){ const t=[]; for(let k=0;k<=10;k++) if(easy||k===0||k===10) t.push({v:k,label:(k===0||k===10||(easy&&k===5))?String(k):""}); return t; },
+    fmt:v=>DEC(v,1)},
+  {key:"neg",label:"Negatif −10–10",grade:"Kelas 6",min:-10,max:10,
+    gen(rand){ let v; do{ v=ri(-9,9,rand); }while(v===0&&rand()<.8); return {v,text:v<0?"−"+(-v):String(v),html:v<0?"−"+(-v):String(v)}; },
+    ticks(easy){ const t=[]; for(let v=-10;v<=10;v+=easy?1:20) t.push({v,label:(v===-10||v===10||(easy&&(v===0||v===-5||v===5)))?(v<0?"−"+(-v):String(v)):""}); if(!easy) t.splice(1,0,{v:0,label:"0"}); return t; },
+    fmt:v=>{ const r=Math.round(v); return r<0?"−"+(-r):String(r); }}
+];
+const TOPIC=Object.fromEntries(TOPICS.map(t=>[t.key,t]));
+
+/* ===== Skor: 100 − 5 × meleset (% dari panjang garis), paling kecil 0 ===== */
+function errPct(t,guess,v){ return Math.abs(guess-v)/(t.max-t.min)*100; }
+function scoreOf(pct){ return pct<=0.5?100:Math.max(0,Math.round(100-5*pct)); }
+
+/* ===== Soal "baca": 3 pilihan pengecoh yang cukup jauh (≥5%) tapi masih masuk akal (≤35%) ===== */
+function makeRead(t,rand){
+  const q=t.gen(rand), opts=[q];
+  for(let k=0;k<400&&opts.length<4;k++){
+    const c=t.gen(rand), d=errPct(t,c.v,q.v);
+    if(d<5||d>35) continue;
+    if(opts.some(o=>Math.abs(o.v-c.v)<1e-9)) continue;
+    opts.push(c);
+  }
+  for(let i=opts.length-1;i>0;i--){ const j=Math.floor(rand()*(i+1)); [opts[i],opts[j]]=[opts[j],opts[i]]; }
+  return {kind:"read",q,opts};
+}
+function makeQuestion(t,mix,rand){
+  rand=rand||Math.random;
+  if(mix==="read"||(mix==="mix"&&rand()<0.4)) return makeRead(t,rand);
+  return {kind:"place",q:t.gen(rand)};
+}
+/* ================= AKHIR INTI ================= */
+</script>
+<script>
+const $=id=>document.getElementById(id);
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k,String(v)); }catch(e){ return null; } }
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ROUNDS=10;
+const PIN_SVG='<svg viewBox="0 0 30 46" aria-hidden="true"><path d="M15 46 3 22A13 13 0 1 1 27 22Z" fill="currentColor"/><circle cx="15" cy="14" r="5" fill="#fff"/></svg>';
+const S={topic:"b100",level:"mudah",mode:"solo",names:["Tim Merah","Tim Biru"],big:false,
+  i:0,q:null,turn:0,guess:[null,null],locked:false,scores:[0,0],log:[]};
+try{ const p=JSON.parse(store("gb_prefs")||"{}"); if(TOPIC[p.topic]) S.topic=p.topic; if(["mudah","sulit"].includes(p.level)) S.level=p.level;
+  if(["solo","tim"].includes(p.mode)) S.mode=p.mode; if(Array.isArray(p.names)) S.names=[p.names[0]||"Tim Merah",p.names[1]||"Tim Biru"]; S.big=!!p.big; }catch(e){}
+function savePrefs(){ store("gb_prefs",JSON.stringify({topic:S.topic,level:S.level,mode:S.mode,names:S.names,big:S.big})); }
+const bestKey=()=>`gb_best_${S.topic}_${S.level}`;
+const T=()=>TOPIC[S.topic];
+
+/* ---- pengaturan ---- */
+function renderSetup(){
+  $("topics").innerHTML=TOPICS.map(t=>`<button type="button" data-v="${t.key}" aria-pressed="${t.key===S.topic}"><b>${t.label}</b><small><i>${t.grade}</i> · rekor ${+store(`gb_best_${t.key}_${S.level}`)||0}</small></button>`).join("");
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===S.level));
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===S.mode));
+  $("names").hidden=S.mode!=="tim";
+  $("nameA").value=S.names[0]==="Tim Merah"?"":S.names[0]; $("nameB").value=S.names[1]==="Tim Biru"?"":S.names[1];
+  $("bigChk").checked=S.big;
+  $("setupBest").innerHTML=S.mode==="solo"?`Rekor ${T().label} · ${S.level}: <b>${+store(bestKey())||0}</b> / ${ROUNDS*100}`:`2 tim bergantian menaruh pin di garis yang sama. Pin tim pertama disembunyikan saat tim kedua menebak.`;
+  document.documentElement.classList.toggle("big",S.big);
+}
+$("topics").onclick=e=>{ const b=e.target.closest("button"); if(!b) return; S.topic=b.dataset.v; savePrefs(); renderSetup(); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(!b) return; S.level=b.dataset.v; savePrefs(); renderSetup(); };
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(!b) return; S.mode=b.dataset.v; savePrefs(); renderSetup(); };
+$("bigChk").onchange=()=>{ S.big=$("bigChk").checked; savePrefs(); renderSetup(); };
+["nameA","nameB"].forEach((id,k)=>$(id).addEventListener("input",()=>{ S.names[k]=($(id).value.trim()||(k?"Tim Biru":"Tim Merah")).slice(0,14); savePrefs(); }));
+
+function screen(w){ $("setup").hidden=w!=="setup"; $("play").hidden=w!=="play"; $("result").hidden=w!=="result"; $("quitBtn").hidden=w==="setup"; }
+
+/* ---- garis bilangan ---- */
+const posPct=v=>6+88*(v-T().min)/(T().max-T().min);       /* rail: 6% sampai 94% */
+function valFromX(clientX){
+  const r=$("nl").getBoundingClientRect(), f=((clientX-r.left)/r.width*100-6)/88;
+  const c=Math.max(0,Math.min(1,f));
+  return T().min+c*(T().max-T().min);
+}
+function drawLine(){
+  const t=T(), nl=$("nl"), easy=S.level==="mudah";
+  let h='<div class="rail"></div>';
+  for(const k of t.ticks(easy)){ const x=posPct(k.v); h+=`<div class="tick${k.label?" major":""}" style="left:${x}%"></div>`; if(k.label) h+=`<div class="tl" style="left:${x}%">${k.label}</div>`; }
+  nl.innerHTML=h+'<div id="pins"></div>';
+}
+function drawPins(reveal){
+  const pins=[];
+  const q=S.q;
+  const show=(v,cls,tag)=>pins.push(`<div class="pin ${cls}" style="left:${posPct(v)}%">${tag?`<div class="tag"><span>${tag}</span></div>`:""}${PIN_SVG}</div>`);
+  if(q.kind==="read"){ show(q.q.v,"a",reveal?q.q.html:"?"); }
+  else{
+    if(reveal){
+      const g=S.mode==="tim"?[0,1]:[0];
+      g.forEach(k=>{ if(S.guess[k]!==null){ const a=Math.min(S.guess[k],q.q.v), b=Math.max(S.guess[k],q.q.v); pins.push(`<div class="gap" style="left:${posPct(a)}%;width:${posPct(b)-posPct(a)}%"></div>`); } });
+      g.forEach(k=>{ if(S.guess[k]!==null) show(S.guess[k],k?"b":"a",""); });
+      show(q.q.v,"ans",q.q.html);
+    }else if(S.guess[S.turn]!==null) show(S.guess[S.turn],S.turn?"b":"a","");
+  }
+  $("pins").innerHTML=pins.join("");
+}
+
+/* ---- jalannya soal ---- */
+function start(){
+  S.i=0; S.scores=[0,0]; S.log=[];
+  screen("play"); nextQ();
+}
+function nextQ(){
+  S.i++; S.turn=0; S.guess=[null,null]; S.locked=false;
+  S.q=makeQuestion(T(),S.mode==="tim"?"place":"mix");
+  $("hudQ").innerHTML=`Soal <b>${S.i}</b>/${ROUNDS}`;
+  $("hudScore").innerHTML=S.mode==="tim"?`<b style="color:var(--pin)">${S.scores[0]}</b> : <b style="color:var(--teamB)">${S.scores[1]}</b>`:`Skor <b>${S.scores[0]}</b>`;
+  $("fb").innerHTML=""; $("nextBtn").hidden=true; $("hudTeam").innerHTML="";
+  drawLine();
+  if(S.q.kind==="read"){
+    $("ask").textContent="Pin menunjuk angka berapa?"; $("target").innerHTML="";
+    $("opts").hidden=false; $("lockBtn").hidden=true; $("hint").textContent="";
+    $("opts").innerHTML=S.q.opts.map((o,k)=>`<button class="opt" type="button" data-k="${k}">${o.html}</button>`).join("");
+  }else{
+    $("opts").hidden=true; $("lockBtn").hidden=false; $("lockBtn").disabled=true;
+    setTurnText();
+  }
+  drawPins(false);
+}
+function setTurnText(){
+  $("ask").innerHTML=S.mode==="tim"?`Giliran <b style="color:${S.turn?"var(--teamB)":"var(--pin)"}">${esc(S.names[S.turn])}</b>: taruh pin di`:"Taruh pin di";
+  $("target").innerHTML=S.q.q.html;
+  $("hudTeam").innerHTML=S.mode==="tim"?`<span style="color:${S.turn?"var(--teamB)":"var(--pin)"}">${esc(S.names[S.turn])}</span>`:"";
+  $("hint").textContent=S.mode==="tim"&&S.turn===1?`Pin ${S.names[0]} disembunyikan dulu.`:"Ketuk atau geser di garis, lalu tekan Kunci.";
+}
+/* menaruh pin: ketuk lalu geser jari di garis */
+let dragging=false;
+$("nl").addEventListener("pointerdown",e=>{
+  if(S.locked||!S.q||S.q.kind!=="place") return;
+  dragging=true; try{ $("nl").setPointerCapture(e.pointerId); }catch(_){}
+  setGuess(valFromX(e.clientX)); e.preventDefault();
+});
+$("nl").addEventListener("pointermove",e=>{ if(dragging) setGuess(valFromX(e.clientX)); });
+["pointerup","pointercancel"].forEach(t=>$("nl").addEventListener(t,()=>{ dragging=false; }));
+function setGuess(v){ S.guess[S.turn]=v; $("lockBtn").disabled=false; drawPins(false); }
+document.addEventListener("keydown",e=>{
+  if($("play").hidden) return;
+  if(S.q&&S.q.kind==="place"&&!S.locked&&(e.key==="ArrowLeft"||e.key==="ArrowRight")){
+    const t=T(), step=(t.max-t.min)/200, g=S.guess[S.turn]===null?(t.min+t.max)/2:S.guess[S.turn];
+    setGuess(Math.max(t.min,Math.min(t.max,g+(e.key==="ArrowRight"?step:-step)))); e.preventDefault();
+  }else if(e.key==="Enter"&&document.activeElement===document.body){
+    if(!$("nextBtn").hidden) $("nextBtn").click(); else if(!$("lockBtn").hidden&&!$("lockBtn").disabled) $("lockBtn").click();
+    e.preventDefault();
+  }
+});
+$("lockBtn").onclick=()=>{
+  if(S.guess[S.turn]===null||S.locked) return;
+  if(S.mode==="tim"&&S.turn===0){ S.turn=1; $("lockBtn").disabled=true; setTurnText(); drawPins(false); return; }
+  S.locked=true; $("lockBtn").hidden=true;
+  const t=T(), q=S.q.q;
+  if(S.mode==="tim"){
+    const p=[0,1].map(k=>scoreOf(errPct(t,S.guess[k],q.v)));
+    S.scores[0]+=p[0]; S.scores[1]+=p[1];
+    const d=[0,1].map(k=>Math.abs(S.guess[k]-q.v));
+    const w=d[0]===d[1]?-1:(d[0]<d[1]?0:1);
+    $("fb").innerHTML=`${esc(S.names[0])} <span class="pts">+${p[0]}</span> · ${esc(S.names[1])} <span class="pts">+${p[1]}</span><br>${w<0?"Sama dekat!":`<span style="color:${w?"var(--teamB)":"var(--pin)"}">${esc(S.names[w])}</span> lebih dekat`}`;
+    S.log.push({q:q.text,a:p[0],b:p[1]});
+    $("hudScore").innerHTML=`<b style="color:var(--pin)">${S.scores[0]}</b> : <b style="color:var(--teamB)">${S.scores[1]}</b>`;
+  }else{
+    const pct=errPct(t,S.guess[0],q.v), pts=scoreOf(pct);
+    S.scores[0]+=pts; S.log.push({q:q.text,pts,kind:"taruh",pct});
+    $("fb").innerHTML=pts===100?`<span class="pts">Tepat sekali! ⭐ +100</span>`:`Pinmu di ${t.fmt(S.guess[0])}, meleset ${pct.toFixed(1).replace(".",",")}% · <span class="${pts?"pts":"zero"}">+${pts}</span>`;
+    $("hudScore").innerHTML=`Skor <b>${S.scores[0]}</b>`;
+  }
+  $("hint").textContent="";
+  drawPins(true); showNext();
+};
+$("opts").onclick=e=>{
+  const b=e.target.closest(".opt"); if(!b||S.locked) return;
+  S.locked=true;
+  const t=T(), o=S.q.opts[+b.dataset.k], q=S.q.q, pct=errPct(t,o.v,q.v), pts=scoreOf(pct);
+  $("opts").querySelectorAll(".opt").forEach((x,k)=>{ x.disabled=true; if(Math.abs(S.q.opts[k].v-q.v)<1e-9) x.classList.add("right"); });
+  if(pts<100||Math.abs(o.v-q.v)>1e-9) b.classList.add("wrong");
+  const ok=Math.abs(o.v-q.v)<1e-9, p=ok?100:pts;
+  S.scores[0]+=p; S.log.push({q:q.text,pts:p,kind:"baca"});
+  $("fb").innerHTML=ok?`<span class="pts">Benar! ⭐ +100</span>`:`Pin menunjuk ${q.html} · <span class="${p?"pts":"zero"}">+${p}</span>`;
+  $("hudScore").innerHTML=`Skor <b>${S.scores[0]}</b>`;
+  drawPins(true); showNext();
+};
+function showNext(){ $("nextBtn").hidden=false; $("nextBtn").textContent=S.i>=ROUNDS?"Lihat hasil →":"Lanjut →"; }
+$("nextBtn").onclick=()=>{ if(S.i>=ROUNDS) finish(); else nextQ(); };
+
+function finish(){
+  let h;
+  if(S.mode==="tim"){
+    const [a,b]=S.scores;
+    h=`<div class="winner">${a===b?"Seri!":`🏆 ${esc(S.names[a>b?0:1])} menang!`}</div>
+      <div class="teams"><div><span style="color:var(--pin);font-weight:800">${esc(S.names[0])}</span><b>${a}</b></div><div><span style="color:var(--teamB);font-weight:800">${esc(S.names[1])}</span><b>${b}</b></div></div>
+      <ol class="list">${S.log.map((x,k)=>`<li><span>${k+1}</span><span>${esc(x.q)}</span><b><span style="color:var(--pin)">${x.a}</span> : <span style="color:var(--teamB)">${x.b}</span></b></li>`).join("")}</ol>`;
+  }else{
+    const s=S.scores[0], prev=+store(bestKey())||0, isNew=s>prev, stars=S.log.filter(x=>x.pts===100).length;
+    if(isNew) store(bestKey(),s);
+    h=`<div class="total">${s}<small> / ${ROUNDS*100}</small></div>
+      <div class="best" style="text-align:center">${T().label} · ${S.level} · ⭐ ${stars} tepat · ${isNew&&s>0?'<b style="color:var(--ok)">rekor baru!</b>':`rekor ${Math.max(prev,s)}`}</div>
+      <ol class="list">${S.log.map((x,k)=>`<li><span>${k+1}</span><span>${x.kind==="baca"?"Baca":"Taruh"} ${esc(x.q)}</span><b>${x.pts===100?"⭐ ":""}${x.pts}</b></li>`).join("")}</ol>`;
+  }
+  $("resBody").innerHTML=h; screen("result");
+}
+$("startBtn").onclick=start; $("againBtn").onclick=start;
+$("setupBtn").onclick=()=>{ renderSetup(); screen("setup"); };
+$("quitBtn").onclick=()=>{ if(!$("play").hidden&&S.i>0&&!confirm("Berhenti? Skor sesi ini tidak dicatat.")) return; renderSetup(); screen("setup"); };
+renderSetup(); screen("setup");
+</script>
+</body>
+</html>
