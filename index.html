@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, dan Pas 10.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, dan Kejar Urutan.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -71,6 +71,17 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .pg{display:grid;grid-template-columns:repeat(4,34px);gap:5px}
 .pg b{height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#1A0F2E;box-shadow:0 3px 0 rgba(0,0,0,.3)}
 .pg b.s{box-shadow:0 0 0 3px #fff,0 0 14px rgba(255,255,255,.5);transform:scale(.92)}
+.game.ku{background:#F2F5F9;color:#1B2433}
+.game.ku p{color:#5B6475}
+.game.ku h2 span{color:#16A34A}
+.game.ku .tags span{background:rgba(27,36,51,.06);border-color:rgba(27,36,51,.14)}
+.ku .go{background:#1B2433;color:#fff}
+.kg{display:flex;flex-direction:column;align-items:center;gap:8px}
+.kg .w{font-weight:800;font-size:1.5rem;color:#1B2433;line-height:1}
+.kg .w small{font-size:.65em;color:#64748B}
+.kg .g{display:grid;grid-template-columns:repeat(4,30px);gap:4px}
+.kg .g b{height:30px;border-radius:8px;background:#fff;box-shadow:0 2px 0 #D2DAE5,0 0 0 1px #DCE3EC;display:flex;align-items:center;justify-content:center;font-weight:800;color:#1B2433;font-size:.95rem}
+.kg .g b.o{background:#16A34A;color:#fff;box-shadow:0 2px 0 #15803D}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -224,6 +235,17 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Pas <span>10</span></h2>
       <p>60 detik! Sambungkan angka yang bersebelahan sampai jumlahnya pas 10, ledakkan, dan kejar combo sebelum waktu habis.</p>
       <div class="tags"><span>60 detik</span><span>Combo ×5</span><span>Seret jari</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game ku" href="kejar-urutan/">
+      <div class="peek" aria-hidden="true">
+        <div class="kg"><div class="w">0:07<small>.348</small></div>
+          <div class="g"><b>9</b><b class="o">2</b><b>14</b><b>5</b><b class="o">1</b><b>11</b><b>7</b><b class="o">3</b><b>16</b><b>4</b><b>10</b><b>13</b></div></div>
+      </div>
+      <h2>Kejar <span>Urutan</span></h2>
+      <p>Ketuk angka 1 sampai 25 secepat mungkin, berurutan. Stopwatch milidetik, salah ketuk +1 detik, dan papan peringkat 3 tercepat.</p>
+      <div class="tags"><span>3×3 sampai 5×5</span><span>Stopwatch</span><span>Peringkat 3 besar</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 

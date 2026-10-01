@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#F2F5F9">
+<title>Kejar Urutan</title>
+<meta name="description" content="Ketuk angka 1 sampai 25 secepat mungkin, berurutan. Stopwatch milidetik dan papan peringkat.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23F2F5F9'/%3E%3Ccircle cx='32' cy='35' r='21' fill='none' stroke='%231B2433' stroke-width='5'/%3E%3Crect x='27' y='5' width='10' height='7' rx='2' fill='%231B2433'/%3E%3Cpath d='M32 35V22' stroke='%2316A34A' stroke-width='5' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F2F5F9;
+  --card:#FFFFFF;
+  --ink:#1B2433;
+  --muted:#64748B;
+  --line:#DCE3EC;
+  --green:#16A34A;
+  --green-soft:#DCFCE7;
+  --red:#E11D48;
+  --blue:#2563EB;
+  --gold:#D97706;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;
+  padding:12px 16px calc(18px + env(safe-area-inset-bottom));
+  user-select:none;-webkit-user-select:none;
+}
+button,input{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:460px;display:flex;flex-direction:column;gap:12px}
+.topbar{display:flex;align-items:center;gap:8px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.25rem;line-height:1}
+.brand span{color:var(--green)}
+
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:7px 4px;font-weight:800;font-size:.95rem;cursor:pointer;color:var(--muted);white-space:nowrap}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.seg button:disabled{opacity:.45;cursor:not-allowed}
+.opts{display:grid;grid-template-columns:1.4fr 1fr;gap:8px}
+@media (max-width:370px){.opts{grid-template-columns:1fr}}
+
+/* ---------- stopwatch ---------- */
+.watch{display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:20px;padding:10px 16px}
+.time{font-weight:800;font-size:clamp(2.2rem,11vw,3rem);line-height:1;letter-spacing:.01em}
+.time small{font-size:.55em;color:var(--muted)}
+.time.run{color:var(--ink)}
+.time.done{color:var(--green)}
+.next{text-align:center;min-width:76px}
+.next small{display:block;font-size:.72rem;font-weight:800;letter-spacing:.08em;color:var(--muted)}
+.next b{display:block;font-size:2.4rem;line-height:1;color:var(--blue)}
+.next.off b{color:var(--line)}
+.meta{display:flex;justify-content:space-between;font-size:.88rem;color:var(--muted);padding:0 4px}
+.meta b{color:var(--ink)}
+.meta .err b{color:var(--red)}
+
+/* ---------- papan ---------- */
+.grid{--bw:min(calc(100vw - 32px),460px);width:var(--bw);height:var(--bw);align-self:center;
+  display:grid;grid-template-columns:repeat(var(--n),1fr);grid-template-rows:repeat(var(--n),1fr);gap:6px;touch-action:manipulation}
+.cell{border:0;border-radius:14px;background:var(--card);box-shadow:0 3px 0 #D2DAE5,0 0 0 1px var(--line);cursor:pointer;
+  font-weight:800;font-size:calc(var(--bw) / var(--n) * .42);line-height:1;display:flex;align-items:center;justify-content:center;padding:0}
+.cell.ok{background:var(--green);color:#fff;box-shadow:0 3px 0 #15803D;animation:okp .16s ease-out}
+@keyframes okp{0%{transform:scale(.88)}100%{transform:scale(1)}}
+.cell.miss{animation:miss .3s}
+@keyframes miss{0%,100%{box-shadow:0 3px 0 #D2DAE5,0 0 0 1px var(--line)}30%{box-shadow:0 0 0 4px var(--red)}}
+.flash{position:fixed;inset:0;background:var(--red);opacity:0;pointer-events:none;z-index:30}
+.flash.on{animation:fl .22s ease-out}
+@keyframes fl{0%{opacity:.35}100%{opacity:0}}
+.pen{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);font-weight:800;font-size:2rem;color:var(--red);pointer-events:none;z-index:31;animation:pen .7s ease-out forwards}
+@keyframes pen{0%{opacity:0;transform:translate(-50%,-30%)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-120%)}}
+.msg{text-align:center;min-height:1.4em;color:var(--muted);font-size:.95rem}
+
+/* ---------- hasil & peringkat ---------- */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:10px}
+.panel h2{margin:0;font-size:1.05rem;font-weight:800;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.panel h2 small{font-size:.8rem;color:var(--muted);font-weight:600}
+.lb{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.lb li{display:grid;grid-template-columns:34px 1fr auto;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:var(--bg)}
+.lb li.me{background:var(--green-soft);box-shadow:inset 0 0 0 2px var(--green)}
+.lb .rk{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
+.lb li:nth-child(1) .rk{background:#F59E0B} .lb li:nth-child(2) .rk{background:#94A3B8} .lb li:nth-child(3) .rk{background:#B45309}
+.lb .nm{font-weight:700;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lb .nm small{display:block;font-size:.75rem;color:var(--muted);font-weight:500}
+.lb .t{font-weight:800;font-size:1.15rem}
+.lb .empty{display:block;text-align:center;color:var(--muted);background:transparent}
+.result{text-align:center}
+.result .big{font-size:2.6rem;font-weight:800;color:var(--green);line-height:1.1}
+.result p{margin:2px 0 0;color:var(--muted)}
+.namebox{display:flex;gap:8px}
+.namebox input{flex:1;min-width:0;border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:1rem;font-weight:700;user-select:text;-webkit-user-select:text}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:800;font-size:1.05rem;cursor:pointer;background:var(--ink);color:#fff}
+.btn.green{background:var(--green)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--ink);white-space:nowrap;font-size:.92rem}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+footer{text-align:center;color:var(--muted);font-size:.76rem}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important}}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="flash" id="flash" aria-hidden="true"></div>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Kejar <span>Urutan</span></div>
+  </div>
+
+  <div class="opts">
+    <div class="seg" id="segSize" role="group" aria-label="Ukuran">
+      <button type="button" data-v="3" aria-pressed="false">3×3</button>
+      <button type="button" data-v="4" aria-pressed="false">4×4</button>
+      <button type="button" data-v="5" aria-pressed="true">5×5</button>
+    </div>
+    <div class="seg" id="segHint" role="group" aria-label="Petunjuk angka berikutnya">
+      <button type="button" data-v="1" aria-pressed="true">Petunjuk</button>
+      <button type="button" data-v="0" aria-pressed="false">Tanpa</button>
+    </div>
+  </div>
+
+  <div class="watch">
+    <div class="time" id="time" role="timer" aria-live="off">0:00<small>.000</small></div>
+    <div class="next" id="next"><small>BERIKUTNYA</small><b id="nextNum">1</b></div>
+  </div>
+  <div class="meta"><span>Salah ketuk: <span class="err"><b id="errs">0</b></span> <small>(+1 dtk/salah)</small></span><span id="prog">0 / 25</span></div>
+
+  <div class="grid" id="grid" aria-label="Papan angka"></div>
+  <div class="msg" id="msg">Ketuk <b>1</b> untuk mulai. Stopwatch berjalan sejak angka 1.</div>
+
+  <section class="panel result" id="result" hidden>
+    <div class="big" id="resTime"></div>
+    <p id="resInfo"></p>
+    <div id="nameWrap" hidden>
+      <p style="margin:6px 0">Masuk 3 besar! Tulis namamu:</p>
+      <div class="namebox"><input id="nameInput" maxlength="16" placeholder="Nama" aria-label="Nama"><button class="btn green" type="button" id="saveName">Simpan</button></div>
+    </div>
+  </section>
+
+  <div class="row">
+    <button class="btn" type="button" id="newBtn">Acak lagi</button>
+    <button class="btn ghost" type="button" id="resetLb">Hapus peringkat</button>
+  </div>
+
+  <section class="panel">
+    <h2><span>🏆 3 Tercepat</span><small id="lbTitle"></small></h2>
+    <ol class="lb" id="lb"></ol>
+  </section>
+  <footer>Peringkat disimpan di HP ini saja.</footer>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+function store(k,v){ try{ if(v===undefined) return localStorage.getItem(k); if(v===null){ localStorage.removeItem(k); return; } localStorage.setItem(k,String(v)); }catch(e){ return null; } }
+const PENALTY=1000;
+const S={n:5,hint:true,order:[],next:1,start:0,penalty:0,errors:0,done:false,raf:0,lastEntry:null};
+try{ const p=JSON.parse(store("ku_prefs")||"{}"); if([3,4,5].includes(p.n)) S.n=p.n; if(typeof p.hint==="boolean") S.hint=p.hint; }catch(e){}
+const lbKey=()=>`ku_lb_${S.n}_${S.hint?"h":"x"}`;
+function loadLb(){ try{ const a=JSON.parse(store(lbKey())||"[]"); return Array.isArray(a)?a.filter(x=>x&&typeof x.ms==="number").slice(0,3):[]; }catch(e){ return []; } }
+function saveLb(a){ store(lbKey(),JSON.stringify(a.slice(0,3))); }
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function fmt(ms){
+  const m=Math.floor(ms/60000), s=Math.floor(ms/1000)%60, x=Math.floor(ms%1000);
+  return `${m}:${String(s).padStart(2,"0")}<small>.${String(x).padStart(3,"0")}</small>`;
+}
+const fmtPlain=ms=>fmt(ms).replace(/<\/?small>/g,"");
+
+/* ---- papan ---- */
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function newGame(){
+  cancelAnimationFrame(S.raf);
+  const N=S.n*S.n;
+  S.order=shuffle([...Array(N)].map((_,i)=>i+1));
+  Object.assign(S,{next:1,start:0,penalty:0,errors:0,done:false,lastEntry:null});
+  const g=$("grid"); g.style.setProperty("--n",S.n); g.innerHTML="";
+  S.order.forEach(v=>{
+    const b=document.createElement("button");
+    b.type="button"; b.className="cell"; b.textContent=v; b.dataset.v=v;
+    g.appendChild(b);
+  });
+  $("time").innerHTML=fmt(0); $("time").className="time";
+  $("errs").textContent=0; $("prog").textContent=`0 / ${N}`;
+  $("result").hidden=true;
+  $("msg").innerHTML="Ketuk <b>1</b> untuk mulai. Stopwatch berjalan sejak angka 1.";
+  renderNext(); renderSegs(); renderLb();
+}
+function renderNext(){
+  $("next").classList.toggle("off",!S.hint);
+  $("nextNum").textContent=S.hint?(S.done?"✓":S.next):"?";
+}
+function renderSegs(){
+  const busy=S.start&&!S.done;
+  $("segSize").querySelectorAll("button").forEach(b=>{ b.setAttribute("aria-pressed",+b.dataset.v===S.n); b.disabled=busy; });
+  $("segHint").querySelectorAll("button").forEach(b=>{ b.setAttribute("aria-pressed",(b.dataset.v==="1")===S.hint); b.disabled=busy; });
+  $("lbTitle").textContent=`${S.n}×${S.n} · ${S.hint?"dengan petunjuk":"tanpa petunjuk"}`;
+}
+function renderLb(){
+  const a=loadLb();
+  $("lb").innerHTML=a.length?a.map((x,i)=>`<li class="${S.lastEntry&&x.id===S.lastEntry?"me":""}"><span class="rk">${i+1}</span>
+      <span class="nm">${esc(x.name||"Tanpa nama")}<small>${x.err?x.err+" salah · ":""}${x.date||""}</small></span><span class="t">${fmtPlain(x.ms)}</span></li>`).join("")
+    :`<li class="empty">Belum ada. Jadilah yang pertama!</li>`;
+}
+
+/* ---- stopwatch ---- */
+function elapsed(){ return S.start?performance.now()-S.start+S.penalty:0; }
+function tick(){ $("time").innerHTML=fmt(elapsed()); if(S.start&&!S.done) S.raf=requestAnimationFrame(tick); }
+
+/* ---- ketukan (pointerdown: tanpa jeda) ---- */
+function hit(btn){
+  if(S.done||!btn||btn.classList.contains("ok")) return;
+  const v=+btn.dataset.v, N=S.n*S.n;
+  if(v!==S.next){
+    btn.classList.remove("miss"); void btn.offsetWidth; btn.classList.add("miss");
+    const f=$("flash"); f.classList.remove("on"); void f.offsetWidth; f.classList.add("on");
+    if(S.start){
+      S.errors++; S.penalty+=PENALTY; $("errs").textContent=S.errors;
+      const p=document.createElement("div"); p.className="pen"; p.textContent="+1 dtk"; document.body.appendChild(p); setTimeout(()=>p.remove(),720);
+      if(navigator.vibrate) try{ navigator.vibrate(60); }catch(e){}
+    }else $("msg").innerHTML="Mulai dari angka <b>1</b>.";
+    return;
+  }
+  if(v===1){ S.start=performance.now(); $("time").className="time run"; $("msg").textContent=""; renderSegs(); S.raf=requestAnimationFrame(tick); }
+  btn.classList.add("ok");
+  S.next++; $("prog").textContent=`${v} / ${N}`;
+  if(v===N) finish(); else renderNext();
+}
+let lastPointer=-1e9;
+$("grid").addEventListener("pointerdown",e=>{
+  const b=e.target.closest(".cell"); if(!b) return;
+  lastPointer=performance.now();
+  e.preventDefault(); hit(b);
+});
+/* keyboard (Enter/Spasi pada kotak yang difokus). Ketukan jari juga memicu "click" sesudah pointerdown:
+   abaikan click yang datang tak lama setelah pointerdown supaya tidak terhitung dua kali. */
+$("grid").addEventListener("click",e=>{ if(performance.now()-lastPointer<800) return; hit(e.target.closest(".cell")); });
+
+function finish(){
+  S.done=true; cancelAnimationFrame(S.raf);
+  const ms=Math.round(elapsed());
+  $("time").innerHTML=fmt(ms); $("time").className="time done";
+  renderNext(); renderSegs();
+  const a=loadLb();
+  const rank=a.filter(x=>x.ms<=ms).length;
+  $("resTime").innerHTML=fmt(ms);
+  $("resInfo").textContent=`${S.n}×${S.n} · ${S.errors} salah ketuk${S.errors?` (+${S.errors} dtk)`:""}`+(rank<3?` · peringkat ${rank+1}!`:"");
+  $("result").hidden=false;
+  if(rank<3){
+    /* langsung dicatat dengan nama terakhir; kotak nama hanya mengganti namanya */
+    const name=store("ku_name")||"Tanpa nama", id=Date.now().toString(36);
+    const d=new Date(), date=`${d.getDate()}/${d.getMonth()+1}/${String(d.getFullYear()).slice(2)}`;
+    a.push({id,name,ms,err:S.errors,date}); a.sort((x,y)=>x.ms-y.ms); saveLb(a);
+    S.lastEntry=id; renderLb();
+    $("nameWrap").hidden=false;
+    $("nameInput").value=store("ku_name")||"";
+    setTimeout(()=>$("nameInput").focus(),50);
+  }else $("nameWrap").hidden=true;
+  $("result").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function saveEntry(){
+  const name=($("nameInput").value.trim()||"Tanpa nama").slice(0,16);
+  store("ku_name",name);
+  const a=loadLb(), e=a.find(x=>x.id===S.lastEntry);
+  if(e){ e.name=name; saveLb(a); }
+  $("nameWrap").hidden=true; renderLb();
+}
+$("saveName").onclick=saveEntry;
+$("nameInput").addEventListener("keydown",e=>{ if(e.key==="Enter"){ saveEntry(); e.preventDefault(); } });
+$("newBtn").onclick=()=>{ if(!$("nameWrap").hidden&&$("nameInput").value.trim()) saveEntry(); newGame(); };
+$("resetLb").onclick=()=>{ if(confirm(`Hapus peringkat ${S.n}×${S.n} (${S.hint?"dengan":"tanpa"} petunjuk)?`)){ store(lbKey(),null); S.lastEntry=null; renderLb(); } };
+function bindSeg(id,fn){ $(id).onclick=e=>{ const b=e.target.closest("button"); if(!b||b.disabled) return; fn(b.dataset.v); store("ku_prefs",JSON.stringify({n:S.n,hint:S.hint})); newGame(); }; }
+bindSeg("segSize",v=>S.n=+v); bindSeg("segHint",v=>S.hint=v==="1");
+newGame();
+</script>
+</body>
+</html>
