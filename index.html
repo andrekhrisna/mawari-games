@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, Kuis Kelas, dan Tebak Persamaan.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, Kuis Kelas, Tebak Persamaan, dan Teka-Teki Simbol.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -162,6 +162,13 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .tqp div{display:flex;gap:4px}
 .tqp i{width:26px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:800;font-size:.95rem;color:#fff}
 .tqp .g{background:#2F9E58} .tqp .y{background:#E0A100} .tqp .x{background:#7C8199}
+.game.ts{background:#FFF0F3;color:#3B0A1A}
+.game.ts p{color:#8A5A68}
+.game.ts h2 span{color:#E11D48}
+.game.ts .tags span{background:rgba(59,10,26,.06);border-color:rgba(59,10,26,.14)}
+.ts .go{background:#E11D48;color:#fff}
+.tsp{display:flex;flex-direction:column;gap:2px;font-weight:800;font-size:1.15rem;line-height:1.25}
+.tsp b{color:#E11D48}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -431,6 +438,16 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Tebak <span>Persamaan</span></h2>
       <p>Tebak persamaan tersembunyi dalam 6 kali. Warna hijau, kuning, dan abu-abu memberi petunjuk. Soal harian, latihan, dan mode kelas 2 tim.</p>
       <div class="tags"><span>SMP–SMA</span><span>Soal harian</span><span>Pangkat &amp; kurung</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game ts" href="teka-teki-simbol/">
+      <div class="peek" aria-hidden="true">
+        <div class="tsp"><span>🍎+🍌 = <b>9</b></span><span>🍌−🍎 = <b>1</b></span><span>🍌×🍇−🍇 = <b>24</b></span><span>🍌+🍎×🍇 = <b>?</b></span></div>
+      </div>
+      <h2>Teka-Teki <span>Simbol</span></h2>
+      <p>Teka-teki gambar ala medsos, tapi selalu tepat satu jawaban. Cari nilai tiap gambar dengan substitusi dan eliminasi, lengkap dengan pembahasan.</p>
+      <div class="tags"><span>SMP–SMA</span><span>SPLDV &amp; SPLTV</span><span>Soal harian</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 

@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFF0F3">
+<title>Teka-Teki Simbol</title>
+<meta name="description" content="Teka-teki simbol ala medsos untuk SMP–SMA: cari nilai tiap gambar dengan substitusi dan eliminasi (SPLDV/SPLTV). Selalu satu jawaban, lengkap dengan pembahasan.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23E11D48'/%3E%3Ctext x='32' y='44' font-family='sans-serif' font-weight='800' font-size='30' text-anchor='middle' fill='%23fff'%3E%3F%3D%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FFF0F3;
+  --card:#FFFFFF;
+  --ink:#3B0A1A;
+  --muted:#8A5A68;
+  --line:#F5D3DC;
+  --rose:#E11D48;
+  --rose-d:#9F1239;
+  --green:#2F9E58;
+  --green-soft:#E1F5E8;
+  --red-soft:#FFE6DE;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1100px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--rose)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 4px;font-weight:800;font-size:.92rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:600;font-size:.68rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+/* soal */
+.eqs{display:flex;flex-direction:column;gap:8px}
+.eq{display:flex;align-items:center;gap:8px}
+.eq .no{flex:none;width:26px;color:var(--muted);font-weight:800;font-size:.85rem}
+.eq .ex{flex:1;display:flex;flex-wrap:wrap;align-items:center;gap:2px 4px;font-size:1.65rem;line-height:1.25;font-weight:800}
+.eq .op{color:var(--muted);font-size:.85em}
+.eq .rhs{color:var(--rose)}
+.eq.final{border-top:2px dashed var(--line);padding-top:10px}
+.eq.final .rhs{color:var(--ink);background:var(--bg);border-radius:8px;padding:0 10px}
+/* jawaban */
+.vals{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.val{border:2px solid var(--line);background:var(--bg);border-radius:14px;padding:6px 10px;display:flex;align-items:center;justify-content:space-between;gap:6px;cursor:pointer;font-weight:800;font-size:1.4rem;min-height:56px;white-space:nowrap}
+.val.final span:first-child{white-space:normal;text-align:left;line-height:1.1}
+.val .v{min-width:44px;text-align:right}
+.val.act{border-color:var(--rose);background:#fff;box-shadow:0 0 0 3px #FFD1DC}
+.val.ok{border-color:var(--green);background:var(--green-soft);color:var(--green);cursor:default}
+.val.final{grid-column:1/-1}
+.val small{font-size:.75rem;color:var(--muted);font-weight:700;display:block}
+.val.shake{animation:shake .4s}
+@keyframes shake{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.pad{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.pad button{height:50px;border:0;border-radius:10px;background:#F7DDE4;font-weight:800;font-size:1.3rem;cursor:pointer}
+.pad button.ok{background:var(--rose);color:#fff;font-size:1rem}
+.pad button:active{transform:translateY(1px)}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose-d)}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--rose);color:#fff;box-shadow:0 3px 0 var(--rose-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--rose-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars .off{color:#E9CBD3}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.45;font-size:1rem}
+.how b{color:var(--rose-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(40,10,20,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .eq .ex{font-size:2.6rem} .kelas .eq .no{font-size:1.1rem;width:36px}
+  .kelas .vals{grid-template-columns:repeat(auto-fit,minmax(160px,1fr))} .kelas .val{font-size:2rem;min-height:72px} .kelas .pad button{height:62px;font-size:1.6rem}
+  .kelas .grid2{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;align-items:start}
+  .kelas .teams span{font-size:1.4rem}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Teka-Teki <span>Simbol</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card"><div class="eqs" id="eqs"></div></div>
+    <div class="card" id="ansCard">
+      <div class="vals" id="vals"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button>
+        <button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="−" aria-label="Tanda negatif">−</button><button type="button" data-k="del" aria-label="Hapus">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Lihat cara</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Setiap soal dijamin punya tepat satu jawaban. Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li>Setiap gambar mewakili satu <b>bilangan bulat</b>. Gambar yang sama selalu bernilai sama.</li>
+      <li>Cari nilai tiap gambar dari baris-baris persamaan, lalu jawab <b>pertanyaan akhir</b>.</li>
+      <li>Ketuk kotak gambar, ketik nilainya, lalu <b>Cek ✓</b>. Urutannya bebas.</li>
+      <li>Perkalian dihitung lebih dulu daripada penjumlahan dan pengurangan.</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 kali salah · ⭐ 3 kali salah atau lebih.</li>
+      <li>Salah 3 kali di gambar yang sama? Tombol <b>💡 Lihat cara</b> akan muncul.</li>
+      <li><b>Sulit</b>: nilai bisa negatif, dan setiap baris berisi minimal dua gambar (eliminasi SPLTV).</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+
+<script>
+/* ================= INTI: pemecah, pembuat soal, pembahasan ================= */
+/* ===== Teka-Teki Simbol =====
+   Soal: beberapa baris persamaan berisi simbol (emoji) + satu pertanyaan akhir.
+   Ekspresi = daftar suku dijumlah: {c: koefisien bertanda, v: [indeks simbol...]} (v dua simbol = perkalian).
+   Contoh 🍎+🍎−🍌×🍇  →  [{c:2,v:[0]},{c:-1,v:[1,2]}]                                          */
+const LEVELS={
+  mudah:{label:"Mudah",desc:"3 simbol · + −",n:[3],lo:1,hi:20},
+  sedang:{label:"Sedang",desc:"3 simbol · + − × · eliminasi",n:[3],lo:1,hi:20},
+  sulit:{label:"Sulit",desc:"3–4 simbol · SPLTV · negatif",n:[3,4],lo:-10,hi:20}
+};
+const THEMES=[["🍎","🍌","🍇","🍊","🍓"],["🐱","🐶","🐸","🐰","🐼"],["⚽","🎈","⭐","🔔","🎁"],["🚗","🚲","✈️","🚀","⛵"],["🌻","🍄","🌵","🍀","🌙"]];
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const gcd=(a,b)=>{ a=Math.abs(a); b=Math.abs(b); while(b){ [a,b]=[b,a%b]; } return a||1; };
+
+/* ---- pecahan sederhana untuk eliminasi tepat ---- */
+const F=(n,d=1)=>{ if(d<0){ n=-n; d=-d; } const g=gcd(n,d); return {n:n/g,d:d/g}; };
+const fadd=(a,b)=>F(a.n*b.d+b.n*a.d,a.d*b.d), fsub=(a,b)=>F(a.n*b.d-b.n*a.d,a.d*b.d), fmul=(a,b)=>F(a.n*b.n,a.d*b.d), fdiv=(a,b)=>F(a.n*b.d,a.d*b.n);
+const fz=a=>a.n===0;
+
+const evalExpr=(terms,vals)=>terms.reduce((s,t)=>s+t.c*t.v.reduce((p,i)=>p*vals[i],1),0);
+/* teks ekspresi gaya medsos: 🍎+🍎+🍌, 2 dicetak sebagai simbol berulang (maks 3), selebihnya 4×🍎 */
+function termText(t,sym,first,maxRep){
+  const a=Math.abs(t.c), sign=t.c<0?"−":(first?"":"+");
+  let body;
+  if(t.v.length===2) body=`${sym[t.v[0]]}×${sym[t.v[1]]}`+(a>1?`×${a}`:"");
+  else if(a<=(maxRep??3)) body=Array(a).fill(sym[t.v[0]]).join(t.c<0?"−":"+");
+  else body=`${a}×${sym[t.v[0]]}`;
+  return sign+body;
+}
+const repFor=level=>level==="sulit"?1:3;   /* Sulit: 3×🍎 supaya baris tidak terlalu panjang */
+const exprText=(terms,sym,maxRep)=>terms.map((t,i)=>termText(t,sym,i===0,maxRep)).join("");
+
+/* ---- pemecah seperti cara murid: substitusi nilai yang sudah diketahui, lalu eliminasi ---- */
+function solve(eqs,nsym){
+  const known=new Array(nsym).fill(null), steps=[];
+  let guard=0;
+  while(known.some(v=>v===null)&&guard++<10){
+    /* ubah tiap baris jadi persamaan linear dalam simbol yang belum diketahui */
+    const lin=[];
+    eqs.forEach((e,ei)=>{
+      const co=new Array(nsym).fill(0); let rhs=e.rhs, ok=true, used=false;
+      for(const t of e.terms){
+        const unk=t.v.filter(i=>known[i]===null);
+        const kprod=t.v.filter(i=>known[i]!==null).reduce((p,i)=>p*known[i],1);
+        if(unk.length===0){ rhs-=t.c*kprod; used=true; }
+        else if(unk.length===1){ co[unk[0]]+=t.c*kprod; }
+        else ok=false;      /* masih ada perkalian dua simbol yang belum diketahui */
+      }
+      if(ok&&co.some(c=>c!==0)) lin.push({ei,co,rhs,used});
+    });
+    /* baris dengan satu simbol tak diketahui → langsung */
+    const single=lin.find(l=>l.co.filter(c=>c!==0).length===1);
+    if(single){
+      const i=single.co.findIndex(c=>c!==0), v=F(single.rhs,single.co[i]);
+      if(v.d!==1) return null;
+      known[i]=v.n; steps.push({k:"one",ei:single.ei,sym:i,coef:single.co[i],rhs:single.rhs,val:v.n,used:single.used});
+      continue;
+    }
+    /* eliminasi Gauss pada baris linear (pecahan tepat): ambil simbol yang tertentu tunggal */
+    const unkIdx=known.map((v,i)=>v===null?i:-1).filter(i=>i>=0), m=unkIdx.length;
+    const A=lin.map(l=>({a:unkIdx.map(i=>F(l.co[i])),b:F(l.rhs),ei:l.ei}));
+    let rank=0;
+    for(let c=0;c<m&&rank<A.length;c++){
+      let p=-1; for(let r=rank;r<A.length;r++) if(!fz(A[r].a[c])){ p=r; break; }
+      if(p<0) continue;
+      [A[rank],A[p]]=[A[p],A[rank]];
+      for(let r=0;r<A.length;r++) if(r!==rank&&!fz(A[r].a[c])){
+        const f=fdiv(A[r].a[c],A[rank].a[c]);
+        A[r].a=A[r].a.map((x,k)=>fsub(x,fmul(f,A[rank].a[k]))); A[r].b=fsub(A[r].b,fmul(f,A[rank].b));
+      }
+      rank++;
+    }
+    for(const row of A) if(row.a.every(fz)&&!fz(row.b)) return null;   /* bertentangan */
+    const found=[];
+    for(const row of A){ const nz=row.a.map((x,k)=>fz(x)?-1:k).filter(k=>k>=0);
+      if(nz.length===1){ const v=fdiv(row.b,row.a[nz[0]]); if(v.d!==1) return null; found.push([unkIdx[nz[0]],v.n]); } }
+    if(!found.length) return null;    /* tidak bisa ditentukan dengan cara linear */
+    steps.push({k:"elim",rows:lin.map(l=>({ei:l.ei,co:l.co.slice(),rhs:l.rhs})),syms:found.map(f=>f[0]),vals:found.map(f=>f[1])});
+    for(const [i,v] of found) known[i]=v;
+  }
+  return known.some(v=>v===null)?null:{vals:known,steps};
+}
+
+/* ---- pembuat soal ---- */
+const T=(c,...v)=>({c,v});
+function lineRHS(terms,vals){ return evalExpr(terms,vals); }
+function genLines(level,n,vals,r){
+  const L=[];
+  if(level==="mudah"){
+    /* berantai: baris k memuat simbol k (baru) + mungkin simbol sebelumnya */
+    for(let k=0;k<n;k++){
+      const terms=[T(ri(2,3,r),k)];
+      if(k>0){ const j=ri(0,k-1,r); terms.push(T(r()<.6?ri(1,2,r):-ri(1,2,r),j)); }
+      L.push(shuffleTerms(terms,r));
+    }
+    return L;
+  }
+  if(level==="sedang"){
+    /* baris 1 & 2: dua simbol (0,1) → eliminasi; baris 3: simbol 2 dengan × simbol yang sudah diketahui */
+    const a1=ri(1,3,r), b1=pick([1,-1,2],r), a2=ri(1,2,r), b2=pick([1,2,3,-1],r);
+    L.push([T(a1,0),T(b1,1)]);
+    L.push([T(a2,0),T(b2,1)]);
+    L.push(r()<.6?[T(1,pick([0,1],r),2),T(pick([1,-1],r),2)]:[T(1,2,pick([0,1],r)),T(ri(1,2,r),pick([0,1],r))]);
+    return L.map(t=>shuffleTerms(t,r));
+  }
+  /* sulit: setiap baris ≥ 2 simbol; kadang × dengan koefisien; n = 3 atau 4 */
+  for(let k=0;k<n;k++){
+    const syms=shuffle([...Array(n).keys()],r).slice(0,ri(2,Math.min(3,n),r));
+    const terms=syms.map(s=>T(pick([1,1,2,3,-1,-2],r),s));
+    if(r()<.25&&k===n-1){ const a=syms[0], b=syms[1]; terms.splice(0,2,T(1,a,b)); }
+    L.push(shuffleTerms(terms,r));
+  }
+  return L;
+}
+function shuffleTerms(t,r){ const s=shuffle(t.slice(),r); if(s[0].c<0){ const p=s.findIndex(x=>x.c>0); if(p>0) [s[0],s[p]]=[s[p],s[0]]; } return s; }
+function genFinal(n,level,r){
+  const order=shuffle([...Array(n).keys()],r);
+  if(level==="mudah") return [T(1,order[0]),T(pick([1,-1],r),order[1]),T(1,order[2])];
+  return [T(1,order[0]),T(pick([1,-1],r),order[1],order[2])];   /* 🍎 ± 🍇×🍌 : urutan operasi */
+}
+function validLine(terms){
+  /* rapi: tiap simbol paling banyak sekali per baris, ada suku positif di depan */
+  const seen=new Set(); for(const t of terms){ if(t.v.length===1){ if(seen.has(t.v[0])) return false; seen.add(t.v[0]); } }
+  return terms[0].c>0;
+}
+function makePuzzle(level,seed){
+  const r=mulberry32(seed>>>0), L=LEVELS[level];
+  for(let tries=1;tries<=5000;tries++){
+    const n=pick(L.n,r);
+    const vals=[...Array(n)].map(()=>ri(level==="sulit"?L.lo:2,level==="sulit"?L.hi:(level==="mudah"?15:12),r));
+    if(new Set(vals).size<n) continue;            /* nilai simbol berbeda-beda */
+    if(level==="sulit"&&!vals.some(v=>v<0)&&r()<.5) continue;
+    if(vals.some(v=>Math.abs(v)<=1)) continue;      /* tanpa 0, 1, −1 (terlalu remeh) */
+    const lines=genLines(level,n,vals,r);
+    if(!lines.every(validLine)) continue;
+    const eqs=lines.map(terms=>({terms,rhs:lineRHS(terms,vals)}));
+    if(eqs.some(e=>Math.abs(e.rhs)>200)) continue;
+    if(level!=="sulit"&&eqs.some(e=>e.rhs<=0)) continue;
+    /* tidak ada baris yang identik/kelipatan baris lain */
+    const keys=eqs.map(e=>exprText(e.terms,"ABCD".split("")));
+    if(new Set(keys).size<keys.length) continue;
+    const s=solve(eqs,n);
+    if(!s||s.vals.some((v,i)=>v!==vals[i])) continue;
+    /* tingkat Sedang wajib ada langkah eliminasi; Sulit: tidak ada baris satu simbol */
+    if(level==="sedang"&&!s.steps.some(x=>x.k==="elim")) continue;
+    if(level==="sulit"&&s.steps[0].k==="one"&&!s.steps[0].used&&eqs[s.steps[0].ei].terms.length===1) continue;
+    if(level==="sulit"&&!s.steps.some(x=>x.k==="elim")) continue;
+    const final=genFinal(n,level,r), ans=evalExpr(final,vals);
+    if(Math.abs(ans)>150||(level!=="sulit"&&ans<=0)) continue;
+    const theme=pick(THEMES,r), sym=shuffle(theme.slice(),r).slice(0,n);
+    const P={level,n,vals,eqs,final,ans,sym,steps:s.steps,tries};
+    if(!explain(P)) continue;     /* hanya soal yang bisa dibahas langkah demi langkah */
+    return P;
+  }
+  return makePuzzle(level,hashStr(seed+"|lagi"));
+}
+/* ---- harian: nomor 1 = 1 Oktober 2026, tidak berulang dalam 365 hari ---- */
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>p.eqs.map(e=>exprText(e.terms,"ABCD".split(""))+"="+e.rhs).join("|")+"?"+exprText(p.final,"ABCD".split(""));
+const DAILY={};
+function dailyPuzzle(level,n){
+  const c=DAILY[level]||(DAILY[level]={list:[],last:new Map()});
+  while(c.list.length<n){
+    const d=c.list.length+1; let k=0, p;
+    do{ p=makePuzzle(level,hashStr(`teka-teki-simbol|${level}|${d}|${k++}`)); }
+    while(c.last.has(puzzleKey(p))&&d-c.last.get(puzzleKey(p))<=365&&k<100);
+    c.list.push(p); c.last.set(puzzleKey(p),d);
+  }
+  return c.list[n-1];
+}
+/* ---- pembahasan langkah demi langkah (cara murid: substitusi, lalu eliminasi berpasangan) ----
+   Hasilnya daftar baris teks; nilai akhirnya dicek harus sama dengan kunci. */
+function algText(co,sym,rhs){  /* 2🍎 − 3🍌 = 7 */
+  const ts=co.map((c,i)=>[i,c]).filter(x=>x[1]);
+  const fp=ts.findIndex(x=>x[1]>0); if(fp>0) ts.unshift(ts.splice(fp,1)[0]);   /* suku positif di depan */
+  let s=""; ts.forEach(([i,c])=>{ const a=Math.abs(c), t=(a===1?"":a)+sym[i];
+    s+=s?(c<0?" − ":" + ")+t:(c<0?"−":"")+t; });
+  return (s||"0")+" = "+fmtN(rhs);
+}
+const fmtN=v=>v<0?"−"+(-v):String(v);
+function explain(p){
+  const n=p.n, sym=p.sym, known=new Array(n).fill(null), out=[];
+  const lineCo=e=>{ /* ubah baris jadi koefisien linear setelah substitusi; null kalau masih ada × dua simbol tak diketahui */
+    const co=new Array(n).fill(0); let rhs=e.rhs, sub=false;
+    for(const t of e.terms){ const unk=t.v.filter(i=>known[i]===null), kp=t.v.filter(i=>known[i]!==null).reduce((a,i)=>a*known[i],1);
+      if(t.v.some(i=>known[i]!==null)) sub=true;
+      if(!unk.length) rhs-=t.c*kp; else if(unk.length===1) co[unk[0]]+=t.c*kp; else return null; }
+    return {co,rhs,sub};
+  };
+  const subText=(e)=>{ /* tampilkan baris dengan simbol yang sudah diketahui diganti angka */
+    return e.terms.map((t,j)=>{ const a=Math.abs(t.c), sign=t.c<0?" − ":(j?" + ":"");
+      const f=t.v.map(i=>known[i]!==null?(known[i]<0?`(${fmtN(known[i])})`:known[i]):sym[i]).join("×");
+      return sign+(a===1?"":a+"×")+f; }).join("")+" = "+fmtN(e.rhs);
+  };
+  let guard=0;
+  while(known.some(v=>v===null)&&guard++<12){
+    /* 1) baris yang tinggal satu simbol */
+    let did=false;
+    for(let ei=0;ei<p.eqs.length&&!did;ei++){
+      const L=lineCo(p.eqs[ei]); if(!L) continue;
+      const nz=L.co.map((c,i)=>c?i:-1).filter(i=>i>=0);
+      if(nz.length!==1) continue;
+      const i=nz[0], c=L.co[i], v=L.rhs/c; if(!Number.isInteger(v)) continue;
+      let t=`Baris ${ei+1}: ${exprText(p.eqs[ei].terms,sym,repFor(p.level))} = ${fmtN(p.eqs[ei].rhs)}`;
+      if(L.sub) t+=`<br>→ ganti simbol yang sudah diketahui: ${subText(p.eqs[ei])}`;
+      t+=c===1?`<br>→ <b>${sym[i]} = ${fmtN(v)}</b>`:`<br>→ ${algText(L.co,sym,L.rhs)} → ${sym[i]} = ${fmtN(L.rhs)} ÷ ${c<0?`(${fmtN(c)})`:c} → <b>${sym[i]} = ${fmtN(v)}</b>`;
+      out.push(t); known[i]=v; did=true;
+    }
+    if(did) continue;
+    /* 2) eliminasi berpasangan pada baris linear */
+    let rows=[]; p.eqs.forEach((e,ei)=>{ const L=lineCo(e); if(L&&L.co.some(c=>c)) rows.push({name:`(${ei+1})`,co:L.co,rhs:L.rhs,src:ei,sub:L.sub}); });
+    const lines=[`Tulis dalam bentuk aljabar:`];
+    rows.forEach(r=>lines.push(`${r.name} ${algText(r.co,sym,r.rhs)}`));
+    let label=p.eqs.length, cur=rows.slice(), solved=null, g2=0;
+    while(!solved&&g2++<8){
+      const single=cur.find(r=>r.co.filter(c=>c).length===1);
+      if(single){ const i=single.co.findIndex(c=>c), v=single.rhs/single.co[i]; if(!Number.isInteger(v)) break;
+        const c=single.co[i];
+        lines.push(`${single.name} → `+(c===1?`<b>${sym[i]} = ${fmtN(v)}</b>`:`${sym[i]} = ${fmtN(single.rhs)} ÷ ${c<0?`(${fmtN(c)})`:c} = <b>${fmtN(v)}</b>`)); solved=[i,v]; break; }
+      /* pilih simbol yang muncul di paling banyak baris, koefisien terkecil */
+      let best=null;
+      for(let i=0;i<n;i++){ const R=cur.filter(r=>r.co[i]); if(R.length<2) continue;
+        const sc=R.length*100-Math.min(...R.map(r=>Math.abs(r.co[i]))); if(!best||sc>best.sc) best={i,sc}; }
+      if(!best) break;
+      const v=best.i, R=cur.filter(r=>r.co[v]), piv=R.reduce((a,b)=>Math.abs(b.co[v])<Math.abs(a.co[v])?b:a);
+      const next=cur.filter(r=>!r.co[v]);
+      for(const r of R){ if(r===piv) continue;
+        /* hasil = ea×(r) + eb×(piv); ea, eb dipilih supaya simbol v hilang */
+        const g=gcd(piv.co[v],r.co[v]); let ea=piv.co[v]/g, eb=-r.co[v]/g;
+        let co=r.co.map((c,k)=>c*ea+piv.co[k]*eb), rhs=r.rhs*ea+piv.rhs*eb;
+        if(co.every(c=>c===0)) continue;    /* baris kelipatan baris lain (0 = 0): tidak ditulis */
+        /* kalau semua koefisien negatif, kalikan −1 (pengali ikut dibalik) */
+        if(co.every(c=>c<=0)){ co=co.map(c=>-c); rhs=-rhs; ea=-ea; eb=-eb; }
+        /* kalau kedua pengali negatif, balik juga supaya kalimatnya wajar */
+        if(ea<0&&eb<0){ co=co.map(c=>-c); rhs=-rhs; ea=-ea; eb=-eb; }
+        /* sederhanakan, kecuali baris tinggal satu simbol (pembagiannya ditunjukkan di langkah berikut) */
+        const gg=co.filter(c=>c).length===1?1:(Math.abs(co.reduce((x,c)=>gcd(x,c),rhs))||1);
+        co=co.map(c=>c/gg); rhs/=gg;
+        const lab=`(${++label})`, mul=(name,m)=>Math.abs(m)===1?name:`${name}×${Math.abs(m)}`;
+        const A=[[r.name,ea],[piv.name,eb]].sort((x,y)=>y[1]-x[1]);   /* pengali positif di depan */
+        const desc=`${mul(A[0][0],A[0][1])} ${A[1][1]<0?"−":"+"} ${mul(A[1][0],A[1][1])}`;
+        lines.push(`${desc} (hilangkan ${sym[v]}): ${lab} ${algText(co,sym,rhs)}`);
+        next.push({name:lab,co,rhs});
+      }
+      cur=next;
+    }
+    if(!solved) return null;
+    out.push(lines.join("<br>"));
+    known[solved[0]]=solved[1];
+  }
+  if(known.some((v,i)=>v!==p.vals[i])) return null;
+  out.push(`Pertanyaan: ${exprText(p.final,sym,repFor(p.level))} = `+p.final.map((t,j)=>{ const a=Math.abs(t.c), sign=t.c<0?" − ":(j?" + ":"");
+    return sign+(a===1?"":a+"×")+t.v.map(i=>known[i]<0?`(${fmtN(known[i])})`:known[i]).join("×"); }).join("")+` = <b>${fmtN(p.ans)}</b>`
+    +(p.final.some(t=>t.v.length===2)?" (kali dulu, baru tambah/kurang)":""));
+  return out;
+}
+/* ---- bintang ---- */
+const starsFor=mistakes=>mistakes===0?3:mistakes<=2?2:1;
+/* ================= AKHIR INTI ================= */
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("ts_prefs",{}));
+const saveP=()=>lsSet("ts_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"];
+let G=null, KS=[0,0];
+let toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2200); }
+
+/* ---------- tampilan soal ---------- */
+function exprHTML(terms,sym){
+  return terms.map((t,j)=>{
+    const a=Math.abs(t.c), sign=t.c<0?"−":"+";
+    let parts=[];
+    if(t.v.length===2){ parts=[sym[t.v[0]],"×",sym[t.v[1]]]; if(a>1) parts.push("×",String(a)); }
+    else if(a<=repFor(G.level)){ for(let k=0;k<a;k++){ if(k) parts.push(sign); parts.push(sym[t.v[0]]); } }
+    else parts=[String(a),"×",sym[t.v[0]]];
+    if(j||t.c<0) parts.unshift(sign);
+    return parts.map(x=>/^[+−×]$/.test(x)?`<span class="op">${x}</span>`:`<span>${esc(x)}</span>`).join("");
+  }).join("");
+}
+function renderEqs(){
+  const p=G.p;
+  $("eqs").innerHTML=p.eqs.map((e,i)=>`<div class="eq"><span class="no">(${i+1})</span><span class="ex">${exprHTML(e.terms,p.sym)}<span class="op">=</span><span class="rhs">${fmtN(e.rhs)}</span></span></div>`).join("")
+    +`<div class="eq final"><span class="no">?</span><span class="ex">${exprHTML(p.final,p.sym)}<span class="op">=</span><span class="rhs">?</span></span></div>`;
+}
+function renderVals(){
+  const p=G.p;
+  $("vals").innerHTML=p.sym.map((s,i)=>{ const ok=G.solved[i];
+    return `<button type="button" class="val${ok?" ok":""}${G.act===i?" act":""}" data-i="${i}" ${ok?'aria-disabled="true"':""}><span>${esc(s)} =</span><span class="v">${ok?fmtN(p.vals[i]):(G.act===i?(G.typed||"?"):"?")}</span></button>`; }).join("")
+    +`<button type="button" class="val final${G.finalOk?" ok":""}${G.act==="f"?" act":""}" data-i="f"><span>Pertanyaan akhir <small>${allSolved()?"":"(isi semua gambar dulu)"}</small></span><span class="v">${G.finalOk?fmtN(p.ans):(G.act==="f"?(G.typed||"?"):"?")}</span></button>`;
+  const ended=G.done;
+  $("pad").hidden=ended; $("okBtn").hidden=ended;
+  $("hintBtn").hidden=!(G.showHint&&!G.done&&G.mode!=="kelas");
+}
+const allSolved=()=>G.p.sym.every((_,i)=>G.solved[i]);
+function nextAct(){
+  const i=G.p.sym.findIndex((_,k)=>!G.solved[k]);
+  G.act=i>=0?i:(G.finalOk?null:"f"); G.typed="";
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label;
+  if(G.mode==="harian") $("infoL").innerHTML=`Soal harian <b>#${G.n}</b> · ${L}`;
+  else if(G.mode==="latihan") $("infoL").innerHTML=`Latihan · ${L}`;
+  else $("infoL").innerHTML=`Kelas · ${L}`;
+  $("infoR").innerHTML=G.mode==="kelas"?"":`Salah: <b>${G.mistakes}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(G.mode==="kelas") $("teams").innerHTML=[0,1].map(t=>`<span class="${t===G.turn&&!G.done?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${KS[t]+G.pts[t]}</span>`).join("");
+}
+/* ---------- permainan ---------- */
+function startGame(){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  G={mode:P.mode,level:P.level,solved:{},finalOk:false,mistakes:0,wrongBy:{},showHint:false,usedHint:false,done:false,act:0,typed:"",turn:0,pts:[0,0]};
+  if(G.mode==="harian"){
+    G.key=dayKey(); G.n=dayNumber(G.key); G.p=dailyPuzzle(G.level,G.n);
+    const st=lsGet("ts_day_"+G.level,null);
+    if(st&&st.n===G.n){ G.solved=st.solved||{}; G.finalOk=!!st.finalOk; G.mistakes=st.mistakes||0; G.wrongBy=st.wrongBy||{}; G.usedHint=!!st.usedHint; G.done=!!st.done; G.showHint=Object.values(G.wrongBy).some(v=>v>=3); }
+  }else{
+    G.p=makePuzzle(G.level,(Math.random()*4294967296)>>>0);
+    if(G.mode==="kelas") G.turn=(KS[0]+KS[1])%2;
+  }
+  nextAct(); renderEqs(); renderVals(); renderInfo();
+  $("fb").innerHTML=""; $("res").hidden=true;
+  if(G.done) showResult();
+}
+function saveDay(){ if(G.mode==="harian") lsSet("ts_day_"+G.level,{n:G.n,solved:G.solved,finalOk:G.finalOk,mistakes:G.mistakes,wrongBy:G.wrongBy,usedHint:G.usedHint,done:G.done}); }
+$("vals").addEventListener("click",e=>{
+  const b=e.target.closest(".val"); if(!b||G.done) return;
+  const i=b.dataset.i==="f"?"f":+b.dataset.i;
+  if(i!=="f"&&G.solved[i]) return;
+  if(i==="f"&&G.finalOk) return;
+  if(i==="f"&&!allSolved()){ toast("Isi nilai semua gambar dulu."); return; }
+  G.act=i; G.typed=""; $("fb").innerHTML=""; renderVals();
+});
+function press(k){
+  if(!G||G.done||G.act===null) return;
+  if(k==="del") G.typed=G.typed.slice(0,-1);
+  else if(k==="−"){ G.typed=G.typed.startsWith("−")?G.typed.slice(1):"−"+G.typed; }
+  else if(k==="ok") return check();
+  else if(G.typed.replace("−","").length<4) G.typed=(G.typed==="0"?"":G.typed==="−0"?"−":G.typed)+k;
+  renderVals();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden) return;
+  const k=e.key==="-"?"−":e.key==="Backspace"?"del":e.key==="Enter"?"ok":e.key;
+  if(/^[0-9]$/.test(k)||k==="−"||k==="del"||k==="ok"){ e.preventDefault(); press(k); }
+});
+function shake(){ const el=$("vals").querySelector(".val.act"); if(el){ el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake"); } }
+function check(){
+  if(G.done||G.act===null) return;
+  if(!G.typed||G.typed==="−"){ toast("Ketik nilainya dulu."); return; }
+  const v=+(G.typed.replace("−","-")), p=G.p, isF=G.act==="f";
+  const good=isF?v===p.ans:v===p.vals[G.act];
+  const label=isF?"Pertanyaan akhir":p.sym[G.act];
+  if(good){
+    if(isF) G.finalOk=true; else G.solved[G.act]=true;
+    if(G.mode==="kelas") G.pts[G.turn]+=isF?2:1;
+    $("fb").innerHTML=`<span class="ok">✓ ${esc(label)} = ${fmtN(v)} benar!</span>`;
+    nextAct();
+    if(G.finalOk) finish();
+  }else{
+    G.mistakes++; const key=isF?"f":G.act; G.wrongBy[key]=(G.wrongBy[key]||0)+1;
+    if(G.wrongBy[key]>=3) G.showHint=true;
+    $("fb").innerHTML=`<span class="no">✗ ${esc(label)} bukan ${fmtN(v)}.${G.mode==="kelas"?" Giliran pindah.":" Coba lagi."}</span>`;
+    G.typed=""; shake();
+    if(G.mode==="kelas") G.turn=1-G.turn;
+  }
+  saveDay(); renderVals(); renderInfo();
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+function howHTML(){ return `<div class="how">${explain(G.p).map(x=>`<div>${x}</div>`).join("")}</div>`; }
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Cara penyelesaian</h2>${howHTML()}<p>Setelah membaca, kamu tetap bisa mengisi jawabannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+/* ---------- selesai ---------- */
+function starCount(){ return G.usedHint?1:starsFor(G.mistakes); }
+function getStats(l){ return Object.assign({played:0,streak:0,best:0,lastN:0,stars:[0,0,0]},lsGet("ts_stats_"+l,{})); }
+function finish(){
+  G.done=true; G.act=null;
+  if(G.mode==="harian"){
+    const s=getStats(G.level);
+    if(s.lastN!==G.n){ s.played++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars[starCount()-1]++; s.lastN=G.n; lsSet("ts_stats_"+G.level,s); }
+  }
+  if(G.mode==="kelas"){ KS[0]+=G.pts[0]; KS[1]+=G.pts[1]; G.pts=[0,0]; }
+  saveDay(); renderVals(); renderInfo();
+  setTimeout(showResult,350);
+}
+function statsHTML(l){
+  const s=getStats(l);
+  return `<div class="sts"><div><b>${s.played}</b><small>selesai</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars[2]}</b><small>kali ⭐⭐⭐</small></div></div>`;
+}
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h;
+  if(G.mode==="kelas"){
+    h=`<h2>Ronde selesai!</h2><div class="teams">${[0,1].map(t=>`<span style="color:${TEAMC[t]}">${esc(P.names[t])} · ${KS[t]}</span>`).join("")}</div>
+      <p>Benar = 1 poin per gambar, pertanyaan akhir = 2 poin. Salah = giliran pindah.</p>${howHTML()}
+      <div class="row2"><button class="btn" type="button" id="again">Ronde baru →</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`;
+  }else{
+    const st=starCount();
+    h=`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=st?"":"off"}">★</span>`).join("")}</div>
+      <h2>${st===3?"Sempurna!":st===2?"Bagus!":"Selesai!"}</h2><p>${G.mistakes} kali salah${G.usedHint?" · memakai Lihat cara":""}</p>`;
+    if(G.mode==="harian") h+=statsHTML(G.level)+`<p>Soal berikutnya dalam <b>${untilMidnight()}</b>.</p>`;
+    h+=`<details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan langkah demi langkah</summary>${howHTML()}</details>`;
+    h+=G.mode==="harian"?`<div class="row2"><button class="btn" type="button" id="share">Salin hasil</button><button class="btn ghost" type="button" id="toLat">Latihan →</button></div>`
+      :`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  }
+  r.innerHTML=h;
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("toLat")) $("toLat").onclick=()=>{ P.mode="latihan"; saveP(); renderSegs(); startGame(); };
+  if($("share")) $("share").onclick=async()=>{ const st=starCount(); const t=`Teka-Teki Simbol #${G.n} · ${LEVELS[G.level].label} ${"⭐".repeat(st)} (${G.mistakes} salah)\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+/* ---------- pengaturan ---------- */
+function renderSegs(){
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}<small>${l.desc}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.mistakes||Object.keys(G.solved).length);
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(!b||b.dataset.v===P.mode) return; if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; P.mode=b.dataset.v; KS=[0,0]; saveP(); renderSegs(); startGame(); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(!b||b.dataset.v===P.level) return; if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; P.level=b.dataset.v; saveP(); renderSegs(); startGame(); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+renderSegs(); startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
