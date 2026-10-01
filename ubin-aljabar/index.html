@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F5F3FF">
+<title>Ubin Aljabar</title>
+<meta name="description" content="Ubin aljabar untuk SMP–SMA: faktorkan, jabarkan, dan lengkapkan kuadrat dengan menyusun persegi panjang dari ubin x², x, dan 1.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237C3AED'/%3E%3Crect x='10' y='10' width='28' height='28' rx='3' fill='%23fff'/%3E%3Crect x='41' y='10' width='9' height='28' rx='2' fill='%23A7F3D0'/%3E%3Crect x='10' y='41' width='28' height='9' rx='2' fill='%23A7F3D0'/%3E%3Crect x='41' y='41' width='9' height='9' rx='2' fill='%23FDE68A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F5F3FF;
+  --card:#FFFFFF;
+  --ink:#2E1065;
+  --muted:#6D5E95;
+  --line:#DDD6FE;
+  --vi:#7C3AED;
+  --vi-d:#5B21B6;
+  --soft:#EDE9FE;
+  --t2:#8B5CF6;   /* x² */
+  --tx:#34D399;   /* x  */
+  --t1:#FBBF24;   /* 1  */
+  --neg:#F87171;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1000px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--vi)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.q{font-weight:800;font-size:1.3rem;text-align:center;line-height:1.35}
+.q .fn{display:inline-block;background:var(--soft);border-radius:10px;padding:2px 10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+/* papan ubin */
+.board{display:flex;justify-content:center;overflow:hidden}
+.board svg{display:block;max-width:100%;height:auto}
+.legend{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;font-size:.8rem;font-weight:700;color:var(--muted)}
+.legend i{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:3px}
+.count{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;font-weight:800}
+.count span{background:var(--bg);border-radius:10px;padding:2px 10px}
+.count .z{color:var(--rose)}
+/* pengatur sisi */
+.sides{display:grid;gap:8px}
+.side{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;font-weight:800}
+.side .lb{min-width:76px;color:var(--muted);font-size:.9rem;text-align:right}
+.st{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+.st button{border:0;background:transparent;width:38px;height:40px;font-size:1.3rem;font-weight:800;cursor:pointer}
+.st b{min-width:54px;text-align:center;font-size:1.15rem}
+.facline{text-align:center;font-weight:800;font-size:1.5rem;color:var(--vi-d)}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.fld{min-width:56px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.fld.act{border-color:var(--vi);background:#fff;box-shadow:0 0 0 3px #DDD6FE}
+.fld.ph{color:#B7A9E3}
+.pad{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:#E9E3FF;font-weight:800;font-size:1.3rem;cursor:pointer}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--vi);color:#fff;box-shadow:0 3px 0 var(--vi-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--vi-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#DCD5F3}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--vi-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(30,10,60,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .q{font-size:1.9rem} .kelas .facline{font-size:2.2rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:64px;min-width:80px}
+  .kelas .pad button{height:60px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem} .kelas .st button{width:52px;height:52px} .kelas .st b{font-size:1.5rem}
+  .kelas .grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Ubin <span>Aljabar</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button>
+        <button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="−" aria-label="Tanda negatif">−</button><button type="button" data-k="del" aria-label="Hapus">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Lihat cara</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li>Ubin: <b style="color:var(--t2)">x²</b> (persegi besar), <b style="color:#059669">x</b> (persegi panjang), <b style="color:#B45309">1</b> (persegi kecil). Ubin <b style="color:var(--neg)">merah</b> bernilai negatif.</li>
+      <li><b>🧩 Faktorkan</b>: atur sisi atas dan sisi kiri. Ubin di dalam persegi panjang = hasil kali kedua sisi. Kalau jumlah ubinnya sama dengan soal, tekan <b>Cek</b>.</li>
+      <li>Satu ubin x positif dan satu ubin x negatif = <b>pasangan nol</b> (saling menghapus).</li>
+      <li><b>📐 Jabarkan</b>: hitung ubin di dalam persegi panjang, lalu isi koefisiennya.</li>
+      <li><b>⬛ Lengkapkan Kuadrat</b>: bagi ubin x sama rata ke dua sisi, lalu lengkapi pojoknya agar jadi persegi.</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Lihat cara</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+
+<script>
+/* ================= INTI: ubin, pembuat soal, pembahasan ================= */
+/* ===== Ubin Aljabar ===== */
+const KINDS={faktor:{label:"Faktorkan",icon:"🧩"},jabar:{label:"Jabarkan",icon:"📐"},kuadrat:{label:"Lengkapkan Kuadrat",icon:"⬛"}};
+const LEVELS={mudah:{label:"Mudah"},sedang:{label:"Sedang"},sulit:{label:"Sulit"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+const fmtN=v=>v<0?"−"+(-v):String(v);
+const gcd=(a,b)=>{ a=Math.abs(a); b=Math.abs(b); while(b){ [a,b]=[b,a%b]; } return a; };
+
+/* faktor: (p x + q)(r x + s) → [A,B,C] = [pr, ps+qr, qs] */
+const expand=(p,q,r,s)=>[p*r,p*s+q*r,q*s];
+function quadText(c,v){ v=v||"x"; const parts=[];
+  for(const [k,sfx] of [[c[0],v+"²"],[c[1],v],[c[2],""]]){ if(!k) continue; const a=Math.abs(k), body=(a===1&&sfx?"":a)+sfx;
+    parts.push(parts.length?(k<0?" − ":" + ")+body:(k<0?"−":"")+body); }
+  return parts.join("")||"0"; }
+const linText=(p,q)=>{ let s=p===1?"x":p+"x"; if(q) s+=(q<0?" − ":" + ")+Math.abs(q); return s; };
+const facText=(f)=>{ const a=`(${linText(f.p,f.q)})`, b=`(${linText(f.r,f.s)})`; return a===b?`${a}²`:a+b; };
+
+function genFactor(level,r){
+  for(;;){
+    let p=1,q,rr=1,s;
+    if(level==="mudah"){ q=ri(1,9,r); s=ri(1,9,r); }
+    else if(level==="sedang"){ q=ri(-9,9,r); s=ri(-9,9,r); if(q===0||s===0||(q>0&&s>0)) continue; }
+    else { p=pick([1,2,3],r); rr=pick([1,2,3],r); if(p===1&&rr===1) continue; q=ri(-5,5,r); s=ri(-5,5,r); if(q===0||s===0) continue;
+      if(gcd(p,q)>1||gcd(rr,s)>1) continue; }   /* tanpa faktor persekutuan di dalam kurung */
+    if(p>rr||(p===rr&&q>s)) [p,q,rr,s]=[rr,s,p,q];   /* urutan baku */
+    return {p,q,r:rr,s,coef:expand(p,q,rr,s)};
+  }
+}
+function makePuzzle(kind,level,seed){
+  const r=mulberry32(seed>>>0);
+  if(kind==="faktor"||kind==="jabar"){ const f=genFactor(level,r); return {kind,level,f,coef:f.coef,showTiles:kind==="jabar"&&level==="mudah"}; }
+  /* lengkapkan kuadrat, b genap */
+  /* Mudah: x² + bx + c kurang beberapa satuan untuk jadi (x + h)²; berapa yang perlu ditambah? */
+  if(level==="mudah"){ const h=ri(1,9,r), c=ri(0,h*h-1,r); return {kind,level,b:2*h,c,h,need:h*h-c}; }
+  if(level==="sedang"){ for(;;){ const h=ri(-6,6,r), c=ri(-10,15,r); if(h===0||c===h*h) continue; return {kind,level,b:2*h,c,h,k:c-h*h}; } }
+  /* sulit: x² + bx + c = 0 dengan akar bulat, lewat (x + h)² = h² − c */
+  for(;;){ const m=ri(-12,12,r), n=ri(-12,12,r); if(m===n||(m+n)%2) continue; const b=-(m+n), c=m*n, h=b/2; if(h===0) continue;
+    return {kind,level,b,c,h,k:c-h*h,roots:[Math.min(m,n),Math.max(m,n)]}; }
+}
+/* papan: sisi atas (p x + q), sisi kiri (r x + s) → hitungan ubin
+   ubin x positif & negatif dihitung terpisah supaya pasangan nol terlihat */
+function boardTiles(p,q,r,s){
+  const x2=p*r;
+  /* ubin x = (x di atas × satuan di kiri) + (satuan di atas × x di kiri) */
+  const xPos=(s>0?p*s:0)+(q>0?q*r:0), xNeg=(s<0?-p*s:0)+(q<0?-q*r:0);
+  const one=q*s;
+  return {x2,xPos,xNeg,xNet:xPos-xNeg,one};
+}
+/* jawaban faktor benar kalau hasil kali sama (urutan & tukar sisi bebas) */
+function factorOK(p,q,r,s,coef){ if(p<1||r<1) return false; const e=expand(p,q,r,s); return e[0]===coef[0]&&e[1]===coef[1]&&e[2]===coef[2]; }
+/* pasangan nol yang dibutuhkan: ubin x yang dipakai melebihi yang ada di soal */
+function zeroPairs(t,coef){ return Math.min(t.xPos,t.xNeg); }
+function checkAnswer(p,vals){
+  if(p.kind==="jabar") return vals.every((v,i)=>v===p.coef[i]);
+  if(p.level==="mudah") return vals[0]===p.need;
+  if(p.level==="sedang") return vals[0]===p.h&&vals[1]===p.k;
+  return vals[0]===p.h&&vals[1]===-p.k&&((vals[2]===p.roots[0]&&vals[3]===p.roots[1])||(vals[2]===p.roots[1]&&vals[3]===p.roots[0]));
+}
+const starsWrong=w=>w===0?3:w<=2?2:1;
+
+/* ===== Pembahasan ===== */
+const par=v=>v<0?`(${fmtN(v)})`:String(v);
+function explain(P){
+  const out=[];
+  if(P.kind==="faktor"||P.kind==="jabar"){
+    const {p,q,r,s}=P.f, [A,B,C]=P.coef;
+    if(P.kind==="faktor"){
+      if(p===1&&r===1){
+        out.push(`Cari dua bilangan yang <b>dikali = ${fmtN(C)}</b> dan <b>dijumlah = ${fmtN(B)}</b>.`);
+        out.push(`${par(q)} × ${par(s)} = ${fmtN(q*s)} dan ${par(q)} + ${par(s)} = ${fmtN(q+s)} ✓`);
+      }else{
+        out.push(`Ubin x² ada ${A}, jadi sisinya ${p===1?"x":p+"x"} dan ${r===1?"x":r+"x"} (karena ${p} × ${r} = ${A}).`);
+        out.push(`Satuan: ${par(q)} × ${par(s)} = ${fmtN(C)}. Ubin x: ${p}×${par(s)} + ${par(q)}×${r} = ${fmtN(p*s)} + ${par(q*r)} = ${fmtN(B)} ✓`);
+      }
+      const t=boardTiles(p,q,r,s);
+      if(t.xPos&&t.xNeg) out.push(`Di papan ada ${t.xPos} ubin x positif dan ${t.xNeg} negatif: ${Math.min(t.xPos,t.xNeg)} pasangan nol saling menghapus, sisa ${fmtN(t.xNet)}x.`);
+      out.push(`Jadi ${quadText(P.coef)} = <b>${facText(P.f)}</b>`);
+    }else{
+      out.push(`${facText(P.f)}: kalikan setiap suku kiri dengan setiap suku kanan (luas tiap bagian papan).`);
+      out.push(`${p===1?"x":p+"x"} × ${r===1?"x":r+"x"} = ${quadText([A,0,0])} · ${p===1?"x":p+"x"} × ${par(s)} = ${quadText([0,p*s,0])} · ${par(q)} × ${r===1?"x":r+"x"} = ${quadText([0,q*r,0])} · ${par(q)} × ${par(s)} = ${fmtN(C)}`);
+      out.push(`Jumlahkan ubin sejenis: <b>${quadText(P.coef)}</b>`);
+    }
+    return out;
+  }
+  const h=P.h, b=P.b;
+  out.push(`Bagi ubin x (${fmtN(b)}x) sama rata ke dua sisi: ${fmtN(h)} di kanan, ${fmtN(h)} di bawah. Sisinya x ${h<0?"−":"+"} ${Math.abs(h)}.`);
+  out.push(`Agar jadi persegi, pojoknya perlu ${par(h)} × ${par(h)} = <b>${h*h}</b> satuan: (x ${h<0?"−":"+"} ${Math.abs(h)})² = ${quadText([1,b,h*h])}.`);
+  if(P.level==="mudah"){ out.push(P.c?`Sudah ada ${P.c} satuan, jadi perlu tambah ${h*h} − ${P.c} = <b>${P.need}</b> satuan.`:`Belum ada satuan, jadi perlu tambah <b>${P.need}</b> satuan.`); return out; }
+  out.push(`${quadText([1,b,P.c])} = ${quadText([1,b,h*h])} ${P.k<0?"−":"+"} ${Math.abs(P.k)} = <b>(x ${h<0?"−":"+"} ${Math.abs(h)})² ${P.k<0?"−":"+"} ${Math.abs(P.k)}</b>${P.k===0?"":""}`);
+  if(P.level==="sulit"){
+    out.push(`Persamaan = 0: (x ${h<0?"−":"+"} ${Math.abs(h)})² = ${fmtN(-P.k)} → x ${h<0?"−":"+"} ${Math.abs(h)} = ±${Math.sqrt(-P.k)}`);
+    out.push(`<b>x = ${fmtN(P.roots[0])}</b> atau <b>x = ${fmtN(P.roots[1])}</b>`);
+  }
+  return out;
+}
+
+/* ===== Harian ===== */
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify([p.kind,p.level,p.f&&[p.f.p,p.f.q,p.f.r,p.f.s],p.b,p.c]);
+const DAILY={};
+function dailyPuzzle(kind,level,n){
+  const id=kind+"|"+level, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()});
+  while(c.list.length<n){
+    const d=c.list.length+1; let p=null, best=null, bestAge=-1;
+    for(let k=0;k<60;k++){ const q=makePuzzle(kind,level,hashStr(`ubin-aljabar|${id}|${d}|${k}`)), key=puzzleKey(q);
+      const age=c.last.has(key)?d-c.last.get(key):1e9; if(age>365){ p=q; break; } if(age>bestAge){ best=q; bestAge=age; } }
+    p=p||best; c.list.push(p); c.last.set(puzzleKey(p),d);
+  }
+  return c.list[n-1];
+}
+/* ================= AKHIR INTI ================= */
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"faktor",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("ua_prefs",{}));
+const saveP=()=>lsSet("ua_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2200); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+
+/* ---------- gambar papan ubin (SVG) ----------
+   sisi atas: p potong x + |q| potong 1; sisi kiri: r potong x + |s| potong 1.
+   Panjang x sengaja bukan kelipatan 1 (x ≈ 3,6 satuan) supaya tidak tertukar. */
+function boardSVG(p,q,r,s,opt){
+  opt=opt||{};
+  const U=Math.max(10,Math.min(22,Math.floor((Math.min(window.innerWidth,1000)-90)/(3.6*Math.max(p,r)+Math.max(Math.abs(q),Math.abs(s))+2.2))));
+  const X=3.6*U, pad=Math.round(U*1.3);
+  const top=[...Array(p)].map(()=>({w:X,x:1,sg:1})).concat([...Array(Math.abs(q))].map(()=>({w:U,x:0,sg:Math.sign(q)})));
+  const left=[...Array(r)].map(()=>({w:X,x:1,sg:1})).concat([...Array(Math.abs(s))].map(()=>({w:U,x:0,sg:Math.sign(s)})));
+  const W=top.reduce((a,t)=>a+t.w,0), H=left.reduce((a,t)=>a+t.w,0);
+  let svg=`<svg viewBox="0 0 ${W+pad+2} ${H+pad+2}" width="${W+pad+2}" height="${H+pad+2}" role="img" aria-label="Papan ubin">`;
+  /* penggaris sisi */
+  let cx=pad; for(const t of top){ svg+=`<rect x="${cx+1}" y="2" width="${t.w-2}" height="${pad-6}" rx="3" fill="${t.sg<0?"var(--neg)":t.x?"#C4B5FD":"#FDE68A"}"/>`; if(t.x) svg+=`<text x="${cx+t.w/2}" y="${pad/2+3}" text-anchor="middle" font-size="${U*.7}" font-weight="800" fill="#2E1065">x</text>`; cx+=t.w; }
+  let cy=pad; for(const t of left){ svg+=`<rect x="2" y="${cy+1}" width="${pad-6}" height="${t.w-2}" rx="3" fill="${t.sg<0?"var(--neg)":t.x?"#C4B5FD":"#FDE68A"}"/>`; if(t.x) svg+=`<text x="${pad/2-1}" y="${cy+t.w/2+4}" text-anchor="middle" font-size="${U*.7}" font-weight="800" fill="#2E1065">x</text>`; cy+=t.w; }
+  /* isi */
+  cy=pad;
+  for(const L of left){ cx=pad;
+    for(const T of top){
+      const type=L.x&&T.x?"x2":(L.x||T.x)?"x":"1", neg=L.sg*T.sg<0;
+      const hide=opt.hide||(opt.missingCorner&&type==="1");
+      const fill=hide?"#F1EEFB":neg?"var(--neg)":type==="x2"?"var(--t2)":type==="x"?"var(--tx)":"var(--t1)";
+      const dash=opt.missingCorner&&type==="1"&&!opt.filled?.has?.(`${cx},${cy}`);
+      svg+=`<rect x="${cx+1}" y="${cy+1}" width="${T.w-2}" height="${L.w-2}" rx="3" fill="${fill}" ${dash?'stroke="#A78BFA" stroke-dasharray="3 2"':'stroke="rgba(0,0,0,.12)"'}/>`;
+      if(type==="x2"&&!hide) svg+=`<text x="${cx+T.w/2}" y="${cy+L.w/2+U*.3}" text-anchor="middle" font-size="${U*.9}" font-weight="800" fill="#fff">x²</text>`;
+      cx+=T.w; }
+    cy+=L.w; }
+  return svg+"</svg>";
+}
+/* papan Lengkapkan Kuadrat Mudah: c satuan sudah ada di pojok, sisanya putus-putus */
+function squareSVG(h,c,showAll){
+  const p=1,q=h,r=1,s=h;
+  const U=Math.max(10,Math.min(22,Math.floor((Math.min(window.innerWidth,1000)-90)/(3.6+Math.abs(h)+2.2))));
+  const X=3.6*U, pad=Math.round(U*1.3), n=Math.abs(h), W=X+n*U;
+  let svg=`<svg viewBox="0 0 ${W+pad+2} ${W+pad+2}" width="${W+pad+2}" height="${W+pad+2}" role="img" aria-label="Papan ubin persegi">`;
+  const sideCol=h<0?"var(--neg)":"#FDE68A";
+  svg+=`<rect x="${pad+1}" y="2" width="${X-2}" height="${pad-6}" rx="3" fill="#C4B5FD"/><rect x="2" y="${pad+1}" width="${pad-6}" height="${X-2}" rx="3" fill="#C4B5FD"/>`;
+  svg+=`<text x="${pad+X/2}" y="${pad/2+3}" text-anchor="middle" font-size="${U*.7}" font-weight="800" fill="#2E1065">x</text><text x="${pad/2-1}" y="${pad+X/2+4}" text-anchor="middle" font-size="${U*.7}" font-weight="800" fill="#2E1065">x</text>`;
+  for(let i=0;i<n;i++){ svg+=`<rect x="${pad+X+i*U+1}" y="2" width="${U-2}" height="${pad-6}" rx="3" fill="${sideCol}"/><rect x="2" y="${pad+X+i*U+1}" width="${pad-6}" height="${U-2}" rx="3" fill="${sideCol}"/>`; }
+  svg+=`<rect x="${pad+1}" y="${pad+1}" width="${X-2}" height="${X-2}" rx="3" fill="var(--t2)"/><text x="${pad+X/2}" y="${pad+X/2+U*.3}" text-anchor="middle" font-size="${U*.9}" font-weight="800" fill="#fff">x²</text>`;
+  const xc=h<0?"var(--neg)":"var(--tx)";
+  for(let i=0;i<n;i++){ svg+=`<rect x="${pad+X+i*U+1}" y="${pad+1}" width="${U-2}" height="${X-2}" rx="3" fill="${xc}"/><rect x="${pad+1}" y="${pad+X+i*U+1}" width="${X-2}" height="${U-2}" rx="3" fill="${xc}"/>`; }
+  let k=0;
+  for(let j=0;j<n;j++) for(let i=0;i<n;i++){ const have=showAll||k<c; k++;
+    svg+=`<rect x="${pad+X+i*U+1}" y="${pad+X+j*U+1}" width="${U-2}" height="${U-2}" rx="3" fill="${have?"var(--t1)":"#F7F4FF"}" ${have?'stroke="rgba(0,0,0,.12)"':'stroke="#A78BFA" stroke-dasharray="3 2"'}/>`; }
+  return svg+"</svg>";
+}
+const legend=`<div class="legend"><span><i style="background:var(--t2)"></i>x²</span><span><i style="background:var(--tx)"></i>x</span><span><i style="background:var(--t1)"></i>1</span><span><i style="background:var(--neg)"></i>negatif</span></div>`;
+
+/* ---------- mulai soal ---------- */
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={kind:P.kind,level:P.level,round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle();
+  G={p:np.p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,fields:[],act:0,
+     sides:{p:1,q:1,r:1,s:1}};
+  const p=G.p;
+  G.fields=Array(p.kind==="jabar"?3:p.kind==="faktor"?0:p.level==="mudah"?1:p.level==="sedang"?2:4).fill("");
+  if(G.mode==="harian"){ const st=lsGet(storeKey(),null); if(st&&st.n===G.n){ G.wrong=st.wrong||0; G.done=!!st.done; G.stars=st.stars||0; G.usedHint=!!st.usedHint; if(st.sides) G.sides=st.sides; } }
+  $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`ua_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,sides:G.sides}); }
+/* ---------- tampilan ---------- */
+const fldHTML=i=>`<span class="fld${G.act===i&&!G.done?" act":""}${G.fields[i]?"":" ph"}" data-f="${i}">${G.fields[i]||"?"}</span>`;
+function render(){
+  const p=G.p; let h="", c="";
+  if(p.kind==="faktor"){
+    const S=G.done?{p:p.f.p,q:p.f.q,r:p.f.r,s:p.f.s}:G.sides, t=boardTiles(S.p,S.q,S.r,S.s);
+    h=`<div class="q">Faktorkan <span class="fn">${quadText(p.coef)}</span></div>
+      <div class="board">${boardSVG(S.p,S.q,S.r,S.s)}</div>${legend}
+      <div class="count"><span>${t.x2} x²</span><span>${fmtN(t.xNet)} x${t.xPos&&t.xNeg?` <small class="z">(${Math.min(t.xPos,t.xNeg)} pasangan nol)</small>`:""}</span><span>${fmtN(t.one)} satuan</span></div>`;
+    const big=p.level==="sulit";
+    const st=(k,v,lab)=>`<span class="st"><button type="button" data-d="${k}" data-v="-1" aria-label="Kurangi ${lab}" ${G.done?"disabled":""}>−</button><b>${v}</b><button type="button" data-d="${k}" data-v="1" aria-label="Tambah ${lab}" ${G.done?"disabled":""}>+</button></span>`;
+    c=`<div class="facline">${facText({p:S.p,q:S.q,r:S.r,s:S.s})}</div>
+      <div class="sides">
+        <div class="side"><span class="lb">Sisi atas</span>${big?st("p",S.p+"x","x atas"):"<b>x</b>"} ${st("q",(S.q<0?"− ":"+ ")+Math.abs(S.q),"angka atas")}</div>
+        <div class="side"><span class="lb">Sisi kiri</span>${big?st("r",S.r+"x","x kiri"):"<b>x</b>"} ${st("s",(S.s<0?"− ":"+ ")+Math.abs(S.s),"angka kiri")}</div>
+      </div>`;
+  }else if(p.kind==="jabar"){
+    const f=p.f, show=p.showTiles||G.done;
+    h=`<div class="q">Jabarkan <span class="fn">${facText(f)}</span></div>
+      <div class="board">${boardSVG(f.p,f.q,f.r,f.s,{hide:!show})}</div>${show?legend:`<p class="sub">Ubin di dalam tersembunyi — bayangkan luas tiap bagian.</p>`}`;
+    c=`<div class="form">${fldHTML(0)} x² + ${fldHTML(1)} x + ${fldHTML(2)}</div>`;
+  }else{
+    const hh=p.h;
+    h=`<div class="q"><span class="fn">${quadText([1,p.b,p.c])}</span></div>`;
+    if(p.level==="mudah"){ h+=`<div class="board">${squareSVG(hh,G.done?hh*hh:p.c,G.done)}</div><p class="sub">Ubin x sudah dibagi rata ke kanan dan ke bawah. Pojoknya baru berisi ${p.c} satuan.</p>`;
+      c=`<div class="form">tambah ${fldHTML(0)} satuan agar jadi persegi</div>`; }
+    else{ h+=`<div class="board">${squareSVG(hh,0,G.done)}</div><p class="sub">${G.done?"Persegi sudah lengkap.":"Ubin x dibagi rata. Berapa satuan untuk melengkapi pojok?"}</p>`;
+      c=p.level==="sedang"?`<div class="form">${quadText([1,p.b,p.c])} = (x + ${fldHTML(0)})² + ${fldHTML(1)}</div>`
+        :`<p class="sub">Selesaikan ${quadText([1,p.b,p.c])} = 0</p><div class="form">(x + ${fldHTML(0)})² = ${fldHTML(1)}</div><div class="form">x = ${fldHTML(2)} atau x = ${fldHTML(3)}</div>`; }
+  }
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=c;
+  $("pad").hidden=p.kind==="faktor"||G.done; $("okBtn").hidden=G.done;
+  $("hintBtn").hidden=!(G.wrong>=3&&!G.done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Soal harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0;
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const st=lsGet(`ua_day_${P.level}_${k}`,null); if(st&&st.n===day&&st.done) badge=`<small>${"⭐".repeat(st.stars)}</small>`; }
+    return `<button type="button" data-v="${k}">${v.icon} ${k==="kuadrat"?"Kuadrat":v.label}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}</button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+/* ---------- pengatur sisi (Faktorkan) ---------- */
+const LIM={p:[1,3],r:[1,3],q:[-9,9],s:[-9,9]};
+$("ctrlBody").addEventListener("click",e=>{
+  const b=e.target.closest("[data-d]"); if(b&&!G.done){ const k=b.dataset.d, d=+b.dataset.v; let v=G.sides[k]+d;
+    if((k==="q"||k==="s")&&v===0) v+=d;       /* lewati 0: sisi selalu punya angka */
+    if(v<LIM[k][0]||v>LIM[k][1]) return;
+    G.sides[k]=v; saveDay(); render(); return; }
+  const f=e.target.closest(".fld"); if(f&&!G.done){ G.act=+f.dataset.f; render(); }
+});
+/* ---------- isian ---------- */
+function press(k){
+  if(!G||G.done) return;
+  if(k==="ok") return check();
+  if(G.kind==="faktor") return;
+  let v=G.fields[G.act];
+  if(k==="del") v=v.slice(0,-1);
+  else if(k==="−") v=v.startsWith("−")?v.slice(1):"−"+v;
+  else if(v.replace("−","").length<4) v=(v==="0"?"":v==="−0"?"−":v)+k;
+  G.fields[G.act]=v; render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G) return;
+  if(e.key==="Tab"&&G.fields.length){ e.preventDefault(); G.act=(G.act+1)%G.fields.length; render(); return; }
+  const k=e.key==="-"?"−":e.key==="Backspace"?"del":e.key==="Enter"?"ok":e.key;
+  if(/^[0-9]$/.test(k)||k==="−"||k==="del"||k==="ok"){ e.preventDefault(); press(k); }
+});
+const toInt=s=>s===""||s==="−"?null:+(s.replace("−","-"));
+function check(){
+  if(G.done) return;
+  let ok;
+  if(G.kind==="faktor"){ const S=G.sides; ok=factorOK(S.p,S.q,S.r,S.s,G.p.coef); }
+  else{ const vals=G.fields.map(toInt); if(vals.some(v=>v===null)){ toast("Isi semua kotak dulu (boleh 0)."); return; } ok=checkAnswer(G.p,vals); }
+  if(ok){ $("fb").innerHTML=`<span class="ok">✓ Benar!</span>`; finish(); return; }
+  G.wrong++;
+  let msg="Belum tepat.";
+  if(G.kind==="faktor"){ const t=boardTiles(G.sides.p,G.sides.q,G.sides.r,G.sides.s), [A,B,C]=G.p.coef;
+    msg=t.x2!==A?`Ubin x² harus ${A}.`:t.one!==C?`Satuan harus ${fmtN(C)}, sekarang ${fmtN(t.one)}.`:`Ubin x harus ${fmtN(B)}, sekarang ${fmtN(t.xNet)}.`; }
+  $("fb").innerHTML=`<span class="no">✗ ${msg}${G.mode==="kelas"?"":" Coba lagi."}</span>`;
+  saveDay(); render();
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${explain(G.p).map(x=>`<div>${x}</div>`).join("")}</div>`;
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Cara penyelesaian</h2>${howHTML()}<p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+/* ---------- selesai ---------- */
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("ua_stats_"+l,{})); }
+function recordDay(){
+  const all=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`ua_day_${G.level}_${k}`,null));
+  if(!all.every(st=>st&&st.n===G.n&&st.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=all.reduce((a,st)=>a+st.stars,0); s.lastN=G.n; lsSet("ua_stats_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Lihat cara":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const st=lsGet(`ua_day_${G.level}_${k}`,null); return !(st&&st.n===G.n&&st.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Ketiga soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h;
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const st=lsGet(`ua_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(st&&st.done?st.stars:0); }).join(" ");
+    const t=`Ubin Aljabar #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+/* ---------- pengaturan ---------- */
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau ketiga materi selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+window.addEventListener("resize",()=>{ if(G) render(); });
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
