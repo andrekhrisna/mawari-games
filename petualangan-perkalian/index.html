@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#DFF4FB">
+<title>Petualangan Tabel Perkalian</title>
+<meta name="description" content="Jelajahi 15 pulau perkalian ×1 sampai ×15: berurutan, acak, pembagian, dan Bos. Profil anak dan mode kelas.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%230EA5C6'/%3E%3Cellipse cx='32' cy='40' rx='20' ry='9' fill='%23F7D58B'/%3E%3Ctext x='32' y='36' font-family='sans-serif' font-weight='800' font-size='26' text-anchor='middle' fill='%23fff'%3E%C3%97%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#DFF4FB;
+  --sea:#0EA5C6;
+  --sea-d:#0A7E98;
+  --sand:#F7D58B;
+  --card:#FFFFFF;
+  --ink:#123047;
+  --muted:#5E7C8F;
+  --line:#C5E6F0;
+  --gold:#F2B705;
+  --green:#2F9E58;
+  --green-soft:#E1F5E8;
+  --red:#E4572E;
+  --red-soft:#FFE6DE;
+  --blue:#2563EB;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:12px 14px calc(18px + env(safe-area-inset-bottom))}
+button,input{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:12px}
+.big .wrap{max-width:1100px}
+.topbar{display:flex;align-items:center;gap:8px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--sea)} .brand .lg2{color:inherit}
+@media (max-width:480px){.brand .lg2{display:none}}
+.pill{border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 12px;font-size:.85rem;font-weight:700;cursor:pointer;flex:none;white-space:nowrap;max-width:46vw;overflow:hidden;text-overflow:ellipsis}
+.card{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:16px;display:flex;flex-direction:column;gap:12px}
+.h{font-weight:800;font-size:1.3rem;text-align:center;margin:0}
+.sub{color:var(--muted);text-align:center;font-size:.92rem;margin:-6px 0 0}
+.lbl{font-size:.8rem;font-weight:800;letter-spacing:.06em;color:var(--muted);margin-bottom:-6px}
+.btn{border:0;border-radius:14px;padding:12px 16px;font-weight:800;font-size:1.1rem;cursor:pointer;background:var(--sea);color:#fff;box-shadow:0 4px 0 var(--sea-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--sea-d)}
+.btn.dark{background:var(--ink);box-shadow:0 4px 0 #000}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--bg);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:7px 4px;font-weight:800;font-size:.95rem;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.names{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+input.txt{border:1px solid var(--line);border-radius:12px;padding:9px 12px;font-size:1rem;font-weight:700;width:100%}
+.chk{display:flex;align-items:center;gap:8px;cursor:pointer;color:var(--muted);font-size:.92rem}
+.chk input{width:20px;height:20px}
+.small{color:var(--muted);font-size:.85rem;text-align:center}
+
+/* profil */
+.who{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.prof{position:relative;border:2px solid var(--line);background:var(--bg);border-radius:16px;padding:10px 8px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;min-width:0}
+.prof .av{font-size:2.2rem;line-height:1.1}
+.prof b{font-size:1.02rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prof small{color:var(--muted);font-weight:700}
+.prof.kelas{background:#FFF6DB;border-color:#F3DE9C}
+.prof.add{border-style:dashed;background:#fff;color:var(--sea);justify-content:center;font-weight:800}
+.prof .del{position:absolute;top:4px;right:4px;width:28px;height:28px;border-radius:50%;border:0;background:var(--red);color:#fff;font-weight:800;cursor:pointer;line-height:1}
+.avs{display:grid;grid-template-columns:repeat(6,1fr);gap:6px}
+.avs button{font-size:1.6rem;border:2px solid var(--line);background:var(--bg);border-radius:12px;padding:4px 0;cursor:pointer}
+.avs button[aria-pressed="true"]{border-color:var(--sea);background:#C9EEF8}
+
+/* peta */
+.map{position:relative;display:flex;flex-direction:column;gap:6px;padding:6px 0;
+  background:radial-gradient(circle at 20% 10%,#E9FAFF 0,transparent 40%),linear-gradient(#BFE9F5,#9FDDEE);border-radius:20px;border:1px solid var(--line)}
+.mrow{display:flex;padding:0 18px}
+.mrow:nth-child(4n+1){justify-content:flex-start}
+.mrow:nth-child(4n+2),.mrow:nth-child(4n){justify-content:center}
+.mrow:nth-child(4n+3){justify-content:flex-end}
+.isl{width:104px;height:84px;border:0;background:transparent;cursor:pointer;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0}
+.isl .land{position:absolute;inset:8px 0 0;border-radius:50% 50% 46% 54%/60% 60% 40% 40%;background:var(--sand);box-shadow:0 0 0 5px rgba(255,255,255,.55),0 6px 0 #D9B565}
+.isl .nm{position:relative;font-weight:800;font-size:1.55rem;line-height:1;margin-top:4px}
+.isl .em{position:absolute;top:-4px;left:6px;font-size:1.3rem}
+.isl .st{position:relative;font-size:.78rem;font-weight:800;color:#7A5A12}
+.isl.done .land{background:#FFE08A;box-shadow:0 0 0 5px #fff,0 6px 0 #D9B565}
+.isl.lock{cursor:not-allowed}
+.isl.lock .land{background:#D7E3E8;box-shadow:0 0 0 5px rgba(255,255,255,.35),0 6px 0 #B7C6CC}
+.isl.lock .nm,.isl.lock .st{color:#8AA0AA}
+.isl.cur .land{box-shadow:0 0 0 5px var(--sea),0 6px 0 #D9B565}
+
+/* pulau */
+.stages{display:grid;gap:8px}
+.stg{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:10px;border:2px solid var(--line);background:var(--bg);border-radius:16px;padding:10px 12px;cursor:pointer;text-align:left}
+.stg .ic{font-size:1.8rem;text-align:center}
+.stg b{display:block;font-size:1.1rem;line-height:1.1}
+.stg small{color:var(--muted);font-size:.85rem}
+.stg .sr{font-size:1.15rem;letter-spacing:1px;white-space:nowrap}
+.stg.lock{opacity:.5;cursor:not-allowed}
+.stars .on{color:var(--gold)} .stars .off{color:#C7D3D9}
+
+/* soal */
+.hud{display:flex;justify-content:space-between;align-items:baseline;gap:8px;color:var(--muted);font-size:.92rem}
+.hud b{color:var(--ink);font-size:1.1rem}
+.hud .low b{color:var(--red)}
+.banner{text-align:center;font-weight:800;color:#7A5A12;background:#FFF1C2;border-radius:10px;padding:4px}
+.qline{display:flex;justify-content:center;align-items:center;gap:12px;font-weight:800;font-size:2.8rem;line-height:1.1;flex-wrap:wrap}
+.ans{min-width:96px;height:66px;border-radius:14px;border:3px solid var(--sea);background:#fff;display:flex;align-items:center;justify-content:center;padding:0 10px}
+.ans.ph{color:#B5CCD5}
+.ans.right{border-color:var(--green);background:var(--green-soft);color:var(--green)}
+.ans.wrong{border-color:var(--red);background:var(--red-soft);color:var(--red);text-decoration:line-through}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.pad button{height:56px;border-radius:14px;border:1px solid var(--line);background:var(--bg);font-weight:800;font-size:1.6rem;cursor:pointer}
+.pad button.ok{background:var(--sea);color:#fff;border-color:var(--sea);font-size:1.2rem}
+.pad button:active{transform:translateY(1px)}
+.fb{text-align:center;font-weight:800;font-size:1.15rem;min-height:1.5em;line-height:1.4}
+.fb .ok{color:var(--green)} .fb .no{color:var(--red)}
+.fb small{display:block;font-weight:600;color:var(--muted);font-size:.9em}
+/* hasil */
+.bigstars{font-size:3.4rem;text-align:center;line-height:1;letter-spacing:4px}
+.total{font-size:1.4rem;font-weight:800;text-align:center}
+.unl{text-align:center;font-weight:800;color:var(--green)}
+.list{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:4px;font-size:.95rem}
+.list li{display:flex;justify-content:space-between;gap:8px;padding:6px 10px;border-radius:10px;background:var(--bg)}
+.teams{display:grid;grid-template-columns:1fr 1fr;gap:10px;text-align:center}
+.teams div{border-radius:16px;padding:10px;background:var(--bg)}
+.teams b{display:block;font-size:2.2rem;line-height:1.1}
+.winner{text-align:center;font-weight:800;font-size:1.4rem}
+footer{text-align:center;color:var(--muted);font-size:.76rem}
+/* layar besar hanya berlaku di layar lebar (proyektor/laptop), tidak di HP */
+@media (min-width:700px){
+.big .qline{font-size:6rem;gap:24px}
+.big .ans{min-width:200px;height:130px;border-width:5px;border-radius:24px}
+.big .pad{max-width:640px;margin:0 auto;width:100%}
+.big .pad button{height:80px;font-size:2.4rem}
+.big .fb{font-size:2rem}
+.big .hud{font-size:1.4rem} .big .hud b{font-size:1.8rem}
+.big .isl{width:140px;height:110px} .big .isl .nm{font-size:2.1rem} .big .isl .st{font-size:1rem}
+.big .map{display:grid;grid-template-columns:repeat(5,1fr);gap:18px 6px;padding:22px 10px}
+.big .mrow{padding:0;justify-content:center!important}
+}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand"><span class="lg2">Petualangan </span><span>Perkalian</span></div>
+    <button class="pill" id="whoBtn" type="button" hidden></button>
+  </div>
+
+  <!-- pilih profil -->
+  <section class="card" id="sWho">
+    <h1 class="h">Siapa yang main?</h1>
+    <p class="sub">Kemajuan tiap anak disimpan terpisah di perangkat ini.</p>
+    <div class="who" id="whoList"></div>
+    <div id="addBox" hidden style="display:flex;flex-direction:column;gap:10px">
+      <div class="lbl">NAMA</div>
+      <input class="txt" id="newName" maxlength="12" placeholder="Nama anak" aria-label="Nama anak">
+      <div class="lbl">PILIH GAMBAR</div>
+      <div class="avs" id="avs"></div>
+      <div class="row2"><button class="btn" type="button" id="saveProf">Simpan</button><button class="btn ghost" type="button" id="cancelProf">Batal</button></div>
+    </div>
+    <button class="btn ghost" type="button" id="editProf" style="font-size:.9rem;padding:8px">Hapus profil…</button>
+  </section>
+
+  <!-- peta -->
+  <section class="card" id="sMap" hidden>
+    <h1 class="h">Peta Pulau</h1>
+    <p class="sub" id="mapSub"></p>
+    <div class="map" id="map"></div>
+    <label class="chk"><input type="checkbox" id="bigChk"> Layar besar (untuk proyektor kelas)</label>
+  </section>
+
+  <!-- pulau -->
+  <section class="card" id="sIsle" hidden>
+    <h1 class="h" id="isleTitle"></h1>
+    <p class="sub" id="isleSub"></p>
+    <div class="stages" id="stages"></div>
+    <div id="teamBox" hidden style="display:flex;flex-direction:column;gap:10px">
+      <div class="lbl">MAIN SEBAGAI</div>
+      <div class="seg" id="segTeam"><button type="button" data-v="0" aria-pressed="true">Satu kelas</button><button type="button" data-v="1" aria-pressed="false">2 Tim</button></div>
+      <div class="names" id="names" hidden>
+        <input class="txt" id="nameA" maxlength="14" placeholder="Tim Merah" aria-label="Nama tim pertama">
+        <input class="txt" id="nameB" maxlength="14" placeholder="Tim Biru" aria-label="Nama tim kedua">
+      </div>
+    </div>
+    <button class="btn ghost" type="button" id="toMap">← Peta</button>
+  </section>
+
+  <!-- soal -->
+  <section class="card" id="sPlay" hidden>
+    <div class="hud"><span id="hudL"></span><span id="hudTeam" style="font-weight:800"></span><span id="hudR"></span></div>
+    <div class="banner" id="banner" hidden>Ulangi yang tadi salah</div>
+    <div class="qline"><span id="qtext"></span><span>=</span><span class="ans ph" id="ans">?</span></div>
+    <div class="fb" id="fb" aria-live="polite"></div>
+    <div class="pad" id="pad">
+      <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button>
+      <button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button>
+      <button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button>
+      <button type="button" data-k="del" aria-label="Hapus">⌫</button><button type="button" data-k="0">0</button><button type="button" data-k="ok" class="ok">OK ✓</button>
+    </div>
+    <button class="btn dark" type="button" id="nextBtn" hidden>Lanjut →</button>
+    <button class="btn ghost" type="button" id="quitBtn" style="font-size:.9rem;padding:8px">Keluar ke pulau</button>
+  </section>
+
+  <!-- hasil -->
+  <section class="card" id="sRes" hidden>
+    <div id="resBody" style="display:flex;flex-direction:column;gap:12px"></div>
+    <div style="display:grid;gap:8px" id="resBtns"></div>
+  </section>
+  <footer>Kemajuan disimpan di perangkat ini saja.</footer>
+</div>
+
+<script>
+/* ================= INTI: peta pulau, tahap, bintang, kunci ================= */
+function shuffle(a,rand){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(rand()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+/* ===== Peta: urutan mudah dulu ===== */
+const ISLANDS=[1,10,2,5,3,4,9,6,8,7,11,12,13,14,15];
+const maxK=n=>n>10?15:10;                      /* pengali: 1–10, pulau ×11–×15 sampai 15 */
+const STAGES=[
+  {key:"urut",label:"Berurutan",icon:"🪜"},
+  {key:"acak",label:"Acak",icon:"🎲"},
+  {key:"bagi",label:"Pembagian",icon:"➗"},
+  {key:"bos",label:"Bos",icon:"🐉"}
+];
+const bossTime=n=>n>10?90:60;                   /* detik */
+
+/* soal: {a,op,b,ans} — op "x" atau ":" */
+function makeStage(n,stage,rand){
+  rand=rand||Math.random;
+  const ks=[...Array(maxK(n))].map((_,i)=>i+1);
+  const mul=(k,swap)=>swap?{a:k,op:"x",b:n,ans:n*k,n,k}:{a:n,op:"x",b:k,ans:n*k,n,k};
+  const div=k=>({a:n*k,op:":",b:n,ans:k,n,k});
+  if(stage==="urut") return ks.map(k=>mul(k,false));
+  if(stage==="acak") return shuffle(ks,rand).map(k=>mul(k,rand()<.5));
+  if(stage==="bagi") return shuffle(ks,rand).map(div);
+  /* bos: tiap pengali sekali, separuh kali separuh bagi */
+  const kinds=shuffle(ks.map((_,i)=>i<ks.length/2?"x":":"),rand);
+  return shuffle(ks,rand).map((k,i)=>kinds[i]==="x"?mul(k,rand()<.5):div(k));
+}
+/* 80% / 90% / 100% benar = 1 / 2 / 3 bintang (10 soal: 8/9/10; 15 soal: 12/14/15) */
+function starsFor(correct,total){
+  const r=correct/total;
+  return r>=1?3:r>=.9?2:r>=.8?1:0;
+}
+const needFor=(total,st)=>Math.ceil(total*[0,.8,.9,1][st]-1e-9);
+
+/* kunci: pulau terbuka kalau Bos pulau sebelumnya lulus; tahap terbuka kalau tahap sebelumnya lulus */
+const sk=(n,s)=>`${n}-${s}`;
+function islandOpen(stars,idx,all){ return all||idx===0||(stars[sk(ISLANDS[idx-1],"bos")]||0)>0; }
+function stageOpen(stars,n,si,all){
+  const idx=ISLANDS.indexOf(n);
+  if(!islandOpen(stars,idx,all)) return false;
+  return all||si===0||(stars[sk(n,STAGES[si-1].key)]||0)>0;
+}
+const islandStars=(stars,n)=>STAGES.reduce((t,s)=>t+(stars[sk(n,s.key)]||0),0);
+
+/* cara singkat kalau salah (baris jawaban sudah tampil di atasnya) */
+function hint(q){
+  const {n,k}=q;
+  if(q.op===":") return `Karena ${n} × ${k} = ${q.a}`;
+  if(k===1) return `Dikali 1 hasilnya bilangan itu sendiri.`;
+  if(n===1) return `1 dikali bilangan apa pun hasilnya bilangan itu.`;
+  if(n===10||k===10) return `Dikali 10: tambahkan 0 di belakang ${n===10?k:n}.`;
+  if(n>10) return `Cara: 10 × ${k} + ${n-10} × ${k} = ${10*k} + ${(n-10)*k}`;
+  return `Cara: ${n} × ${k-1} + ${n} = ${n*(k-1)} + ${n}`;
+}
+const qText=q=>`${q.a} ${q.op==="x"?"×":"÷"} ${q.b}`;
+/* ================= AKHIR INTI ================= */
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const AVATARS=["🐯","🐼","🦊","🐸","🐵","🐰","🦁","🐨","🐙","🦄","🐢","🐳"];
+const ISLE_EMO=["🌴","🐚","🦀","🌋","🐬","🏝️","🦜","🐠","⛵","🐙","🌺","🗿","🦈","🏰","🐉"];
+const MAXP=6;
+/* ---- data tersimpan ---- */
+function load(){ try{ const d=JSON.parse(localStorage.getItem("tp_data")||"null"); if(d&&Array.isArray(d.profiles)) return d; }catch(e){} return null; }
+const D=load()||{profiles:[],kelas:{stars:{}},cur:null,big:false,team:0,names:["Tim Merah","Tim Biru"]};
+D.kelas=D.kelas||{stars:{}}; D.names=D.names||["Tim Merah","Tim Biru"];
+function save(){ try{ localStorage.setItem("tp_data",JSON.stringify(D)); }catch(e){} }
+const isKelas=()=>D.cur==="kelas";
+const prof=()=>isKelas()?{name:"Kelas",av:"🏫",stars:D.kelas.stars}:D.profiles.find(p=>p.id===D.cur);
+const totalStars=st=>Object.values(st).reduce((a,b)=>a+b,0);
+const starRow=n=>`<span class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"on":"off"}">★</span>`).join("")}</span>`;
+
+const S={n:1,stage:"urut",qs:[],i:0,q:null,typed:"",locked:false,wrong:[],correct:0,repeat:false,ri:0,scores:[0,0],left:0,timer:null,auto:null,team:0};
+
+function show(id){ ["sWho","sMap","sIsle","sPlay","sRes"].forEach(s=>$(s).hidden=s!==id);
+  $("whoBtn").hidden=id==="sWho"; const p=prof(); if(p) $("whoBtn").textContent=`${p.av} ${p.name}`;
+  document.documentElement.classList.toggle("big",!!D.big); window.scrollTo(0,0); }
+
+/* ---- profil ---- */
+let delMode=false, pickAv=AVATARS[0];
+function renderWho(){
+  $("whoList").innerHTML=D.profiles.map(p=>`<button type="button" class="prof" data-id="${p.id}"><span class="av">${p.av}</span><b>${esc(p.name)}</b><small>★ ${totalStars(p.stars)}</small>${delMode?`<span class="del" data-del="${p.id}" role="button" aria-label="Hapus ${esc(p.name)}">×</span>`:""}</button>`).join("")
+    +`<button type="button" class="prof kelas" data-id="kelas"><span class="av">🏫</span><b>Kelas</b><small>mode guru · semua pulau terbuka</small></button>`
+    +(D.profiles.length<MAXP&&!delMode?`<button type="button" class="prof add" id="addProf">+ Tambah anak<small>${D.profiles.length}/${MAXP}</small></button>`:"");
+  $("editProf").textContent=delMode?"Selesai":"Hapus profil…"; $("editProf").hidden=!D.profiles.length;
+  $("avs").innerHTML=AVATARS.map(a=>`<button type="button" data-a="${a}" aria-pressed="${a===pickAv}">${a}</button>`).join("");
+}
+$("whoList").onclick=e=>{
+  const d=e.target.closest("[data-del]");
+  if(d){ const p=D.profiles.find(x=>x.id===d.dataset.del); if(p&&confirm(`Hapus profil ${p.name}? Bintangnya ikut terhapus.`)){ D.profiles=D.profiles.filter(x=>x!==p); if(D.cur===p.id) D.cur=null; save(); } renderWho(); return; }
+  if(e.target.closest("#addProf")){ $("addBox").hidden=false; $("newName").value=""; $("newName").focus(); return; }
+  const b=e.target.closest(".prof"); if(!b||delMode) return;
+  D.cur=b.dataset.id; save(); openMap();
+};
+$("avs").onclick=e=>{ const b=e.target.closest("button"); if(!b) return; pickAv=b.dataset.a; renderWho(); };
+$("saveProf").onclick=()=>{
+  const name=$("newName").value.trim().slice(0,12); if(!name){ $("newName").focus(); return; }
+  if(D.profiles.length>=MAXP) return;
+  const p={id:"p"+Date.now().toString(36),name,av:pickAv,stars:{}}; D.profiles.push(p); D.cur=p.id; save();
+  $("addBox").hidden=true; openMap();
+};
+$("cancelProf").onclick=()=>{ $("addBox").hidden=true; };
+$("editProf").onclick=()=>{ delMode=!delMode; renderWho(); };
+$("whoBtn").onclick=()=>{ stopTimers(); delMode=false; $("addBox").hidden=true; renderWho(); show("sWho"); };
+
+/* ---- peta ---- */
+function openMap(){
+  const st=prof().stars, all=isKelas();
+  let cur=-1; ISLANDS.forEach((n,i)=>{ if(islandOpen(st,i,all)&&!(st[sk(n,"bos")]>0)&&cur<0) cur=i; });
+  $("map").innerHTML=ISLANDS.map((n,i)=>{
+    const open=islandOpen(st,i,all), s=islandStars(st,n), done=(st[sk(n,"bos")]||0)>0;
+    return `<div class="mrow"><button type="button" class="isl${open?"":" lock"}${done?" done":""}${i===cur&&!all?" cur":""}" data-n="${n}" ${open?"":'aria-disabled="true"'} aria-label="Pulau kali ${n}${open?`, ${s} bintang`:", terkunci"}">
+      <span class="land"></span><span class="em">${open?ISLE_EMO[i]:"🔒"}</span><span class="nm">×${n}</span><span class="st">★ ${s}/12</span></button></div>`;
+  }).join("");
+  const tot=totalStars(st);
+  $("mapSub").textContent=all?`Mode kelas: semua pulau terbuka · ★ ${tot}`:`★ ${tot} dari ${ISLANDS.length*12} bintang · lulus Bos untuk membuka pulau berikutnya`;
+  $("bigChk").checked=!!D.big;
+  show("sMap");
+}
+$("map").onclick=e=>{ const b=e.target.closest(".isl"); if(!b) return;
+  if(b.classList.contains("lock")){ $("mapSub").textContent="Pulau ini masih terkunci. Kalahkan Bos di pulau sebelumnya dulu."; return; }
+  openIsle(+b.dataset.n); };
+$("bigChk").onchange=()=>{ D.big=$("bigChk").checked; save(); document.documentElement.classList.toggle("big",D.big); };
+
+/* ---- pulau ---- */
+function stageDesc(n,key){
+  const m=maxK(n);
+  if(key==="urut") return `${n} × 1, ${n} × 2, … ${n} × ${m}`;
+  if(key==="acak") return `${m} soal acak, kadang dibalik (${Math.min(3,m)} × ${n})`;
+  if(key==="bagi") return `${n*7} ÷ ${n}, ${n*3} ÷ ${n}, …`;
+  return `campuran × dan ÷ · ${bossTime(n)} detik`;
+}
+function openIsle(n){
+  S.n=n; const st=prof().stars, all=isKelas(), idx=ISLANDS.indexOf(n), m=maxK(n);
+  $("isleTitle").textContent=`${ISLE_EMO[idx]} Pulau ×${n}`;
+  $("isleSub").textContent=`${m} soal per tahap · ${needFor(m,1)} benar = 1 bintang, ${m} benar = 3 bintang`;
+  $("stages").innerHTML=STAGES.map((s,si)=>{ const open=stageOpen(st,n,si,all), v=st[sk(n,s.key)]||0;
+    return `<button type="button" class="stg${open?"":" lock"}" data-s="${s.key}" ${open?"":'aria-disabled="true"'}><span class="ic">${open?s.icon:"🔒"}</span><span><b>${s.label}</b><small>${stageDesc(n,s.key)}</small></span><span class="sr">${starRow(v)}</span></button>`; }).join("");
+  $("teamBox").hidden=!all;
+  $("segTeam").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",+b.dataset.v===D.team));
+  $("names").hidden=!D.team;
+  $("nameA").value=D.names[0]==="Tim Merah"?"":D.names[0]; $("nameB").value=D.names[1]==="Tim Biru"?"":D.names[1];
+  show("sIsle");
+}
+$("stages").onclick=e=>{ const b=e.target.closest(".stg"); if(!b) return;
+  if(b.classList.contains("lock")){ $("isleSub").textContent="Tahap ini terbuka setelah tahap sebelumnya dapat minimal 1 bintang."; return; }
+  startStage(b.dataset.s); };
+$("segTeam").onclick=e=>{ const b=e.target.closest("button"); if(!b) return; D.team=+b.dataset.v; save(); openIsle(S.n); };
+["nameA","nameB"].forEach((id,k)=>$(id).addEventListener("input",()=>{ D.names[k]=($(id).value.trim()||(k?"Tim Biru":"Tim Merah")).slice(0,14); save(); }));
+$("toMap").onclick=openMap;
+
+/* ---- bermain ---- */
+const TEAMC=["var(--red)","var(--blue)"];
+const teamOn=()=>isKelas()&&D.team===1;
+const curTeam=()=>teamOn()?S.i%2:0;
+function stopTimers(){ clearInterval(S.timer); S.timer=null; clearTimeout(S.auto); S.auto=null; }
+function startStage(key){
+  stopTimers();
+  Object.assign(S,{stage:key,qs:makeStage(S.n,key),i:0,wrong:[],correct:0,repeat:false,ri:0,scores:[0,0],locked:false});
+  S.left=key==="bos"?bossTime(S.n)*1000:0;
+  show("sPlay"); $("banner").hidden=true;
+  if(key==="bos") S.timer=setInterval(()=>{ if(S.locked||S.repeat) return; S.left-=100; hud(); if(S.left<=0){ S.left=0; timeUp(); } },100);
+  ask();
+}
+function hud(){
+  const st=STAGES.find(s=>s.key===S.stage);
+  let L=S.repeat?`Ulang <b>${S.ri+1}</b>/${S.wrong.length}`:`${st.icon} Soal <b>${Math.min(S.i+1,S.qs.length)}</b>/${S.qs.length}`;
+  if(S.stage==="bos"&&!S.repeat){ const s=Math.ceil(S.left/1000); L+=` · <span class="${s<=10?"low":""}">⏱ <b>${s}</b></span>`; }
+  $("hudL").innerHTML=L;
+  $("hudTeam").innerHTML=teamOn()&&!S.repeat?`<span style="color:${TEAMC[curTeam()]}">${esc(D.names[curTeam()])}</span>`:"";
+  $("hudR").innerHTML=teamOn()?`<b style="color:var(--red)">${S.scores[0]}</b> : <b style="color:var(--blue)">${S.scores[1]}</b>`:`Benar <b>${S.correct}</b>`;
+}
+function ask(){
+  S.q=S.repeat?S.wrong[S.ri]:S.qs[S.i]; S.typed=""; S.locked=false;
+  $("qtext").textContent=qText(S.q); $("fb").innerHTML=""; $("nextBtn").hidden=true; $("pad").hidden=false;
+  drawAns(); hud();
+}
+function drawAns(cls){ const a=$("ans"); a.className="ans"+(S.typed?"":" ph")+(cls?" "+cls:""); a.textContent=S.typed||"?"; }
+function press(k){
+  if(S.locked||$("sPlay").hidden) return;
+  if(k==="del") S.typed=S.typed.slice(0,-1);
+  else if(k==="ok"){ if(S.typed) submit(); return; }
+  else if(S.typed.length<3) S.typed=(S.typed==="0"?"":S.typed)+k;
+  drawAns();
+}
+$("pad").onclick=e=>{ const b=e.target.closest("button"); if(b) press(b.dataset.k); };
+document.addEventListener("keydown",e=>{
+  if($("sPlay").hidden) return;
+  if(/^[0-9]$/.test(e.key)) press(e.key);
+  else if(e.key==="Backspace") press("del");
+  else if(e.key==="Enter"){ e.preventDefault(); if(S.locked){ if(!$("nextBtn").hidden) $("nextBtn").click(); } else press("ok"); }
+});
+function submit(){
+  const q=S.q, good=+S.typed===q.ans;
+  S.locked=true; drawAns(good?"right":"wrong");
+  if(!S.repeat){
+    if(good){ S.correct++; S.scores[curTeam()]++; } else S.wrong.push(q);
+  }
+  hud();
+  if(good){
+    $("fb").innerHTML=`<span class="ok">Benar! ⭐</span>`;
+    S.auto=setTimeout(advance,700);
+  }else{
+    $("fb").innerHTML=`<span class="no">${qText(q)} = ${q.ans}</span><small>${hint(q)}</small>`;
+    $("pad").hidden=true; $("nextBtn").hidden=false; $("nextBtn").focus({preventScroll:true});
+  }
+}
+function advance(){
+  clearTimeout(S.auto); S.auto=null;
+  if(S.repeat){ S.ri++; if(S.ri>=S.wrong.length) return finish(); return ask(); }
+  S.i++;
+  if(S.i>=S.qs.length) return afterMain();
+  ask();
+}
+$("nextBtn").onclick=advance;
+/* timer hanya berjalan saat soal belum dijawab, jadi soal sekarang dan sesudahnya belum terjawab (dihitung salah) */
+function timeUp(){
+  if(S.repeat) return;
+  afterMain(true);
+}
+function afterMain(timeout){
+  clearInterval(S.timer); S.timer=null;
+  S.timeout=!!timeout;
+  if(S.wrong.length){ S.repeat=true; S.ri=0; $("banner").hidden=false;
+    $("banner").textContent=(timeout?"Waktu habis! ":"")+`Ulangi ${S.wrong.length} soal yang tadi salah (tidak menambah skor)`; ask(); }
+  else finish();
+}
+
+/* ---- hasil ---- */
+function finish(){
+  stopTimers(); $("banner").hidden=true;
+  const total=S.qs.length, got=S.correct, stars=starsFor(got,total);
+  const st=prof().stars, key=sk(S.n,S.stage), prev=st[key]||0, all=isKelas();
+  const idx=ISLANDS.indexOf(S.n), si=STAGES.findIndex(s=>s.key===S.stage);
+  const wasOpenNext=si<3?stageOpen(st,S.n,si+1,all):(idx<ISLANDS.length-1&&islandOpen(st,idx+1,all));
+  if(stars>prev){ st[key]=stars; save(); }
+  const nowOpenNext=si<3?stageOpen(st,S.n,si+1,all):(idx<ISLANDS.length-1&&islandOpen(st,idx+1,all));
+  let h=`<div class="bigstars">${starRow(stars)}</div>
+    <div class="total">${got} dari ${total} benar</div>`;
+  if(S.timeout) h+=`<div class="small">Waktu habis sebelum semua soal terjawab.</div>`;
+  h+=stars?`<div class="small">${stars>prev&&prev?`Rekor baru! (sebelumnya ${prev} bintang)`:prev>stars?`Bintang terbaikmu tetap ${prev}.`:""}</div>`
+     :`<div class="small">Perlu ${needFor(total,1)} benar untuk 1 bintang. Coba lagi, pasti bisa!</div>`;
+  if(!wasOpenNext&&nowOpenNext) h+=`<div class="unl">🔓 ${si<3?`Tahap ${STAGES[si+1].label} terbuka!`:`Pulau ×${ISLANDS[idx+1]} terbuka!`}</div>`;
+  if(si===3&&stars&&idx===ISLANDS.length-1) h+=`<div class="unl">🏆 Semua pulau sudah ditaklukkan!</div>`;
+  if(teamOn()){ const [a,b]=S.scores;
+    h=`<div class="winner">${a===b?"Seri!":`🏆 ${esc(D.names[a>b?0:1])} menang!`}</div><div class="teams"><div><span style="color:var(--red);font-weight:800">${esc(D.names[0])}</span><b>${a}</b></div><div><span style="color:var(--blue);font-weight:800">${esc(D.names[1])}</span><b>${b}</b></div></div>`+h; }
+  if(S.wrong.length) h+=`<div class="lbl">YANG PERLU DILATIH</div><ul class="list">${S.wrong.map(q=>`<li><span>${qText(q)}</span><b>${q.ans}</b></li>`).join("")}</ul>`;
+  $("resBody").innerHTML=h;
+  const btns=[];
+  if(nowOpenNext&&si<3) btns.push(`<button class="btn" type="button" data-go="next">${STAGES[si+1].icon} Lanjut: ${STAGES[si+1].label} →</button>`);
+  if(nowOpenNext&&si===3) btns.push(`<button class="btn" type="button" data-go="isle">Ke Pulau ×${ISLANDS[idx+1]} →</button>`);
+  btns.push(`<div class="row2"><button class="btn ${btns.length?"ghost":""}" type="button" data-go="again">Ulangi tahap</button><button class="btn ghost" type="button" data-go="map">Peta</button></div>`);
+  $("resBtns").innerHTML=btns.join("");
+  show("sRes");
+}
+$("resBtns").onclick=e=>{ const b=e.target.closest("[data-go]"); if(!b) return;
+  const g=b.dataset.go, si=STAGES.findIndex(s=>s.key===S.stage);
+  if(g==="next") startStage(STAGES[si+1].key);
+  else if(g==="isle") openIsle(ISLANDS[ISLANDS.indexOf(S.n)+1]);
+  else if(g==="again") startStage(S.stage);
+  else openMap();
+};
+$("quitBtn").onclick=()=>{ if(!confirm("Keluar? Hasil tahap ini tidak dicatat.")) return; stopTimers(); openIsle(S.n); };
+
+/* mulai */
+renderWho();
+if(D.cur&&prof()) openMap(); else show("sWho");
+</script>
+</body>
+</html>
