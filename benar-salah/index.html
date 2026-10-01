@@ -323,10 +323,13 @@ $("card").addEventListener("pointerup",swipeEnd);
 $("card").addEventListener("pointercancel",e=>{ if(sw&&e.pointerId===sw.id){ sw=null; $("card").style.transform=""; } });
 
 /* ---- tombol & keyboard ---- */
-$("yesBtn").addEventListener("pointerdown",e=>{ e.preventDefault(); answer(true,1); });
-$("noBtn").addEventListener("pointerdown",e=>{ e.preventDefault(); answer(false,-1); });
-$("yesBtn").addEventListener("click",e=>{ if(e.detail===0) answer(true,1); });   /* Enter/Spasi saat tombol difokus */
-$("noBtn").addEventListener("click",e=>{ if(e.detail===0) answer(false,-1); });
+/* jawab saat jari menyentuh (pointerdown). Ketukan juga memicu "click" sesudahnya: click hanya dipakai
+   untuk keyboard (Enter/Spasi), dan diabaikan kalau baru saja ada pointerdown, supaya tidak menjawab dua kali. */
+let lastPointer=-1e9;
+$("yesBtn").addEventListener("pointerdown",e=>{ lastPointer=performance.now(); e.preventDefault(); answer(true,1); });
+$("noBtn").addEventListener("pointerdown",e=>{ lastPointer=performance.now(); e.preventDefault(); answer(false,-1); });
+$("yesBtn").addEventListener("click",()=>{ if(performance.now()-lastPointer>=800) answer(true,1); });
+$("noBtn").addEventListener("click",()=>{ if(performance.now()-lastPointer>=800) answer(false,-1); });
 document.addEventListener("keydown",e=>{
   if(e.repeat||e.ctrlKey||e.metaKey||e.altKey) return;
   if(G.playing){
