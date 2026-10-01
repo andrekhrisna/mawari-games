@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, dan Warung Kembalian.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, dan Pecahan Pizza.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -119,6 +119,15 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .wkp .n{border-radius:7px;padding:6px 10px;font-weight:800;font-size:.95rem;box-shadow:0 2px 0 rgba(0,0,0,.2);border:2px solid rgba(0,0,0,.1)}
 .wkp .c{width:36px;height:36px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:800;font-size:.7rem;border:3px solid rgba(0,0,0,.15)}
 .wkp .b{font-size:2.4rem;line-height:1}
+.game.pp{background:#FFF1E0;color:#3A2416}
+.game.pp p{color:#8A6E5A}
+.game.pp h2 span{color:#E4572E}
+.game.pp .tags span{background:rgba(58,36,22,.06);border-color:rgba(58,36,22,.14)}
+.pp .go{background:#E4572E;color:#fff}
+.ppp{display:flex;align-items:center;gap:12px;font-weight:800;color:#3A2416}
+.ppp svg{width:96px;height:96px}
+.ppp .fq{display:inline-flex;flex-direction:column;align-items:center;line-height:1;font-size:1.5rem}
+.ppp .fq span:first-child{border-bottom:3px solid currentColor;padding:0 4px 2px}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -338,6 +347,16 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Warung <span>Kembalian</span></h2>
       <p>Jadi kasir warung: hitung belanjaan, lalu siapkan uang kembalian dari laci dengan lembar dan koin sesedikit mungkin.</p>
       <div class="tags"><span>4 tingkat</span><span>Bonus lembar paling sedikit</span><span>2 Tim &amp; proyektor</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game pp" href="pecahan-pizza/">
+      <div class="peek" aria-hidden="true">
+        <div class="ppp"><svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="44" fill="#F7DFB0"/><path d="M50 50 L50 6 A44 44 0 1 1 6 50 Z" fill="#E4572E"/><path d="M50 6V94M6 50H94" stroke="#C68B3C" stroke-width="2.5"/><circle cx="50" cy="50" r="44" fill="none" stroke="#C68B3C" stroke-width="5"/></svg><span class="fq"><span>3</span><span>4</span></span><svg viewBox="0 0 100 70"><rect x="4" y="4" width="92" height="62" rx="6" fill="#F3E3CC" stroke="#4A2A13" stroke-width="3"/><rect x="4" y="4" width="23" height="62" fill="#6B3E1F"/><rect x="27" y="4" width="23" height="62" fill="#6B3E1F"/><rect x="50" y="4" width="23" height="62" fill="#6B3E1F"/><path d="M27 4V66M50 4V66M73 4V66" stroke="#4A2A13" stroke-width="2.5"/></svg></div>
+      </div>
+      <h2>Pecahan <span>Pizza</span></h2>
+      <p>Belajar pecahan dengan pizza dan cokelat batang: warnai potongan, cari pecahan senilai, bandingkan, lalu jumlahkan dan kurangkan.</p>
+      <div class="tags"><span>4 materi</span><span>Kelas 2–5</span><span>2 Tim &amp; proyektor</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 
