@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, Kuis Kelas, Tebak Persamaan, Teka-Teki Simbol, Mesin Fungsi, Ubin Aljabar, Atur Data, Sniper Grafik, Kapal Perang Kartesius, Eksperimen Peluang, dan Rantai Pangkat.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, Kuis Kelas, Tebak Persamaan, Teka-Teki Simbol, Mesin Fungsi, Ubin Aljabar, Atur Data, Sniper Grafik, Kapal Perang Kartesius, Eksperimen Peluang, Rantai Pangkat, dan Menara Barisan.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -217,6 +217,14 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .rpk .go{background:#A21CAF;color:#fff}
 .rpkp{font:700 1.45rem/1.2 'Baloo 2',serif;color:#3B0764;white-space:nowrap}
 .rpkp sup{font-size:.6em;vertical-align:super;line-height:0}.rpkp i{font-style:normal;color:#A21CAF;font-size:1rem;margin:0 4px}
+.game.mbk{background:#F0FDF4;color:#14341F}
+.game.mbk p{color:#4F6E58}
+.game.mbk h2 span{color:#15803D}
+.game.mbk .tags span{background:rgba(20,52,31,.06);border-color:rgba(20,52,31,.14)}
+.mbk .go{background:#15803D;color:#fff}
+.mbkp{display:grid;grid-template-columns:repeat(3,30px);gap:4px}
+.mbkp b{height:30px;border-radius:7px;background:#fff;border:2px solid #9CC5A8;display:flex;align-items:center;justify-content:center;font-size:.85rem;color:#14341F}
+.mbkp b.e{background:#DCFCE7;border-color:#CDEBD6;color:#9CC5A8}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -566,6 +574,16 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Rantai <span>Pangkat</span></h2>
       <p>Sederhanakan pangkat, bentuk akar, penyebut berakar, dan logaritma langkah demi langkah dengan sifat-sifatnya, sesedikit mungkin langkah.</p>
       <div class="tags"><span>SMP–SMA</span><span>Pangkat & akar</span><span>Logaritma</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game mbk" href="menara-barisan/">
+      <div class="peek" aria-hidden="true">
+        <div class="mbkp"><b>3</b><b class="e">?</b><b>11</b><b class="e">?</b><b>10</b><b class="e">?</b><b>9</b><b class="e">?</b><b class="e">?</b></div>
+      </div>
+      <h2>Menara <span>Barisan</span></h2>
+      <p>Teka-teki silang barisan: setiap baris dan kolom adalah barisan aritmetika, geometri, atau bertingkat. Petunjuk jumlah deret dan deret tak hingga ikut mengunci.</p>
+      <div class="tags"><span>SMP–SMA</span><span>Barisan & deret</span><span>Teka-teki silang</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 
