@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#ECFEFF">
+<title>Kode Matriks</title>
+<meta name="description" content="Kode Matriks untuk SMA: operasi matriks, determinan, dan invers lewat sandi rahasia. Hitung operasi, enkripsi dan dekripsi pesan, lalu cari matriks kuncinya.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230E7490'/%3E%3Cpath d='M18 14h-6v36h6M46 14h6v36h-6' stroke='%23fff' stroke-width='4' fill='none'/%3E%3Ctext x='32' y='41' font-size='22' font-family='sans-serif' font-weight='bold' fill='%23fff' text-anchor='middle'%3EK%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#ECFEFF;
+  --card:#FFFFFF;
+  --ink:#083344;
+  --muted:#3E6470;
+  --line:#CFE8EE;
+  --vi:#0E7490;
+  --vi-d:#155E75;
+  --soft:#CFFAFE;
+  --tg:#F97316;
+  --shot:#7C3AED;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1000px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--vi)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.q{font-weight:800;font-size:1.3rem;text-align:center;line-height:1.35}
+.q .fn{display:inline-block;background:var(--soft);border-radius:10px;padding:2px 10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+.qtext{font-weight:700;font-size:1.02rem;line-height:1.5;text-align:left}
+.word{letter-spacing:2px;color:var(--vi-d)}
+.mxs{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:center;align-items:center}
+.mxe{display:inline-flex;align-items:center;gap:6px;font-weight:800;font-size:1.12rem;white-space:nowrap}
+.mx{display:inline-grid;gap:3px 12px;padding:4px 9px;border-left:2.5px solid var(--ink);border-right:2.5px solid var(--ink);border-radius:10px;font-weight:800;text-align:right}
+.mx>span{min-width:1.5em;display:flex;flex-direction:column;align-items:flex-end;justify-content:center;line-height:1.15}
+.mx i{font-style:normal;font-size:.62rem;color:var(--vi);line-height:1}
+.mxin{gap:6px;padding:4px 6px}
+.mxin .fld{min-width:50px;height:46px;font-size:1.1rem;padding:0 4px;flex-direction:column;line-height:1}
+.fld .lt{font-size:.68rem;color:var(--vi-d);font-weight:800}
+.fld.bad{border-color:var(--rose);background:#FFE4E6}
+.done1{background:#ECFDF5;border-radius:12px;padding:6px}
+.alpha{display:grid;grid-template-columns:repeat(13,minmax(0,1fr));gap:2px;font-size:.66rem;text-align:center;color:var(--muted);font-weight:700}
+.alpha span{background:var(--bg);border-radius:5px;padding:1px 0;line-height:1.05}
+.alpha b{display:block;font-size:.8rem;color:var(--ink)}
+.prev{text-align:center;font-weight:800;letter-spacing:4px;font-size:1.2rem;color:var(--vi-d);min-height:1.5em}
+.reveal{text-align:center;font-size:1.7rem;font-weight:800;letter-spacing:5px;color:var(--vi-d)}
+.stepn{text-align:center;font-size:.85rem;font-weight:800;color:var(--muted)}
+.how .mx{font-size:.95rem}
+.ans{text-align:center;font-weight:800;font-size:1.3rem;color:var(--vi-d)}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.fld{min-width:56px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.fld.act{border-color:var(--vi);background:#fff;box-shadow:0 0 0 3px #A5F3FC}
+.fld.ph{color:#8FB2BC}
+.pad{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:#CFFAFE;font-weight:800;font-size:1.3rem;cursor:pointer}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--vi);color:#fff;box-shadow:0 3px 0 var(--vi-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--vi-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#CFE8EE}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--vi-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(8,51,68,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .q{font-size:1.9rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:64px;min-width:90px} .kelas .form .lab{font-size:1.3rem}
+  .kelas .pad button{height:60px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem} 
+  .kelas .mxe{font-size:1.6rem} .kelas .mxin .fld{height:60px;min-width:76px;font-size:1.5rem} .kelas .ans{font-size:2rem} .kelas .qtext{font-size:1.3rem}
+  .kelas .grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Kode <span>Matriks</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button>
+        <button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="−" aria-label="Tanda negatif">−</button><button type="button" data-k="next" aria-label="Kotak berikutnya">→</button><button type="button" data-k="del" aria-label="Hapus" style="grid-column:span 2">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Lihat cara</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li>Ketuk kotak, ketik angka dengan tombol (− untuk negatif, → kotak berikutnya), lalu <b>Cek</b>. Kotak yang salah jadi merah.</li>
+      <li><b>🧮 Hitung Operasi</b>: penjumlahan, perkalian skalar, determinan, perkalian matriks, dan invers.</li>
+      <li><b>🔒 Enkripsi</b>: ubah huruf jadi angka (A = 1, …, Z = 26), susun per 2 (atau 3) huruf sebagai <b>kolom</b> P, lalu hitung C = K·P.</li>
+      <li><b>🔓 Dekripsi</b>: cari K⁻¹, lalu P = K⁻¹·C. Angka 1–26 langsung berubah jadi huruf.</li>
+      <li><b>🗝️ Cari Kunci</b>: dari kata asli P dan sandinya C, temukan K (susun SPLDV/SPLTV per baris kunci).</li>
+      <li>Semua kunci punya det = 1 atau −1, jadi inversnya bulat.</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Lihat cara</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+
+<script>/* ================= INTI: aljabar matriks, sandi, pembuat soal, pembahasan ================= */
+/* ===== Kode Matriks (operasi matriks, determinan, invers, sandi) ===== */
+const KINDS={hitung:{label:"Hitung Operasi",icon:"🧮"},enkripsi:{label:"Enkripsi Pesan",icon:"🔒"},dekripsi:{label:"Dekripsi Pesan",icon:"🔓"},kunci:{label:"Cari Kunci",icon:"🗝️"}};
+const LEVELS={mudah:{label:"Mudah"},sedang:{label:"Sedang"},sulit:{label:"Sulit"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+const M="−", sn=v=>v<0?M+(-v):String(v), z=v=>v===0?0:v;
+
+/* ---------- aljabar matriks (baris demi baris) ---------- */
+const det2=A=>A[0][0]*A[1][1]-A[0][1]*A[1][0];
+const minor=(A,i,j)=>A.filter((_,r)=>r!==i).map(row=>row.filter((_,k)=>k!==j));
+const det3=A=>A[0][0]*det2(minor(A,0,0))-A[0][1]*det2(minor(A,0,1))+A[0][2]*det2(minor(A,0,2));
+const det=A=>A.length===1?A[0][0]:A.length===2?det2(A):det3(A);
+const mul=(A,B)=>A.map(r=>B[0].map((_,j)=>r.reduce((s,v,k)=>s+v*B[k][j],0)));
+const tr=A=>A[0].map((_,j)=>A.map(r=>r[j]));
+const cof=A=>A.length===2?[[A[1][1],-A[1][0]],[-A[0][1],A[0][0]]]:A.map((_,i)=>A.map((_,j)=>z(((i+j)%2?-1:1)*det2(minor(A,i,j)))));
+const adj=A=>tr(cof(A)).map(r=>r.map(z));
+/* hanya dipakai untuk det = ±1, jadi hasilnya bulat */
+const inv=A=>{ const d=det(A); return adj(A).map(r=>r.map(v=>z(v*d))); };
+const add=(A,B,s)=>A.map((r,i)=>r.map((v,j)=>v+s*B[i][j]));
+const randMat=(n,m,lo,hi,r)=>Array.from({length:n},()=>Array.from({length:m},()=>ri(lo,hi,r)));
+const flat=A=>[].concat(...A);
+const maxAbs=A=>Math.max(...flat(A).map(Math.abs));
+/* matriks kunci dengan det = ±1 (inversnya bulat) */
+function unimod(n,lo,hi,r,needNeg){
+  for(let t=0;t<50000;t++){
+    const A=randMat(n,n,lo,hi,r), d=det(A), zeros=flat(A).filter(v=>!v).length;
+    if(Math.abs(d)!==1||zeros>(n===2?1:2)||maxAbs(A)<2) continue;
+    if(needNeg&&!flat(A).some(v=>v<0)) continue;
+    if(maxAbs(inv(A))>(n===2?12:9)) continue;
+    return A;
+  }
+  return null;
+}
+
+/* ---------- huruf ↔ angka ---------- */
+const ABC="ABCDEFGHIJKLMNOPQRSTUVWXYZ", code=ch=>ABC.indexOf(ch)+1, letter=v=>v>=1&&v<=26?ABC[v-1]:"";
+const W4=["KODE","PETA","RUSA","MEJA","KOTA","BUKU","PENA","LAUT","BATU","KAYU","BUMI","AWAN","ROTI","SAPI","IKAN","NASI","GULA","KACA","TOPI","MADU","BOLA","PAKU","KUDA","DADU","LIMA","ENAM","SURAT","PINTU"].filter(w=>w.length===4);
+const W6=["KERTAS","PENSIL","KOMPAS","MENARA","TELAGA","CERDAS","TERANG","RANTAI","KELAPA","KANCIL","GARUDA","KEMBAR","PISANG","NANGKA","DURIAN","JINGGA","PLANET","METEOR","TEMPAT","HADIAH","MANGGA","JAGUNG","KAMERA","SEPEDA","KERETA","PERAHU"];
+const W9=["PERKALIAN","PEMBAGIAN","PERSAMAAN","LINGKARAN","KOORDINAT","BERHITUNG","PETUALANG","PENGGARIS","PENGHAPUS","PELABUHAN","KESABARAN","PERPADUAN","KEJUJURAN","KESEHATAN"];
+/* kata dipotong per n huruf; tiap potongan menjadi satu kolom */
+const msgMat=(w,n)=>Array.from({length:n},(_,i)=>Array.from({length:w.length/n},(_,j)=>code(w[j*n+i])));
+const msgTags=(w,n)=>Array.from({length:n},(_,i)=>Array.from({length:w.length/n},(_,j)=>w[j*n+i]));
+const readMsg=P=>tr(P).map(c=>c.map(letter).join("")).join("");
+
+/* ---------- tampilan matriks (HTML) ---------- */
+function mxH(A,tags){ return `<span class="mx" style="grid-template-columns:repeat(${A[0].length},auto)">${A.map((r,i)=>r.map((v,j)=>`<span>${tags?`<i>${tags[i][j]}</i>`:""}${sn(v)}</span>`).join("")).join("")}</span>`; }
+const eqH=(name,A,tags)=>`<span class="mxe"><b>${name} =</b>${mxH(A,tags)}</span>`;
+const tm=(a,b)=>`${sn(a)}·${b<0?"("+sn(b)+")":b}`, tmP=(a,b)=>a<0?`(${tm(a,b)})`:tm(a,b);
+/* gabung suku: "+ −x" ditulis "− x" */
+const sumT=ts=>ts.map((t,i)=>i===0?t:t.startsWith(M)?` ${M} ${t.slice(1)}`:` + ${t}`).join("");
+const SUB="₁₂₃";
+/* rincian perkalian: c_ij = baris i × kolom j */
+function mulLines(A,B,nm){ const C=mul(A,B); return C.map((r,i)=>r.map((v,j)=>`${nm}${SUB[i]}${SUB[j]} = ${sumT(A[i].map((a,k)=>tm(a,B[k][j])))} = <b>${sn(v)}</b>`).join("<br>")).join("<br>"); }
+function invLines(A){
+  const d=det(A), I=inv(A);
+  if(A.length===2) return [`det = ${tm(A[0][0],A[1][1])} − ${tmP(A[0][1],A[1][0])} = <b>${sn(d)}</b>`,
+    `Invers 2×2: tukar a dan d, ganti tanda b dan c, lalu bagi det.<br>${eqH("hasil",I)}`];
+  const C=cof(A);
+  return [`det = <b>${sn(d)}</b> (Sarrus atau ekspansi baris 1).`,
+    `Kofaktor C<sub>ij</sub> = (−1)<sup>i+j</sup> × det minor:<br>${C.map((r,i)=>r.map((v,j)=>`C${SUB[i]}${SUB[j]} = ${(i+j)%2?"−":"+"}(${tm(minor(A,i,j)[0][0],minor(A,i,j)[1][1])} − ${tmP(minor(A,i,j)[0][1],minor(A,i,j)[1][0])}) = ${sn(v)}`).join("<br>")).join("<br>")}`,
+    `Adjoin = transpos matriks kofaktor, lalu bagi det (${sn(d)}):<br>${eqH("hasil",I)}`];
+}
+function sarrus(A){ const [a,b,c]=A[0],[d,e,f]=A[1],[g,h,i]=A[2], p=a*e*i+b*f*g+c*d*h, q=c*e*g+a*f*h+b*d*i;
+  return `Sarrus: (${[[a,e,i],[b,f,g],[c,d,h]].map(t=>t.map(x=>x<0?"("+sn(x)+")":x).join("·")).join(" + ")}) − (${[[c,e,g],[a,f,h],[b,d,i]].map(t=>t.map(x=>x<0?"("+sn(x)+")":x).join("·")).join(" + ")}) = ${sn(p)} − ${q<0?"("+sn(q)+")":q} = <b>${sn(p-q)}</b>`; }
+
+/* ---------- pembuat soal ---------- */
+function genHitung(level,r){
+  const op=pick(level==="mudah"?["add","sub","scal","det"]:level==="sedang"?["mul","inv"]:["det3","mul23","inv3"],r);
+  const p={kind:"hitung",level,op};
+  if(op==="add"||op==="sub"){ const A=randMat(2,2,-5,9,r),B=randMat(2,2,-5,9,r),s=op==="add"?1:-1, C=add(A,B,s);
+    Object.assign(p,{intro:`Hitung A ${op==="add"?"+":"−"} B.`,show:[["A",A],["B",B]],steps:[{lab:`A ${op==="add"?"+":"−"} B`,ans:C}],
+      how:[`Jumlahkan/kurangkan elemen yang <b>seletak</b>:<br>${C.map((row,i)=>row.map((v,j)=>`${sn(A[i][j])} ${s>0?"+":"−"} ${B[i][j]<0?"("+sn(B[i][j])+")":B[i][j]} = <b>${sn(v)}</b>`).join(" · ")).join("<br>")}`]}); }
+  else if(op==="scal"){ const k=pick([2,3,4,5,-2,-3],r),A=randMat(2,2,-6,9,r),C=A.map(row=>row.map(v=>z(k*v)));
+    Object.assign(p,{intro:`Hitung ${sn(k)}A.`,show:[["A",A]],steps:[{lab:`${sn(k)}A`,ans:C}],how:[`Kalikan <b>setiap</b> elemen dengan ${sn(k)}:<br>${C.map((row,i)=>row.map((v,j)=>`${tm(k,A[i][j])} = <b>${sn(v)}</b>`).join(" · ")).join("<br>")}`]}); }
+  else if(op==="det"){ let A; do A=randMat(2,2,-6,9,r); while(!det2(A));
+    Object.assign(p,{intro:"Hitung determinan matriks A.",show:[["A",A]],steps:[{lab:"det(A)",ans:[[det2(A)]]}],how:[`det(A) = ad − bc = ${tm(A[0][0],A[1][1])} − ${tmP(A[0][1],A[1][0])} = ${sn(A[0][0]*A[1][1])} − ${A[0][1]*A[1][0]<0?"("+sn(A[0][1]*A[1][0])+")":A[0][1]*A[1][0]} = <b>${sn(det2(A))}</b>`]}); }
+  else if(op==="mul"){ const A=randMat(2,2,-4,6,r),B=randMat(2,2,-4,6,r);
+    Object.assign(p,{intro:"Hitung A·B.",show:[["A",A],["B",B]],steps:[{lab:"A·B",ans:mul(A,B)}],how:[`Elemen baris i, kolom j = baris i dari A × kolom j dari B:<br>${mulLines(A,B,"c")}`]}); }
+  else if(op==="inv"){ const A=unimod(2,-6,8,r,true);
+    Object.assign(p,{intro:"Tentukan invers matriks A. (det A = 1 atau −1, jadi hasilnya bulat.)",show:[["A",A]],steps:[{lab:"A⁻¹",ans:inv(A)}],how:invLines(A)}); }
+  else if(op==="det3"){ let A; do A=randMat(3,3,-3,5,r); while(!det3(A)||flat(A).filter(v=>!v).length>2);
+    Object.assign(p,{intro:"Hitung determinan matriks A (3×3).",show:[["A",A]],steps:[{lab:"det(A)",ans:[[det3(A)]]}],how:[sarrus(A)]}); }
+  else if(op==="mul23"){ const A=randMat(2,3,-3,5,r),B=randMat(3,2,-3,5,r);
+    Object.assign(p,{intro:"Hitung A·B. (Ordo 2×3 kali 3×2 menghasilkan 2×2.)",show:[["A",A],["B",B]],steps:[{lab:"A·B",ans:mul(A,B)}],how:[`Baris i dari A × kolom j dari B (3 suku):<br>${mulLines(A,B,"c")}`]}); }
+  else { const A=unimod(3,-2,3,r,true);
+    Object.assign(p,{intro:"Tentukan invers matriks A (3×3). det A = 1 atau −1, jadi hasilnya bulat.",show:[["A",A]],steps:[{lab:"A⁻¹",ans:inv(A)}],how:invLines(A)}); }
+  return p;
+}
+const keyOf=(level,r)=>level==="mudah"?unimod(2,0,5,r):level==="sedang"?unimod(2,-3,5,r,true):unimod(3,-2,2,r,true);
+const pLines=(w,n)=>`Huruf → angka (A = 1, …, Z = 26), potong per ${n} huruf, tiap potongan jadi satu kolom:<br>${eqH("P",msgMat(w,n),msgTags(w,n))}`;
+function genEnkripsi(level,r){
+  const n=level==="sulit"?3:2, w=pick(level==="mudah"?W4:W6,r), K=keyOf(level,r), P=msgMat(w,n), C=mul(K,P);
+  return {kind:"enkripsi",level,word:w,K,P,alpha:level!=="mudah",
+    intro:`Sandikan kata <b class="word">${w}</b> dengan kunci K: ubah huruf jadi angka (A = 1, …, Z = 26), susun per ${n} huruf sebagai <b>kolom</b> matriks P, lalu hitung <b>C = K·P</b>.`,
+    show:level==="mudah"?[["K",K],["P",P,msgTags(w,n)]]:[["K",K]],
+    steps:[{lab:"C = K·P",ans:C}],
+    how:[pLines(w,n),`C = K·P:<br>${mulLines(K,P,"c")}`]};
+}
+function genDekripsi(level,r){
+  const n=level==="sulit"?3:2, w=pick(level==="mudah"?W4:W6,r), K=keyOf(level,r), P=msgMat(w,n), C=mul(K,P);
+  return {kind:"dekripsi",level,word:w,K,P,reveal:w,
+    intro:`Pesan rahasia C dikunci dengan C = K·P. Cari <b>K⁻¹</b>, lalu buka pesannya dengan <b>P = K⁻¹·C</b>. Angka 1–26 berubah menjadi huruf.`,
+    show:[["K",K],["C",C]],
+    steps:[{lab:"K⁻¹",ans:inv(K)},{lab:"P = K⁻¹·C",ans:P,letters:true}],
+    how:[...invLines(K),`P = K⁻¹·C:<br>${mulLines(inv(K),C,"p")}`,`Baca per kolom: <b>${w}</b>`]};
+}
+function solveLines(K,P,C){
+  const v=K[0].length===2?["p","q"]:["p","q","s"];
+  return K.map((row,i)=>`Baris ${i+1} kunci (${v.join(", ")}): ${P[0].map((_,j)=>`${P.map((pr,k)=>`${pr[j]}${v[k]}`).join(" + ")} = ${sn(C[i][j])}`).join(" ; ")} → <b>${row.map((x,k)=>`${v[k]} = ${sn(x)}`).join(", ")}</b>`);
+}
+function genKunci(level,r){
+  const n=level==="sulit"?3:2, K=keyOf(level,r), list=level==="sulit"?W9:W4;
+  let w; do w=pick(list,r); while(!det(msgMat(w,n)));
+  const P=msgMat(w,n), C=mul(K,P);
+  const p={kind:"kunci",level,word:w,K,P,
+    intro:`Mata-mata tahu kata <b class="word">${w}</b> disandikan menjadi C dengan C = K·P. Temukan matriks kunci <b>K</b>.`,
+    show:[["P",P,msgTags(w,n)],["C",C]],
+    steps:[{lab:"K",ans:K}],
+    how:[`Misalkan baris kunci (${n===2?"p, q":"p, q, s"}). Setiap kolom P memberi satu persamaan (${n===2?"SPLDV":"SPLTV"}):`,...solveLines(K,P,C),`Atau: K = C·P⁻¹.<br>${eqH("K",K)}`]};
+  if(level==="sedang"){ let w2; do w2=pick(W6,r); while(w2===w); const P2=msgMat(w2,2), C2=mul(K,P2);
+    Object.assign(p,{reveal:w2,intro:p.intro+` Lalu pakai K itu untuk membuka pesan kedua C₂.`,show:[...p.show,["C₂",C2]],
+      steps:[...p.steps,{lab:"P₂ = K⁻¹·C₂",ans:P2,letters:true}],
+      how:[...p.how,...invLines(K),`P₂ = K⁻¹·C₂:<br>${mulLines(inv(K),C2,"p")}`,`Pesan kedua: <b>${w2}</b>`]}); }
+  return p;
+}
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0); const g={hitung:genHitung,enkripsi:genEnkripsi,dekripsi:genDekripsi,kunci:genKunci}[kind]; return g(level,r); }
+const explain=p=>p.how;
+const starsWrong=w=>w===0?3:w<=2?2:1;
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify([p.word,p.show,p.steps.map(s=>s.ans)]);
+/* Mudah/Sedang: kumpulan terbatas → rantai tanpa pengulangan 365 hari; Sulit (ruang besar) langsung dari seed hari itu */
+const DAILY={};
+function dailyPuzzle(kind,level,n){
+  if(level==="sulit") return makePuzzle(kind,level,hashStr(`kode-matriks|${kind}|${level}|${n}`));
+  const id=kind+"|"+level, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()});
+  while(c.list.length<n){ const d=c.list.length+1; let p=null,best=null,bestAge=-1;
+    for(let k=0;k<40;k++){ const q=makePuzzle(kind,level,hashStr(`kode-matriks|${id}|${d}|${k}`)), key=puzzleKey(q), age=c.last.has(key)?d-c.last.get(key):1e9;
+      if(age>365){ p=q; break; } if(age>bestAge){ best=q; bestAge=age; } }
+    p=p||best; c.list.push(p); c.last.set(puzzleKey(p),d); }
+  return c.list[n-1];
+}
+/* ================= AKHIR INTI ================= */</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"hitung",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("km_prefs",{}));
+if(!KINDS[P.kind]) P.kind="hitung";
+const saveP=()=>lsSet("km_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2400); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+const cellsOf=st=>st.ans.length*st.ans[0].length;
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,step:0,fields:Array(cellsOf(p.steps[0])).fill(""),bad:null,act:0};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","step","fields"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`km_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,step:G.step,fields:G.fields}); }
+const val=s=>s===""||s==="−"?null:+s.replace("−","-");
+const tagsOf=st=>st.letters?st.ans.map(r=>r.map(letter)):null;
+
+function inputHTML(st){
+  const cols=st.ans[0].length, one=cellsOf(st)===1;
+  const f=G.fields.map((v,i)=>{ const n=val(v); return `<span class="fld${G.act===i?" act":""}${v?"":" ph"}${G.bad&&G.bad[i]?" bad":""}" data-f="${i}">${v||"?"}${st.letters?`<small class="lt">${n!==null&&letter(n)?letter(n):"·"}</small>`:""}</span>`; }).join("");
+  return `<div class="mxs"><span class="mxe"><b>${st.lab} =</b>${one?f:`<span class="mx mxin" style="grid-template-columns:repeat(${cols},auto)">${f}</span>`}</span></div>`;
+}
+function render(){
+  const p=G.p, last=p.steps.length-1;
+  let h=`<div class="qtext">${p.intro}</div><div class="mxs">${p.show.map(([n,A,t])=>eqH(n,A,t)).join("")}</div>`;
+  if(p.alpha) h+=`<div class="alpha" aria-label="Tabel huruf ke angka">${ABC.split("").map((c,i)=>`<span><b>${c}</b>${i+1}</span>`).join("")}</div>`;
+  const doneSteps=G.done?p.steps.length:G.step;
+  for(let i=0;i<doneSteps;i++){ const st=p.steps[i]; h+=`<div class="mxs done1">${cellsOf(st)===1?`<span class="mxe"><b>${st.lab} = ${sn(st.ans[0][0])}</b></span>`:eqH(st.lab,st.ans,tagsOf(st))} ✓</div>`; }
+  if(G.done&&p.reveal) h+=`<div class="reveal">🔓 ${p.reveal}</div>`;
+  let c="";
+  if(!G.done){ const st=p.steps[G.step];
+    if(p.steps.length>1) c+=`<div class="stepn">Langkah ${G.step+1} dari ${p.steps.length}</div>`;
+    c+=inputHTML(st);
+    if(st.letters) c+=`<div class="prev" aria-live="polite">${G.fields.length?tr(chunk(G.fields,st.ans[0].length)).map(col=>col.map(v=>{ const n=val(v); return n!==null&&letter(n)?letter(n):"_"; }).join("")).join(""):""}</div>`;
+  } else c=`<div class="ans">${p.reveal?`Pesan: ${p.reveal}`:"Selesai ✓"}</div>`;
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=c;
+  $("pad").hidden=G.done; $("okBtn").hidden=G.done;
+  $("hintBtn").hidden=!(G.wrong>=3&&!G.done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+const chunk=(a,m)=>Array.from({length:a.length/m},(_,i)=>a.slice(i*m,i*m+m));
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Soal harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0, short={hitung:"Hitung",enkripsi:"Enkripsi",dekripsi:"Dekripsi",kunci:"Kunci"};
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`km_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}"><span style="display:block">${v.icon}</span>${short[k]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}</button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+$("ctrlBody").addEventListener("click",e=>{ if(!G||G.done) return; const f=e.target.closest(".fld[data-f]"); if(f){ G.act=+f.dataset.f; render(); } });
+function press(k){
+  if(!G||G.done) return;
+  if(k==="ok") return check();
+  if(k==="next"){ G.act=(G.act+1)%G.fields.length; render(); return; }
+  let v=G.fields[G.act];
+  if(k==="del") v=v.slice(0,-1); else if(k==="−") v=v.startsWith("−")?v.slice(1):"−"+v; else if(v.replace("−","").length<4) v=(v==="0"?"":v==="−0"?"−":v)+k;
+  G.fields[G.act]=v; if(G.bad) G.bad[G.act]=false; saveDay(); render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G||G.done) return;
+  if(e.key==="Tab"){ e.preventDefault(); press("next"); return; }
+  const k=e.key==="-"?"−":e.key==="Backspace"?"del":e.key==="Enter"?"ok":e.key;
+  if(/^[0-9]$/.test(k)||k==="−"||k==="del"||k==="ok"){ e.preventDefault(); press(k); }
+});
+function check(){
+  if(G.done) return; const p=G.p, st=p.steps[G.step], vals=G.fields.map(val);
+  if(vals.some(v=>v===null)){ toast(cellsOf(st)===1?"Isi jawabannya dulu.":"Isi semua kotak dulu (boleh 0)."); return; }
+  const want=flat(st.ans); G.bad=vals.map((v,i)=>v!==want[i]); const nb=G.bad.filter(Boolean).length;
+  if(!nb){
+    if(G.step<p.steps.length-1){ G.step++; G.fields=Array(cellsOf(p.steps[G.step])).fill(""); G.bad=null; G.act=0; $("fb").innerHTML=`<span class="ok">✓ ${st.lab} benar. Lanjut langkah ${G.step+1}.</span>`; saveDay(); render(); return; }
+    $("fb").innerHTML=`<span class="ok">✓ Benar!</span>`; return finish(); }
+  G.wrong++; G.act=G.bad.indexOf(true);
+  $("fb").innerHTML=`<span class="no">✗ ${cellsOf(st)===1?"Belum tepat.":`${nb} kotak belum tepat (merah).`}${G.mode==="kelas"?"":" Coba lagi."}</span>`; saveDay(); render();
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${explain(G.p).map(x=>`<div>${x}</div>`).join("")}</div>`;
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Cara penyelesaian</h2>${howHTML()}<p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("km_stats_"+l,{})); }
+function recordDay(){
+  const allk=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`km_day_${G.level}_${k}`,null));
+  if(!allk.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=allk.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("km_stats_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Lihat cara":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`km_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h;
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`km_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Kode Matriks #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.step||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
