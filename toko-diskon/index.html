@@ -127,8 +127,9 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offse
 .fld{min-width:56px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
 .fld.act{border-color:var(--vi);background:#fff;box-shadow:0 0 0 3px #FBCFE8}
 .fld.ph{color:#C99AB0}
-.pad{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.pad{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
 .pad button{height:48px;border:0;border-radius:10px;background:#FCE7F3;font-weight:800;font-size:1.3rem;cursor:pointer}
+.pad button[data-k="000"],.pad button[data-k="00"]{font-size:.95rem;padding:0}
 .fb{text-align:center;font-weight:700;min-height:1.4em}
 .fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
 .btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--vi);color:#fff;box-shadow:0 3px 0 var(--vi-d)}
