@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FDF2F8">
+<title>Toko Diskon</title>
+<meta name="description" content="Toko Diskon untuk SMP–SMA: atur urutan kupon supaya belanja paling murah, hitung diskon bertingkat, PPN, untung-rugi, bunga tunggal dan majemuk, dan pilih toko termurah.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23DB2777'/%3E%3Cpath d='M14 18h30l8 14-8 14H14z' fill='%23fff'/%3E%3Ccircle cx='22' cy='32' r='4' fill='%23DB2777'/%3E%3Ctext x='29' y='38' font-family='sans-serif' font-size='16' font-weight='800' fill='%23DB2777'%3E%25%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FDF2F8;
+  --card:#FFFFFF;
+  --ink:#4A0D2A;
+  --muted:#85566C;
+  --line:#F5D3E3;
+  --vi:#DB2777;
+  --vi-d:#9D174D;
+  --soft:#FCE7F3;
+  --tg:#F97316;
+  --shot:#7C3AED;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1000px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--vi)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.q{font-weight:800;font-size:1.3rem;text-align:center;line-height:1.35}
+.q .fn{display:inline-block;background:var(--soft);border-radius:10px;padding:2px 10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+/* bidang Kartesius */
+.plot{display:flex;justify-content:center;overflow:hidden}
+.plot svg{display:block;max-width:100%;height:auto;touch-action:manipulation}
+.legend{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-size:.8rem;font-weight:700;color:var(--muted)}
+.legend i{display:inline-block;width:16px;height:0;border-top:3px solid;vertical-align:middle;margin-right:4px}
+.forms{display:grid;gap:8px}
+.log{display:flex;flex-direction:column;gap:3px;max-height:150px;overflow:auto;font-weight:700;font-size:.92rem}
+.log div{background:var(--bg);border-radius:8px;padding:2px 10px}
+.log .h{color:var(--green)}
+.tfs{display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
+.tfs button{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:5px 9px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted)}
+.tfs button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.stepb{border:1px dashed var(--line);border-radius:12px;padding:8px;display:grid;gap:6px}
+.stepb h3{margin:0;font-size:.9rem;color:var(--muted);text-align:center}
+.stepb.act{border:2px solid var(--vi)}
+.bsw{display:grid;gap:10px}
+@media (min-width:760px){.bsw{grid-template-columns:1fr 1fr}}
+.bsmode .grid2{display:flex!important;flex-direction:column;gap:10px}
+.bsmode #ctrl{max-width:560px;width:100%;margin:0 auto}
+.bsb h3{margin:0 0 4px;text-align:center}
+.bsb.turn{outline:3px solid currentColor;outline-offset:-3px}
+.cart{background:var(--bg);border-radius:14px;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;font-weight:800;font-size:1.15rem}
+.cps{display:grid;gap:8px}
+.cp{display:flex;align-items:center;gap:10px;border:2px dashed #F472B6;background:#fff;border-radius:14px;padding:9px 12px;font-weight:800;font-size:1rem;cursor:pointer;text-align:left;color:var(--ink)}
+.cp .n{min-width:26px;height:26px;border-radius:50%;background:var(--soft);display:inline-flex;align-items:center;justify-content:center;font-size:.9rem;color:var(--vi-d)}
+.cp.on{border-style:solid;border-color:var(--vi);background:#FDF2F8}
+.cp.on .n{background:var(--vi);color:#fff}
+.cp:disabled{opacity:.45;cursor:default}
+.rcpt{background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;line-height:1.55;display:grid;gap:2px}
+.rcpt b{color:var(--vi-d)}
+.qtext{font-weight:700;font-size:1.1rem;line-height:1.5;text-align:left}
+.stores{display:grid;gap:8px}
+.store{border:2px solid var(--line);background:#fff;border-radius:14px;padding:9px 12px;text-align:left;cursor:pointer;color:var(--ink)}
+.store b{display:block;font-size:1.05rem}
+.store span{font-size:.92rem;color:var(--muted);font-weight:700}
+.store.sel{border-color:var(--vi);background:#FDF2F8}
+.store.no{opacity:.45;text-decoration:line-through;cursor:default}
+.store.right{border-color:var(--green);background:#D1FAE5}
+.unit{font-size:1rem;color:var(--muted)}
+.sim{display:grid;gap:6px}
+.simb{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.simb button{border:1px solid var(--line);background:var(--bg);border-radius:10px;padding:5px 12px;font-weight:800;cursor:pointer}
+.outs{display:flex;gap:4px;justify-content:center;flex-wrap:wrap;min-height:30px;font-size:1.3rem;line-height:1}
+.outs span{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;border-radius:7px;background:var(--bg);font-size:.95rem;font-weight:800;padding:0 4px}
+.outs span.hit{outline:2px solid var(--green)}
+.conds{display:grid;gap:5px}
+.conds div{background:var(--bg);border-radius:10px;padding:5px 10px;font-weight:700}
+.conds .ok{background:#D1FAE5;color:var(--green)} .conds .no{background:#FFE4E6;color:var(--rose)}
+.steps{display:grid;gap:6px}
+.stp{display:flex;align-items:center;justify-content:space-between;gap:8px;font-weight:800}
+.stp i{display:inline-block;width:16px;height:16px;border-radius:50%;vertical-align:-2px;margin-right:6px}
+.st{display:inline-flex;align-items:center;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+.st button{border:0;background:transparent;width:40px;height:40px;font-size:1.3rem;font-weight:800;cursor:pointer}
+.st button:disabled{opacity:.3}
+.st b{min-width:38px;text-align:center;font-size:1.15rem}
+.opts{display:grid;gap:8px}
+.opt{display:flex;align-items:center;gap:10px;border:2px solid var(--line);background:var(--bg);border-radius:12px;padding:8px 12px;font-weight:800;cursor:pointer;text-align:left;font-size:1rem}
+.opt:disabled{opacity:.45;cursor:default;text-decoration:line-through}
+.opt.right{border-color:var(--green);background:#D1FAE5;opacity:1;text-decoration:none}
+.opt{flex-wrap:wrap}
+.opt .mb{display:flex;flex-wrap:wrap;gap:2px;flex-basis:100%;padding-left:26px}
+.opt .mb i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.fam{display:inline-flex;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg)}
+.fam button{border:0;background:transparent;padding:6px 14px;font-weight:800;font-size:1.1rem;cursor:pointer;color:var(--muted)}
+.fam button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.form sup{font-size:.7em}
+.ans{text-align:center;font-weight:800;font-size:1.4rem;color:var(--vi-d)}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.fld{min-width:56px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.fld.act{border-color:var(--vi);background:#fff;box-shadow:0 0 0 3px #FBCFE8}
+.fld.ph{color:#C99AB0}
+.pad{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:#FCE7F3;font-weight:800;font-size:1.3rem;cursor:pointer}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--vi);color:#fff;box-shadow:0 3px 0 var(--vi-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--vi-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#F5D3E3}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--vi-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(60,5,30,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .q{font-size:1.9rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:64px;min-width:90px} .kelas .form .lab{font-size:1.3rem}
+  .kelas .pad button{height:60px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem} 
+  .kelas .fam button{font-size:1.5rem;padding:8px 20px} .kelas .ans{font-size:2rem}
+  .kelas .grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Toko <span>Diskon</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button>
+        <button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="000" aria-label="Tiga nol">000</button><button type="button" data-k="00" aria-label="Dua nol">00</button><button type="button" data-k="del" aria-label="Hapus" style="grid-column:span 2">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Lihat cara</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li><b>🎟️ Atur Kupon</b>: ketuk kupon sesuai urutan pemakaian (ketuk lagi untuk melepas), paling banyak sesuai batas. Tujuannya harga akhir <b>paling murah</b>. Kupon dengan syarat minimum belanja hanya berlaku kalau belanja saat itu masih mencapai minimum. PPN 11% dihitung terakhir, dari harga setelah semua kupon.</li>
+      <li><b>🧮 Hitung</b>: soal cerita diskon, untung/rugi, bruto-neto-tara, PPN, bunga, dan cicilan. Ketik angkanya tanpa titik (tombol 000 membantu).</li>
+      <li><b>🏪 Toko Termurah</b>: pilih toko dengan total belanja paling murah, lalu ketik total yang harus dibayar di toko itu.</li>
+      <li>Semua jawaban bilangan bulat (rupiah tanpa sen).</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Lihat cara</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+
+<script>
+/* ================= INTI: kupon, soal cerita, toko, pembahasan ================= */
+/* ===== Toko Diskon ===== */
+const KINDS={kupon:{label:"Atur Kupon",icon:"🎟️"},hitung:{label:"Hitung",icon:"🧮"},toko:{label:"Toko Termurah",icon:"🏪"}};
+const LEVELS={mudah:{label:"Mudah"},sedang:{label:"Sedang"},sulit:{label:"Sulit"}};
+const PPN=11;
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const isInt=v=>Math.abs(v-Math.round(v))<1e-9;
+const rp=v=>"Rp"+Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,".");
+const num=v=>Math.round(v).toString().replace(/\B(?=(\d{3})+(?!\d))/g,".");
+const pct=(x,p)=>x*p/100;
+
+/* ================= 1. ATUR KUPON =================
+   kupon: {t:"d",p,min} diskon p% | {t:"c",k,min} potongan Rp k | {t:"cb",p,cap,min} cashback p% maks cap */
+function cpText(c){ const m=c.min?` (min. belanja ${rp(c.min)})`:"";
+  if(c.t==="d") return `Diskon ${c.p}%${m}`; if(c.t==="c") return `Potongan ${rp(c.k)}${m}`; return `Cashback ${c.p}% maks ${rp(c.cap)}${m}`; }
+/* jalankan urutan kupon; kupon yang syarat min-nya tidak terpenuhi tidak berlaku */
+function runCoupons(p,seq){
+  let x=p.total; const lines=[]; let ok=true;
+  for(const i of seq){ const c=p.coupons[i];
+    if(c.min&&x<c.min){ lines.push({c:i,before:x,cut:0,after:x,skip:true}); continue; }
+    let cut=c.t==="d"?pct(x,c.p):c.t==="c"?Math.min(c.k,x):Math.min(pct(x,c.p),c.cap);
+    if(!isInt(cut)) ok=false;
+    lines.push({c:i,before:x,cut,after:x-cut}); x-=cut; }
+  let tax=0; if(p.ppn){ tax=pct(x,PPN); if(!isInt(tax)) ok=false; }
+  return {lines,sub:x,tax,final:x+tax,ok};
+}
+function allSeqs(n,maxK){ const out=[[]]; const rec=(acc)=>{ if(acc.length) out.push(acc.slice()); if(acc.length===maxK) return; for(let i=0;i<n;i++) if(!acc.includes(i)){ acc.push(i); rec(acc); acc.pop(); } }; rec([]); return out; }
+function genKupon(level,r){
+  const spec={mudah:{n:3,k:2,ppn:false},sedang:{n:4,k:2,ppn:true},sulit:{n:5,k:3,ppn:true}}[level];
+  for(let t=0;t<3000;t++){
+    const total=ri(level==="mudah"?10:15,level==="mudah"?40:90,r)*10000, cs=[];
+    const types=level==="mudah"?["d","c","d","c"]:level==="sedang"?["d","c","d","c"]:["d","c","cb","d","c"];
+    for(let i=0;i<spec.n;i++){ const tp=i<types.length?types[i]:pick(["d","c","cb"],r); let c;
+      if(tp==="d") c={t:"d",p:pick([10,15,20,25,30,40],r)};
+      else if(tp==="c") c={t:"c",k:pick([10,15,20,25,30,40,50,75,100],r)*1000};
+      else c={t:"cb",p:pick([10,20,25,30],r),cap:pick([20,25,30,40,50],r)*1000};
+      if(level!=="mudah"&&r()<.55) c.min=Math.round(total*pick([.5,.6,.7,.8,.9],r)/10000)*10000;
+      cs.push(c); }
+    if(new Set(cs.map(c=>c.t+(c.p||c.k))).size<cs.length) continue;   /* kupon kembar tidak menarik */
+    shuffle(cs,r);
+    const p={kind:"kupon",level,total,coupons:cs,maxK:spec.k,ppn:spec.ppn};
+    const seqs=allSeqs(cs.length,spec.k), res=seqs.map(s=>runCoupons(p,s));
+    if(res.some(x=>!x.ok)) continue;
+    const best=Math.min(...res.map(x=>x.final)), worstFull=Math.max(...res.filter((x,i)=>seqs[i].length===spec.k).map(x=>x.final));
+    const bestSeqs=seqs.filter((s,i)=>res[i].final===best);
+    const second=Math.min(...res.map(x=>x.final).filter(v=>v>best));
+    if(second-best<1000) continue;
+    if(worstFull-best<5000) continue;
+    /* jawaban sepele (urutan sesuai daftar) jangan langsung yang terbaik */
+    const naive=runCoupons(p,[...Array(spec.k).keys()]).final; if(naive===best) continue;
+    if(level!=="mudah"&&!bestSeqs.some(s=>runCoupons(p,s).lines.length===s.length)) continue;
+    p.best=best; p.bestSeq=bestSeqs[0]; p.nBest=bestSeqs.length;
+    return p;
+  }
+}
+
+/* ================= 2. HITUNG (soal cerita) ================= */
+const BARANG=["sepatu","tas","jaket","kemeja","helm","sepeda","jam tangan","kipas angin","rice cooker","blender","lemari","kompor gas"];
+function genHitung(level,r){
+  for(let t=0;t<500;t++){
+    const it=pick(BARANG,r), q=(level==="mudah"?qMudah:level==="sedang"?qSedang:qSulit)(r,it);
+    if(q&&isInt(q.ans)&&q.ans>0) return Object.assign(q,{kind:"hitung",level});
+  }
+}
+function qMudah(r,it){
+  const ty=pick(["diskon","besar","untung","rugi","neto"],r);
+  if(ty==="diskon"||ty==="besar"){ const P=ri(4,100,r)*5000, d=pick([10,15,20,25,30,40,50],r), cut=pct(P,d);
+    return ty==="diskon"?{text:`Harga ${it} ${rp(P)} mendapat diskon ${d}%. Berapa harga yang harus dibayar?`,unit:"Rp",ans:P-cut,steps:[`Besar diskon = ${d}% × ${rp(P)} = ${rp(cut)}`,`Harga bayar = ${rp(P)} − ${rp(cut)} = <b>${rp(P-cut)}</b>`]}
+      :{text:`Sebuah ${it} seharga ${rp(P)} didiskon ${d}%. Berapa rupiah besar diskonnya?`,unit:"Rp",ans:cut,steps:[`Besar diskon = ${d}/100 × ${rp(P)} = <b>${rp(cut)}</b>`]}; }
+  if(ty==="untung"||ty==="rugi"){ const B=ri(10,200,r)*1000, p=pick([5,10,15,20,25,30,40,50],r), J=ty==="untung"?B+pct(B,p):B-pct(B,p); if(!isInt(J)) return null;
+    return {text:`Pedagang membeli ${it} seharga ${rp(B)} dan menjualnya ${rp(J)}. Berapa persen ${ty}nya?`,unit:"%",ans:p,steps:[`${ty==="untung"?"Untung":"Rugi"} = ${ty==="untung"?`${rp(J)} − ${rp(B)}`:`${rp(B)} − ${rp(J)}`} = ${rp(Math.abs(J-B))}`,`Persentase = ${rp(Math.abs(J-B))} ÷ ${rp(B)} × 100% = <b>${p}%</b>`]}; }
+  const bruto=ri(2,20,r)*25, tp=pick([1,2,4,5,8],r), tara=pct(bruto,tp); if(!isInt(tara)) return null;
+  return {text:`Sekarung beras berbobot bruto ${bruto} kg dengan tara ${tp}%. Berapa kg neto beras itu?`,unit:"kg",ans:bruto-tara,steps:[`Tara = ${tp}% × ${bruto} kg = ${tara} kg`,`Neto = bruto − tara = ${bruto} − ${tara} = <b>${bruto-tara} kg</b>`]};
+}
+function qSedang(r,it){
+  const ty=pick(["bertingkat","persen","ppn","beli","rugibeli"],r);
+  if(ty==="bertingkat"||ty==="persen"){ const P=ri(10,100,r)*10000, d1=pick([10,20,25,30,40,50],r), d2=pick([10,20,25,30],r), a=P-pct(P,d1), b=a-pct(a,d2), tot=100-(100-d1)*(100-d2)/100;
+    if(!isInt(a)||!isInt(b)) return null;
+    if(ty==="persen"){ if(!isInt(tot)) return null; return {text:`Toko memberi diskon ${d1}% + ${d2}% (diskon kedua dihitung dari harga setelah diskon pertama). Setara diskon tunggal berapa persen?`,unit:"%",ans:tot,steps:[`Setelah diskon ${d1}%, harga tinggal ${100-d1}%.`,`Setelah diskon ${d2}% lagi: ${100-d2}% × ${100-d1}% = ${(100-d1)*(100-d2)/100}% dari harga awal.`,`Diskon total = 100% − ${(100-d1)*(100-d2)/100}% = <b>${tot}%</b> (bukan ${d1+d2}%)`]}; }
+    return {text:`Harga ${it} ${rp(P)} mendapat diskon ${d1}% + ${d2}%. Berapa harga yang harus dibayar?`,unit:"Rp",ans:b,steps:[`Diskon pertama: ${rp(P)} − ${d1}% × ${rp(P)} = ${rp(a)}`,`Diskon kedua dihitung dari ${rp(a)}: ${rp(a)} − ${d2}% × ${rp(a)} = <b>${rp(b)}</b>`]}; }
+  if(ty==="ppn"){ const P=ri(10,100,r)*10000, d=pick([10,20,25,30,40],r), a=P-pct(P,d), tax=pct(a,PPN); if(!isInt(a)||!isInt(tax)) return null;
+    return {text:`Harga ${it} ${rp(P)} (belum termasuk PPN ${PPN}%) didiskon ${d}%. PPN dihitung dari harga setelah diskon. Berapa yang harus dibayar?`,unit:"Rp",ans:a+tax,steps:[`Setelah diskon: ${rp(P)} − ${d}% × ${rp(P)} = ${rp(a)}`,`PPN = ${PPN}% × ${rp(a)} = ${rp(tax)}`,`Bayar = ${rp(a)} + ${rp(tax)} = <b>${rp(a+tax)}</b>`]}; }
+  const B=ri(20,300,r)*1000, p=pick([5,10,15,20,25,30,40,50],r), J=ty==="beli"?B+pct(B,p):B-pct(B,p); if(!isInt(J)) return null;
+  return {text:`Sebuah ${it} dijual ${rp(J)} dengan ${ty==="beli"?"untung":"rugi"} ${p}%. Berapa harga belinya?`,unit:"Rp",ans:B,steps:[`Harga jual = ${ty==="beli"?`(100% + ${p}%)`:`(100% − ${p}%)`} × harga beli = ${ty==="beli"?100+p:100-p}% × harga beli`,`Harga beli = ${rp(J)} ÷ ${ty==="beli"?100+p:100-p}% = ${rp(J)} × 100/${ty==="beli"?100+p:100-p} = <b>${rp(B)}</b>`]};
+}
+function qSulit(r,it){
+  const ty=pick(["tunggal","bunga","lama","majemuk","cicilan"],r);
+  if(ty==="tunggal"||ty==="bunga"||ty==="lama"){ const M=ri(1,20,r)*500000, b=pick([4,5,6,8,9,10,12],r), n=pick([3,4,6,8,9,10,12,15,18,24],r), I=M*b/100*n/12; if(!isInt(I)) return null;
+    if(ty==="lama") return {text:`Rina menabung ${rp(M)} di bank dengan bunga tunggal ${b}% per tahun. Tabungannya sekarang ${rp(M+I)}. Sudah berapa bulan Rina menabung?`,unit:"bulan",ans:n,steps:[`Bunga yang diperoleh = ${rp(M+I)} − ${rp(M)} = ${rp(I)}`,`Bunga per bulan = ${b}% × ${rp(M)} ÷ 12 = ${rp(M*b/1200)}`,`Lama = ${rp(I)} ÷ ${rp(M*b/1200)} = <b>${n} bulan</b>`]};
+    if(ty==="bunga") return {text:`Tabungan awal ${rp(M)} dengan bunga tunggal ${b}% per tahun. Berapa bunga yang diperoleh setelah ${n} bulan?`,unit:"Rp",ans:I,steps:[`Bunga = ${n}/12 × ${b}% × ${rp(M)} = <b>${rp(I)}</b>`]};
+    return {text:`Tabungan awal ${rp(M)} dengan bunga tunggal ${b}% per tahun. Berapa besar tabungan setelah ${n} bulan?`,unit:"Rp",ans:M+I,steps:[`Bunga = ${n}/12 × ${b}% × ${rp(M)} = ${rp(I)}`,`Tabungan akhir = ${rp(M)} + ${rp(I)} = <b>${rp(M+I)}</b>`]}; }
+  if(ty==="majemuk"){ const M=ri(1,20,r)*1000000, b=pick([5,10,20],r), n=ri(2,3,r); let x=M; const st=[];
+    for(let k=1;k<=n;k++){ const add=pct(x,b); if(!isInt(add)) return null; st.push(`Tahun ${k}: ${rp(x)} + ${b}% × ${rp(x)} = ${rp(x+add)}`); x+=add; }
+    return {text:`Uang ${rp(M)} disimpan dengan bunga majemuk ${b}% per tahun. Berapa besarnya setelah ${n} tahun?`,unit:"Rp",ans:x,steps:[...st,`Atau langsung: ${rp(M)} × (1 + ${b}%)${n===2?"²":"³"} = <b>${rp(x)}</b>`]}; }
+  const H=ri(2,30,r)*500000, dp=pick([10,20,25,30],r), b=pick([6,10,12,15,18],r), n=pick([6,10,12,18,24],r), S=H-pct(H,dp), I=S*b/100*n/12, c=(S+I)/n; if(!isInt(S)||!isInt(I)||!isInt(c)) return null;
+  return {text:`${it[0].toUpperCase()+it.slice(1)} seharga ${rp(H)} dibeli dengan uang muka ${dp}%. Sisanya dicicil ${n} bulan dengan bunga tunggal ${b}% per tahun dari sisa harga. Berapa cicilan per bulan?`,unit:"Rp",ans:c,steps:[`Uang muka = ${dp}% × ${rp(H)} = ${rp(pct(H,dp))}, sisa = ${rp(S)}`,`Bunga ${n} bulan = ${n}/12 × ${b}% × ${rp(S)} = ${rp(I)}`,`Total utang = ${rp(S)} + ${rp(I)} = ${rp(S+I)}`,`Cicilan = ${rp(S+I)} ÷ ${n} = <b>${rp(c)}</b>`]};
+}
+
+/* ================= 3. TOKO TERMURAH ================= */
+const TOKO=["Toko Makmur","Toko Jaya","Toko Sentosa","Toko Abadi","Toko Berkah","Toko Lancar"];
+const ITEMS=[["buku tulis","buah",[3,4,5,6,8]],["kaus kaki","pasang",[5,8,10,12,15]],["pulpen","buah",[2,3,4,5]],["minuman botol","botol",[3,4,5,6,8]],["kaus olahraga","potong",[40,50,60,75,80]],["mi instan","bungkus",[3,4,5]]];
+function promoCalc(pr,q,u){
+  const g=q*u;
+  if(pr.t==="d") return {total:g-pct(g,pr.p),how:`${q} × ${rp(u)} = ${rp(g)}; diskon ${pr.p}% = ${rp(pct(g,pr.p))}`};
+  if(pr.t==="dd"){ const a=g-pct(g,pr.p1); return {total:a-pct(a,pr.p2),how:`${q} × ${rp(u)} = ${rp(g)} → diskon ${pr.p1}% → ${rp(a)} → diskon ${pr.p2}%`}; }
+  if(pr.t==="bxgy"){ const f=Math.floor(q/(pr.x+pr.y))*pr.y; return {total:(q-f)*u,how:`beli ${q}, ${f} di antaranya gratis, bayar ${q-f} × ${rp(u)}`}; }
+  if(pr.t==="cut"){ const ok=g>=pr.min; return {total:ok?g-pr.k:g,how:`${q} × ${rp(u)} = ${rp(g)}${ok?` − ${rp(pr.k)}`:` (belum mencapai ${rp(pr.min)}, potongan tidak berlaku)`}`}; }
+  if(pr.t==="dcap"){ const c=Math.min(pct(g,pr.p),pr.cap); return {total:g-c,how:`${q} × ${rp(u)} = ${rp(g)}; diskon ${pr.p}% = ${rp(pct(g,pr.p))}${pct(g,pr.p)>pr.cap?`, dibatasi maks ${rp(pr.cap)}`:""}`}; }
+  if(pr.t==="ppn"){ const a=g-pct(g,pr.p), tax=pct(a,PPN); return {total:a+tax,how:`${q} × ${rp(u)} = ${rp(g)} − ${pr.p}% = ${rp(a)}, + PPN ${PPN}% ${rp(tax)}`}; }
+}
+function promoText(pr,u){
+  if(pr.t==="d") return `Harga ${rp(u)}/satuan, diskon ${pr.p}%`; if(pr.t==="dd") return `Harga ${rp(u)}/satuan, diskon ${pr.p1}% + ${pr.p2}%`;
+  if(pr.t==="bxgy") return `Harga ${rp(u)}/satuan, beli ${pr.x} gratis ${pr.y}`; if(pr.t==="cut") return `Harga ${rp(u)}/satuan, potongan ${rp(pr.k)} untuk belanja min. ${rp(pr.min)}`;
+  if(pr.t==="dcap") return `Harga ${rp(u)}/satuan, diskon ${pr.p}% maks ${rp(pr.cap)}`; return `Harga ${rp(u)}/satuan belum termasuk PPN ${PPN}%, diskon ${pr.p}%`;
+}
+function genToko(level,r){
+  const ns=level==="mudah"?3:4;
+  for(let t=0;t<3000;t++){
+    const [nm,sat,prices]=pick(ITEMS,r), base=pick(prices,r)*1000, q=ri(level==="mudah"?4:6,level==="mudah"?10:18,r);
+    const types=level==="mudah"?["d","bxgy","cut","d"]:level==="sedang"?["d","dd","bxgy","cut","dcap"]:["dd","bxgy","cut","dcap","ppn","ppn"];
+    const stores=shuffle(TOKO.slice(),r).slice(0,ns).map(n=>{ const tp=pick(types,r), u=base+pick([-1,0,0,1,2],r)*500; let pr;
+      if(tp==="d") pr={t:"d",p:pick([10,15,20,25],r)}; else if(tp==="dd") pr={t:"dd",p1:pick([10,20],r),p2:pick([5,10],r)};
+      else if(tp==="bxgy"){ const x=pick([2,3,4,5],r); pr={t:"bxgy",x,y:1}; } else if(tp==="cut") pr={t:"cut",k:pick([5,10,15,20],r)*1000,min:Math.round(q*u*pick([.7,.9,1.1],r)/5000)*5000};
+      else if(tp==="dcap") pr={t:"dcap",p:pick([20,25,30],r),cap:pick([5,10,15],r)*1000}; else pr={t:"ppn",p:pick([10,15,20,25],r)};
+      return {name:n,u,pr}; });
+    if(new Set(stores.map(s=>s.pr.t)).size<Math.min(ns,3)) continue;
+    const tot=stores.map(s=>promoCalc(s.pr,q,s.u).total); if(!tot.every(isInt)) continue;
+    const best=Math.min(...tot), sorted=tot.slice().sort((a,b)=>a-b);
+    if(sorted[1]-best<500||sorted[1]-best>best*.12) continue;
+    /* toko dengan harga satuan termurah jangan selalu yang menang */
+    const cheapU=stores.reduce((a,s,i)=>s.u<stores[a].u?i:a,0); if(tot.indexOf(best)===cheapU&&r()<.6) continue;
+    return {kind:"toko",level,item:nm,sat,q,stores,tot,ans:tot.indexOf(best),best};
+  }
+}
+
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0); return {kupon:genKupon,hitung:genHitung,toko:genToko}[kind](level,r); }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+function receipt(p,seq){ const R=runCoupons(p,seq), out=[`Total belanja: <b>${rp(p.total)}</b>`];
+  R.lines.forEach(l=>{ const c=p.coupons[l.c]; out.push(l.skip?`${cpText(c)}: belanja ${rp(l.before)} belum mencapai minimum → <b>tidak berlaku</b>`:`${cpText(c)}: ${rp(l.before)} − ${rp(l.cut)} = <b>${rp(l.after)}</b>`); });
+  if(p.ppn) out.push(`PPN ${PPN}% × ${rp(R.sub)} = ${rp(R.tax)} → bayar <b>${rp(R.final)}</b>`); else out.push(`Bayar <b>${rp(R.final)}</b>`);
+  return out; }
+function explain(p){
+  if(p.kind==="hitung") return p.steps;
+  if(p.kind==="kupon") return [`Urutan terbaik${p.nBest>1?" (salah satunya)":""}: ${p.bestSeq.map(i=>`<b>${cpText(p.coupons[i])}</b>`).join(" → ")}`,...receipt(p,p.bestSeq),
+    `Tips: diskon persen paling besar hasilnya bila dihitung dari harga yang masih besar, jadi pakai sebelum potongan rupiah. Tapi perhatikan syarat minimum belanja dan batas maksimal cashback.`];
+  return [`Hitung total tiap toko untuk ${p.q} ${p.sat} ${p.item}:`,...p.stores.map((s,i)=>`${s.name}: ${promoCalc(s.pr,p.q,s.u).how} → <b>${rp(p.tot[i])}</b>${i===p.ans?" ← termurah":""}`)];
+}
+
+/* ===== Harian ===== */
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>p.kind==="hitung"?p.text:p.kind==="kupon"?JSON.stringify([p.total,p.coupons]):JSON.stringify([p.q,p.stores]);
+function dailyPuzzle(kind,level,n){ return makePuzzle(kind,level,hashStr(`toko-diskon|${kind}|${level}|${n}`)); }
+/* ================= AKHIR INTI ================= */
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"kupon",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("td_prefs",{}));
+if(!KINDS[P.kind]) P.kind="kupon";
+const saveP=()=>lsSet("td_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2400); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,seq:[],field:"",lastSeq:null,store:null,storeOk:false,struck:[]};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","seq","field","lastSeq","store","storeOk","struck"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`td_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,seq:G.seq,field:G.field,lastSeq:G.lastSeq,store:G.store,storeOk:G.storeOk,struck:G.struck}); }
+const fieldHTML=(unit)=>`<div class="form">${unit==="Rp"?"<span class=unit>Rp</span>":""}<span class="fld act${G.field?"":" ph"}" style="min-width:150px">${G.field?num(+G.field):"?"}</span>${unit!=="Rp"?`<span class=unit>${unit}</span>`:""}</div>`;
+
+function render(){
+  const p=G.p; let h="", c="", needPad=false;
+  if(p.kind==="kupon"){
+    h=`<div class="cart"><span>🛒 Total belanja</span><span>${rp(p.total)}</span></div>
+      <p class="sub">Pakai paling banyak <b>${p.maxK}</b> kupon, urutannya bebas${p.ppn?`. PPN ${PPN}% dihitung terakhir`:""}. Cari harga akhir paling murah.</p>
+      <div class="cps">${p.coupons.map((cp,i)=>{ const k=G.seq.indexOf(i); return `<button type="button" class="cp${k>=0?" on":""}" data-cp="${i}" ${G.done?"disabled":""}><span class="n">${k>=0?k+1:""}</span>🎟️ ${cpText(cp)}</button>`; }).join("")}</div>`;
+    if(G.lastSeq&&!G.done) h+=`<p class="sub">Struk percobaan terakhir:</p><div class="rcpt">${receipt(p,G.lastSeq).map(x=>`<div>${x}</div>`).join("")}</div>`;
+    if(G.done) h+=`<div class="rcpt">${receipt(p,G.seq).map(x=>`<div>${x}</div>`).join("")}</div>`;
+    c=G.done?`<div class="ans">${rp(p.best)}</div>`:`<p class="sub">Urutanmu: ${G.seq.length?G.seq.map(i=>`<b>${cpText(p.coupons[i])}</b>`).join(" → "):"belum ada kupon dipilih"}</p>`;
+  }else if(p.kind==="hitung"){
+    h=`<div class="qtext">${p.text}</div>`; needPad=!G.done;
+    c=G.done?`<div class="ans">${p.unit==="Rp"?rp(p.ans):num(p.ans)+" "+p.unit}</div>`:fieldHTML(p.unit);
+  }else{
+    h=`<div class="qtext">Kamu ingin membeli <b>${p.q} ${p.sat} ${p.item}</b>. Di toko mana total belanjanya paling murah?</div>
+      <div class="stores">${p.stores.map((s,i)=>`<button type="button" class="store${G.store===i?" sel":""}${G.struck.includes(i)?" no":""}${(G.storeOk||G.done)&&i===p.ans?" right":""}" data-st="${i}" ${G.done||G.storeOk||G.struck.includes(i)?"disabled":""}><b>🏪 ${s.name}</b><span>${promoText(s.pr,s.u)}</span></button>`).join("")}</div>`;
+    needPad=G.storeOk&&!G.done;
+    c=G.done?`<div class="ans">${p.stores[p.ans].name}: ${rp(p.best)}</div>`:G.storeOk?`<p class="sub">Tepat! Berapa total yang dibayar di ${p.stores[p.ans].name}?</p>${fieldHTML("Rp")}`:`<p class="sub">${G.store===null?"Ketuk toko pilihanmu, lalu Cek.":`Pilihan: <b>${p.stores[G.store].name}</b>`}</p>`;
+  }
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=c;
+  $("pad").hidden=!needPad; $("okBtn").hidden=G.done;
+  $("hintBtn").hidden=!(G.wrong>=3&&!G.done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Soal harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0, short={kupon:"Kupon",hitung:"Hitung",toko:"Toko"};
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`td_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}">${v.icon} ${short[k]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}</button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+$("play").addEventListener("click",e=>{
+  if(!G||G.done) return;
+  const b=e.target.closest("[data-cp]"); if(b){ const i=+b.dataset.cp, k=G.seq.indexOf(i);
+    if(k>=0) G.seq.splice(k,1); else if(G.seq.length<G.p.maxK) G.seq.push(i); else { toast(`Paling banyak ${G.p.maxK} kupon. Ketuk kupon terpilih untuk melepas.`); return; }
+    saveDay(); render(); return; }
+  const s=e.target.closest("[data-st]"); if(s){ G.store=+s.dataset.st; render(); }
+});
+function press(k){
+  if(!G||G.done) return;
+  if(k==="ok") return check();
+  if(!(G.kind==="hitung"||(G.kind==="toko"&&G.storeOk))) return;
+  let v=G.field;
+  if(k==="del") v=v.slice(0,-1); else if((v+k).length<=10) v=(v==="0"?"":v)+k;
+  if(v==="0"||/^0+$/.test(v)) v="";
+  G.field=v; render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G||G.done) return;
+  if(G.kind==="kupon"&&/^[1-5]$/.test(e.key)){ const i=+e.key-1; if(i<G.p.coupons.length) $("play").querySelector(`[data-cp="${i}"]`).click(); return; }
+  if(G.kind==="toko"&&!G.storeOk&&/^[a-dA-D1-4]$/.test(e.key)){ const i="abcd1234".indexOf(e.key.toLowerCase())%4; if(i<G.p.stores.length&&!G.struck.includes(i)){ G.store=i; render(); } return; }
+  const k=e.key==="Backspace"?"del":e.key==="Enter"?"ok":e.key;
+  if(/^[0-9]$/.test(k)||k==="del"||k==="ok"){ e.preventDefault(); press(k); }
+});
+function check(){
+  if(G.done) return; const p=G.p;
+  if(p.kind==="kupon"){
+    if(!G.seq.length){ toast("Pilih minimal satu kupon."); return; }
+    const R=runCoupons(p,G.seq);
+    if(R.final===p.best){ $("fb").innerHTML=`<span class="ok">✓ Paling murah: ${rp(R.final)}!</span>`; return finish(); }
+    G.wrong++; G.lastSeq=G.seq.slice();
+    $("fb").innerHTML=`<span class="no">✗ Hasilmu ${rp(R.final)}. Masih ada urutan yang lebih murah.${G.mode==="kelas"?"":" Lihat struknya, lalu coba lagi."}</span>`;
+    saveDay(); render(); return; }
+  if(p.kind==="toko"&&!G.storeOk){
+    if(G.store===null){ toast("Pilih tokonya dulu."); return; }
+    if(G.store===p.ans){ G.storeOk=true; $("fb").innerHTML=`<span class="ok">✓ Benar, ${p.stores[p.ans].name} paling murah.</span>`; saveDay(); render(); return; }
+    G.wrong++; G.struck.push(G.store); $("fb").innerHTML=`<span class="no">✗ ${p.stores[G.store].name} bukan yang termurah.</span>`; G.store=null; saveDay(); render(); return; }
+  if(!G.field){ toast("Isi jawabannya dulu."); return; }
+  const ans=p.kind==="hitung"?p.ans:p.best, v=+G.field;
+  if(v===ans){ $("fb").innerHTML=`<span class="ok">✓ Benar!</span>`; return finish(); }
+  G.wrong++; $("fb").innerHTML=`<span class="no">✗ Belum tepat.${G.mode==="kelas"?"":" Coba lagi."}</span>`; saveDay(); render();
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${explain(G.p).map(x=>`<div>${x}</div>`).join("")}</div>`;
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Cara penyelesaian</h2>${howHTML()}<p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.kind==="kupon"&&runCoupons(G.p,G.seq).final!==G.p.best) G.seq=G.p.bestSeq.slice();
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("td_stats_"+l,{})); }
+function recordDay(){
+  const all=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`td_day_${G.level}_${k}`,null));
+  if(!all.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=all.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("td_stats_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Lihat cara":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`td_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Ketiga soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h;
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`td_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Toko Diskon #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau ketiga soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
