@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFF7ED">
+<title>Tangga Satuan</title>
+<meta name="description" content="Tangga Satuan untuk SD kelas 2–6: satuan panjang, berat, liter, dan kubik. Naik-turun tangga satuan, bandingkan dan urutkan ukuran, pilih satuan yang masuk akal, dan soal cerita belanja di pasar.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23C2410C'/%3E%3Cpath d='M10 16h14v10h10v10h10v10h10v8H10z' fill='%23FFEDD5'/%3E%3Cpath d='M18 12l-6 4 6 4' fill='none' stroke='%23FDE047' stroke-width='3' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FFF7ED;
+  --card:#FFFFFF;
+  --ink:#431407;
+  --muted:#7C4A2D;
+  --line:#FED7AA;
+  --vi:#C2410C;
+  --vi-d:#9A3412;
+  --soft:#FFEDD5;
+  --tg:#F97316;
+  --shot:#7C3AED;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1000px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--vi)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.q{font-weight:800;font-size:1.3rem;text-align:center;line-height:1.35}
+.q .fn{display:inline-block;background:var(--soft);border-radius:10px;padding:2px 10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+.qtext{font-weight:800;font-size:1.15rem;line-height:1.45;text-align:center}
+.qtext small{display:block;font-weight:700;font-size:.85rem;color:var(--muted)}
+.prog{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.prog i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.prog i.d{background:var(--green)} .prog i.c{background:var(--vi);transform:scale(1.25)}
+.big{font-size:1.6rem;font-weight:800;text-align:center;color:var(--vi-d)}
+.emo{font-size:4.2rem;text-align:center;line-height:1.1}
+.kelas .emo{font-size:6rem}
+.stair{display:flex;justify-content:center}.stair>svg{width:100%;max-width:400px;height:auto}
+.note{text-align:center;font-size:.9rem;font-weight:700;color:var(--muted);margin:0}
+.opts{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px}
+.opts .op{font-size:clamp(1rem,5vw,1.25rem)}
+.op{border:3px solid var(--line);background:#fff;border-radius:16px;padding:10px 6px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer;font-weight:800;font-size:1.25rem;color:var(--ink);font-family:inherit;min-height:64px;justify-content:center}
+.op small{font-size:.8rem;color:var(--muted);font-weight:700}
+.op b{font-size:1.3rem}
+.op:disabled{opacity:.3;cursor:default}
+.op.ok{border-color:var(--green);background:#D1FAE5;opacity:1}
+.op[aria-pressed="true"]{border-color:var(--vi);background:var(--soft)}
+.opts3{display:grid;grid-template-columns:1fr;gap:8px}
+.vs{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:6px;align-items:stretch}
+.vs .op b{overflow-wrap:anywhere}
+.vs .op{min-height:96px}
+.vs .eq{min-height:96px;font-size:1rem;padding:6px 8px}
+.urut{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.urut .op{position:relative}
+.urut .op i{position:absolute;top:4px;left:8px;font-style:normal;font-size:.9rem;background:var(--vi);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center}
+.row2s{display:flex;gap:8px;justify-content:center}
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;font-weight:800;font-size:1.3rem}
+.form .fld{min-width:110px}
+.ans{text-align:center;font-weight:800;font-size:1.3rem;color:var(--vi-d)}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.fld{min-width:56px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.fld.act{border-color:var(--vi);background:#fff;box-shadow:0 0 0 3px #FDBA74}
+.fld.ph{color:#D6A88A}
+.pad{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:#FFEDD5;font-weight:800;font-size:1.3rem;cursor:pointer}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--vi);color:#fff;box-shadow:0 3px 0 var(--vi-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--vi-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#FED7AA}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--vi-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(67,20,7,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .q{font-size:1.9rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:64px;min-width:90px} .kelas .form .lab{font-size:1.3rem}
+  .kelas .pad button{height:60px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem} 
+  .kelas .op{font-size:1.6rem;min-height:90px} .kelas .big{font-size:2.3rem} .kelas .qtext{font-size:1.5rem} .kelas .ans{font-size:2rem} .kelas .qtext{font-size:1.3rem}
+  .kelas .grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Tangga <span>Satuan</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button>
+        <button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="," aria-label="Koma desimal">,</button><button type="button" data-k="del" aria-label="Hapus" style="grid-column:span 3">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Petunjuk</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+    <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li><b>Tangga satuan</b>: setiap <b>turun</b> satu anak tangga dikali 10, setiap <b>naik</b> dibagi 10 (km, hm, dam, m, dm, cm, mm; kg … mg; kL … mL). Tangga kubik (m³, dm³, cm³) setiap anak tangga <b>×1.000</b>. 1 dm³ = 1 L, 1 cm³ = 1 mL.</li>
+      <li>Satuan sehari-hari: 1 ton = 1.000 kg, 1 kuintal = 100 kg, 1 ons = 100 g, 1 pon = 500 g.</li>
+      <li><b>🪜 Tangga</b>: pilih dulu kali atau bagi berapa, lalu ketik hasilnya.</li>
+      <li><b>⚖️ Banding</b>: mana yang lebih panjang, berat, atau banyak? Lalu urutkan dari yang terkecil.</li>
+      <li><b>🤔 Akal</b>: pilih ukuran yang masuk akal untuk benda sehari-hari.</li>
+      <li><b>🛒 Pasar</b>: soal cerita belanja dan menakar. Pakai tombol <b>,</b> untuk desimal.</li>
+      <li><b>Mudah</b> kelas 2–3 (m–cm, kg–g, L–mL), <b>Sedang</b> kelas 4 (tangga lengkap, ton, kuintal, ons, pon), <b>Sulit</b> kelas 5–6 (desimal dan kubik).</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Petunjuk</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+
+<script>/* ================= INTI: satuan ukur, pembuat soal, pembahasan ================= */
+/* ===== Tangga Satuan: satuan panjang, berat, isi (liter & kubik) ===== */
+const KINDS={tangga:{label:"Naik-Turun Tangga",icon:"🪜"},banding:{label:"Bandingkan & Urutkan",icon:"⚖️"},akal:{label:"Satuan Masuk Akal",icon:"🤔"},pasar:{label:"Soal Cerita Pasar",icon:"🛒"}};
+const LEVELS={mudah:{label:"Mudah",sub:"kelas 2–3"},sedang:{label:"Sedang",sub:"kelas 4"},sulit:{label:"Sulit",sub:"kelas 5–6"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+
+/* ---------- satuan: semua nilai disimpan sebagai bilangan bulat dalam satuan terkecil (mm, mg, mL = cm³) ---------- */
+const SYS={
+  panjang:{ladder:["km","hm","dam","m","dm","cm","mm"],step:10,kata:"panjang",lebih:"lebih panjang"},
+  massa:{ladder:["kg","hg","dag","g","dg","cg","mg"],step:10,kata:"berat",lebih:"lebih berat"},
+  liter:{ladder:["kL","hL","daL","L","dL","cL","mL"],step:10,kata:"isi",lebih:"lebih banyak isinya"},
+  kubik:{ladder:["m³","dm³","cm³"],step:1000,kata:"volume",lebih:"lebih banyak isinya"}};
+const F={mm:1,cm:10,dm:100,m:1e3,dam:1e4,hm:1e5,km:1e6, mg:1,cg:10,dg:100,g:1e3,dag:1e4,hg:1e5,kg:1e6,ons:1e5,pon:5e5,kuintal:1e8,ton:1e9,
+  mL:1,cL:10,dL:100,L:1e3,daL:1e4,hL:1e5,kL:1e6,"cm³":1,"dm³":1e3,"m³":1e6};
+const U_PANJANG=["mm","cm","dm","m","dam","hm","km"], U_MASSA=["mg","cg","dg","g","dag","hg","kg","ons","pon","kuintal","ton"], U_KUBIK=["cm³","dm³","m³"];
+const SYS_OF=u=>U_PANJANG.includes(u)?"panjang":U_MASSA.includes(u)?"massa":U_KUBIK.includes(u)?"kubik":"liter";
+const SPECIAL={ton:"1 ton = 1.000 kg",kuintal:"1 kuintal = 100 kg",ons:"1 ons = 100 g (sama dengan 1 hg)",pon:"1 pon = 500 g"};
+/* pecahan berpenyebut pangkat 10 → teks desimal Indonesia (1.250,5) */
+function grp(s){ return s.replace(/\B(?=(\d{3})+(?!\d))/g,"."); }
+function decStr(n,k){ /* n / 10^k, n bulat ≥ 0 */ let s=String(n); if(k<=0) return grp(s); s=s.padStart(k+1,"0"); let ip=s.slice(0,-k), fp=s.slice(-k).replace(/0+$/,""); return grp(ip)+(fp?","+fp:""); }
+/* base/f: f hanya berfaktor 2 dan 5, jadi selalu desimal berhingga */
+const gcd=(a,b)=>{ while(b){ [a,b]=[b,a%b]; } return a; };
+function asDec(base,f){ const g=gcd(base,f), q=f/g; let k=0, p=1; while(p%q!==0){ k++; p*=10; if(k>12) return null; } return {n:(base/g)*(p/q),k}; }
+const fmtNum=(base,u)=>{ const d=asDec(base,F[u]); return decStr(d.n,d.k); };
+const decimals=(base,u)=>asDec(base,F[u]).k;
+const fmtQ=(base,u)=>`${fmtNum(base,u)} ${u}`;
+/* teks masukan "1,25" → {n,k} */
+function parseDec(s){ s=String(s).replace(/\./g,""); if(!/^\d+(,\d+)?$/.test(s)) return null; const [a,b=""]=s.split(","); return {n:+(a+b),k:b.length}; }
+/* sama persis? base dalam satuan u vs teks */
+function eqInput(str,base,u){ const p=parseDec(str); if(!p) return false; return BigInt(p.n)*BigInt(F[u])===BigInt(base)*10n**BigInt(p.k); }
+/* jawaban teks (desimal) dibanding teks masukan, tanpa pembulatan */
+function eqDecStr(a,b){ const x=parseDec(a), y=parseDec(b); if(!x||!y) return false; return BigInt(x.n)*10n**BigInt(y.k)===BigInt(y.n)*10n**BigInt(x.k); }
+function ratioTxt(a,b){ const fa=F[a], fb=F[b]; return fa>=fb?"×"+grp(String(fa/fb)):"÷"+grp(String(fb/fa)); }
+const ladderOf=u=>{ const s=SYS_OF(u); return s==="liter"&&["cm³","dm³","m³"].includes(u)?"kubik":s; };
+
+/* ---------- angka "rapi" untuk soal ---------- */
+const NICE_INT=[1,2,3,4,5,6,7,8,9,10,12,15,20,25,30,40,45,50,60,75,80,120,125,150,250,300,350,400,450,500,600,750,800];
+const NICE_DEC=["0,5","0,25","0,75","1,5","1,25","2,5","0,2","0,4","0,6","0,8","1,2","2,4","3,5","0,05","0,35","1,75","2,05","4,5"];
+function niceBase(u,level,r){ const v=level==="sulit"&&r()<0.6?parseDec(pick(NICE_DEC,r)):{n:pick(NICE_INT,r),k:0}; const b=v.n*F[u]/10**v.k; return Number.isInteger(b)?b:null; }
+
+/* ================= 1. NAIK-TURUN TANGGA ================= */
+const PAIRS_MUDAH=[["m","cm"],["cm","m"],["kg","g"],["g","kg"],["L","mL"],["mL","L"],["cm","mm"],["mm","cm"]];
+function convPair(level,r){
+  if(level==="mudah") return pick(PAIRS_MUDAH,r);
+  const t=r();
+  if(level==="sedang"&&t<0.25){ return pick([["ton","kg"],["kuintal","kg"],["ons","g"],["pon","g"],["kg","ons"],["kg","kuintal"],["kg","ton"]],r); }
+  if(level==="sulit"&&t<0.4){ return pick([["m³","dm³"],["dm³","m³"],["dm³","cm³"],["cm³","dm³"],["m³","L"],["L","m³"],["mL","dm³"],["dm³","mL"],["L","cm³"],["cm³","L"],["m³","cm³"]],r); }
+  const sys=pick(["panjang","massa","liter"],r), L=SYS[sys].ladder; let i,j; do{ i=ri(0,6,r); j=ri(0,6,r); }while(i===j||Math.abs(i-j)>(level==="sedang"?4:6));
+  return [L[i],L[j]]; }
+function genConvItem(level,r){
+  for(let t=0;t<500;t++){ const [a,b]=convPair(level,r), base=r()<0.5?niceBase(a,level,r):niceBase(b,level,r); if(!base) continue;
+    const da=decimals(base,a), db=decimals(base,b), lim=level==="mudah"?10000:level==="sedang"?100000:1000000;
+    if(level!=="sulit"&&(da||db)) continue; if(da>3||db>3) continue; if(base/F[a]>lim||base/F[b]>lim) continue;
+    if(base/F[a]<(level==="sulit"?0.01:1)||base/F[b]<(level==="sulit"?0.01:1)) continue;
+    if((SPECIAL[a]||SPECIAL[b])&&(base===F[a]||base===F[b])) continue; /* "1 ton = … kg" sama dengan catatan bantuannya */
+    return {a,b,base}; }
+}
+/* pilihan faktor dihitung dengan bilangan bulat (tanpa galat pecahan) */
+function factorOpts(a,b,r){ const fa=F[a], fb=F[b], up=fa>=fb, R=up?fa/fb:fb/fa, good=ratioTxt(a,b), set=new Set([good]);
+  const cand=[[!up,R],[up,R*10],[up,R*100],[!up,R*10]]; if(R>=100) cand.push([up,R/10],[!up,R/10]); if(R>=1000) cand.push([up,R/100]);
+  for(const [mul,x] of shuffle(cand,r)){ if(set.size>=4) break; if(!Number.isInteger(x)||x<10||x>1e6) continue; set.add((mul?"×":"÷")+grp(String(x))); }
+  return shuffle([...set],r); }
+function convHow(it){ const {a,b,base}=it, la=ladderOf(a), lb=ladderOf(b); let path="";
+  if(SPECIAL[a]||SPECIAL[b]) path=`${SPECIAL[a]||SPECIAL[b]}.`;
+  else if(la!==lb) path=`Jembatan liter–kubik: 1 dm³ = 1 L dan 1 cm³ = 1 mL.`;
+  else { const L=SYS[la].ladder, i=L.indexOf(a), j=L.indexOf(b), n=Math.abs(i-j), st=SYS[la].step;
+    path=`Dari ${a} ke ${b} ${j>i?"turun":"naik"} ${n} anak tangga: setiap ${j>i?"turun dikali":"naik dibagi"} ${grp(String(st))}, jadi ${ratioTxt(a,b)}.`; }
+  return `${path} ${fmtQ(base,a)} ${ratioTxt(a,b)} = <b>${fmtQ(base,b)}</b>`; }
+function genTangga(level,r){ const steps=[], seen=new Set();
+  while(steps.length<6){ const it=genConvItem(level,r), k=it.a+it.b; if(seen.has(k)&&seen.size<5) continue; seen.add(k);
+    const opts=factorOpts(it.a,it.b,r); steps.push({t:"faktor",it,opts,ans:opts.indexOf(ratioTxt(it.a,it.b))},{t:"isi",it,ans:fmtNum(it.base,it.b),unit:it.b}); }
+  return {kind:"tangga",level,steps}; }
+
+/* ================= 2. BANDINGKAN & URUTKAN ================= */
+/* benda dipilih menurut besar ukurannya supaya masuk akal (batas atas dalam satuan terkecil) */
+const BENDA={panjang:[[10,["Manik-manik"]],[60,["Kancing","Penghapus"]],[300,["Pensil","Sedotan","Pita rambut"]],[5000,["Pita","Tali","Kain","Kayu"]],[1e5,["Pagar","Selang air"]],[1e6,["Jalan setapak","Lintasan lari"]],[Infinity,["Jalan","Rute sepeda","Sungai"]]],
+  massa:[[1e3,["Tablet obat","Biji kacang"]],[3e4,["Permen","Biskuit"]],[3e5,["Apel","Cokelat","Roti"]],[3e6,["Kue tart","Kantong gula","Ayam"]],[1.5e7,["Tas","Semangka","Kardus"]],[1e8,["Karung beras","Kambing"]],[8e8,["Sapi"]],[5e9,["Mobil","Muatan pikap"]],[Infinity,["Truk","Gajah"]]],
+  liter:[[100,["Botol obat","Tutup botol"]],[500,["Gelas","Cangkir"]],[1500,["Botol","Teko"]],[40000,["Ember","Galon","Panci"]],[2e6,["Bak mandi","Drum"]],[Infinity,["Tangki air","Kolam ikan"]]],
+  kubik:[[100,["Kotak korek api","Dadu besar"]],[2e3,["Kotak susu","Kotak pensil"]],[1e5,["Akuarium","Kardus"]],[2e6,["Bak mandi","Lemari es"]],[Infinity,["Kolam","Kamar"]]]};
+const PEMILIK=[["Ani","Budi"],["Dina","Eko"],["merah","biru"],["kiri","kanan"],["Pak Tono","Pak Joko"],["Ibu","Bibi"]];
+const bendaFor=(sys,base,r)=>pick(BENDA[sys].find(([mx])=>base<mx)[1],r);
+function unitPool(level,sys){ if(level==="mudah") return {panjang:["m","cm"],massa:["kg","g"],liter:["L","mL"]}[sys];
+  if(level==="sedang") return {panjang:["km","hm","dam","m","dm","cm","mm"],massa:["kg","hg","dag","g","ons","pon","kuintal","ton"],liter:["kL","hL","daL","L","dL","cL","mL"]}[sys];
+  return {panjang:["km","hm","dam","m","dm","cm","mm"],massa:["ton","kuintal","kg","hg","dag","g","dg","cg","mg","ons","pon"],liter:["kL","hL","daL","L","dL","cL","mL"],kubik:["m³","dm³","cm³","L","mL"]}[sys]; }
+function okShow(base,u,level){ const d=decimals(base,u), v=base/F[u]; return v>=(level==="sulit"?0.01:1)&&v<=100000&&d<=(level==="sulit"?3:0); }
+function genPair(level,r){
+  for(let t=0;t<800;t++){ const sys=level==="sulit"?pick(["panjang","massa","liter","kubik"],r):pick(["panjang","massa","liter"],r), P=unitPool(level,sys), u1=pick(P,r); let u2=pick(P,r); if(u1===u2) continue;
+    if(Math.max(F[u1],F[u2])/Math.min(F[u1],F[u2])>(level==="mudah"?1000:1e6)) continue;
+    const b1=niceBase(u1,level,r); if(!b1||!okShow(b1,u1,level)) continue;
+    let b2; if(r()<0.2) b2=b1; else { const fac=pick([0.8,0.9,0.95,1.05,1.1,1.2,1.25,0.75,1.5,0.5],r); b2=Math.round(b1*fac/F[u2]*(level==="sulit"?100:1))*F[u2]/(level==="sulit"?100:1); }
+    if(!Number.isInteger(b2)||b2<=0||!okShow(b2,u2,level)) continue;
+    return {sys,q:[{base:b1,u:u1},{base:b2,u:u2}]}; } }
+function genBanding1(level,r){ const p=genPair(level,r), [x,y]=p.q, obj=bendaFor(p.sys,Math.max(x.base,y.base),r), [n1,n2]=pick(PEMILIK,r);
+  const ans=x.base===y.base?2:x.base>y.base?0:1;
+  return {t:"banding",sys:p.sys,obj,names:[n1,n2],q:p.q,ans,
+    how:`Samakan satuannya dulu: ${fmtQ(x.base,x.u)} = ${fmtQ(x.base,y.u)}; bandingkan dengan ${fmtQ(y.base,y.u)}. ${ans===2?"Hasilnya <b>sama</b>.":`Yang ${SYS[p.sys].lebih}: <b>${obj} ${[n1,n2][ans]}</b>.`}`}; }
+function genUrut(level,r){
+  for(let t=0;t<800;t++){ const sys=level==="sulit"?pick(["panjang","massa","liter","kubik"],r):pick(["panjang","massa","liter"],r), P=unitPool(level,sys);
+    const b0=niceBase(pick(P,r),level,r); if(!b0) continue; const qs=[];
+    for(const fac of shuffle([0.6,0.75,0.9,1,1.1,1.25,1.4,1.6],r)){ const u=pick(P,r), b=Math.round(b0*fac/F[u]*(level==="sulit"?100:1))*F[u]/(level==="sulit"?100:1);
+      if(!Number.isInteger(b)||b<=0||!okShow(b,u,level)||qs.some(q=>q.base===b)) continue; qs.push({base:b,u}); if(qs.length===4) break; }
+    if(qs.length<4||new Set(qs.map(q=>q.u)).size<2) continue;
+    const order=qs.map((q,i)=>i).sort((i,j)=>qs[i].base-qs[j].base), ref=qs.map(q=>q.u).sort((a,b)=>F[a]-F[b])[0];
+    return {t:"urut",sys,q:qs,ans:order,how:`Ubah semua ke ${ref}: ${qs.map(q=>`${fmtQ(q.base,q.u)} = ${fmtQ(q.base,ref)}`).join("; ")}. Urutan: <b>${order.map(i=>fmtQ(qs[i].base,qs[i].u)).join(" < ")}</b>.`}; } }
+function genBanding(level,r){ const steps=[genBanding1(level,r),genBanding1(level,r),genBanding1(level,r)]; steps.splice(ri(1,3,r),0,genUrut(level,r)); return {kind:"banding",level,steps}; }
+
+/* ================= 3. SATUAN MASUK AKAL ================= */
+/* [emoji, benda, ukuran, nilai, satuan, tingkat terendah] — nilai perkiraan yang wajar, pengecoh berbeda ≥ ×10 */
+const AKAL=[
+  ["🍉","semangka","Berat","3","kg","mudah"],["🍬","sebutir permen","Berat","5","g","mudah"],["🍚","sekarung beras","Berat","25","kg","mudah"],["🥚","sebutir telur","Berat","60","g","mudah"],["📱","sebuah HP","Berat","200","g","mudah"],
+  ["🧒","anak kelas 3","Berat","28","kg","mudah"],["✏️","sebatang pensil","Berat","6","g","sedang"],["🐘","seekor gajah","Berat","4","ton","sedang"],["🚗","sebuah mobil","Berat","1","ton","sedang"],["💊","sebutir tablet obat","Berat","500","mg","sedang"],["🐜","seekor semut","Berat","3","mg","sulit"],
+  ["🚪","tinggi pintu","Tinggi","2","m","mudah"],["✏️","panjang pensil","Panjang","15","cm","mudah"],["📏","panjang penggaris","Panjang","30","cm","mudah"],["🧒","tinggi anak kelas 3","Tinggi","130","cm","mudah"],["🏊","panjang kolam renang","Panjang","25","m","mudah"],["🦒","tinggi jerapah","Tinggi","5","m","mudah"],
+  ["🐜","panjang semut","Panjang","5","mm","sedang"],["🏫","jarak rumah ke sekolah","Jarak","2","km","sedang"],["🛣️","jarak Jakarta ke Bandung","Jarak","150","km","sedang"],["📖","tebal buku tulis","Tebal","5","mm","sedang"],["🪙","tebal uang koin","Tebal","2","mm","sedang"],
+  ["🥛","segelas susu","Isi","250","mL","mudah"],["💧","galon air minum","Isi","19","L","mudah"],["🥄","sesendok teh","Isi","5","mL","mudah"],["🛁","bak mandi","Isi","200","L","mudah"],["🪣","ember","Isi","10","L","mudah"],["🧃","sekotak jus kecil","Isi","200","mL","mudah"],
+  ["🚚","truk tangki BBM","Isi","16","kL","sedang"],["🏊","kolam renang","Isi","500","kL","sedang"],["🍼","botol susu bayi","Isi","150","mL","sedang"],
+  ["🧊","sebongkah es batu","Volume","10","cm³","sulit"],["🛏️","ruang kamar tidur","Volume","30","m³","sulit"],["🐠","akuarium kecil","Volume","30","dm³","sulit"],["✏️","kotak pensil","Volume","600","cm³","sulit"],["🧊","kulkas","Volume","200","dm³","sulit"]];
+const AKAL_UNITS={massa:{mudah:["g","kg"],sedang:["mg","g","kg","ton"],sulit:["mg","g","kg","ton"]},panjang:{mudah:["cm","m"],sedang:["mm","cm","m","km"],sulit:["mm","cm","m","km"]},
+  liter:{mudah:["mL","L"],sedang:["mL","L","kL"],sulit:["mL","L","kL"]},kubik:{sulit:["cm³","dm³","m³"]}};
+const LV_ORDER={mudah:0,sedang:1,sulit:2};
+function genAkal(level,r){
+  const pool=shuffle(AKAL.filter(a=>LV_ORDER[a[5]]<=LV_ORDER[level]),r), chosen=[];
+  if(level==="sulit") chosen.push(...pool.filter(a=>SYS_OF(a[4])==="kubik").slice(0,2));
+  for(const a of pool){ if(chosen.length>=5) break; if(!chosen.includes(a)&&!chosen.some(c=>c[1]===a[1])) chosen.push(a); }
+  const steps=shuffle(chosen,r).map(([e,nm,uk,v,u])=>{ const sys=SYS_OF(u), U=AKAL_UNITS[sys][level]||AKAL_UNITS[sys].sulit;
+    /* pengecoh: satuan lain yang jauh (≥ ×100 dari jawaban), atau angka ×100 bila satuannya sedikit */
+    let others=U.filter(x=>x!==u&&Math.max(F[x],F[u])/Math.min(F[x],F[u])>=100).map(x=>v+" "+x);
+    if(others.length<2) others=others.concat([String(+v*100)+" "+u]);
+    const opts=shuffle([v+" "+u,...shuffle(others,r).slice(0,2)],r).map(s=>s.replace(/^(\d+)/,m=>grp(m)));
+    return {t:"akal",e,nm,uk,opts,ans:opts.indexOf(grp(v)+" "+u),how:`${nm.startsWith(uk.toLowerCase())?nm[0].toUpperCase()+nm.slice(1):uk+" "+nm} kira-kira <b>${grp(v)} ${u}</b>. Pilihan lain jauh terlalu kecil atau terlalu besar.`}; });
+  return {kind:"akal",level,steps};
+}
+
+/* ================= 4. SOAL CERITA PASAR ================= */
+/* setiap templat mengembalikan [teks, jawaban (base), satuan jawaban, langkah] */
+const D=s=>parseDec(s), b=(s,u)=>D(s).n*F[u]/10**D(s).k;
+const PASAR={
+  mudah:[
+    r=>{ const a=ri(1,2,r), c=5*ri(1,19,r); return [`Panjang meja ${a} m ${c} cm. Berapa cm panjang meja?`,a*1000+c*10,"cm",[`${a} m = ${a*100} cm.`,`${a*100} + ${c} = <b>${a*100+c} cm</b>.`]]; },
+    r=>{ const a=ri(1,3,r), c=50*ri(2,18,r); return [`Ibu membeli ${a} kg tepung dan ${c} g gula. Berapa gram berat belanjaan Ibu?`,a*1e6+c*1e3,"g",[`${a} kg = ${grp(String(a*1000))} g.`,`${grp(String(a*1000))} + ${c} = <b>${grp(String(a*1000+c))} g</b>.`]]; },
+    r=>{ const a=ri(1,3,r); return [`Adik minum ${a} L air putih sehari. Berapa mL air yang diminum adik?`,a*1e3,"mL",[`1 L = 1.000 mL, jadi ${a} L = <b>${grp(String(a*1000))} mL</b>.`]]; },
+    r=>{ const a=ri(1,3,r), c=10*ri(1,9,r); return [`Pita sepanjang ${a} m dipotong ${c} cm. Berapa cm sisa pita?`,(a*100-c)*10,"cm",[`${a} m = ${a*100} cm.`,`${a*100} − ${c} = <b>${a*100-c} cm</b>.`]]; },
+    r=>{ const a=ri(2,4,r), c=50*ri(2,5,r); return [`Kakak menuang air ke ${a} gelas. Setiap gelas berisi ${c} mL. Berapa mL air seluruhnya?`,a*c,"mL",[`${a} × ${c} = <b>${grp(String(a*c))} mL</b>.`]]; },
+    r=>{ const a=ri(2,5,r); return [`Ada ${a} kantong gula, masing-masing beratnya 1 kg. Berapa gram berat seluruhnya?`,a*1e6,"g",[`1 kg = 1.000 g, jadi ${a} kg = <b>${grp(String(a*1000))} g</b>.`]]; }],
+  sedang:[
+    r=>{ const a=ri(1,4,r), u=pick(["pon","ons"],r); return [`Ibu membeli ${a} ${u} daging di pasar. Berapa gram daging yang dibeli Ibu?`,a*F[u],"g",[`${SPECIAL[u]}.`,`${a} × ${u==="pon"?500:100} = <b>${grp(String(a*(u==="pon"?500:100)))} g</b>.`]]; },
+    r=>{ const a=ri(1,5,r), c=ri(1,9,r); return [`Truk membawa ${a} ton pasir dan ${c} kuintal semen. Berapa kg muatan truk?`,a*1e9+c*1e8,"kg",[`${a} ton = ${grp(String(a*1000))} kg, ${c} kuintal = ${c*100} kg.`,`${grp(String(a*1000))} + ${c*100} = <b>${grp(String(a*1000+c*100))} kg</b>.`]]; },
+    r=>{ const a=ri(2,10,r), c=pick([250,500],r); return [`Beras ${a} kg dibagi ke dalam kantong plastik, masing-masing ${c} g. Berapa kantong yang dibutuhkan?`,a*1000/c,"kantong",[`${a} kg = ${grp(String(a*1000))} g.`,`${grp(String(a*1000))} : ${c} = <b>${a*1000/c} kantong</b>.`]]; },
+    r=>{ for(;;){ const a=ri(1,3,r), c=pick([200,250,500],r); if((a*1000)%c) continue; return [`${a} L sirup dituang ke gelas-gelas berisi ${c} mL. Berapa gelas yang terisi penuh?`,a*1000/c,"gelas",[`${a} L = ${grp(String(a*1000))} mL.`,`${grp(String(a*1000))} : ${c} = <b>${a*1000/c} gelas</b>.`]]; } },
+    r=>{ const a=ri(1,3,r), c=50*ri(1,19,r); return [`Jarak rumah Dina ke pasar ${a} km ${c} m. Berapa meter jaraknya?`,a*1e6+c*1e3,"m",[`${a} km = ${grp(String(a*1000))} m.`,`${grp(String(a*1000))} + ${c} = <b>${grp(String(a*1000+c))} m</b>.`]]; },
+    r=>{ const a=ri(1,5,r), c=ri(1,9,r); return [`Pak Tani memasang pagar ${a} dam ditambah ${c} m. Berapa dm panjang pagar seluruhnya?`,(a*10+c)*1e3,"dm",[`${a} dam = ${a*10} m, jadi panjangnya ${a*10+c} m.`,`1 m = 10 dm: ${a*10+c} × 10 = <b>${(a*10+c)*10} dm</b>.`]]; },
+    r=>{ const a=ri(2,6,r); return [`Penjual buah membawa ${a} kuintal jeruk. Berapa kg jeruk yang dibawa?`,a*1e8,"kg",[`1 kuintal = 100 kg, jadi ${a} kuintal = <b>${a*100} kg</b>.`]]; }],
+  sulit:[
+    r=>{ const a=pick(["0,75","1,25","1,5","2,4","0,6"],r); return [`Jarak rumah Rani ke sekolah ${a} km. Berapa meter Rani berjalan pergi dan pulang?`,2*b(a,"km"),"m",[`${a} km = ${fmtNum(b(a,"km"),"m")} m.`,`Pergi-pulang: 2 × ${fmtNum(b(a,"km"),"m")} = <b>${fmtNum(2*b(a,"km"),"m")} m</b>.`]]; },
+    r=>{ const a=pick(["0,2","0,25","0,4","0,5","0,75","1,2"],r); return [`Bak mandi berisi ${a} m³ air. Berapa liter air di bak mandi?`,b(a,"m³"),"L",[`1 m³ = 1.000 dm³ dan 1 dm³ = 1 L.`,`${a} × 1.000 = <b>${fmtNum(b(a,"m³"),"L")} L</b>.`]]; },
+    r=>{ for(;;){ const a=pick(["1,5","1,2","2,5","0,6"],r), c=pick([200,250,300,500],r); if(b(a,"L")%c) continue; return [`Botol berisi ${a} L teh dituang ke gelas ${c} mL. Berapa gelas yang terisi penuh?`,b(a,"L")/c,"gelas",[`${a} L = ${grp(String(b(a,"L")))} mL.`,`${grp(String(b(a,"L")))} : ${c} = <b>${b(a,"L")/c} gelas</b>.`]]; } },
+    r=>{ const a=pick(["1,2","0,8","1,5","2,3"],r), c=ri(1,9,r); return [`Ibu membeli ${a} kg daging sapi dan ${c} ons daging ayam. Berapa kg berat daging seluruhnya?`,b(a,"kg")+c*1e5,"kg",[`${c} ons = ${c*100} g = ${fmtNum(c*1e5,"kg")} kg.`,`${a} + ${fmtNum(c*1e5,"kg")} = <b>${fmtNum(b(a,"kg")+c*1e5,"kg")} kg</b>.`]]; },
+    r=>{ for(;;){ const a=pick([20,24,30,36,40,45,60],r), c=pick([3,4,5,6,8,10],r); if(a%c) continue; return [`Akuarium berisi ${a} dm³ air. Air dipindahkan ke ember berisi ${c} L. Berapa ember yang terisi penuh?`,a/c,"ember",[`${a} dm³ = ${a} L.`,`${a} : ${c} = <b>${a/c} ember</b>.`]]; } },
+    r=>{ const a=pick([250,500,750,1500,2000,1250],r); return [`Kotak susu berisi ${grp(String(a))} cm³ susu. Berapa liter isinya?`,a,"L",[`1 cm³ = 1 mL dan 1.000 mL = 1 L.`,`${grp(String(a))} : 1.000 = <b>${fmtNum(a,"L")} L</b>.`]]; },
+    r=>{ const a=pick(["2,5","1,75","3,2"],r), c=pick([450,600,750,350],r); return [`Pita ${a} m dipotong ${c} mm. Berapa cm sisa pita?`,b(a,"m")-c,"cm",[`${a} m = ${fmtNum(b(a,"m"),"cm")} cm dan ${c} mm = ${fmtNum(c,"cm")} cm.`,`${fmtNum(b(a,"m"),"cm")} − ${fmtNum(c,"cm")} = <b>${fmtNum(b(a,"m")-c,"cm")} cm</b>.`]]; }]};
+const COUNT_UNIT=["kantong","gelas","ember"];
+function genPasar(level,r){ const T=shuffle(PASAR[level].map((f,i)=>i),r).slice(0,3);
+  return {kind:"pasar",level,steps:T.map(i=>{ const [text,base,unit,how]=PASAR[level][i](r), cnt=COUNT_UNIT.includes(unit);
+    return {t:"cerita",text,unit,ans:cnt?String(base):fmtNum(base,unit),cnt,how:how.join(" ")}; })}; }
+
+/* ================= pembahasan ================= */
+function stepHow(s){
+  if(s.t==="faktor") return `${fmtQ(s.it.base,s.it.a)} → ${s.it.b}: <b>${ratioTxt(s.it.a,s.it.b)}</b>.`;
+  if(s.t==="isi") return convHow(s.it);
+  return s.how; }
+function explain(p){ const out=[]; p.steps.forEach((s,i)=>{ if(s.t==="faktor") return; out.push(stepHow(s)); }); return out; }
+
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0); return {tangga:genTangga,banding:genBanding,akal:genAkal,pasar:genPasar}[kind](level,r); }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify(p.steps.map(s=>[s.t,s.it,s.q,s.nm,s.text]));
+const DAILY={};
+function dailyPuzzle(kind,level,n){
+  const id=kind+"|"+level, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()});
+  while(c.list.length<n){ const d=c.list.length+1; let p=null,best=null,bestAge=-1;
+    for(let k=0;k<30;k++){ const q=makePuzzle(kind,level,hashStr(`tangga-satuan|${id}|${d}|${k}`)), key=puzzleKey(q), age=c.last.has(key)?d-c.last.get(key):1e9;
+      if(age>365){ p=q; break; } if(age>bestAge){ best=q; bestAge=age; } }
+    p=p||best; c.list.push(p); c.last.set(puzzleKey(p),d); }
+  return c.list[n-1];
+}
+/* ================= AKHIR INTI ================= */</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"tangga",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("ts_prefs",{}));
+if(!KINDS[P.kind]) P.kind="tangga"; if(!LEVELS[P.level]) P.level="mudah";
+const saveP=()=>lsSet("ts_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2400); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,step:0,struck:[],sel:[],field:""};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","step"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`ts_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,step:G.step}); }
+const cur=()=>G.p.steps[Math.min(G.step,G.p.steps.length-1)];
+
+/* ---------- gambar tangga satuan ---------- */
+const ALIAS={L:"dm³",mL:"cm³",ons:"hg"};
+function stairOf(a,b){ const kub=[a,b].some(u=>U_KUBIK.includes(u));
+  if(kub) return {name:"kubik",ladder:SYS.kubik.ladder,step:1000,map:u=>U_KUBIK.includes(u)?u:ALIAS[u]};
+  const sys=SYS_OF(SPECIAL[a]?b:a), L=SYS[sys].ladder; return {name:sys,ladder:L,step:10,map:u=>L.includes(u)?u:ALIAS[u]||null}; }
+function stairSVG(it,showPath){
+  const S=stairOf(it.a,it.b), L=S.ladder, n=L.length, sw=n===3?112:50, h=n===3?44:26, W=8+n*sw, H=8+n*h+4, ia=L.indexOf(S.map(it.a)), ib=L.indexOf(S.map(it.b));
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Tangga satuan ${S.name}">`;
+  L.forEach((u,i)=>{ const x=4+i*sw, y=4+i*h, on=i===ia?"#2563EB":i===ib?"#F97316":"#FFFFFF";
+    s+=`<rect x="${x}" y="${y}" width="${sw}" height="${H-4-y}" fill="${on}" stroke="#9A3412" stroke-width="1.5"/>`;
+    const lab=u+(S.name==="kubik"&&u==="dm³"?" = L":S.name==="kubik"&&u==="cm³"?" = mL":"");
+    s+=`<text x="${x+sw/2}" y="${y+h*0.68}" text-anchor="middle" font-size="${n===3?15:12.5}" font-weight="800" fill="${i===ia||i===ib?"#fff":"#431407"}" font-family="sans-serif">${lab}</text>`;
+    if(i<n-1) s+=`<text x="${x+sw-2}" y="${y+h+h*0.62}" text-anchor="end" font-size="9.5" font-weight="700" fill="#9A3412" font-family="sans-serif">×${grp(String(S.step))}</text>`; });
+  if(showPath&&ia>=0&&ib>=0&&ia!==ib){ const pts=[], lo=Math.min(ia,ib), hi=Math.max(ia,ib); for(let i=lo;i<=hi;i++) pts.push([4+i*sw+sw/2,4+i*h-3]);
+    if(ib<ia) pts.reverse();
+    s+=`<defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0L8 4L0 8z" fill="#16A34A"/></marker></defs><polyline points="${pts.map(p=>p.join(",")).join(" ")}" fill="none" stroke="#16A34A" stroke-width="3" stroke-dasharray="5 3" marker-end="url(#ar)"/>`; }
+  return s+"</svg>"; }
+const specialNote=it=>{ const t=[SPECIAL[it.a],SPECIAL[it.b]].filter(Boolean); if(t.length) return `<p class="note">💡 ${t.join(" · ")}</p>`;
+  if([it.a,it.b].some(u=>U_KUBIK.includes(u))&&[it.a,it.b].some(u=>u==="L"||u==="mL")) return `<p class="note">💡 1 dm³ = 1 L · 1 cm³ = 1 mL</p>`; return ""; };
+
+/* ---------- tampilan ---------- */
+const lessWord=sys=>sys==="panjang"?"paling pendek":sys==="massa"?"paling ringan":"paling sedikit isinya";
+function render(){
+  const p=G.p, st=cur(), n=p.steps.length; let h="", c="", needPad=false;
+  h+=n>1?`<div class="prog" aria-label="Langkah ${G.step+1} dari ${n}">${p.steps.map((_,i)=>`<i class="${i<G.step||G.done?"d":i===G.step?"c":""}"></i>`).join("")}</div>`:"";
+  if(st.t==="faktor"||st.t==="isi"){ const it=st.it;
+    h+=`<div class="qtext">${st.t==="faktor"?`Dari <b style="color:#2563EB">${it.a}</b> ke <b style="color:#F97316">${it.b}</b>: dikali atau dibagi berapa?`:"Berapa hasilnya?"}</div>
+      <div class="big">${fmtQ(it.base,it.a)} = ${G.done?fmtNum(it.base,it.b):"…"} ${it.b}</div><div class="stair">${stairSVG(it,st.t==="isi")}</div>${st.t==="isi"||!(SPECIAL[it.a]||SPECIAL[it.b])?specialNote(it):`<p class="note">💡 Ingat hubungan ${[it.a,it.b].find(x=>SPECIAL[x])} dengan ${[it.a,it.b].find(x=>!SPECIAL[x])}.</p>`}`;
+    if(st.t==="faktor") c=`<div class="opts">${st.opts.map((o,i)=>`<button type="button" class="op${G.done&&i===st.ans?" ok":""}" data-o="${i}" ${G.struck.includes(i)||G.done?"disabled":""}>${o}</button>`).join("")}</div>`;
+    else { needPad=!G.done; c=G.done?`<div class="ans">${fmtQ(it.base,it.b)}</div>`:`<p class="note">${fmtQ(it.base,it.a)} ${ratioTxt(it.a,it.b)} = …</p><div class="form"><span class="fld act${G.field?"":" ph"}">${G.field||"?"}</span> ${it.b}</div>`; } }
+  else if(st.t==="banding"){ const [x,y]=st.q;
+    h+=`<div class="qtext">Mana yang <b>${SYS[st.sys].lebih}</b>?<small>Ketuk salah satu, atau "Sama" kalau sama.</small></div>`;
+    const card=(q,i)=>`<button type="button" class="op${G.done&&i===st.ans?" ok":""}" data-o="${i}" ${G.struck.includes(i)||G.done?"disabled":""}><small>${esc(st.obj)} ${esc(st.names[i])}</small><b>${fmtQ(q.base,q.u)}</b></button>`;
+    c=`<div class="vs">${card(x,0)}<button type="button" class="op eq${G.done&&st.ans===2?" ok":""}" data-o="2" ${G.struck.includes(2)||G.done?"disabled":""}>= Sama</button>${card(y,1)}</div>`; }
+  else if(st.t==="urut"){ h+=`<div class="qtext">Urutkan dari yang <b>${lessWord(st.sys)}</b>.<small>Ketuk kartu satu per satu. Ketuk lagi untuk membatalkan.</small></div>`;
+    const ord=G.done?st.ans:G.sel;
+    c=`<div class="urut">${st.q.map((q,i)=>{ const k=ord.indexOf(i); return `<button type="button" class="op${G.done?" ok":""}" data-u="${i}" aria-pressed="${k>=0}" ${G.done?"disabled":""}>${k>=0?`<i>${k+1}</i>`:""}<b>${fmtQ(q.base,q.u)}</b></button>`; }).join("")}</div>`; }
+  else if(st.t==="akal"){ h+=`<div class="emo" aria-hidden="true">${st.e}</div><div class="qtext">${esc(st.nm.startsWith(st.uk.toLowerCase())?st.nm[0].toUpperCase()+st.nm.slice(1):st.uk+" "+st.nm)} kira-kira …</div>`;
+    c=`<div class="opts3">${st.opts.map((o,i)=>`<button type="button" class="op${G.done&&i===st.ans?" ok":""}" data-o="${i}" ${G.struck.includes(i)||G.done?"disabled":""}>${o}</button>`).join("")}</div>`; }
+  else { needPad=!G.done; h+=`<div class="qtext" style="text-align:left">${st.text}</div>`;
+    c=G.done?`<div class="ans">${st.ans} ${st.unit}</div>`:`<div class="form">Jawaban: <span class="fld act${G.field?"":" ph"}">${G.field||"?"}</span> ${st.unit}</div>`; }
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=c;
+  $("pad").hidden=!needPad;
+  $("okBtn").hidden=G.done||!(st.t==="isi"||st.t==="cerita"||st.t==="urut");
+  $("hintBtn").hidden=!(G.wrong>=3&&!G.done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0, short={tangga:"Tangga",banding:"Banding",akal:"Akal",pasar:"Pasar"};
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`ts_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}"><span style="display:block">${v.icon}</span>${short[k]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}<small>${l.sub}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+
+/* ---------- interaksi ---------- */
+function nextStep(msg){ G.step++; G.struck=[]; G.sel=[]; G.field=""; $("fb").innerHTML=`<span class="ok">✓ ${msg||"Benar!"}</span>`;
+  if(G.step>=G.p.steps.length){ G.step=G.p.steps.length-1; return finish(); } saveDay(); render(); }
+function miss(msg){ G.wrong++; $("fb").innerHTML=`<span class="no">✗ ${msg}</span>`; saveDay(); render(); }
+function faktorMiss(st,i){ const want=st.opts[st.ans], got=st.opts[i];
+  if(want[0]!==got[0]) return want[0]==="×"?`${st.it.b} lebih kecil dari ${st.it.a}: <b>turun</b> tangga, jadi <b>dikali</b>.`:`${st.it.b} lebih besar dari ${st.it.a}: <b>naik</b> tangga, jadi <b>dibagi</b>.`;
+  return "Arahnya sudah benar. Hitung lagi berapa anak tangga yang dilewati."; }
+$("ctrlBody").addEventListener("click",e=>{ if(!G||G.done) return; const st=cur(), b=e.target.closest("button"); if(!b||b.disabled) return;
+  if(b.dataset.o!==undefined){ const i=+b.dataset.o; if(i===st.ans) return nextStep(st.t==="faktor"?`${st.opts[i]}. Sekarang hitung hasilnya.`:"Benar!");
+    G.struck.push(i); return miss(st.t==="faktor"?faktorMiss(st,i):st.t==="banding"?"Samakan satuannya dulu, lalu bandingkan angkanya.":"Bayangkan bendanya di dekatmu. Coba lagi."); }
+  if(b.dataset.u!==undefined){ const i=+b.dataset.u, j=G.sel.indexOf(i); if(j>=0) G.sel.splice(j,1); else G.sel.push(i); render(); }
+});
+function press(k){
+  const st=cur(); if(!G||G.done||!(st.t==="isi"||st.t==="cerita")) return;
+  if(k==="ok") return check();
+  let v=G.field;
+  if(k==="del") v=v.slice(0,-1);
+  else if(k===","){ if(!v.includes(",")) v=(v||"0")+","; }
+  else if(v.replace(",","").length<9) v=(v==="0"?"":v)+k;
+  G.field=v; render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G||G.done) return;
+  const k=e.key==="Backspace"?"del":e.key==="Enter"?"ok":e.key==="."||e.key===","?",":e.key;
+  if(/^[0-9]$/.test(k)||k==="del"||k==="ok"||k===","){ e.preventDefault(); if(k==="ok"&&cur().t==="urut") return check(); press(k); }
+});
+function check(){
+  if(G.done) return; const st=cur();
+  if(st.t==="urut"){ if(G.sel.length<st.q.length){ toast("Ketuk keempat kartu dulu."); return; }
+    if(JSON.stringify(G.sel)===JSON.stringify(st.ans)) return nextStep("Urutannya benar!");
+    G.sel=[]; return miss("Belum urut. Ubah dulu semua ke satuan yang sama, lalu coba lagi."); }
+  if(st.t==="isi"||st.t==="cerita"){ if(!G.field){ toast("Ketik jawabannya dulu."); return; } if(G.field.endsWith(",")){ toast("Lengkapi angka di belakang koma."); return; }
+    const ok=st.t==="isi"?eqInput(G.field,st.it.base,st.it.b):eqDecStr(G.field,st.ans);
+    if(ok) return nextStep(st.t==="isi"?`${fmtQ(st.it.base,st.it.a)} = ${fmtQ(st.it.base,st.it.b)}`:"Benar!");
+    if(st.t==="isi"){ const z=Math.round(Math.log10(Math.max(F[st.it.a],F[st.it.b])/Math.min(F[st.it.a],F[st.it.b])));
+      return miss(Number.isInteger(Math.log10(F[st.it.a]/F[st.it.b]))?`Belum tepat. ${ratioTxt(st.it.a,st.it.b)} artinya koma bergeser ${z} tempat ke ${F[st.it.a]>F[st.it.b]?"kanan":"kiri"}.`:"Belum tepat. Hitung lagi."); }
+    return miss("Belum tepat. Samakan satuannya dulu."); }
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${explain(G.p).map(x=>`<div>${x}</div>`).join("")}</div>`;
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Petunjuk</h2>${howHTML()}<p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+let lastW=window.innerWidth;
+window.addEventListener("resize",()=>{ if(G&&window.innerWidth!==lastW){ lastW=window.innerWidth; render(); } });
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("ts_stats_"+l,{})); }
+function recordDay(){
+  const allk=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`ts_day_${G.level}_${k}`,null));
+  if(!allk.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=allk.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("ts_stats_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Lihat cara":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`ts_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h;
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`ts_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Tangga Satuan #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.step||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
