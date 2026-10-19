@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, Kuis Kelas, Tebak Persamaan, Teka-Teki Simbol, Mesin Fungsi, Ubin Aljabar, Atur Data, Sniper Grafik, Kapal Perang Kartesius, Eksperimen Peluang, Rantai Pangkat, Menara Barisan, Toko Diskon, Arsitek Pythagoras, Pabrik Kubus, Untung Maksimal, Kode Matriks, Hitung Cara, Berburu Bentuk, dan Tangga Satuan.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, Kuis Kelas, Tebak Persamaan, Teka-Teki Simbol, Mesin Fungsi, Ubin Aljabar, Atur Data, Sniper Grafik, Kapal Perang Kartesius, Eksperimen Peluang, Rantai Pangkat, Menara Barisan, Toko Diskon, Arsitek Pythagoras, Pabrik Kubus, Untung Maksimal, Kode Matriks, Hitung Cara, Berburu Bentuk, Tangga Satuan, dan Timbangan Seimbang.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -274,6 +274,12 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .game.tsk .tags span{background:rgba(67,20,7,.06);border-color:rgba(67,20,7,.14)}
 .tsk .go{background:#C2410C;color:#fff}
 .tskp{width:150px;height:84px}
+.game.tbk{background:#ECFDF5;color:#022C22}
+.game.tbk p{color:#3F6B5B}
+.game.tbk h2 span{color:#047857}
+.game.tbk .tags span{background:rgba(2,44,34,.06);border-color:rgba(2,44,34,.14)}
+.tbk .go{background:#047857;color:#fff}
+.tbkp{width:160px;height:90px}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -753,6 +759,17 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Tangga <span>Satuan</span></h2>
       <p>Naik-turun tangga satuan panjang, berat, liter, dan kubik. Bandingkan ukuran, pilih satuan yang masuk akal, dan hitung belanja di pasar.</p>
       <div class="tags"><span>Kelas 2–6</span><span>Satuan ukur</span><span>Ton, kuintal, ons, pon</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+
+    <a class="game tbk" href="timbangan-seimbang/">
+      <span class="lvl lv-sd">SD</span>
+      <div class="peek" aria-hidden="true">
+        <svg class="tbkp" viewBox="0 0 160 90" font-family="sans-serif" font-weight="800"><path d="M80 14v66" stroke="#64748B" stroke-width="4"/><path d="M62 88h36l-6-8H68z" fill="#64748B"/><rect x="26" y="12" width="108" height="5" rx="2.5" fill="#475569"/><circle cx="80" cy="14" r="5" fill="#047857" stroke="#fff" stroke-width="1.5"/><g stroke="#94A3B8" stroke-width="1"><path d="M30 14 4 58M30 14 56 58M130 14 104 58M130 14 156 58"/></g><path d="M2 58q28 10 56 0z" fill="#CBD5E1" stroke="#475569" stroke-width="1.5"/><path d="M102 58q28 10 56 0z" fill="#CBD5E1" stroke="#475569" stroke-width="1.5"/><g fill="#EF4444" stroke="#1F2937" stroke-width=".6"><circle cx="14" cy="53" r="4"/><circle cx="23" cy="53" r="4"/><circle cx="32" cy="53" r="4"/></g><rect x="38" y="44" width="16" height="13" rx="3" fill="#fff" stroke="#8B5CF6" stroke-width="1.5" stroke-dasharray="3 2"/><text x="46" y="54" text-anchor="middle" font-size="10" fill="#8B5CF6">?</text><g fill="#3B82F6" stroke="#1F2937" stroke-width=".6"><circle cx="112" cy="53" r="4"/><circle cx="121" cy="53" r="4"/><circle cx="130" cy="53" r="4"/><circle cx="139" cy="53" r="4"/><circle cx="148" cy="53" r="4"/></g><text x="80" y="9" text-anchor="middle" font-size="9" fill="#047857">=</text></svg>
+      </div>
+      <h2>Timbangan <span>Seimbang</span></h2>
+      <p>Tanda = artinya seimbang. Taruh balok supaya timbangan seimbang, tebak sisi yang lebih berat, buka kantong misteri, dan pecahkan timbangan berantai.</p>
+      <div class="tags"><span>Kelas 1–6</span><span>Makna tanda =</span><span>Bilangan yang hilang</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
 
