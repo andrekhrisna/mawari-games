@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F5F3FF">
+<title>Data Kita</title>
+<meta name="description" content="Data Kita untuk SD kelas 1–6: turus dan tabel, membaca dan membuat piktogram serta diagram batang, detektif diagram, modus dan rata-rata, plus Data Kelasku untuk survei kelas sendiri.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236D28D9'/%3E%3Cpath d='M12 52h40' stroke='%23fff' stroke-width='3'/%3E%3Crect x='16' y='30' width='8' height='20' fill='%23FDE047'/%3E%3Crect x='28' y='18' width='8' height='32' fill='%23F472B6'/%3E%3Crect x='40' y='24' width='8' height='26' fill='%2367E8F9'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F5F3FF;
+  --card:#FFFFFF;
+  --ink:#2E1065;
+  --muted:#5B4B8A;
+  --line:#DDD6FE;
+  --vi:#6D28D9;
+  --vi-d:#5B21B6;
+  --soft:#EDE9FE;
+  --tg:#F97316;
+  --shot:#7C3AED;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1000px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--vi)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.q{font-weight:800;font-size:1.3rem;text-align:center;line-height:1.35}
+.q .fn{display:inline-block;background:var(--soft);border-radius:10px;padding:2px 10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+.qtext{font-weight:800;font-size:1.12rem;line-height:1.45;text-align:center}
+.qtext small{display:block;font-weight:700;font-size:.85rem;color:var(--muted)}
+.prog{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.prog i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.prog i.d{background:var(--green)} .prog i.c{background:var(--vi);transform:scale(1.25)}
+.judul{text-align:center;font-weight:800;color:var(--vi-d);margin:0;font-size:1rem}
+.scene{position:relative;width:100%;max-width:420px;margin:0 auto;aspect-ratio:1.1;background:#FFFFFF;border:2px dashed var(--line);border-radius:14px}
+.scene button{position:absolute;border:0;background:transparent;font-size:1.65rem;line-height:1;padding:2px;cursor:pointer;transform:translate(-50%,-50%)}
+.scene button.dn{opacity:.25}
+.scene button.dn::after{content:"✓";position:absolute;right:-2px;top:-4px;font-size:.8rem;color:var(--green);font-weight:800}
+.sheet{display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:3px;max-width:420px;margin:0 auto;background:#FFFFFF;border:2px solid var(--line);border-radius:12px;padding:6px}
+.sheet button{border:0;background:var(--bg);border-radius:8px;font-size:1.25rem;padding:3px 0;cursor:pointer}
+.sheet button.dn{opacity:.3}
+.tbl{width:100%;border-collapse:collapse;font-weight:800}
+.tbl th,.tbl td{border:1.5px solid var(--line);padding:4px 6px;text-align:left;font-size:.95rem}
+.tbl th{background:var(--soft);font-size:.85rem}
+.tbl td.n{text-align:center;width:72px}
+.tbl .fld{min-width:52px;height:38px;font-size:1.1rem}
+.tly{display:flex;flex-wrap:wrap;gap:2px;max-width:130px}.tly svg{display:block}
+.pk{display:grid;gap:4px;max-width:440px;margin:0 auto;width:100%}
+.pk .row{display:grid;grid-template-columns:96px 1fr;align-items:center;gap:6px;background:#FFFFFF;border:1.5px solid var(--line);border-radius:10px;padding:3px 6px}
+.pk .row b{font-size:.82rem;line-height:1.1}
+@media (max-width:380px){.pk .row{grid-template-columns:72px 1fr}.pk .row b{font-size:.75rem}}
+.pk .ic{font-size:min(1.25rem,calc((min(100vw,540px) - 168px) / var(--n,10) / 1.2));letter-spacing:1px;white-space:nowrap;overflow:hidden}
+.kelas .pk .ic{font-size:min(1.9rem,calc((min(100vw,1000px)/2 - 230px) / var(--n,10) / 1.2))}
+.pk .hf{display:inline-block;width:.6em;overflow:hidden;vertical-align:bottom}
+.pk .row.bad{border-color:var(--rose)}
+.legend{text-align:center;font-size:.88rem;font-weight:800;color:var(--muted);margin:0}
+.bar{display:flex;justify-content:center}.bar>svg{width:100%;max-width:440px;height:auto}
+.kelas .bar>svg{max-width:640px}
+.cats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.op{border:3px solid var(--line);background:#fff;border-radius:14px;padding:8px;font-weight:800;font-size:1rem;cursor:pointer;color:var(--ink);font-family:inherit}
+.op:disabled{opacity:.3;cursor:default}
+.op.ok{border-color:var(--green);background:#D1FAE5;opacity:1}
+.builder{display:grid;gap:6px}
+.brow{display:grid;grid-template-columns:1fr auto auto auto;gap:6px;align-items:center;font-weight:800}
+.brow button{width:42px;height:40px;border:0;border-radius:10px;background:var(--soft);font-weight:800;font-size:1.3rem;cursor:pointer;color:var(--ink)}
+.brow output{min-width:42px;text-align:center;font-size:1.1rem}
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:8px;font-weight:800;font-size:1.3rem}
+.form .fld{min-width:100px}
+.ans{text-align:center;font-weight:800;font-size:1.3rem;color:var(--vi-d)}
+.kls{display:grid;gap:8px}
+.kls input,.kls select{font-family:inherit;font-size:1rem;font-weight:700;border:2px solid var(--line);border-radius:10px;padding:6px 8px;color:var(--ink);background:#fff;width:100%}
+.krow{display:grid;grid-template-columns:64px 1fr 90px;gap:6px}
+.kq{background:var(--bg);border-radius:10px;padding:8px 10px;font-weight:700}
+.kq details summary{cursor:pointer;color:var(--vi-d);font-weight:800}
+.modal .card.wide{max-width:640px}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.fld{min-width:56px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.fld.act{border-color:var(--vi);background:#fff;box-shadow:0 0 0 3px #C4B5FD}
+.fld.ph{color:#A79BCB}
+.pad{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:#EDE9FE;font-weight:800;font-size:1.3rem;cursor:pointer}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--vi);color:#fff;box-shadow:0 3px 0 var(--vi-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--vi-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#DDD6FE}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--vi-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(46,16,101,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .q{font-size:1.9rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:64px;min-width:90px} .kelas .form .lab{font-size:1.3rem}
+  .kelas .pad button{height:60px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem} 
+  .kelas .op{font-size:1.4rem} .kelas .qtext{font-size:1.5rem} .kelas .pk .row{grid-template-columns:150px 1fr} .kelas .pk .row b{font-size:1.1rem} .kelas .tbl td,.kelas .tbl th{font-size:1.2rem} .kelas .ans{font-size:2rem} .kelas .qtext{font-size:1.3rem}
+  .kelas .grid2{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Data <span>Kita</span></div>
+    <button class="ibtn" type="button" id="kelasBtn" aria-label="Data Kelasku">📋</button>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button>
+        <button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="next" aria-label="Kotak berikutnya">→</button><button type="button" data-k="del" aria-label="Hapus" style="grid-column:span 3">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Petunjuk</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+    <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li><b>✋ Turus &amp; Tabel</b>: ketuk benda satu per satu (turus bertambah sendiri), lalu isi banyaknya di tabel. Satu kelompok turus = 5.</li>
+      <li><b>👀 Baca Diagram</b>: jawab pertanyaan dari piktogram atau diagram batang. Perhatikan <b>skala</b>: 1 ikon bisa bernilai 2, 5, atau 10.</li>
+      <li><b>🛠️ Buat Diagram</b>: atur banyak ikon atau tinggi batang dengan tombol − dan + sampai sesuai tabel.</li>
+      <li><b>🕵️ Detektif Diagram</b>: satu bagian diagram tidak cocok dengan tabel. Temukan!</li>
+      <li><b>📋 Data Kelasku</b>: masukkan hasil survei kelasmu sendiri. Diagram dan pertanyaannya dibuat otomatis.</li>
+      <li><b>Mudah</b> kelas 1–2 (turus, piktogram 1 ikon = 1), <b>Sedang</b> kelas 3–4 (skala 2/5/10, setengah ikon, diagram batang), <b>Sulit</b> kelas 5–6 (skala besar, modus, rata-rata).</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Petunjuk</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+<div class="modal" id="klsM" hidden><div class="card wide" id="klsBody"></div></div>
+
+<script>/* ================= INTI: data, pembuat soal, pembahasan ================= */
+/* ===== Data Kita: turus, tabel, piktogram, diagram batang ===== */
+const KINDS={turus:{label:"Turus & Tabel",icon:"✋"},baca:{label:"Baca Diagram",icon:"👀"},buat:{label:"Buat Diagram",icon:"🛠️"},detektif:{label:"Detektif Diagram",icon:"🕵️"}};
+const LEVELS={mudah:{label:"Mudah",sub:"kelas 1–2"},sedang:{label:"Sedang",sub:"kelas 3–4"},sulit:{label:"Sulit",sub:"kelas 5–6"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const grp=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,".");
+
+/* ---------- tema data di sekitar anak ----------
+   frek: banyak anak/benda per kategori (cocok untuk modus); waktu: nilai per hari/minggu (cocok untuk rata-rata) */
+const TEMA=[
+  {id:"buah",judul:"Buah kesukaan siswa kelas",satuan:"anak",tipe:"frek",cats:[["🍎","apel"],["🍌","pisang"],["🍊","jeruk"],["🍉","semangka"],["🥭","mangga"],["🍇","anggur"]]},
+  {id:"kendaraan",judul:"Cara siswa berangkat ke sekolah",satuan:"anak",tipe:"frek",cats:[["🚶","jalan kaki"],["🚲","sepeda"],["🏍️","motor"],["🚗","mobil"],["🚌","angkot/bus"]]},
+  {id:"hewan",judul:"Hewan peliharaan di rumah siswa",satuan:"ekor",tipe:"frek",cats:[["🐱","kucing"],["🐟","ikan"],["🐦","burung"],["🐰","kelinci"],["🐶","anjing"],["🐔","ayam"]]},
+  {id:"sampah",judul:"Sampah yang dipilah hari ini",satuan:"buah",tipe:"frek",cats:[["🧴","botol plastik"],["📄","kertas"],["🥫","kaleng"],["🍂","daun kering"],["🥤","gelas plastik"]]},
+  {id:"olahraga",judul:"Olahraga kesukaan siswa",satuan:"anak",tipe:"frek",cats:[["⚽","sepak bola"],["🏸","bulu tangkis"],["🏀","basket"],["🏊","renang"],["🏓","tenis meja"]]},
+  {id:"jajan",judul:"Jajanan yang terjual di kantin",satuan:"buah",tipe:"frek",cats:[["🍪","kue"],["🍦","es krim"],["🍫","cokelat"],["🍭","permen"],["🥟","pastel"]]},
+  {id:"cuaca",judul:"Catatan cuaca",satuan:"hari",tipe:"frek",cats:[["☀️","cerah"],["⛅","berawan"],["🌧️","hujan"],["⛈️","badai"]]},
+  {id:"perpus",judul:"Pengunjung perpustakaan sekolah",satuan:"anak",tipe:"waktu",cats:[["📘","Senin"],["📗","Selasa"],["📙","Rabu"],["📕","Kamis"],["📓","Jumat"]]},
+  {id:"tabung",judul:"Tabungan Rani (ribu rupiah)",satuan:"ribu",tipe:"waktu",cats:[["🐷","Minggu 1"],["🐷","Minggu 2"],["🐷","Minggu 3"],["🐷","Minggu 4"],["🐷","Minggu 5"]]},
+  {id:"sampahhari",judul:"Botol plastik yang terkumpul",satuan:"botol",tipe:"waktu",cats:[["🧴","Senin"],["🧴","Selasa"],["🧴","Rabu"],["🧴","Kamis"],["🧴","Jumat"]]}];
+const TEMA_OF=id=>TEMA.find(t=>t.id===id);
+
+/* skala per tingkat: S = nilai satu ikon / satu garis berlabel; m = langkah terkecil (setengah ikon / garis bantu) */
+function skalaFor(level,chart,r){
+  if(level==="mudah") return {S:1,m:1};
+  if(level==="sedang") return chart==="pikto"?pick([{S:2,m:1},{S:5,m:5}],r):pick([{S:2,m:1},{S:10,m:5}],r);
+  return chart==="pikto"?{S:10,m:5}:pick([{S:10,m:5},{S:20,m:10},{S:50,m:25}],r); }
+const MAXV={mudah:8,sedang:40,sulit:250};
+/* buat data: nilai kelipatan m, puncak dan lembah tunggal, tidak ada yang kembar */
+function genData(level,r,opt){ opt=opt||{};
+  for(let t=0;t<500;t++){
+    const pool=TEMA.filter(x=>!opt.tipe||x.tipe===opt.tipe), tema=pick(pool,r), chart=opt.chart||(level==="mudah"?"pikto":pick(["pikto","batang"],r)), sk=opt.sk||skalaFor(level,chart,r);
+    const k=Math.min(tema.cats.length,opt.k||(level==="mudah"?ri(3,4,r):level==="sedang"?ri(4,5,r):ri(4,5,r)));
+    const cats=tema.tipe==="waktu"?tema.cats.slice(0,k):shuffle(tema.cats,r).slice(0,k);
+    const maxUnits=Math.floor(Math.min(MAXV[level],sk.S*10)/sk.m), minUnits=Math.max(1,Math.ceil((level==="mudah"?1:sk.S)/sk.m));
+    if(maxUnits-minUnits+1<k) continue;
+    const vals=shuffle([...Array(maxUnits-minUnits+1)].map((_,i)=>(i+minUnits)*sk.m),r).slice(0,k);
+    if(opt.mean){ /* rata-rata bulat */ let ok=false; for(let a=0;a<12&&!ok;a++){ const tot=vals.reduce((s,v)=>s+v,0); if(tot%k===0){ ok=true; break; } const i=a%k; if(vals[i]+sk.m<=maxUnits*sk.m&&!vals.includes(vals[i]+sk.m)) vals[i]+=sk.m; } if(!ok) continue; }
+    return {tema:tema.id,judul:tema.judul,satuan:tema.satuan,tipe:tema.tipe,chart,S:sk.S,m:sk.m,cats:cats.map(([e,nm],i)=>({e,nm,v:vals[i]}))}; } }
+const total=d=>d.cats.reduce((s,c)=>s+c.v,0);
+const argMax=d=>d.cats.reduce((b,c,i)=>c.v>d.cats[b].v?i:b,0), argMin=d=>d.cats.reduce((b,c,i)=>c.v<d.cats[b].v?i:b,0);
+const lbl=c=>`${c.e} ${c.nm}`;
+
+/* ---------- pertanyaan dari data ---------- */
+function questions(d,level,r,n){
+  const qs=[], k=d.cats.length, u=d.satuan;
+  const add=q=>{ if(!qs.some(x=>x.key===q.key)) qs.push(q); };
+  for(let t=0;t<60&&qs.length<n;t++){
+    const type=pick(level==="mudah"?["nilai","nilai","max","min","jumlah","selisih"]:level==="sedang"?["nilai","max","min","jumlah","selisih","selisih"]:d.tipe==="waktu"?["nilai","selisih","jumlah","rata","rata","max"]:["nilai","selisih","jumlah","modus","modus","min"],r);
+    if(type==="nilai"){ const i=ri(0,k-1,r), c=d.cats[i]; add({key:"n"+i,t:"angka",q:`Berapa ${d.tipe==="waktu"?"nilai pada":"banyak"} <b>${lbl(c)}</b>?`,ans:c.v,unit:u,how:`${lbl(c)}: <b>${c.v}</b> ${u}.`}); }
+    else if(type==="max"||type==="min"){ const i=type==="max"?argMax(d):argMin(d); add({key:type,t:"kat",q:`Mana yang <b>paling ${type==="max"?"banyak":"sedikit"}</b>?`,ans:i,how:`Paling ${type==="max"?"banyak":"sedikit"}: <b>${lbl(d.cats[i])}</b> (${d.cats[i].v} ${u}).`}); }
+    else if(type==="modus"){ const i=argMax(d); add({key:"modus",t:"kat",q:`Apa <b>modus</b> data ini?<small>Modus = data yang paling sering muncul.</small>`,ans:i,how:`Modus = yang paling sering muncul: <b>${lbl(d.cats[i])}</b> (${d.cats[i].v} ${u}).`}); }
+    else if(type==="jumlah"){ add({key:"jumlah",t:"angka",q:`Berapa <b>jumlah seluruhnya</b>?`,ans:total(d),unit:u,how:`${d.cats.map(c=>c.v).join(" + ")} = <b>${total(d)}</b> ${u}.`}); }
+    else if(type==="selisih"){ let i=ri(0,k-1,r), j=ri(0,k-1,r); if(i===j) continue; if(d.cats[i].v<d.cats[j].v) [i,j]=[j,i]; const a=d.cats[i], b=d.cats[j];
+      add({key:"s"+i+j,t:"angka",q:`Berapa <b>selisih</b> ${lbl(a)} dan ${lbl(b)}?`,ans:a.v-b.v,unit:u,how:`${a.v} − ${b.v} = <b>${a.v-b.v}</b> ${u}.`}); }
+    else if(type==="rata"){ const T=total(d); if(T%k) continue; add({key:"rata",t:"angka",q:`Berapa <b>rata-rata</b> per ${d.satuan==="ribu"?"minggu":"hari"}?<small>Rata-rata = jumlah semua data : banyak data.</small>`,ans:T/k,unit:u,how:`Jumlah: ${d.cats.map(c=>c.v).join(" + ")} = ${T}. Rata-rata: ${T} : ${k} = <b>${T/k}</b> ${u}.`}); } }
+  return qs; }
+
+/* ================= 1. TURUS & TABEL ================= */
+function genTurus(level,r){
+  const d=genData(level,r,{chart:"pikto",sk:{S:1,m:1},k:level==="mudah"?3:level==="sedang"?4:5,tipe:"frek"});
+  if(level==="mudah"&&total(d)>18) return genTurus(level,r);
+  if(level==="sedang"){ d.cats.forEach(c=>c.v=Math.max(3,Math.min(12,c.v))); if(new Set(d.cats.map(c=>c.v)).size<d.cats.length) return genTurus(level,r); }
+  if(level==="sulit"){ const vs=shuffle([...Array(23)].map((_,i)=>i+8),r).slice(0,d.cats.length); d.cats.forEach((c,i)=>c.v=vs[i]); }
+  /* benda acak (Mudah: gambar; Sedang: lembar catatan berurutan; Sulit: turus sudah tertulis) */
+  const items=shuffle(d.cats.flatMap((c,i)=>Array(c.v).fill(i)),r);
+  const rows=Math.ceil(items.length/6), pos=level==="mudah"?items.map((_,j)=>{ const x=(j%6)*15.5+6+r()*6, y=Math.floor(j/6)*(84/rows)+8+r()*(84/rows-14); return [x,y]; }):null;
+  const steps=[{t:"tabel",d,items,pos,mode:level==="mudah"?"gambar":level==="sedang"?"catatan":"turus",how:`Hitung tiap kategori: ${d.cats.map(c=>`${lbl(c)} <b>${c.v}</b>`).join(", ")}. Satu kelompok turus = 5.`}];
+  steps.push(...questions(d,level,r,1).map(q=>Object.assign(q,{d,show:"tabel"})));
+  return {kind:"turus",level,steps}; }
+
+/* ================= 2. BACA DIAGRAM ================= */
+function genBaca(level,r){ const wantMean=level==="sulit"&&r()<0.5;
+  const d=genData(level,r,wantMean?{tipe:"waktu",mean:true,chart:"batang"}:{tipe:level==="sulit"?"frek":null}); const qs=questions(d,level,r,4);
+  if(qs.length<4) return genBaca(level,r);
+  return {kind:"baca",level,steps:qs.map(q=>Object.assign(q,{d,show:"chart"}))}; }
+
+/* ================= 3. BUAT DIAGRAM ================= */
+function genBuat(level,r){ const steps=[];
+  const charts=level==="mudah"?["pikto","pikto"]:["pikto","batang"];
+  for(const ch of charts){ const d=genData(level,r,{chart:ch}); steps.push({t:"buat",d,how:`Isi diagram sesuai tabel: ${d.cats.map(c=>`${lbl(c)} <b>${c.v}</b>`).join(", ")}. ${d.chart==="pikto"?`Satu ikon = ${d.S} ${d.satuan}${d.m<d.S?`, setengah ikon = ${d.m}`:""}.`:`Satu garis berlabel = ${d.S}${d.m<d.S?`, garis bantu = ${d.m}`:""}.`}`}); }
+  return {kind:"buat",level,steps}; }
+
+/* ================= 4. DETEKTIF DIAGRAM ================= */
+function genDetektif(level,r){ const steps=[];
+  for(let n=0;n<3;n++){ const d=genData(level,r,level==="mudah"?{chart:"pikto"}:{}), k=d.cats.length, i=ri(0,k-1,r);
+    const shown=d.cats.map(c=>c.v); let off; do off=pick([-2,-1,1,2],r)*d.m; while(shown[i]+off<=0||shown[i]+off>d.S*10);
+    shown[i]+=off; steps.push({t:"detektif",d,shown,ans:i,how:`Di tabel ${lbl(d.cats[i])} = ${d.cats[i].v}, tetapi diagram menunjukkan ${shown[i]}. Yang salah: <b>${lbl(d.cats[i])}</b>.`}); }
+  return {kind:"detektif",level,steps}; }
+
+/* ---------- pertanyaan untuk Data Kelasku (data dari guru/murid) ---------- */
+function kelasQuestions(d){ const qs=[], k=d.cats.length; if(k<2) return qs; const T=total(d), mx=argMax(d), mn=argMin(d), u=d.satuan||"";
+  const uniq=i=>d.cats.filter(c=>c.v===d.cats[i].v).length===1;
+  if(uniq(mx)) qs.push([`Mana yang paling banyak?`,`${lbl(d.cats[mx])} (${d.cats[mx].v} ${u})`]);
+  if(uniq(mn)) qs.push([`Mana yang paling sedikit?`,`${lbl(d.cats[mn])} (${d.cats[mn].v} ${u})`]);
+  qs.push([`Berapa jumlah seluruhnya?`,`${d.cats.map(c=>c.v).join(" + ")} = ${T} ${u}`]);
+  qs.push([`Berapa selisih yang paling banyak dan paling sedikit?`,`${d.cats[mx].v} − ${d.cats[mn].v} = ${d.cats[mx].v-d.cats[mn].v} ${u}`]);
+  const mean=T/k; qs.push([`Berapa rata-ratanya?`,`${T} : ${k} = ${Number.isInteger(mean)?mean:mean.toFixed(1).replace(".",",")} ${u}`]);
+  if(uniq(mx)) qs.push([`Apa modus data ini?`,`${lbl(d.cats[mx])}`]);
+  return qs; }
+function autoScale(d){ const mx=Math.max(1,...d.cats.map(c=>c.v)); for(const S of [1,2,5,10,20,50,100,200,500]) if(mx/S<=10) return S; return 1000; }
+
+const explain=p=>p.steps.map(s=>s.how);
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0); return {turus:genTurus,baca:genBaca,buat:genBuat,detektif:genDetektif}[kind](level,r); }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify(p.steps.map(s=>[s.t,s.d&&s.d.cats,s.key,s.shown]));
+const DAILY={};
+function dailyPuzzle(kind,level,n){
+  const id=kind+"|"+level, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()});
+  while(c.list.length<n){ const d=c.list.length+1; let p=null,best=null,bestAge=-1;
+    for(let k=0;k<30;k++){ const q=makePuzzle(kind,level,hashStr(`data-kita|${id}|${d}|${k}`)), key=puzzleKey(q), age=c.last.has(key)?d-c.last.get(key):1e9;
+      if(age>365){ p=q; break; } if(age>bestAge){ best=q; bestAge=age; } }
+    p=p||best; c.list.push(p); c.last.set(puzzleKey(p),d); }
+  return c.list[n-1];
+}
+/* ================= AKHIR INTI ================= */</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"turus",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("dk_prefs",{}));
+if(!KINDS[P.kind]) P.kind="turus"; if(!LEVELS[P.level]) P.level="mudah";
+const saveP=()=>lsSet("dk_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2400); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function resetStep(){ const st=cur(); G.struck=[]; G.act=0; G.marks=[]; G.fields=st.t==="tabel"?st.d.cats.map(()=>""):[""]; G.build=st.t==="buat"?st.d.cats.map(()=>0):null; G.bad=null; }
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,step:0};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","step"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  resetStep(); $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`dk_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,step:G.step}); }
+const cur=()=>G.p.steps[Math.min(G.step,G.p.steps.length-1)];
+
+/* ---------- penggambar ---------- */
+/* turus: tiap kelompok 5 jadi gambar kecil sendiri supaya bisa turun baris */
+function tallySVG(n){ let s=`<span class="tly" aria-label="${n} turus" role="img">`;
+  for(let k=0;k<Math.ceil(n/5);k++){ const c=Math.min(5,n-k*5); s+=`<svg viewBox="0 0 24 22" width="24" height="22" aria-hidden="true">`;
+    for(let j=0;j<Math.min(4,c);j++) s+=`<line x1="${4+j*5}" y1="3" x2="${4+j*5}" y2="19" stroke="#2E1065" stroke-width="2" stroke-linecap="round"/>`;
+    if(c===5) s+=`<line x1="1" y1="16" x2="22" y2="6" stroke="#E11D48" stroke-width="2" stroke-linecap="round"/>`; s+="</svg>"; }
+  return s+"</span>"; }
+function piktoHTML(d,vals,badIdx,showNum){ const unit=d.S;
+  const N=Math.max(4,...vals.map(v=>Math.ceil(v/unit)))+(showNum?2:0);
+  return `<div class="pk" style="--n:${N}">${d.cats.map((c,i)=>{ const v=vals[i], full=Math.floor(v/unit), rem=v-full*unit;
+    /* sisa digambar sebagai potongan ikon sebanding nilainya (di soal selalu tepat setengah) */
+    return `<div class="row${badIdx===i?" bad":""}"><b>${c.e} ${esc(c.nm)}</b><span class="ic" aria-label="${v} ${esc(d.satuan)}">${c.e.repeat(full)}${rem?`<span class="hf" style="width:${(0.25+rem/unit)*0.85}em">${c.e}</span>`:""}${!full&&!rem?"<small style=\"color:#A79BCB;font-size:.8rem\">(kosong)</small>":""}${showNum?` <small style="font-size:.8rem;color:#5B4B8A">(${v})</small>`:""}</span></div>`; }).join("")}</div>
+    <p class="legend">1 ikon = ${unit} ${esc(d.satuan)}${d.m<unit?` · setengah ikon = ${d.m}`:""}</p>`; }
+const BARCOL=["#F472B6","#60A5FA","#FBBF24","#34D399","#A78BFA","#FB923C"];
+function barSVG(d,vals){ const k=d.cats.length, top=Math.max(d.S*Math.ceil(Math.max(...vals,d.S)/d.S),d.S*2), W=360, H=230, x0=44, y0=190, ch=170, cw=(W-x0-10)/k, Y=v=>y0-v/top*ch;
+  let s=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Diagram batang ${esc(d.judul)}">`;
+  for(let v=0;v<=top;v+=d.m){ const major=v%d.S===0; s+=`<line x1="${x0}" y1="${Y(v)}" x2="${W-6}" y2="${Y(v)}" stroke="${major?"#C4B5FD":"#EDE9FE"}" stroke-width="${major?1.2:1}"${major?"":` stroke-dasharray="3 3"`}/>`; if(major) s+=`<text x="${x0-6}" y="${Y(v)+4}" text-anchor="end" font-size="11" font-weight="800" fill="#5B4B8A" font-family="sans-serif">${grp(v)}</text>`; }
+  d.cats.forEach((c,i)=>{ const v=vals[i], x=x0+i*cw+cw*0.18, w=cw*0.64; s+=`<rect x="${x}" y="${Y(v)}" width="${w}" height="${y0-Y(v)}" fill="${BARCOL[i%6]}" stroke="#2E1065" stroke-width="1.2" rx="2"/>`;
+    s+=`<text x="${x+w/2}" y="${y0+18}" text-anchor="middle" font-size="16">${c.e}</text><text x="${x+w/2}" y="${y0+33}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#2E1065" font-family="sans-serif">${esc(c.nm.length>11?c.nm.slice(0,10)+"…":c.nm)}</text>`; });
+  s+=`<line x1="${x0}" y1="${y0}" x2="${W-6}" y2="${y0}" stroke="#2E1065" stroke-width="2"/><line x1="${x0}" y1="${y0}" x2="${x0}" y2="${y0-ch-4}" stroke="#2E1065" stroke-width="2"/>`;
+  return `<div class="bar">${s}</svg></div><p class="legend">Satuan: ${esc(d.satuan)} · tiap garis bantu = ${d.m}</p>`; }
+/* kecilkan ikon sampai semua baris muat; satu ukuran untuk semua baris agar panjang baris tetap bisa dibandingkan */
+function fitPikto(root){ for(const pk of (root||document).querySelectorAll(".pk")){ const ics=[...pk.querySelectorAll(".ic")]; if(!ics.length) continue;
+    let fs=parseFloat(getComputedStyle(ics[0]).fontSize); ics.forEach(e=>e.style.fontSize=""); fs=parseFloat(getComputedStyle(ics[0]).fontSize);
+    for(let t=0;t<30&&ics.some(e=>e.scrollWidth>e.clientWidth+1)&&fs>8;t++){ fs-=1; ics.forEach(e=>e.style.fontSize=fs+"px"); } } }
+const chartHTML=(d,vals,bad,showNum)=>d.chart==="pikto"?piktoHTML(d,vals,bad,showNum):barSVG(d,vals);
+function tableHTML(d,opt){ opt=opt||{};
+  return `<table class="tbl"><thead><tr><th>${d.tipe==="waktu"?"Waktu":"Kategori"}</th>${opt.tally?"<th>Turus</th>":""}<th>Banyak (${esc(d.satuan)})</th></tr></thead><tbody>${d.cats.map((c,i)=>`<tr><td>${c.e} ${esc(c.nm)}</td>${opt.tally?`<td>${tallySVG(opt.tally[i])}</td>`:""}<td class="n">${opt.fields?`<span class="fld${G.act===i&&!G.done?" act":""}${G.fields[i]?"":" ph"}${G.bad&&G.bad[i]?" bad":""}" data-f="${i}">${G.fields[i]||"?"}</span>`:c.v}</td></tr>`).join("")}</tbody></table>`; }
+
+/* ---------- tampilan ---------- */
+function render(){
+  const p=G.p, st=cur(), n=p.steps.length, d=st.d; let h="", c="", needPad=false;
+  h+=n>1?`<div class="prog" aria-label="Soal ${G.step+1} dari ${n}">${p.steps.map((_,i)=>`<i class="${i<G.step||G.done?"d":i===G.step?"c":""}"></i>`).join("")}</div>`:"";
+  h+=`<p class="judul">📊 ${esc(d.judul)}</p>`;
+  if(st.t==="tabel"){ const tally=d.cats.map((_,i)=>st.mode==="turus"?d.cats[i].v:st.items.filter((x,j)=>x===i&&G.marks.includes(j)).length);
+    if(st.mode==="gambar") h+=`<div class="qtext">Ketuk setiap benda untuk menghitung, lalu isi tabel.</div><div class="scene">${st.items.map((ci,j)=>`<button type="button" data-m="${j}" class="${G.marks.includes(j)||G.done?"dn":""}" style="left:${st.pos[j][0]+2}%;top:${st.pos[j][1]+2}%" aria-label="${esc(d.cats[ci].nm)}">${d.cats[ci].e}</button>`).join("")}</div>`;
+    else if(st.mode==="catatan") h+=`<div class="qtext">Lembar catatan survei. Ketuk satu per satu, lalu isi tabel.</div><div class="sheet">${st.items.map((ci,j)=>`<button type="button" data-m="${j}" class="${G.marks.includes(j)||G.done?"dn":""}" aria-label="${esc(d.cats[ci].nm)}">${d.cats[ci].e}</button>`).join("")}</div>`;
+    else h+=`<div class="qtext">Turus sudah dicatat. Ubah turus menjadi angka di tabel.</div>`;
+    needPad=!G.done; c=tableHTML(d,{tally:G.done?d.cats.map(x=>x.v):tally,fields:!G.done}); if(G.done) c=tableHTML(d,{tally:d.cats.map(x=>x.v)}); }
+  else if(st.t==="angka"||st.t==="kat"){ h+=st.show==="tabel"?tableHTML(d):chartHTML(d,d.cats.map(x=>x.v)); h+=`<div class="qtext">${st.q}</div>`;
+    if(st.t==="angka"){ needPad=!G.done; c=G.done?`<div class="ans">${st.ans} ${esc(st.unit)}</div>`:`<div class="form"><span class="fld act${G.fields[0]?"":" ph"}">${G.fields[0]||"?"}</span> ${esc(st.unit)}</div>`; }
+    else c=`<div class="cats">${d.cats.map((x,i)=>`<button type="button" class="op${G.done&&i===st.ans?" ok":""}" data-o="${i}" ${G.struck.includes(i)||G.done?"disabled":""}>${x.e} ${esc(x.nm)}</button>`).join("")}</div>`; }
+  else if(st.t==="buat"){ const vals=G.done?d.cats.map(x=>x.v):G.build;
+    h+=`<div class="qtext">Buat ${d.chart==="pikto"?"piktogram":"diagram batang"} sesuai tabel.</div>${tableHTML(d)}${chartHTML(d,vals)}`;
+    c=G.done?`<div class="ans">Diagram sudah benar ✓</div>`:`<div class="builder">${d.cats.map((x,i)=>`<div class="brow"><span>${x.e} ${esc(x.nm)}</span><button type="button" data-b="${i}" data-d="-1" aria-label="Kurangi ${esc(x.nm)}">−</button><output>${vals[i]}</output><button type="button" data-b="${i}" data-d="1" aria-label="Tambah ${esc(x.nm)}">+</button></div>`).join("")}</div><p class="legend">Setiap ketukan = ${d.m} ${esc(d.satuan)}${d.chart==="pikto"&&d.m<d.S?" (setengah ikon)":""}</p>`; }
+  else { h+=`<div class="qtext">Satu bagian diagram <b>tidak cocok</b> dengan tabel. Yang mana?</div>${tableHTML(d)}${chartHTML(d,st.shown,G.done?st.ans:null)}`;
+    c=`<div class="cats">${d.cats.map((x,i)=>`<button type="button" class="op${G.done&&i===st.ans?" ok":""}" data-o="${i}" ${G.struck.includes(i)||G.done?"disabled":""}>${x.e} ${esc(x.nm)}</button>`).join("")}</div>`; }
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=c;
+  $("pad").hidden=!needPad; $("okBtn").hidden=G.done||st.t==="kat"||st.t==="detektif";
+  $("hintBtn").hidden=!(G.wrong>=3&&!G.done&&G.mode!=="kelas");
+  renderInfo(); renderSegs(); fitPikto($("play"));
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0, short={turus:"Turus",baca:"Baca",buat:"Buat",detektif:"Detektif"};
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`dk_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}"><span style="display:block">${v.icon}</span>${short[k]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}<small>${l.sub}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+
+/* ---------- interaksi ---------- */
+function nextStep(msg){ G.step++; $("fb").innerHTML=`<span class="ok">✓ ${msg||"Benar!"}</span>`;
+  if(G.step>=G.p.steps.length){ G.step=G.p.steps.length-1; return finish(); } resetStep(); saveDay(); render(); }
+function miss(msg){ G.wrong++; $("fb").innerHTML=`<span class="no">✗ ${msg}</span>`; saveDay(); render(); }
+$("play").addEventListener("click",e=>{ if(!G||G.done) return; const b=e.target.closest("[data-m]"); if(!b) return; const j=+b.dataset.m, k=G.marks.indexOf(j); if(k>=0) G.marks.splice(k,1); else G.marks.push(j); render(); });
+$("ctrlBody").addEventListener("click",e=>{ if(!G||G.done) return; const st=cur(), b=e.target.closest("button,.fld"); if(!b) return;
+  if(b.dataset.f!==undefined){ G.act=+b.dataset.f; render(); return; }
+  if(b.dataset.b!==undefined){ const i=+b.dataset.b, d=st.d; G.build[i]=Math.max(0,Math.min(d.S*10,G.build[i]+(+b.dataset.d)*d.m)); render(); return; }
+  if(b.dataset.o!==undefined&&!b.disabled){ const i=+b.dataset.o; if(i===st.ans) return nextStep(st.t==="detektif"?`Ketemu! Seharusnya ${st.d.cats[i].v}, bukan ${st.shown[i]}.`:"Benar!");
+    G.struck.push(i); return miss(st.t==="detektif"?"Bagian itu sudah cocok dengan tabel. Bandingkan satu per satu.":"Belum tepat. Lihat lagi diagramnya."); }
+});
+function press(k){
+  const st=cur(); if(!G||G.done||!(st.t==="tabel"||st.t==="angka")) return;
+  if(k==="ok") return check();
+  if(k==="next"){ G.act=(G.act+1)%G.fields.length; render(); return; }
+  let v=G.fields[G.act]; if(k==="del") v=v.slice(0,-1); else if(v.length<4) v=(v==="0"?"":v)+k;
+  G.fields[G.act]=v; if(G.bad) G.bad[G.act]=false; render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!$("klsM").hidden||!G||G.done) return;
+  if(e.key==="Tab"){ e.preventDefault(); press("next"); return; }
+  const k=e.key==="Backspace"?"del":e.key==="Enter"?"ok":e.key;
+  if(/^[0-9]$/.test(k)||k==="del"||k==="ok"){ e.preventDefault(); if(k==="ok"&&cur().t==="buat") return check(); press(k); }
+});
+function check(){
+  if(G.done) return; const st=cur(), d=st.d;
+  if(st.t==="tabel"){ if(G.fields.some(v=>v==="")){ toast("Isi semua baris tabel dulu."); return; }
+    G.bad=G.fields.map((v,i)=>+v!==d.cats[i].v); const nb=G.bad.filter(Boolean).length;
+    if(!nb) return nextStep("Tabelnya benar!"); return miss(`${nb} baris belum tepat (merah). Hitung lagi turusnya.`); }
+  if(st.t==="angka"){ if(!G.fields[0]){ toast("Ketik jawabannya dulu."); return; } if(+G.fields[0]===st.ans) return nextStep(`Benar, ${st.ans} ${st.unit}!`);
+    return miss(d.chart==="pikto"&&st.show!=="tabel"?`Belum tepat. Ingat, 1 ikon = ${d.S} ${d.satuan}.`:"Belum tepat. Baca lagi diagramnya."); }
+  if(st.t==="buat"){ const bad=d.cats.map((c,i)=>G.build[i]!==c.v), nb=bad.filter(Boolean).length; if(!nb) return nextStep("Diagramnya sesuai tabel!");
+    return miss(`${nb} ${d.chart==="pikto"?"baris":"batang"} belum sesuai tabel.`); }
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${explain(G.p).map(x=>`<div>${x}</div>`).join("")}</div>`;
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Petunjuk</h2>${howHTML()}<p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+
+/* ---------- 📋 Data Kelasku: data survei sendiri, disimpan di perangkat ini ---------- */
+const EMO=["🍎","🍌","🍊","🍉","🥭","🍇","⚽","🏸","🏀","🏊","🐱","🐟","🐦","🐰","🚶","🚲","🏍️","🚗","🚌","📘","📕","🎨","🎵","📚","🍦","🍪","⭐","❤️","🔵","🟢","🟡","🔴"];
+const KLS0={judul:"Buah kesukaan kelas kami",satuan:"anak",chart:"pikto",rows:[{e:"🍎",nm:"apel",v:6},{e:"🍌",nm:"pisang",v:4},{e:"🍊",nm:"jeruk",v:7}]};
+let KLS=Object.assign({},KLS0,lsGet("dk_kelasku",{}));
+function klsData(){ const rows=KLS.rows.filter(r=>r.nm.trim()); const d={judul:KLS.judul||"Data kelasku",satuan:KLS.satuan||"",tipe:"frek",chart:KLS.chart,cats:rows.map(r=>({e:r.e,nm:r.nm.trim(),v:Math.max(0,Math.min(999,Math.round(+r.v||0)))}))};
+  d.S=autoScale(d); d.m=d.S; return d; }
+function renderKls(){ const d=klsData();
+  $("klsBody").innerHTML=`<h2>📋 Data Kelasku</h2><p class="sub">Masukkan hasil survei kelasmu. Data hanya tersimpan di perangkat ini.</p>
+    <div class="kls"><input id="kJ" value="${esc(KLS.judul)}" maxlength="60" aria-label="Judul survei" placeholder="Judul, misalnya: Buah kesukaan kelas kami">
+      <input id="kS" value="${esc(KLS.satuan)}" maxlength="15" aria-label="Satuan" placeholder="Satuan, misalnya: anak">
+      ${KLS.rows.map((r,i)=>`<div class="krow"><select data-ke="${i}" aria-label="Ikon baris ${i+1}">${EMO.map(e=>`<option${e===r.e?" selected":""}>${e}</option>`).join("")}</select><input data-kn="${i}" value="${esc(r.nm)}" maxlength="20" aria-label="Nama kategori ${i+1}" placeholder="nama"><input data-kv="${i}" type="number" inputmode="numeric" min="0" max="999" value="${r.v}" aria-label="Banyak ${i+1}"></div>`).join("")}
+      <div class="row2"><button class="btn ghost" type="button" id="kAdd" ${KLS.rows.length>=6?"disabled":""}>+ Baris</button><button class="btn ghost" type="button" id="kDel" ${KLS.rows.length<=2?"disabled":""}>− Baris</button></div>
+      <div class="seg" id="kC"><button type="button" data-c="pikto" aria-pressed="${KLS.chart==="pikto"}">Piktogram</button><button type="button" data-c="batang" aria-pressed="${KLS.chart==="batang"}">Diagram batang</button></div></div>
+    <p class="judul">📊 ${esc(d.judul)}</p>${d.cats.length?chartHTML(d,d.cats.map(c=>c.v),null,true):""}
+    <div class="kls">${kelasQuestions(d).map(([q,a])=>`<div class="kq">${esc(q)}<details><summary>Lihat jawaban</summary>${esc(a)}</details></div>`).join("")}</div>
+    <button class="btn" type="button" id="kClose">Tutup</button>`;
+  fitPikto($("klsBody"));
+  $("kClose").onclick=()=>$("klsM").hidden=true;
+  $("kAdd").onclick=()=>{ KLS.rows.push({e:EMO[KLS.rows.length%EMO.length],nm:"",v:0}); saveKls(); };
+  $("kDel").onclick=()=>{ KLS.rows.pop(); saveKls(); };
+  $("kC").onclick=e=>{ const b=e.target.closest("[data-c]"); if(b){ KLS.chart=b.dataset.c; saveKls(); } };
+}
+function saveKls(){ lsSet("dk_kelasku",KLS); renderKls(); }
+$("klsM").addEventListener("change",e=>{ const t=e.target;
+  if(t.id==="kJ") KLS.judul=t.value.slice(0,60); else if(t.id==="kS") KLS.satuan=t.value.slice(0,15);
+  else if(t.dataset.ke!==undefined) KLS.rows[+t.dataset.ke].e=t.value; else if(t.dataset.kn!==undefined) KLS.rows[+t.dataset.kn].nm=t.value.slice(0,20);
+  else if(t.dataset.kv!==undefined) KLS.rows[+t.dataset.kv].v=Math.max(0,Math.min(999,Math.round(+t.value||0)));
+  else return; saveKls(); });
+$("klsM").onclick=e=>{ if(e.target===$("klsM")) $("klsM").hidden=true; };
+$("kelasBtn").onclick=()=>{ $("klsM").hidden=false; renderKls(); };
+let lastW=window.innerWidth;
+window.addEventListener("resize",()=>{ if(G&&window.innerWidth!==lastW){ lastW=window.innerWidth; render(); } });
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("dk_stadk_"+l,{})); }
+function recordDay(){
+  const allk=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`dk_day_${G.level}_${k}`,null));
+  if(!allk.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=allk.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("dk_stadk_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Lihat cara":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`dk_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h;
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`dk_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Data Kita #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.step||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
