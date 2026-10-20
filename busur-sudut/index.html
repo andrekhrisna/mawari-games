@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#EFF6FF">
+<title>Busur Sudut</title>
+<meta name="description" content="Busur Sudut untuk SD kelas 4–6: mengukur sudut dengan busur derajat yang bisa diputar, mengenali sudut lancip, siku-siku, tumpul, dan lurus, menaksir besar sudut, serta membentuk sudut, termasuk sudut pada benda sehari-hari dan jarum jam.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231D4ED8'/%3E%3Cpath d='M8 46a24 24 0 0 1 48 0z' fill='%23BAE6FD' stroke='%23fff' stroke-width='2.5'/%3E%3Cpath d='M32 46L52 30' stroke='%23F97316' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='32' cy='46' r='3' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#EFF6FF;
+  --card:#FFFFFF;
+  --ink:#172554;
+  --muted:#475A8A;
+  --line:#BFDBFE;
+  --bl:#1D4ED8;
+  --bl-d:#1E40AF;
+  --soft:#DBEAFE;
+  --or:#EA580C;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1100px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--bl)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+.qtext{font-weight:800;font-size:1.12rem;line-height:1.45;text-align:center}
+.qtext small{display:block;font-weight:700;font-size:.85rem;color:var(--muted)}
+.prog{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.prog i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.prog i.d{background:var(--green)} .prog i.c{background:var(--bl);transform:scale(1.25)}
+/* gambar sudut dan busur */
+.scnw{display:flex;justify-content:center}
+.scn{display:block;width:100%;max-width:440px;max-height:min(62vh,440px);height:auto;background:#FFFFFF;border:2px dashed var(--line);border-radius:14px;user-select:none;-webkit-user-select:none}
+.scn.mov{cursor:grab}
+#dyn,#lensg{pointer-events:none}
+.scn text,.lens text{font-family:'Baloo 2',sans-serif;font-weight:800;text-anchor:middle;dominant-baseline:central;paint-order:stroke;stroke:#fff;stroke-linejoin:round}
+text.lo{font-size:12px;fill:#0C4A6E;stroke-width:3px}
+text.li{font-size:10.5px;fill:#DC2626;stroke-width:3px}
+text.lt{font-size:19px;fill:#172554;stroke-width:4px}
+text.val{font-size:17px;fill:#C2410C;stroke-width:4px}
+text.jn{font-size:19px;fill:#78350F;stroke:none}
+.lensw{display:flex;align-items:center;justify-content:center;gap:10px}
+.lens{width:136px;height:136px;border-radius:50%;border:3px solid var(--bl);background:#fff;box-shadow:0 2px 0 var(--bl-d);flex:none}
+.lensw span{font-weight:800;color:var(--muted);font-size:.85rem;max-width:120px;line-height:1.25}
+.big{font-size:2.6rem;font-weight:800;text-align:center;background:var(--soft);border-radius:16px;padding:18px 8px;line-height:1.1}
+.big small{display:block;font-size:1rem;color:var(--muted)}
+.rot{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:800}
+.rot button,.rot4 button{height:46px;min-width:56px;border:0;border-radius:12px;background:var(--soft);font-weight:800;font-size:1.25rem;cursor:pointer;color:var(--ink);padding:0 10px}
+.rot4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px}
+.rot4 button{font-size:1rem;min-width:0;padding:0 4px;white-space:nowrap}
+.ops{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.op{border:3px solid var(--line);background:#fff;border-radius:14px;padding:8px 6px;font-weight:800;font-size:1.05rem;cursor:pointer;color:var(--ink);font-family:inherit;line-height:1.15}
+.op small{display:block;font-size:.78rem;color:var(--muted)}
+.op:disabled{opacity:.3;cursor:default}
+.op.ok{border-color:var(--green);background:#D1FAE5;opacity:1}
+#ctrlBody{display:flex;flex-direction:column;gap:10px}
+#ctrlBody .btn{width:100%}
+.ans{text-align:center;font-weight:800;font-size:1.3rem;color:var(--bl-d)}
+#alg{min-height:1.3em;font-weight:700}
+#alg.ok{color:var(--green)}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.fld{min-width:72px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;font-weight:800;font-size:1.35rem}
+.fld.act{border-color:var(--bl);background:#fff;box-shadow:0 0 0 3px #93C5FD}
+.fld.ph{color:#94A3B8}
+.pad{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:var(--soft);font-weight:800;font-size:1.3rem;cursor:pointer}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--bl);color:#fff;box-shadow:0 3px 0 var(--bl-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--bl-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#BFDBFE}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--bl-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(23,37,84,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .qtext{font-size:1.5rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:56px;min-width:110px}
+  .kelas .pad button{font-size:1.6rem} .kelas .teams span{font-size:1.4rem}
+  .kelas .op{font-size:1.4rem} .kelas .ans{font-size:2rem} .kelas .big{font-size:3.6rem}
+  .kelas .scn{max-width:620px;max-height:max(340px,calc(100vh - 440px))} .kelas .lens{width:116px;height:116px}
+  .kelas #ctrl,.kelas #ctrlBody{gap:8px} .kelas .pad button{height:52px} .kelas .rot button,.kelas .rot4 button{height:52px}
+  .kelas .seg button{padding:4px 3px} .kelas .wrap{gap:8px}
+  .kelas .rot button,.kelas .rot4 button{font-size:1.4rem}
+  .kelas .grid2{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Busur <span>Sudut</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button>
+        <button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="del" aria-label="Hapus" style="grid-column:span 2">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Petunjuk</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li><b>📐 Ukur dengan Busur</b>: pusat busur sudah menempel di titik sudut. Putar busur (geser jari di busur atau tombol ⟲ ⟳) sampai <b>garis 0</b> berimpit dengan salah satu kaki sudut. Baca skala yang angka 0-nya ada di kaki itu.</li>
+      <li>Busur punya dua skala: <b>skala luar (hitam)</b> dan <b>skala dalam (merah)</b>. Salah pilih skala, jawabannya jadi 180° dikurangi besar sudut.</li>
+      <li><b>🔺 Jenis Sudut</b>: lancip (kurang dari 90°), siku-siku (tepat 90°), tumpul (antara 90° dan 180°), lurus (tepat 180°). Ragu? Ketuk 📐 untuk memakai busur.</li>
+      <li><b>🎯 Tebak Sudut</b>: perkirakan besar sudut tanpa busur. Pakai patokan siku-siku (90°) dan setengahnya (45°).</li>
+      <li><b>✏️ Bentuk Sudut</b>: putar kaki sudut (geser jari atau tombol) sampai besarnya sesuai permintaan.</li>
+      <li>🔍 Kaca pembesar membantu membaca garis kecil pada busur.</li>
+      <li><b>Mudah</b> kelas 4 (kelipatan 10°, busur sudah terpasang), <b>Sedang</b> kelas 5 (kelipatan 5°, busur diputar sendiri, dua skala), <b>Sulit</b> kelas 6 (sampai 1°, benda nyata, jarum jam).</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Petunjuk</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+<script>/* ================= INTI: soal sudut, busur, pembahasan ================= */
+/* ===== Busur Sudut: mengukur, mengenali, menaksir, dan membentuk sudut ===== */
+const KINDS={ukur:{label:"Ukur dengan Busur",icon:"📐"},jenis:{label:"Jenis Sudut",icon:"🔺"},tebak:{label:"Tebak Sudut",icon:"🎯"},bentuk:{label:"Bentuk Sudut",icon:"✏️"}};
+const LEVELS={mudah:{label:"Mudah",sub:"kelas 4"},sedang:{label:"Sedang",sub:"kelas 5"},sulit:{label:"Sulit",sub:"kelas 6"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const range=(a,b,s)=>{ const o=[]; for(let x=a;x<=b;x+=s||1) o.push(x); return o; };
+const not5=x=>x%5!==0;
+
+/* ---------- sudut: arah dalam derajat, berlawanan jarum jam, 0 = ke kanan ---------- */
+const nrm=a=>((a%360)+360)%360;
+const angDist=(a,b)=>{ const d=nrm(a-b); return Math.min(d,360-d); };
+const JENIS=["lancip","siku-siku","tumpul","lurus"];
+const JENIS_DEF=["kurang dari 90°","tepat 90°","lebih dari 90° tetapi kurang dari 180°","tepat 180°"];
+const jenisOf=t=>t<90?0:t===90?1:t<180?2:3;
+/* busur: phi = arah ujung "0 skala luar". Skala luar naik berlawanan jarum jam dari phi; skala dalam = 180 − skala luar.
+   Busur terpasang benar kalau pusatnya di titik sudut dan garis 0 berimpit dengan salah satu kaki, lengkungnya di dalam sudut. */
+function alignPhis(fig){ const a=nrm(fig.a), b=nrm(fig.a+fig.th), c=[a,nrm(b-180)]; if(fig.th===180) c.push(nrm(a+180)); return [...new Set(c)]; }
+/* yang dibaca setelah busur terpasang: arah kaki yang tidak berimpit dan skala yang dipakai */
+function readingOf(fig,phi){ const a=nrm(fig.a), b=nrm(fig.a+fig.th), e=.01;
+  if(angDist(phi,a)<e) return {dir:b,skala:"luar",val:nrm(b-phi)};
+  if(angDist(phi,b-180)<e) return {dir:a,skala:"dalam",val:180-nrm(a-phi)};
+  if(fig.th===180&&angDist(phi,a+180)<e) return {dir:a,skala:"luar",val:nrm(a-phi)};
+  return null; }
+const scaleVal=(phi,dir)=>{ const v=nrm(dir-phi); return v<=180.0001?{luar:v,dalam:180-v}:null; };
+
+/* ---------- benda di sekitar anak ---------- */
+const BENDA={
+  laptop:{tanya:"sudut bukaan laptop",v:"engsel laptop",ka:"alas laptop",kc:"layar"},
+  pintu:{tanya:"sudut bukaan pintu (dilihat dari atas)",v:"engsel pintu",ka:"ambang pintu",kc:"daun pintu"},
+  tangga:{tanya:"sudut antara tangga dan lantai",v:"kaki tangga",ka:"lantai",kc:"tangga"},
+  gunting:{tanya:"sudut bukaan gunting",v:"poros gunting",ka:"bilah bawah",kc:"bilah atas"},
+  pizza:{tanya:"sudut di ujung potongan pizza",v:"ujung potongan",ka:"sisi kanan",kc:"sisi kiri"},
+  buku:{tanya:"sudut di pojok buku",v:"pojok buku",ka:"sisi bawah",kc:"sisi samping"},
+  jam:{tanya:"sudut antara kedua jarum jam",v:"pusat jam",ka:"jarum",kc:"jarum"}};
+const LETTERS=[["A","B","C"],["P","Q","R"],["K","L","M"],["D","E","F"],["X","Y","Z"],["S","T","U"]];
+const plainFig=(a,th,r)=>({o:"garis",a:nrm(a),th,L:pick(LETTERS,r)});
+/* posisi alami tiap benda: kaki A searah a, kaki C searah a+th */
+function objFig(o,th,r,opt){ opt=opt||{};
+  if(o==="jam"){ const h=opt.h; return h<=6?{o,h,a:nrm(90-30*h),th:30*h}:{o,h,a:90,th:30*(12-h)}; }
+  const a=o==="gunting"?-Math.floor(th/2):o==="pizza"?90-Math.floor(th/2):o==="buku"?(opt.rot||0):0;
+  return {o,a:nrm(a),th:o==="buku"?90:th}; }
+const angName=f=>f.L?`∠${f.L[0]}${f.L[1]}${f.L[2]}`:"";
+const jamTxt=h=>`${String(h).padStart(2,"0")}.00`;
+const jamK=h=>Math.min(h,12-h);
+
+/* sudut awal busur: agak meleset dari posisi benar, supaya anak memutarnya sendiri */
+function startPhi(fig,r){ const c=alignPhis(fig);
+  for(let t=0;t<60;t++){ const p=nrm(pick(c,r)+(r()<.5?-1:1)*ri(35,80,r)); if(c.every(x=>angDist(p,x)>=30)) return p; }
+  return [0,90,180,270].reduce((b,p)=>Math.min(...c.map(x=>angDist(p,x)))>Math.min(...c.map(x=>angDist(b,x)))?p:b,0); }
+function pickAngles(n,pool,r,test){ for(let t=0;t<400;t++){ const s=shuffle(pool,r).slice(0,n); if(!test||test(s)) return s; } return shuffle(pool,r).slice(0,n); }
+const gapOK=g=>s=>s.every((x,i)=>s.every((y,j)=>i>=j||Math.abs(x-y)>=g));
+const bothSides=s=>s.some(x=>x<90)&&s.some(x=>x>90);
+function patokan(t){ const refs=[[45,"setengah siku-siku (45°)"],[90,"siku-siku (90°)"],[135,"siku-siku ditambah setengahnya (135°)"],[180,"sudut lurus (180°)"]];
+  let b=refs[0]; for(const x of refs) if(Math.abs(t-x[0])<Math.abs(t-b[0])) b=x;
+  const d=t-b[0], ad=Math.abs(d); return d===0?`tepat ${b[1]}`:`${ad<=5?"sedikit ":""}${d>0?"lebih besar":"lebih kecil"} dari ${b[1]}, selisih ${ad}°`; }
+
+/* ================= 1. UKUR DENGAN BUSUR ================= */
+function ukurHow(fig,two){ const th=fig.th;
+  if(fig.o==="jam"){ const k=jamK(fig.h); return `Jarum panjang di angka 12, jarum pendek di angka ${fig.h}. Di antaranya ada <b>${k}</b> jarak angka. Satu jarak = 360° : 12 = 30°, jadi ${k} × 30° = <b>${30*k}°</b>.`; }
+  const other=two&&th!==90?` Skala satunya menunjukkan ${180-th}°, itu bukan jawabannya.`:"";
+  if(fig.o==="garis"){ const [A,B,C]=fig.L;
+    return two?`Pusat busur di titik <b>${B}</b>. Putar busur sampai garis 0 berimpit dengan kaki ${B}${A} (atau ${B}${C}). Baca skala yang angka 0-nya ada di kaki itu: ${angName(fig)} = <b>${th}°</b>.${other}`
+      :`Garis 0 busur sudah berimpit dengan kaki <b>${B}${A}</b>. Ikuti angka dari 0 sampai kaki <b>${B}${C}</b>: ${angName(fig)} = <b>${th}°</b>.`; }
+  const bd=BENDA[fig.o]; return `Pusat busur di ${bd.v}, garis 0 berimpit dengan ${bd.ka} (atau ${bd.kc}). Baca skala yang mulai dari 0 di kaki itu: <b>${th}°</b>.${other}`; }
+function ukurStep(fig,level,r){ const two=level!=="mudah";
+  const pr=fig.o==="jam"?{m:"tanpa"}:level==="mudah"?{m:"tetap",phi:fig.a,two:false}:{m:"putar",phi:startPhi(fig,r),two:true};
+  const q=fig.o==="jam"?`Pukul ${jamTxt(fig.h)}. Berapa besar sudut antara kedua jarum?`:fig.o==="garis"?`Berapa besar ${angName(fig)}?`:`Berapa besar ${BENDA[fig.o].tanya}?`;
+  const sub=fig.o==="jam"?"Hitung tanpa busur.":pr.m==="tetap"?"Busur sudah terpasang. Baca skalanya.":fig.o==="garis"?"Putar busur sampai garis 0 berimpit dengan salah satu kaki sudut, lalu baca.":"Garis putus-putus adalah perpanjangan kaki sudut. Putar busur, lalu baca.";
+  return {t:"ukur",fig,pr,ans:fig.th,q,sub,how:ukurHow(fig,two)}; }
+function genUkur(level,r){ let figs;
+  if(level==="mudah") figs=pickAngles(3,range(20,170,10),r,s=>bothSides(s)&&gapOK(20)(s)).map(t=>plainFig(0,t,r));
+  else if(level==="sedang") figs=pickAngles(3,range(15,175,5),r,s=>bothSides(s)&&gapOK(15)(s)&&s.filter(x=>x%10).length>=2).map(t=>plainFig(5*ri(0,71,r),t,r));
+  else { const o=pick(["laptop","pintu","tangga","gunting","pizza"],r), fo=objFig(o,pick(OBJ_RANGE[o].filter(not5),r),r), fj=objFig("jam",0,r,{h:pick([1,2,4,5,7,8,10,11],r)});
+    const tp=pick(range(11,179).filter(x=>not5(x)&&Math.abs(x-fo.th)>=12&&Math.abs(x-fj.th)>=12),r);
+    figs=[plainFig(ri(0,359,r),tp,r),fo,fj]; }
+  return {kind:"ukur",level,steps:figs.map(f=>ukurStep(f,level,r))}; }
+const OBJ_RANGE={laptop:range(95,135),pintu:range(35,125),tangga:range(55,80),gunting:range(20,65),pizza:range(25,75)};
+
+/* ================= 2. JENIS SUDUT ================= */
+const TYPE_W=[0,0,0,1,1,2,2,2,3];  /* lancip & tumpul lebih sering, lurus jarang */
+function jenisGaris(j,level,r){
+  const pools=level==="mudah"?[range(20,60,10),[90],range(120,160,10),[180]]:level==="sedang"?[range(30,75,5),[90],range(105,150,5),[180]]:[range(80,87),[90],range(93,100),[180]];
+  const th=pick(pools[j],r), a=level==="mudah"?(th===180||r()<.5?0:180-th):level==="sedang"?5*ri(0,71,r):ri(0,359,r);
+  return plainFig(a,th,r); }
+function jenisBenda(j,level,r){ const c=[];  /* [benda, besar] */
+  const jam=hs=>hs.forEach(h=>c.push(["jam",30*jamK(h),h]));
+  if(j===0){ jam([1,2,10,11]); c.push(["gunting",pick(level==="mudah"?range(20,60,10):range(20,60,5),r)],["pizza",pick([30,45,60],r)]);
+    if(level==="mudah") c.push(["laptop",pick([60,70,80],r)]); else if(level==="sedang") c.push(["tangga",pick(range(55,80,5),r)],["pintu",pick(range(30,75,5),r)]); else c.push(["laptop",pick(range(80,87),r)],["pintu",pick(range(80,87),r)],["tangga",pick(range(70,87),r)]); }
+  else if(j===1){ jam([3,9]); c.push(["buku",90],["pizza",90]); if(level!=="mudah") c.push(["laptop",90],["pintu",90]); }
+  else if(j===2){ jam([4,5,7,8]); c.push(["pizza",120]);
+    if(level==="mudah") c.push(["laptop",pick(range(100,140,10),r)]); else if(level==="sedang") c.push(["laptop",pick(range(95,140,5),r)],["pintu",pick(range(100,150,5),r)]); else c.push(["laptop",pick(range(93,100),r)],["pintu",pick(range(93,100),r)]); }
+  else { jam([6]); if(level!=="mudah") c.push(["pintu",180]); }
+  const [o,th,h]=pick(c,r);
+  return objFig(o,th,r,{h,rot:o==="buku"&&level!=="mudah"?ri(-35,35,r):0}); }
+function jenisHow(f,th,j){ const def=`${JENIS_DEF[j]}, jadi sudut <b>${JENIS[j]}</b>.`;
+  if(f&&f.o==="jam"||f&&f.h) return `Pukul ${jamTxt(f.h)}: ${jamK(f.h)} jarak angka × 30° = <b>${th}°</b>, ${def}`;
+  if(f&&f.o==="pizza"&&360%th===0) return `Potongan ini 1/${360/th} pizza: 360° : ${360/th} = <b>${th}°</b>, ${def}`;
+  return `Besarnya <b>${th}°</b>, ${def}`; }
+function genJenis(level,r){
+  const srcs=level==="mudah"?["garis","garis","garis","benda","benda"]:level==="sedang"?["garis","garis","benda","benda","angka"]:["garis","garis","benda","jamteks","angka"];
+  for(let t=0;t<300;t++){ const steps=[], keys=new Set();
+    for(const src of shuffle(srcs,r)){ let j=pick(TYPE_W,r), st;
+      if(src==="garis"){ const f=jenisGaris(j,level,r); st={fig:f,th:f.th}; }
+      else if(src==="benda"){ const f=jenisBenda(j,level,r); st={fig:f,th:f.th}; }
+      else if(src==="angka"){ const pools=level==="sedang"?[[89,85,75,60,45,30,10],[90],[91,95,100,120,150,175,179],[180]]:[[89,88,1,2],[90],[91,92,179,178],[180]]; st={fig:null,th:pick(pools[j],r),txt:"angka"}; }
+      else { const h=pick(range(1,11),r); st={fig:null,th:30*jamK(h),txt:"jam",h}; }
+      j=jenisOf(st.th); const key=(st.fig?st.fig.o:st.txt)+st.th+(st.h||"");
+      if(keys.has(key)) break; keys.add(key);
+      const drawn=!!st.fig, canPr=level!=="mudah"&&drawn&&st.fig.o!=="jam";
+      steps.push({t:"jenis",fig:st.fig,txt:st.txt,h:st.h,th:st.th,ans:j,pr:canPr?{m:"pilih",phi:0,two:true}:{m:"tanpa"},
+        q:st.txt==="angka"?`Sudut sebesar ini termasuk jenis apa?`:st.txt==="jam"?`Sudut terkecil antara kedua jarum jam pada pukul ini termasuk jenis apa?`:drawn&&st.fig.o!=="garis"?`Sudut yang ditandai pada ${st.fig.o==="jam"?"jam":st.fig.o} ini termasuk jenis apa?`:`${angName(st.fig)} termasuk jenis apa?`,
+        sub:canPr?"Ragu? Ketuk 📐 untuk memakai busur.":"",how:jenisHow(st.fig||(st.h?{h:st.h}:null),st.th,j)}); }
+    if(steps.length===srcs.length&&new Set(steps.map(s=>s.ans)).size>=3) return {kind:"jenis",level,steps}; }
+  return genJenis(level,mulberry32(hashStr("ulang"+r()))); }
+
+/* ================= 3. TEBAK SUDUT ================= */
+const TOL={mudah:10,sedang:8,sulit:5};
+function tebakStep(fig,level){ const tol=TOL[level], th=fig.th;
+  return {t:"tebak",fig,tol,ans:th,q:fig.o==="garis"?`Tebak besar ${angName(fig)} tanpa busur!`:`Tebak besar ${BENDA[fig.o].tanya}!`,
+    sub:`Benar kalau selisihnya paling banyak ${tol}°.`,how:`${fig.o==="garis"?angName(fig):"Sudutnya"} sebenarnya <b>${th}°</b>, ${patokan(th)}.`}; }
+function genTebak(level,r){ let figs;
+  if(level==="mudah") figs=pickAngles(4,range(20,160,10),r,s=>bothSides(s)&&gapOK(20)(s)).map(t=>plainFig(r()<.5?0:180-t,t,r));
+  else if(level==="sedang") figs=pickAngles(4,range(15,165,5),r,s=>bothSides(s)&&gapOK(15)(s)&&s.filter(x=>x%10).length>=2).map(t=>plainFig(5*ri(0,71,r),t,r));
+  else for(let t=0;t<200;t++){ const os=shuffle(["laptop","pintu","gunting","tangga","pizza"],r).slice(0,2);
+    figs=shuffle([plainFig(ri(0,359,r),pick(range(10,170).filter(not5),r),r),plainFig(ri(0,359,r),pick(range(10,170).filter(not5),r),r),...os.map(o=>objFig(o,pick(OBJ_RANGE[o].filter(not5),r),r))],r);
+    if(gapOK(12)(figs.map(f=>f.th))) break; }
+  return {kind:"tebak",level,steps:figs.map(f=>tebakStep(f,level))}; }
+
+/* ================= 4. BENTUK SUDUT ================= */
+/* busur sudah menempel pada kaki tetap; anak memutar kaki satunya.
+   rel = posisi kaki yang diputar pada skala luar (0..180). Sisi "luar": kaki tetap di 0 skala luar; sisi "dalam": di 0 skala dalam. */
+const formedOf=(st,rel)=>st.side==="luar"?rel:180-rel;
+function bentukStep(fig,side,level,r){ const th=fig.th, two=level!=="mudah", phi=side==="luar"?fig.a:nrm(fig.a-180);
+  const step=level==="sulit"?1:5, big=level==="sulit"?10:30;
+  const st={t:"bentuk",fig,side,phi,two,step,big,ans:th};
+  st.rel0=[90,45,135,30,150,60,120].find(rel=>{ const f=formedOf(st,rel); return Math.abs(f-th)>=25&&Math.abs(f-(180-th))>=15; });
+  if(st.rel0===undefined) st.rel0=th<90?160:20;
+  if(fig.o==="garis"){ const [A,B,C]=fig.L; st.q=`Bentuk ${angName(fig)} = <b>${th}°</b>`; st.sub=`Putar kaki ${B}${C}: geser jari di gambar atau pakai tombol.`;
+    st.how=two?`Kaki <b>${B}${A}</b> ada di angka 0 skala <b>${side==="luar"?"luar (hitam)":"dalam (merah)"}</b>. Pakai skala itu dan putar kaki ${B}${C} sampai angka <b>${th}</b>.${th!==90?` Kalau memakai skala satunya, sudutmu jadi ${180-th}°.`:""}`
+      :`Garis 0 sudah di kaki <b>${B}${A}</b>. Ikuti skala dari 0, lalu putar kaki ${B}${C} sampai angka <b>${th}</b>.`; }
+  else { const bd=BENDA[fig.o]; st.q=`Buka ${fig.o} sampai sudut bukaannya <b>${th}°</b>`; st.sub=`Putar ${bd.kc}: geser jari di gambar atau pakai tombol.`;
+    st.how=`${bd.ka[0].toUpperCase()+bd.ka.slice(1)} ada di angka 0 skala luar (hitam). Putar ${bd.kc} sampai angka <b>${th}</b> pada skala itu.`; }
+  return st; }
+function genBentuk(level,r){ let steps;
+  if(level==="mudah") steps=pickAngles(3,range(20,160,10),r,s=>bothSides(s)&&gapOK(20)(s)).map(t=>bentukStep(plainFig(0,t,r),"luar",level,r));
+  else if(level==="sedang"){ const sides=shuffle(["luar","dalam",pick(["luar","dalam"],r)],r);
+    steps=pickAngles(3,range(15,165,5),r,s=>bothSides(s)&&gapOK(15)(s)&&s.filter(x=>x%10).length>=2).map((t,i)=>bentukStep(plainFig(sides[i]==="luar"?0:180,t,r),sides[i],level,r)); }
+  else { const sides=shuffle(["luar","dalam"],r), o=pick(["laptop","pintu"],r), to=pick(OBJ_RANGE[o].filter(not5),r), ts=pickAngles(2,range(12,168).filter(not5),r,s=>gapOK(20)(s.concat(to)));
+    steps=[...ts.map((t,i)=>bentukStep(plainFig(ri(0,359,r),t,r),sides[i],level,r)),bentukStep(objFig(o,to,r),"luar",level,r)]; }
+  return {kind:"bentuk",level,steps}; }
+
+const explain=p=>p.steps.map(s=>s.how);
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0); return {ukur:genUkur,jenis:genJenis,tebak:genTebak,bentuk:genBentuk}[kind](level,r); }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify(p.steps.map(s=>[s.t,s.fig&&[s.fig.o,s.fig.a,s.fig.th,s.fig.h],s.txt,s.th,s.side]));
+const DAILY={};
+function dailyPuzzle(kind,level,n){
+  const id=kind+"|"+level, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()});
+  while(c.list.length<n){ const d=c.list.length+1; let p=null,best=null,bestAge=-1;
+    for(let k=0;k<30;k++){ const q=makePuzzle(kind,level,hashStr(`busur-sudut|${id}|${d}|${k}`)), key=puzzleKey(q), age=c.last.has(key)?d-c.last.get(key):1e9;
+      if(age>365){ p=q; break; } if(age>bestAge){ best=q; bestAge=age; } }
+    p=p||best; c.list.push(p); c.last.set(puzzleKey(p),d); }
+  return c.list[n-1];
+}
+/* ================= AKHIR INTI ================= */</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"ukur",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("bu_prefs",{}));
+if(!KINDS[P.kind]) P.kind="ukur"; if(!LEVELS[P.level]) P.level="mudah";
+const saveP=()=>lsSet("bu_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2400); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function resetStep(){ const st=cur(); G.phi=st.pr&&st.pr.phi!==undefined?st.pr.phi:st.phi||0; G.prOn=false; G.rel=st.rel0; G.fields=[""]; G.struck=[]; G.rev=null; }
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,step:0};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","step"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  resetStep(); $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`bu_day_${G.level}_${G.kind}`;
+/* langkah yang sedang dipamerkan (Tebak) dianggap sudah lewat, jadi muat ulang langsung ke soal berikutnya */
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,step:Math.min(G.step+(G.rev?1:0),G.p.steps.length-1)}); }
+const cur=()=>G.p.steps[Math.min(G.step,G.p.steps.length-1)];
+
+/* ---------- geometri gambar: titik sudut di (0,0), arah berlawanan jarum jam, y layar ke bawah ---------- */
+const R=150, LA=185;
+const rad=d=>d*Math.PI/180;
+const pt=(r,d)=>[+(r*Math.cos(rad(d))).toFixed(2),+(-r*Math.sin(rad(d))).toFixed(2)];
+const add=(p,q)=>[+(p[0]+q[0]).toFixed(2),+(p[1]+q[1]).toFixed(2)];
+const P2=p=>p.join(" ");
+const seg=(r1,r2,d)=>`M${P2(pt(r1,d))}L${P2(pt(r2,d))}`;
+function arcD(r,a0,sw,move){ const n=Math.max(1,Math.ceil(sw/90)); let s=move===false?"":`M${P2(pt(r,a0))}`;
+  for(let i=1;i<=n;i++) s+=`A${r} ${r} 0 0 0 ${P2(pt(r,a0+sw*i/n))}`; return s; }
+const poly=(ps,attr)=>`<polygon points="${ps.map(P2).join(" ")}" ${attr}/>`;
+const capF=s=>s[0].toUpperCase()+s.slice(1);
+
+/* busur derajat: phi = arah angka 0 skala luar */
+function protSVG(phi,two,ok){
+  let s=`<path d="${arcD(R,phi,180)}Z" fill="rgba(56,189,248,.17)" stroke="#0369A1" stroke-width="1.6"/><path d="${arcD(R-56,phi,180)}" fill="none" stroke="#7DD3FC" stroke-width="1.2"/>`;
+  let tk=""; for(let v=0;v<=180;v++) tk+=seg(R-(v%10===0?14:v%5===0?10:6),R,phi+v);
+  s+=`<path d="${tk}" stroke="#0C4A6E" stroke-width="1" fill="none"/>`;
+  /* angka 0 dan 180 digeser sedikit ke dalam supaya tidak tertimpa garis dasar */
+  for(let v=0;v<=180;v+=10){ const d=phi+v+(v===0?4:v===180?-4:0), o=pt(R-25,d), i=pt(R-42,phi+v+(v===0?5:v===180?-5:0)); s+=`<text x="${o[0]}" y="${o[1]}" class="lo">${v}</text>`; if(two) s+=`<text x="${i[0]}" y="${i[1]}" class="li">${180-v}</text>`; }
+  s+=`<path d="${seg(0,R,phi)}${seg(0,R,phi+180)}" stroke="${ok?"#16A34A":"#0369A1"}" stroke-width="${ok?3.2:2}"/><path d="${seg(0,13,phi+90)}" stroke="#0369A1" stroke-width="1.6"/><circle r="3.2" fill="#fff" stroke="#0369A1" stroke-width="1.6"/>`;
+  return `<g>${s}</g>`; }
+/* tanda sudut di dekat titik sudut */
+function markSVG(a0,sw,done,rm){ rm=rm||30; if(sw<=0) return "";
+  if(done&&sw===90){ const q=[pt(22,a0),add(pt(22,a0),pt(22,a0+90)),pt(22,a0+90)]; return `<path d="M${P2(q[0])}L${P2(q[1])}L${P2(q[2])}" fill="rgba(249,115,22,.18)" stroke="#EA580C" stroke-width="2.5"/>`; }
+  return `<path d="M0 0L${P2(pt(rm,a0))}${arcD(rm,a0,sw,false)}Z" fill="rgba(249,115,22,.2)"/><path d="${arcD(rm,a0,sw)}" fill="none" stroke="#EA580C" stroke-width="2.6"/>`; }
+const valSVG=(a0,sw)=>{ const p=pt(sw<40?66:56,a0+sw/2); return `<text x="${p[0]}" y="${p[1]}" class="val">${sw}°</text>`; };
+const extSVG=(dirs)=>`<path d="${dirs.map(d=>seg(0,LA,d)).join("")}" stroke="#475569" stroke-width="1.6" stroke-dasharray="6 5" fill="none"/>`;
+
+/* ---------- benda: kaki A searah f.a, kaki C searah c ---------- */
+function objSVG(f,c){ const a=f.a; let s="";
+  if(f.o==="garis") return `<path d="${seg(0,LA,a)}${seg(0,LA,c)}" stroke="#172554" stroke-width="3.6" stroke-linecap="round" fill="none"/><circle r="4.5" fill="#172554"/>`;
+  if(f.o==="laptop"){ const n=c+90;
+    s+=`<rect x="-4" y="0" width="182" height="13" rx="4" fill="#CBD5E1" stroke="#334155" stroke-width="2"/><rect x="150" y="13" width="18" height="3" rx="1.5" fill="#334155"/>`;
+    s+=poly([[0,0],pt(152,c),add(pt(152,c),pt(10,n)),pt(10,n)],`fill="#1E293B" stroke="#0F172A" stroke-width="2" stroke-linejoin="round"`);
+    s+=poly([pt(14,c),pt(140,c),add(pt(140,c),pt(4,n)),add(pt(14,c),pt(4,n))],`fill="#38BDF8"`)+`<circle r="6" fill="#475569"/>`; return s; }
+  if(f.o==="pintu"){ const n=c+90;
+    s+=`<rect x="-80" y="-8" width="74" height="16" fill="#94A3B8" stroke="#475569" stroke-width="1.5"/><rect x="126" y="-8" width="70" height="16" fill="#94A3B8" stroke="#475569" stroke-width="1.5"/>`;
+    s+=`<path d="${seg(0,120,0)}" stroke="#92400E" stroke-width="3"/><path d="${arcD(116,0,c)}" fill="none" stroke="#B45309" stroke-width="1.4" stroke-dasharray="4 4"/>`;
+    s+=poly([[0,0],pt(116,c),add(pt(116,c),pt(9,n)),pt(9,n)],`fill="#D97706" stroke="#78350F" stroke-width="2" stroke-linejoin="round"`)+`<circle cx="${add(pt(98,c),pt(13,n))[0]}" cy="${add(pt(98,c),pt(13,n))[1]}" r="4" fill="#FDE047" stroke="#78350F"/><circle r="5" fill="#475569"/>`; return s; }
+  if(f.o==="tangga"){ const n=c+90, wx=+(175*Math.cos(rad(c))+1).toFixed(1), top=+(175*Math.sin(rad(c))).toFixed(1);
+    s+=`<rect x="${wx}" y="${-top-30}" width="16" height="${top+30}" fill="#E2E8F0" stroke="#64748B" stroke-width="1.5"/>`;
+    for(let y=-12;y>-top-28;y-=14) s+=`<path d="M${wx} ${y}h16" stroke="#94A3B8"/>`;
+    s+=`<path d="M-45 0H${wx+16}" stroke="#78350F" stroke-width="3"/>`; for(let x=-40;x<wx+10;x+=14) s+=`<path d="M${x} 2l-6 8" stroke="#A16207" stroke-width="1.4"/>`;
+    s+=`<path d="${seg(0,175,c)}M${P2(pt(16,n))}L${P2(add(pt(175,c),pt(16,n)))}" stroke="#B45309" stroke-width="5" stroke-linecap="round"/>`;
+    let rg=""; for(let d=18;d<175;d+=20) rg+=`M${P2(pt(d,c))}L${P2(add(pt(d,c),pt(16,n)))}`; return s+`<path d="${rg}" stroke="#D97706" stroke-width="3.5"/>`; }
+  if(f.o==="gunting"){ const bl=(d,sd)=>poly([[0,0],pt(150,d),add(pt(136,d),pt(7,d+sd*90)),add(pt(10,d),pt(9,d+sd*90))],`fill="#E2E8F0" stroke="#334155" stroke-width="2" stroke-linejoin="round"`);
+    const hd=(d,col)=>`<path d="${seg(6,58,d+180)}" stroke="${col}" stroke-width="8" stroke-linecap="round"/><circle cx="${pt(80,d+180)[0]}" cy="${pt(80,d+180)[1]}" r="19" fill="none" stroke="${col}" stroke-width="7"/>`;
+    return hd(a,"#EF4444")+hd(c,"#F97316")+bl(a,-1)+bl(c,1)+`<circle r="6" fill="#334155"/><circle r="2" fill="#E2E8F0"/>`; }
+  if(f.o==="pizza"){ const sw=nrm(c-a)||360;
+    /* pizza lebih besar dari busur supaya pinggirannya tidak menutupi garis skala */
+    s+=`<path d="M0 0L${P2(pt(172,a))}${arcD(172,a,sw,false)}Z" fill="#FDE68A" stroke="#B45309" stroke-width="2" stroke-linejoin="round"/><path d="${arcD(165,a,sw)}" fill="none" stroke="#D97706" stroke-width="12" stroke-linecap="round"/>`;
+    for(const [rr,fr] of [[66,.5],[104,.28],[104,.72],[136,.5]]){ const p=pt(rr,a+sw*fr), rr2=Math.min(10,rr*rad(sw)*0.14); s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${rr2.toFixed(1)}" fill="#DC2626"/>`; } return s; }
+  if(f.o==="buku"){ const w=pt(160,a), h=pt(116,a+90);
+    s+=poly([[0,0],w,add(w,h),h],`fill="#60A5FA" stroke="#1E3A8A" stroke-width="2.5" stroke-linejoin="round"`)+poly([[0,0],pt(16,a),add(pt(16,a),h),h],`fill="#2563EB"`);
+    s+=poly([add(pt(46,a),pt(36,a+90)),add(pt(140,a),pt(36,a+90)),add(pt(140,a),pt(80,a+90)),add(pt(46,a),pt(80,a+90))],`fill="#DBEAFE"`); return s; }
+  if(f.o==="jam"){ s+=`<circle r="126" fill="#FFFBEB" stroke="#92400E" stroke-width="5"/>`; let tk="";
+    for(let m=0;m<60;m++) tk+=seg(m%5?117:110,122,90-6*m); s+=`<path d="${tk}" stroke="#92400E" stroke-width="1.6"/>`;
+    for(let h=1;h<=12;h++){ const p=pt(99,90-30*h); s+=`<text x="${p[0]}" y="${p[1]}" class="jn">${h}</text>`; }
+    s+=`<path d="${seg(0,80,90)}" stroke="#172554" stroke-width="5" stroke-linecap="round"/><path d="${seg(0,54,90-30*f.h)}" stroke="#172554" stroke-width="9" stroke-linecap="round"/><circle r="7" fill="#B91C1C"/>`; return s; }
+  return s; }
+/* titik-titik terluar untuk viewBox */
+function objExt(f,c){ const a=f.a, P=[[0,0]];
+  if(f.o==="garis") P.push(pt(LA+26,a),pt(LA+26,c),pt(34,a+nrm(c-a)/2+180));
+  else if(f.o==="laptop") P.push([-6,16],[180,16],pt(160,c),add(pt(160,c),pt(12,c+90)));
+  else if(f.o==="pintu") P.push([-82,-10],[198,10],pt(128,c),add(pt(128,c),pt(14,c+90)));
+  else if(f.o==="tangga"){ const wx=175*Math.cos(rad(c)), top=175*Math.sin(rad(c)); P.push([-48,12],[wx+20,-top-32],[wx+20,12],add(pt(178,c),pt(18,c+90))); }
+  else if(f.o==="gunting") P.push(pt(154,a),pt(154,c),pt(104,a+180),pt(104,c+180));
+  else if(f.o==="pizza"){ const sw=nrm(c-a)||360; for(let k=0;k<=12;k++) P.push(pt(175,a+sw*k/12)); }
+  else if(f.o==="buku"){ const w=pt(160,a), h=pt(116,a+90); P.push(w,h,add(w,h)); }
+  else if(f.o==="jam") P.push([-130,-130],[130,130]);
+  return P; }
+/* ---------- keadaan busur ---------- */
+const alignedPhi=(st,phi)=>alignPhis(st.fig).find(x=>angDist(x,phi)<.01);
+function snapPhi(st,phi,thr){ for(const c of alignPhis(st.fig)) if(angDist(phi,c)<=thr) return c; return nrm(phi); }
+const showDone=()=>G.done||!!G.rev;
+/* posisi busur saat jawaban dipamerkan: yang sedang terpasang, atau yang paling tegak */
+function bestPhi(st){ const c=alignPhis(st.fig); const on=c.find(x=>angDist(x,G.phi)<.01); return on!==undefined?on:c.reduce((b,x)=>angDist(x,0)<angDist(b,0)?x:b,c[0]); }
+function prState(st){
+  if(st.t==="bentuk") return {phi:st.phi,two:st.two,mov:false};
+  if(st.t==="ukur"){ if(st.pr.m==="tanpa") return null; return G.done?{phi:bestPhi(st),two:st.pr.two,mov:false}:{phi:G.phi,two:st.pr.two,mov:st.pr.m==="putar"}; }
+  if(st.t==="jenis") return st.fig&&st.pr.m==="pilih"&&G.prOn&&!G.done?{phi:G.phi,two:true,mov:true}:null;
+  if(st.t==="tebak"){ if(!showDone()) return null; const phi=bestPhi(st); return {phi,two:G.level!=="mudah"||readingOf(st.fig,phi).skala==="dalam",mov:false}; }
+  return null; }
+const clampRel=(st,rel)=>Math.max(st.step,Math.min(180-st.step,Math.round(rel/st.step)*st.step));
+const relDone=st=>st.side==="luar"?st.ans:180-st.ans;
+function sceneLayers(st,ps){ const f=st.fig, done=showDone(); let c,m0,msw,s;
+  if(st.t==="bentuk"){ const rel=G.done?relDone(st):G.rel; c=nrm(st.phi+rel); [m0,msw]=st.side==="luar"?[f.a,rel]:[c,180-rel]; }
+  else { c=nrm(f.a+f.th); m0=f.a; msw=f.th; }
+  /* Bentuk: kaki yang diputar berwarna oranye */
+  s=st.t==="bentuk"&&f.o==="garis"?`<path d="${seg(0,LA,f.a)}" stroke="#172554" stroke-width="3.6" stroke-linecap="round"/><path d="${seg(0,LA,c)}" stroke="#EA580C" stroke-width="3.6" stroke-linecap="round"/><circle r="4.5" fill="#172554"/>`:objSVG(f,c);
+  if(ps&&f.o!=="garis") s+=extSVG([f.a,c]);
+  s+=markSVG(m0,msw,done,f.o==="jam"?40:30);
+  let read=null;
+  if(ps){ if(st.t==="bentuk") read=c; else { const rd=readingOf(f,ps.phi); if(rd) read=rd.dir; } s+=protSVG(ps.phi,ps.two,read!==null); }
+  if(f.L){ const lb=(r,d,t)=>{ const p=pt(r,d); return `<text x="${p[0]}" y="${p[1]}" class="lt">${t}</text>`; }; s+=lb(LA+15,f.a,f.L[0])+lb(LA+15,c,f.L[2])+lb(22,m0+msw/2+180,f.L[1]); }
+  if(st.t==="bentuk"&&!G.done){ const p=pt(f.o==="garis"?LA-6:132,c); s+=`<circle cx="${p[0]}" cy="${p[1]}" r="11" fill="#F97316" stroke="#fff" stroke-width="3"/>`; }
+  if(done) s+=valSVG(m0,msw);
+  return {s,read}; }
+function viewBoxFor(st){ const f=st.fig; let P;
+  if(st.t==="bentuk"){ P=objExt(f,st.phi); for(let k=0;k<=180;k+=10) P.push(pt(f.o==="garis"?LA+30:168,st.phi+k)); }
+  else { const c=nrm(f.a+f.th), m=st.t==="ukur"?st.pr.m:st.t==="jenis"?(G.prOn?"putar":"tanpa"):"tebak"; P=objExt(f,c);
+    if(m==="putar") for(let k=0;k<360;k+=15) P.push(pt(R+6,k));
+    else if(m==="tetap"||m==="tebak"){ const phi=m==="tetap"?st.pr.phi:bestPhi(st); for(let k=0;k<=180;k+=10) P.push(pt(R+6,phi+k)); }
+    if(m!=="tanpa"&&f.o!=="garis") P.push(pt(LA+4,f.a),pt(LA+4,c)); }
+  let x0=Math.min(...P.map(p=>p[0]))-12, y0=Math.min(...P.map(p=>p[1]))-12, w=Math.max(...P.map(p=>p[0]))+12-x0, h=Math.max(...P.map(p=>p[1]))+12-y0;
+  if(h>w*1.15){ const nw=h/1.15; x0-=(nw-w)/2; w=nw; } if(w>h*2){ const nh=w/2; y0-=(nh-h)/2; h=nh; }
+  return [x0,y0,w,h].map(v=>+v.toFixed(1)).join(" "); }
+let raf=0; const schedule=()=>{ if(!raf) raf=requestAnimationFrame(()=>{ raf=0; drawScene(); }); };
+function drawScene(){ const st=cur(); if(!st.fig||!$("dyn")) return; const L=sceneLayers(st,prState(st)); $("dyn").innerHTML=L.s;
+  const lw=$("lensw"); if(L.read!==null&&!showDone()){ const q=pt(R-26,L.read); $("lens").setAttribute("viewBox",`${(q[0]-27).toFixed(1)} ${(q[1]-27).toFixed(1)} 54 54`); $("lensg").innerHTML=L.s; lw.hidden=false; } else lw.hidden=true;
+  const al=$("alg"); if(al){ const ok=L.read!==null; al.className="sub"+(ok?" ok":""); al.textContent=ok?"✓ Busur terpasang. Baca skalanya.":"Busur belum terpasang."; } }
+const sceneLabel=st=>st.fig.o==="garis"?`Gambar ${angName(st.fig)}`:st.fig.o==="jam"?"Gambar jam dinding":`Gambar ${BENDA[st.fig.o].tanya}`;
+
+/* ---------- tampilan ---------- */
+const DEF=["kurang dari 90°","tepat 90°","antara 90° dan 180°","tepat 180°"];
+function render(){
+  const st=cur(), n=G.p.steps.length, f=st.fig; let h="", c="", needPad=false, lens="";
+  h+=n>1?`<div class="prog" aria-label="Soal ${G.step+1} dari ${n}">${G.p.steps.map((_,i)=>`<i class="${i<G.step||G.done?"d":i===G.step?"c":""}"></i>`).join("")}</div>`:"";
+  h+=`<div class="qtext">${st.q}${st.sub&&!showDone()?`<small>${st.sub}</small>`:""}</div>`;
+  if(f){ const ps=prState(st), mov=!G.done&&((ps&&ps.mov)||st.t==="bentuk");
+    h+=`<div class="scnw"><svg class="scn${mov?" mov":""}" id="scn" viewBox="${viewBoxFor(st)}" role="img" aria-label="${esc(sceneLabel(st))}"><g id="dyn"></g></svg></div>`;
+    lens=`<div class="lensw" id="lensw" hidden><svg class="lens" id="lens" aria-hidden="true"><g id="lensg"></g></svg><span>🔍 Kaca pembesar</span></div>`;
+    /* di proyektor (mode Kelas) kaca pembesar pindah ke kolom kanan supaya gambar tetap muat di layar */
+    if(G.mode!=="kelas") h+=lens; }
+  else h+=`<div class="big">${st.txt==="jam"?`Pukul ${jamTxt(st.h)}<small>jarum panjang dan jarum pendek</small>`:`${st.th}°`}</div>`;
+  const nm=f&&f.o==="garis"?angName(f):st.t==="bentuk"?"Bukaan":"Besar sudut";
+  const rotRow=`<p class="sub" id="alg"></p><div class="rot"><button type="button" data-r="5" aria-label="Putar busur berlawanan arah jarum jam">⟲</button><span>Putar busur</span><button type="button" data-r="-5" aria-label="Putar busur searah jarum jam">⟳</button></div>`;
+  const fld=()=>`<span class="fld act${G.fields[0]?"":" ph"}">${G.fields[0]||"?"}</span><span>°</span>`;
+  if(st.t==="ukur"){ if(G.done) c=`<div class="ans">${nm} = ${st.ans}°</div>`; else { if(st.pr.m==="putar") c+=rotRow; c+=`<div class="form"><span>${nm} =</span>${fld()}</div>`; needPad=true; } }
+  else if(st.t==="jenis"){ if(st.pr.m==="pilih"&&!G.done) c+=`<button class="btn ghost" type="button" id="prT">${G.prOn?"Sembunyikan busur":"📐 Pakai busur"}</button>${G.prOn?rotRow:""}`;
+    c+=`<div class="ops">${JENIS.map((j,i)=>`<button type="button" class="op${G.done&&i===st.ans?" ok":""}" data-o="${i}" ${G.struck.includes(i)||G.done?"disabled":""}>${capF(j)}<small>${DEF[i]}</small></button>`).join("")}</div>`;
+    if(G.done) c+=`<div class="ans">${st.th}° → ${JENIS[st.ans]}</div>`; }
+  else if(st.t==="tebak"){ if(showDone()) c=`<div class="ans">${nm} = ${st.ans}°</div>${G.rev?`<p class="sub">Tebakanmu ${G.rev.v}°, selisih ${Math.abs(G.rev.v-st.ans)}° ✓</p>`:""}${G.rev&&!G.done?`<button class="btn" type="button" id="nextBtn">Lanjut →</button>`:""}`;
+    else { c=`<div class="form"><span>${nm} ≈</span>${fld()}</div>`; needPad=true; } }
+  else { if(G.done) c=`<div class="ans">${nm} = ${st.ans}° ✓</div>`;
+    else c=`<div class="rot4">${[st.big,st.step,-st.step,-st.big].map(d=>`<button type="button" data-a="${d}" aria-label="Putar ${d>0?"berlawanan arah":"searah"} jarum jam ${Math.abs(d)} derajat">${d>0?"⟲":"⟳"} ${Math.abs(d)}°</button>`).join("")}</div>`; }
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=(G.mode==="kelas"?lens:"")+c;
+  $("pad").hidden=!needPad; $("okBtn").hidden=G.done||st.t==="jenis"||!!G.rev;
+  $("hintBtn").hidden=!(G.wrong>=3&&!G.done&&G.mode!=="kelas");
+  renderInfo(); renderSegs(); if(f) drawScene();
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0, short={ukur:"Ukur",jenis:"Jenis",tebak:"Tebak",bentuk:"Bentuk"};
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`bu_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}"><span style="display:block">${v.icon}</span>${short[k]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}<small>${l.sub}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+
+/* ---------- memutar busur / kaki sudut dengan jari atau tetikus ---------- */
+let drag=null;
+function scenePt(cx,cy){ const svg=$("scn"), m=svg&&svg.getScreenCTM(); if(!m) return null; const p=new DOMPoint(cx,cy).matrixTransform(m.inverse()); return {x:p.x,y:-p.y,d:Math.hypot(p.x,p.y),ang:nrm(Math.atan2(-p.y,p.x)*180/Math.PI)}; }
+function setArm(st,ang){ let rel=nrm(ang-st.phi); if(rel>180) rel=rel>270?0:180; G.rel=clampRel(st,rel); schedule(); }
+function dragStart(cx,cy){ if(!G||G.done||G.rev) return false; const st=cur(); if(!st.fig) return false; const p=scenePt(cx,cy); if(!p) return false;
+  if(st.t==="bentuk"){ const rel=nrm(p.ang-st.phi); if(p.d<10||p.d>LA+40||(rel>205&&rel<335)) return false; drag={m:"arm"}; setArm(st,p.ang); return true; }
+  const ps=prState(st); if(ps&&ps.mov&&p.d<=R+40){ drag={m:"rot",a0:p.ang,p0:G.phi}; return true; }
+  return false; }
+function dragMove(cx,cy){ const p=scenePt(cx,cy), st=cur(); if(!p||!drag) return;
+  if(drag.m==="arm") setArm(st,p.ang); else { G.phi=snapPhi(st,drag.p0+p.ang-drag.a0,3); schedule(); } }
+function dragEnd(){ if(drag&&drag.m==="rot"){ G.phi=snapPhi(cur(),G.phi,4); drawScene(); } drag=null; }
+/* sentuhan ditangkap hanya kalau dimulai di busur, sehingga halaman tetap bisa digulir di tempat lain */
+$("play").addEventListener("touchstart",e=>{ if(e.touches.length!==1||!e.target.closest("#scn")) return; const t=e.touches[0]; if(dragStart(t.clientX,t.clientY)) e.preventDefault(); },{passive:false});
+$("play").addEventListener("touchmove",e=>{ if(!drag) return; e.preventDefault(); const t=e.touches[0]; dragMove(t.clientX,t.clientY); },{passive:false});
+$("play").addEventListener("touchend",()=>{ if(drag) dragEnd(); }); $("play").addEventListener("touchcancel",()=>{ if(drag) dragEnd(); });
+$("play").addEventListener("mousedown",e=>{ if(e.target.closest("#scn")&&dragStart(e.clientX,e.clientY)) e.preventDefault(); });
+window.addEventListener("mousemove",e=>{ if(drag) dragMove(e.clientX,e.clientY); });
+window.addEventListener("mouseup",()=>{ if(drag) dragEnd(); });
+
+/* ---------- interaksi ---------- */
+function nextStep(msg){ G.step++; $("fb").innerHTML=msg?`<span class="ok">✓ ${msg}</span>`:"";
+  if(G.step>=G.p.steps.length){ G.step=G.p.steps.length-1; return finish(); } resetStep(); saveDay(); render(); }
+function miss(msg){ G.wrong++; $("fb").innerHTML=`<span class="no">✗ ${msg}</span>`; saveDay(); render(); }
+function turn(sgn){ const st=cur(); if(!G||G.done||G.rev||!st.fig) return false;
+  if(st.t==="bentuk"){ G.rel=clampRel(st,G.rel+sgn*st.step); drawScene(); return true; }
+  const ps=prState(st); if(ps&&ps.mov){ G.phi=snapPhi(st,G.phi+sgn*5,2.6); drawScene(); return true; } return false; }
+$("ctrlBody").addEventListener("click",e=>{ if(!G||G.done) return; const st=cur(), b=e.target.closest("button"); if(!b) return;
+  if(b.id==="nextBtn") return nextStep();
+  if(G.rev) return;
+  if(b.dataset.r!==undefined){ G.phi=snapPhi(st,G.phi+(+b.dataset.r),2.6); drawScene(); return; }
+  if(b.dataset.a!==undefined){ G.rel=clampRel(st,G.rel+(+b.dataset.a)); drawScene(); return; }
+  if(b.id==="prT"){ G.prOn=!G.prOn; G.phi=0; render(); return; }
+  if(b.dataset.o!==undefined&&!b.disabled){ const i=+b.dataset.o; if(i===st.ans) return nextStep(`Benar! ${st.th}° termasuk sudut ${JENIS[i]}.`);
+    G.struck.push(i); return miss(`Belum tepat. Sudut ${JENIS[i]} ${DEF[i]}.${st.pr.m==="pilih"?" Coba ukur dengan busur 📐.":""}`); }
+});
+function press(k){
+  const st=cur(); if(!G||G.done||G.rev||!(st.t==="ukur"||st.t==="tebak")) return;
+  if(k==="ok") return check();
+  let v=G.fields[0]; if(k==="del") v=v.slice(0,-1); else if(v.length<3) v=(v==="0"?"":v)+k;
+  G.fields[0]=v; render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G||G.done) return;
+  if(e.key==="ArrowLeft"||e.key==="ArrowRight"){ if(turn(e.key==="ArrowLeft"?1:-1)) e.preventDefault(); return; }
+  if(e.key==="Enter"){ if(document.activeElement&&document.activeElement.tagName==="BUTTON") return; e.preventDefault(); if(G.rev) return nextStep(); if(cur().t!=="jenis") check(); return; }
+  if(/^[0-9]$/.test(e.key)||e.key==="Backspace"){ e.preventDefault(); press(e.key==="Backspace"?"del":e.key); }
+});
+function check(){
+  if(G.done||G.rev) return; const st=cur(), th=st.ans;
+  if(st.t==="bentuk"){ const f=formedOf(st,G.rel); if(f===th) return nextStep(`Pas, ${th}°!`);
+    if(st.two&&th!==90&&f===180-th) return miss(`Kamu memakai skala yang salah. Pakai skala yang angka 0-nya ada di ${st.fig.o==="garis"?`kaki ${st.fig.L[1]}${st.fig.L[0]}`:BENDA[st.fig.o].ka}.`);
+    return miss(f<th?"Sudutnya masih terlalu kecil. Baca lagi skalanya.":"Sudutnya terlalu besar. Baca lagi skalanya."); }
+  if(st.t==="ukur"&&st.pr.m==="putar"&&alignedPhi(st,G.phi)===undefined){ toast("Pasang busur dulu: putar sampai garis 0 berimpit dengan salah satu kaki sudut.",3200); return; }
+  if(!G.fields[0]){ toast("Ketik jawabannya dulu."); return; }
+  const v=+G.fields[0]; if(v>180){ toast("Sudut di sini paling besar 180°."); return; }
+  if(st.t==="ukur"){ if(v===th) return nextStep(`Benar, ${th}°!`);
+    if(st.fig.o==="jam") return miss("Belum tepat. Hitung jarak angkanya: satu jarak = 30°.");
+    if(st.pr.two&&th!==90&&v===180-th) return miss("Itu angka dari skala yang lain. Pakai skala yang angka 0-nya ada di kaki sudut yang berimpit dengan garis 0.");
+    if(Math.abs(v-th)<=3) return miss("Hampir! Hitung lagi garis kecilnya satu per satu.");
+    return miss("Belum tepat. Baca angka di tempat kaki sudut memotong skala."); }
+  const d=v-th;
+  if(Math.abs(d)<=st.tol){ G.rev={v}; $("fb").innerHTML=`<span class="ok">✓ ${d===0?"Tepat sekali!":"Tebakan bagus!"}</span>`; if(G.step>=G.p.steps.length-1) return finish(); saveDay(); render(); return; }
+  return miss(`Terlalu ${d>0?"besar":"kecil"}${Math.abs(d)>25?", selisihnya masih jauh":""}. Coba lagi.`);
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${explain(G.p).map((x,i)=>`<div>${G.p.steps.length>1?`<b>${i+1}.</b> `:""}${x}</div>`).join("")}</div>`;
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Petunjuk</h2><div class="how"><div>${cur().how}</div></div><p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("bu_st_"+l,{})); }
+function recordDay(){
+  const allk=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`bu_day_${G.level}_${k}`,null));
+  if(!allk.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=allk.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("bu_st_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Petunjuk":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`bu_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h;
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`bu_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Busur Sudut #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.step||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
