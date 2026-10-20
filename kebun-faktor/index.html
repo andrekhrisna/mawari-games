@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F0FDF4">
+<title>Kebun Faktor</title>
+<meta name="description" content="Kebun Faktor untuk SD kelas 4–6: pasangan faktor dengan ubin, saringan kelipatan dan bilangan prima, pohon faktor dan faktorisasi prima, serta KPK dan FPB lewat daftar, faktorisasi prima, dan soal cerita sehari-hari.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2316A34A'/%3E%3Cpath d='M32 50V30M32 30L20 18M32 30L44 18' stroke='%23fff' stroke-width='4' stroke-linecap='round'/%3E%3Ccircle cx='20' cy='16' r='7' fill='%23FDE047'/%3E%3Ccircle cx='44' cy='16' r='7' fill='%23FDE047'/%3E%3Ccircle cx='32' cy='52' r='7' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#F0FDF4;
+  --card:#FFFFFF;
+  --ink:#14532D;
+  --muted:#4D6B57;
+  --line:#BBF7D0;
+  --gr:#16A34A;
+  --gr-d:#15803D;
+  --soft:#DCFCE7;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1100px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--gr)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+@media (max-width:360px){#segKind button{font-size:.76rem;letter-spacing:-.2px}}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+.qtext{font-weight:800;font-size:1.12rem;line-height:1.45;text-align:center}
+.qtext small{display:block;font-weight:700;font-size:.85rem;color:var(--muted)}
+.prog{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.prog i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.prog i.d{background:var(--green)} .prog i.c{background:var(--gr);transform:scale(1.25)}
+/* ubin persegi panjang */
+.tiles{display:flex;justify-content:center}
+.tiles svg{display:block;width:100%;max-width:440px;height:auto;max-height:46vh}
+.tinfo{text-align:center;font-weight:800;font-size:1.05rem}
+.tinfo.ok{color:var(--green)} .tinfo.no{color:#B45309}
+.found{display:flex;flex-wrap:wrap;gap:6px;justify-content:center}
+.found span{background:var(--soft);border:1.5px solid #86EFAC;border-radius:999px;padding:3px 10px;font-weight:800}
+/* papan bilangan */
+.board{display:grid;grid-template-columns:repeat(var(--c,10),minmax(0,1fr));gap:3px;max-width:440px;width:100%;margin:0 auto}
+.board button{aspect-ratio:1;border:1.5px solid var(--line);background:#fff;border-radius:8px;font-weight:800;font-size:clamp(.72rem,3.2vw,1rem);cursor:pointer;padding:0;position:relative;color:var(--ink)}
+.board.big button{font-size:clamp(.9rem,4.4vw,1.3rem)}
+.board button.m0{background:#FEF08A;border-color:#FACC15}
+.board button.m1{box-shadow:inset 0 0 0 3px #F472B6}
+.board button.sel{background:var(--gr);color:#fff;border-color:var(--gr-d)}
+.board button.ok{background:#D1FAE5;border-color:var(--green);color:var(--ink)}
+.board button.x{color:#A3A3A3;background:#F5F5F5;text-decoration:line-through;border-color:#E5E5E5}
+.board button.o{border:3px solid var(--gr);border-radius:50%;background:#DCFCE7}
+.board button.pr{border-color:var(--gr);background:#ECFDF5}
+.board:not(.live) button{cursor:default}
+.keyl{display:flex;flex-wrap:wrap;gap:6px 12px;justify-content:center;font-size:.82rem;font-weight:700;color:var(--muted)}
+.keyl i{display:inline-block;width:14px;height:14px;border-radius:4px;vertical-align:-2px;margin-right:4px;border:1.5px solid var(--line)}
+.keyl i.m0{background:#FEF08A;border-color:#FACC15} .keyl i.m1{box-shadow:inset 0 0 0 3px #F472B6} .keyl i.sel{background:var(--gr);border-color:var(--gr-d)}
+/* pohon faktor */
+.tree{display:flex;justify-content:center}
+.tree svg{display:block;width:100%;max-width:460px;height:auto;max-height:56vh}
+.tree text{font-family:'Baloo 2',sans-serif;font-weight:800;text-anchor:middle;dominant-baseline:central}
+.tree [data-node]{cursor:pointer}
+.tree.sm svg{max-height:34vh}
+/* daftar kelipatan/faktor */
+.lst{display:flex;flex-direction:column;gap:4px}
+.lst b{font-size:.95rem}
+.chips{display:flex;flex-wrap:wrap;gap:5px}
+.chips button{min-width:42px;height:38px;border:2px solid var(--line);background:#fff;border-radius:10px;font-weight:800;font-size:1rem;cursor:pointer;padding:0 6px;color:var(--ink)}
+.chips button.no{opacity:.35;text-decoration:line-through}
+.chips button.ok{background:#D1FAE5;border-color:var(--green)}
+.fz{display:flex;flex-direction:column;gap:6px;align-items:center;font-weight:800;font-size:1.35rem}
+.story{font-size:1.08rem;line-height:1.55;font-weight:700;text-align:left;background:var(--bg);border-radius:14px;padding:10px 14px}
+.story .ic{font-size:2.2rem;float:left;margin:0 10px 0 0;line-height:1}
+.ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.op{border:3px solid var(--line);background:#fff;border-radius:14px;padding:8px 6px;font-weight:800;font-size:1.15rem;cursor:pointer;color:var(--ink);font-family:inherit;line-height:1.15}
+.op small{display:block;font-size:.76rem;color:var(--muted)}
+.op:disabled{opacity:.3;cursor:default}
+.op.ok{border-color:var(--green);background:#D1FAE5;opacity:1}
+.ans{text-align:center;font-weight:800;font-size:1.3rem;color:var(--gr-d)}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.form sup{font-size:.7em}
+.fld{min-width:60px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.pw{display:inline-flex;align-items:flex-start;gap:2px}
+.pw>span:first-child{padding-top:14px;font-size:1.5rem}
+.fld.sm{min-width:34px;height:32px;font-size:1.05rem;padding:0 4px}
+.fld.act{border-color:var(--gr);background:#fff;box-shadow:0 0 0 3px #86EFAC}
+.fld.ph{color:#9CA3AF}
+.fld.bad{border-color:var(--rose);background:#FFE4E6}
+.pad{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:var(--soft);font-weight:800;font-size:1.3rem;cursor:pointer}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+#ctrlBody{display:flex;flex-direction:column;gap:10px}
+#ctrlBody .btn{width:100%}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--gr);color:#fff;box-shadow:0 3px 0 var(--gr-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--gr-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.btn.alt{background:#FEF9C3;color:var(--ink);box-shadow:0 3px 0 #EAB308}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#BBF7D0}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--gr-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(20,83,45,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .qtext{font-size:1.45rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:56px;min-width:100px} .kelas .fld.sm{height:44px;min-width:56px;font-size:1.4rem}
+  .kelas .pad button{height:52px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem}
+  .kelas .op{font-size:1.5rem} .kelas .ans{font-size:2rem} .kelas .story{font-size:1.45rem} .kelas .chips button{min-width:58px;height:50px;font-size:1.35rem}
+  .kelas .board{max-width:min(560px,max(300px,calc(100vh - 470px)))} .kelas .board.big{max-width:560px}
+  .kelas .board+.keyl,.kelas .tree+.board{margin-top:-4px} .kelas .tree+.board{max-width:min(560px,calc(100vh - 300px))} .kelas .tiles svg,.kelas .tree svg{max-width:620px;max-height:max(240px,calc(100vh - 520px))}
+  .kelas .tree.sm svg{max-height:max(170px,calc(100vh - 600px))}
+  .kelas #ctrl,.kelas #ctrlBody{gap:8px} .kelas .seg button{padding:4px 3px} .kelas .wrap{gap:8px}
+  .kelas .grid2{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Kebun <span>Faktor</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button>
+        <button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="next" aria-label="Kotak berikutnya">→</button><button type="button" data-k="del" aria-label="Hapus" style="grid-column:span 3">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Petunjuk</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li><b>🟩 Pasangan Faktor</b>: ketik banyak baris lalu ketuk <b>Susun</b>. Kalau ubinnya pas tanpa sisa, kamu menemukan sepasang faktor. Ketuk <b>Sudah semua</b> kalau semua pasangan sudah ketemu.</li>
+      <li><b>🌼 Saringan Kelipatan</b>: ketuk bilangan di papan sesuai perintah, lalu Cek. Di saringan bilangan prima, coret 1, lalu lingkari bilangan terkecil yang belum dicoret.</li>
+      <li><b>🌳 Pohon Faktor</b>: ketuk bilangan yang belum prima, ketik salah satu faktornya, lalu <b>Pecah</b>. Ujung pohon yang prima berwarna hijau.</li>
+      <li><b>🧺 KPK & FPB</b>: KPK = kelipatan persekutuan terkecil, FPB = faktor persekutuan terbesar. Di soal cerita, pilih dulu KPK atau FPB.</li>
+      <li><b>Mudah</b> kelas 4 (sampai 50, cara daftar), <b>Sedang</b> kelas 5 (sampai 100, bilangan prima), <b>Sulit</b> kelas 6 (faktorisasi prima berpangkat, KPK/FPB tiga bilangan).</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Petunjuk</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+<script>/* ================= INTI: teori bilangan, pembuat soal, pembahasan ================= */
+/* ===== Kebun Faktor: faktor, kelipatan, bilangan prima, KPK, FPB ===== */
+const KINDS={pasangan:{label:"Pasangan Faktor",icon:"🟩"},saringan:{label:"Saringan Kelipatan",icon:"🌼"},pohon:{label:"Pohon Faktor",icon:"🌳"},kpk:{label:"KPK & FPB",icon:"🧺"}};
+const LEVELS={mudah:{label:"Mudah",sub:"kelas 4"},sedang:{label:"Sedang",sub:"kelas 5"},sulit:{label:"Sulit",sub:"kelas 6"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const range=(a,b,s)=>{ const o=[]; for(let x=a;x<=b;x+=s||1) o.push(x); return o; };
+
+/* ---------- teori bilangan ---------- */
+const gcd=(a,b)=>b?gcd(b,a%b):a, lcm=(a,b)=>a/gcd(a,b)*b;
+const gcdA=a=>a.reduce(gcd), lcmA=a=>a.reduce(lcm);
+const divisors=n=>range(1,n).filter(d=>n%d===0);
+const isPrime=n=>{ if(n<2) return false; for(let i=2;i*i<=n;i++) if(n%i===0) return false; return true; };
+function factorize(n){ const f=[]; for(let p=2;p*p<=n;p++){ let e=0; while(n%p===0){ n/=p; e++; } if(e) f.push([p,e]); } if(n>1) f.push([n,1]); return f; }
+const omega=n=>factorize(n).reduce((s,f)=>s+f[1],0);
+const pairsOf=n=>divisors(n).filter(d=>d*d<=n).map(d=>[d,n/d]);
+const multiples=(a,hi)=>range(a,hi,a);
+const SUP="⁰¹²³⁴⁵⁶⁷⁸⁹";
+const sup=e=>String(e).split("").map(c=>SUP[+c]).join("");
+const fText=f=>f.map(([p,e])=>e>1?`${p}${sup(e)}`:`${p}`).join(" × ");
+const fLong=n=>factorize(n).flatMap(([p,e])=>Array(e).fill(p)).join(" × ");
+const listTxt=a=>a.join(", ");
+const capF=t=>t[0].toUpperCase()+t.slice(1);
+const pairTxt=n=>pairsOf(n).map(p=>`${p[0]} × ${p[1]}`).join(", ");
+
+/* ---------- pembentuk langkah ---------- */
+function susunStep(n){ const ps=pairsOf(n);
+  return {t:"susun",n,pairs:ps,q:`Susun <b>${n} ubin</b> menjadi persegi panjang. Temukan semua pasangan faktor ${n}!`,
+    sub:"Ketik banyak baris lalu ketuk Susun. Kalau ubinnya pas, pasangan faktor tercatat.",
+    how:`Pasangan faktor ${n}: ${pairTxt(n)}. ${ps.length===1?`${n} hanya bisa disusun 1 × ${n}, jadi ${n} adalah <b>bilangan prima</b>.`:`Faktor ${n}: <b>${listTxt(divisors(n))}</b>.`}`}; }
+const tandaiStep=(nums,target,q,sub,how,opt)=>Object.assign({t:"tandai",nums,target:[...target].sort((a,b)=>a-b),q,sub,how},opt||{});
+const pilihStep=(opts,ans,q,how)=>({t:"pilih",opts,ans,q,how});
+const primeRange=(lo,hi)=>range(lo,hi).filter(isPrime);
+const notPrimeWhy=t=>{ const p=pairsOf(t); return `${t} = ${p[p.length-1].join(" × ")}`; };
+
+/* ================= 1. PASANGAN FAKTOR ================= */
+const withPairs=(lo,hi,k)=>range(lo,hi).filter(n=>pairsOf(n).length>=k);
+function genPasangan(level,r){ let steps;
+  if(level==="mudah"){ const [n1,n2]=shuffle(withPairs(10,50,3),r), N=pick(withPairs(12,50,3).filter(x=>x!==n1&&x!==n2),r);
+    steps=[susunStep(n1),susunStep(n2),tandaiStep(range(1,N),divisors(N),`Ketuk semua <b>faktor ${N}</b>.`,"Faktor adalah bilangan yang membagi habis.",`Faktor ${N}: <b>${listTxt(divisors(N))}</b> (pasangannya ${pairTxt(N)}).`)]; }
+  else if(level==="sedang"){ const n1=pick(withPairs(24,60,4),r), n2=r()<.5?pick(primeRange(11,59),r):pick(withPairs(20,60,3).filter(x=>x!==n1),r);
+    const pr=pick(primeRange(11,59).filter(x=>x!==n2),r), traps=shuffle([21,27,33,39,49,51,57,15,35,55].filter(x=>x!==n2),r).slice(0,3), opts=shuffle([pr,...traps],r);
+    steps=[susunStep(n1),susunStep(n2),pilihStep(opts,opts.indexOf(pr),`Bilangan prima hanya punya dua faktor: 1 dan dirinya sendiri. Mana yang <b>bilangan prima</b>?`,
+      `<b>${pr}</b> hanya bisa dibagi 1 dan ${pr}. Yang lain bukan prima: ${traps.map(notPrimeWhy).join("; ")}.`)]; }
+  else { const n1=pick(withPairs(60,100,5),r), n2=pick(withPairs(50,100,4).filter(x=>x!==n1),r);
+    let x,y; do{ x=ri(24,60,r); y=ri(24,60,r); }while(x===y||gcd(x,y)<6||divisors(gcd(x,y)).length<4||gcd(x,y)===Math.min(x,y));
+    const lo=Math.min(x,y), hi=Math.max(x,y), C=divisors(gcd(x,y));
+    steps=[susunStep(n1),susunStep(n2),tandaiStep(range(1,lo),C,`Ketuk semua <b>faktor persekutuan</b> ${lo} dan ${hi}.`,`Faktor persekutuan = faktor ${lo} yang juga faktor ${hi}.`,
+      `Faktor ${lo}: ${listTxt(divisors(lo))}. Faktor ${hi}: ${listTxt(divisors(hi))}. Yang sama: <b>${listTxt(C)}</b>. Yang terbesar, <b>${C[C.length-1]}</b>, disebut FPB.`)]; }
+  return {kind:"pasangan",level,steps}; }
+
+/* ================= 2. SARINGAN KELIPATAN ================= */
+const danList=a=>a.length<2?String(a[0]):a.slice(0,-1).join(", ")+" dan "+a[a.length-1];
+function persekutuanStep(ns,hi,prev){ const C=range(1,hi).filter(v=>ns.every(a=>v%a===0)), L=lcmA(ns), nm=danList(ns);
+  return tandaiStep(range(1,hi),C,`Ketuk bilangan yang termasuk kelipatan ${nm} <b>sekaligus</b>.`,prev?"Inilah kelipatan persekutuan.":"Kelipatan persekutuan = kelipatan yang sama.",
+    `Kelipatan persekutuan ${nm} sampai ${hi}: <b>${listTxt(C)}</b>. Semuanya kelipatan ${L}. Yang terkecil, <b>${L}</b>, disebut KPK.`,prev?{prev}:{}); }
+function primeRangeStep(lo,hi){ const P=primeRange(lo,hi);
+  return tandaiStep(range(lo,hi),P,`Ketuk semua <b>bilangan prima</b> dari ${lo} sampai ${hi}.`,"Bilangan prima hanya habis dibagi 1 dan dirinya sendiri.",
+    `Bilangan prima dari ${lo} sampai ${hi}: <b>${listTxt(P)}</b>. Yang lain habis dibagi 2, 3, 5, atau 7.`); }
+function genSaringan(level,r){ let steps;
+  if(level==="mudah"){ let a,b; do{ [a,b]=shuffle(range(2,10),r); }while(a%b===0||b%a===0||lcm(a,b)>25);
+    const A=multiples(a,50), B=multiples(b,50);
+    steps=[tandaiStep(range(1,50),A,`Ketuk semua <b>kelipatan ${a}</b> dari 1 sampai 50.`,`Kelipatan ${a} = ${a} × 1, ${a} × 2, ${a} × 3, …`,`Kelipatan ${a}: <b>${listTxt(A)}</b>.`),
+      tandaiStep(range(1,50),B,`Sekarang ketuk semua <b>kelipatan ${b}</b>.`,`Kelipatan ${a} tetap bertanda kuning.`,`Kelipatan ${b}: <b>${listTxt(B)}</b>.`,{prev:[{set:A,cls:"m0",lbl:`kelipatan ${a}`}]}),
+      persekutuanStep([a,b],50,[{set:A,cls:"m0",lbl:`kelipatan ${a}`},{set:B,cls:"m1",lbl:`kelipatan ${b}`}])]; }
+  else if(level==="sedang"){ let lo; do{ lo=10*ri(0,9,r)+1; }while(primeRange(lo,lo+9).length<2);
+    let a,b; do{ [a,b]=shuffle(range(4,15),r); }while(a%b===0||b%a===0||lcm(a,b)>50);
+    steps=[{t:"saring",hi:100,q:"Saringan Eratosthenes: cari semua <b>bilangan prima</b> dari 1 sampai 100.",sub:"Coret 1 dulu. Lalu lingkari bilangan terkecil yang belum dicoret; kelipatannya akan tercoret.",
+      how:`1 bukan prima. Lingkari 2, 3, 5, 7 dan coret kelipatannya. Cukup sampai 7 karena 11 × 11 = 121 sudah lebih dari 100. Yang tersisa adalah <b>25 bilangan prima</b>: ${listTxt(primeRange(1,100))}.`},
+      primeRangeStep(lo,lo+9),persekutuanStep([a,b],100)]; }
+  else { let lo; do{ lo=10*ri(3,8,r)+1; }while(primeRange(lo,lo+19).length<4);
+    const comp=pick([51,57,87,91,93,77,69,81,63],r), ps=shuffle(primeRange(50,100),r).slice(0,3), opts=shuffle([comp,...ps],r);
+    let t; do{ t=shuffle(range(2,12),r).slice(0,3); }while(lcmA(t)>50||lcmA(t)===Math.max(...t));
+    steps=[primeRangeStep(lo,lo+19),pilihStep(opts,opts.indexOf(comp),"Hati-hati, angkanya ganjil semua. Mana yang <b>bukan</b> bilangan prima?",`<b>${notPrimeWhy(comp)}</b>, jadi bukan prima. ${listTxt(ps)} hanya habis dibagi 1 dan dirinya sendiri.`),
+      persekutuanStep(t.sort((x,y)=>x-y),100)]; }
+  return {kind:"saringan",level,steps}; }
+
+/* ================= 3. POHON FAKTOR ================= */
+const POHON={mudah:range(12,50).filter(n=>omega(n)>=3),sedang:range(40,100).filter(n=>omega(n)>=3&&factorize(n).length>=2),
+  sulit:range(100,400).filter(n=>{ const f=factorize(n); return omega(n)>=4&&omega(n)<=7&&f.length>=2&&f[f.length-1][0]<=13; })};
+function pohonStep(n){ return {t:"pohon",n,q:`Buat <b>pohon faktor ${n}</b>.`,sub:"Ketuk bilangan yang belum prima, ketik salah satu faktornya, lalu Pecah. Selesai kalau semua ujungnya bilangan prima.",
+  how:`Pecah terus sampai semua ujungnya prima: ${n} = <b>${fLong(n)}</b>. Pohonnya boleh berbeda, hasil akhirnya selalu sama.`}; }
+function bentukStep(n,level){ const f=factorize(n);
+  if(level==="mudah"){ const d=divisors(n).filter(x=>x>1&&x<n);
+    return tandaiStep(d,f.map(x=>x[0]),`Ketuk semua <b>faktor prima</b> ${n}.`,"Lihat ujung-ujung pohonmu.",`${n} = ${fLong(n)}. Faktor primanya: <b>${listTxt(f.map(x=>x[0]))}</b>.`,{n,tree:true}); }
+  return {t:"bentuk",n,f,q:`Tulis <b>faktorisasi prima ${n}</b> dalam bentuk pangkat.`,sub:"Hitung berapa kali setiap bilangan prima muncul di ujung pohon.",
+    how:`${n} = ${fLong(n)} = <b>${fText(f)}</b>.`}; }
+function genPohon(level,r){ const [a,b]=shuffle(POHON[level],r);
+  return {kind:"pohon",level,steps:[pohonStep(a),bentukStep(a,level),pohonStep(b),bentukStep(b,level)]}; }
+
+/* ================= 4. KPK & FPB ================= */
+function daftarKpk(a,b,cnt){ const L=lcm(a,b), la=range(1,L/a).map(k=>k*a), lb=range(1,L/b).map(k=>k*b);
+  return {t:"daftar",mode:"kpk",nums:[a,b],lists:[range(1,cnt).map(k=>k*a),range(1,cnt).map(k=>k*b)],ans:L,q:`Ketuk <b>KPK</b> dari ${a} dan ${b}.`,sub:"KPK = kelipatan persekutuan yang paling kecil.",
+    how:`Kelipatan ${a}: ${listTxt(la)}, … Kelipatan ${b}: ${listTxt(lb)}, … Yang sama dan paling kecil: KPK(${a}, ${b}) = <b>${L}</b>.`}; }
+function daftarFpb(a,b){ const g=gcd(a,b), C=divisors(g);
+  return {t:"daftar",mode:"fpb",nums:[a,b],lists:[divisors(a),divisors(b)],ans:g,q:`Ketuk <b>FPB</b> dari ${a} dan ${b}.`,sub:"FPB = faktor persekutuan yang paling besar.",
+    how:`Faktor yang sama: ${listTxt(C)}. Yang paling besar: FPB(${a}, ${b}) = <b>${g}</b>.`}; }
+function primaStep(a,b){ const L=lcm(a,b), g=gcd(a,b);
+  return {t:"prima",nums:[a,b],ans:[L,g],q:`Hitung <b>KPK</b> dan <b>FPB</b> dari ${a} dan ${b} memakai faktorisasi prima.`,sub:"KPK: semua faktor prima, pangkat terbesar. FPB: faktor prima yang sama, pangkat terkecil.",
+    how:`${a} = ${fText(factorize(a))}, ${b} = ${fText(factorize(b))}. KPK = ${fText(factorize(L))} = <b>${L}</b>. FPB = ${g===1?"1 (tidak ada faktor prima yang sama)":`${fText(factorize(g))} = <b>${g}</b>`}.`}; }
+/* soal cerita: anak memilih KPK atau FPB dulu */
+const semua=n=>n.length===2?"keduanya":"ketiganya";
+const CER={kpk:[
+  {ic:"🚦",u:"detik",f:n=>`${capF(danList(n.map((x,i)=>`lampu ${["merah","hijau","kuning"][i]} berkedip setiap ${x} detik`)))}. Barusan ${semua(n)} berkedip bersamaan. Berapa detik lagi ${semua(n)} berkedip bersamaan lagi?`},
+  {ic:"🏊",u:"hari",f:n=>`${danList(n.map((x,i)=>`${["Dina","Rudi","Sari"][i]} berenang setiap ${x} hari sekali`))}. Hari ini mereka berenang bersama. Berapa hari lagi mereka berenang bersama lagi?`},
+  {ic:"🚌",u:"menit",f:n=>`${capF(danList(n.map((x,i)=>`bus jurusan ${"ABC"[i]} berangkat setiap ${x} menit`)))}. Pukul 07.00 ${semua(n)} berangkat bersama. Berapa menit lagi ${semua(n)} berangkat bersama lagi?`},
+  {ic:"📦",u:"cm",f:n=>`${capF(danList(n.map((x,i)=>`kotak ${["merah","biru","hijau"][i]} tingginya ${x} cm`)))}. Setiap warna ditumpuk sendiri-sendiri. Pada tinggi berapa tumpukannya pertama kali sama tinggi?`},
+  {ic:"🧹",u:"hari",f:n=>`Di jadwal piket, ${danList(n.map((x,i)=>`${["Bayu","Nisa","Tono"][i]} mendapat giliran setiap ${x} hari`))}. Hari ini mereka piket bersama. Berapa hari lagi mereka piket bersama lagi?`}],
+ fpb:[
+  {ic:"🎁",u:"parsel",f:n=>`Ada ${danList(n.map((x,i)=>`${x} ${["apel","jeruk","salak"][i]}`))}. Semuanya dimasukkan ke parsel. Setiap parsel isinya sama dan tidak ada yang tersisa. Paling banyak berapa parsel yang bisa dibuat?`},
+  {ic:"🎀",u:"cm",f:n=>`${capF(danList(n.map((x,i)=>`pita ${["merah","biru","kuning"][i]} ${x} cm`)))} dipotong menjadi potongan yang sama panjang tanpa sisa. Berapa cm potongan terpanjang yang mungkin?`},
+  {ic:"👫",u:"kelompok",f:n=>`Ada ${danList(n.map((x,i)=>`${x} ${["siswa putra","siswa putri","guru pendamping"][i]}`))}. Mereka dibagi ke beberapa kelompok dengan isi yang sama di setiap kelompok. Paling banyak berapa kelompok?`},
+  {ic:"🟫",u:"dm",f:n=>`Lantai berukuran ${n[0]} dm × ${n[1]} dm akan ditutup ubin persegi yang sama besar tanpa dipotong. Berapa dm sisi ubin terbesar?`,two:true},
+  {ic:"✏️",u:"anak",f:n=>`Bu guru punya ${danList(n.map((x,i)=>`${x} ${["pensil","buku tulis","penghapus"][i]}`))}. Semuanya dibagikan sama rata ke beberapa anak tanpa sisa. Paling banyak berapa anak yang mendapat bagian?`}]};
+function ceritaStep(mode,ns,r){ const pool=CER[mode].filter(c=>!(c.two&&ns.length>2)), c=pick(pool,r), ans=mode==="kpk"?lcmA(ns):gcdA(ns), nm=ns.join(", ");
+  const why=mode==="kpk"?`Kejadian berulang yang ditanya "bersamaan lagi" → kelipatan yang sama → <b>KPK</b>.`:`Dibagi sama rata tanpa sisa, "paling banyak/terbesar" → faktor yang sama → <b>FPB</b>.`;
+  const calc=mode==="kpk"?(ns.length===2?`Kelipatan ${ns[0]}: ${listTxt(range(1,ans/ns[0]).map(k=>k*ns[0]))}; kelipatan ${ns[1]}: ${listTxt(range(1,ans/ns[1]).map(k=>k*ns[1]))}.`:ns.map(x=>`${x} = ${fText(factorize(x))}`).join(", ")+".")
+    :(ns.length===2?`Faktor yang sama: ${listTxt(divisors(ans))}.`:ns.map(x=>`${x} = ${fText(factorize(x))}`).join(", ")+".");
+  return {t:"cerita",mode,nums:ns,ans,unit:c.u,ic:c.ic,q:c.f(ns),how:`${why} ${calc} ${mode.toUpperCase()}(${nm}) = <b>${ans}</b> ${c.u}.`}; }
+function pickKpk(lo,hi,maxL,cnt,r,k){ for(let t=0;t<500;t++){ const ns=shuffle(range(lo,hi),r).slice(0,k||2).sort((a,b)=>a-b), L=lcmA(ns);
+    if(L<=maxL&&L!==ns[ns.length-1]&&ns.every(x=>L/x<=cnt)) return ns; } return [4,6]; }
+function pickFpb(lo,hi,minG,r,k){ for(let t=0;t<500;t++){ const ns=shuffle(range(lo,hi),r).slice(0,k||2).sort((a,b)=>a-b), g=gcdA(ns);
+    if(g>=minG&&g!==ns[0]) return ns; } return [12,18]; }
+function genKpk(level,r){ let steps; const mode=pick(["kpk","fpb"],r);
+  if(level==="mudah") steps=[daftarKpk(...pickKpk(2,10,60,10,r),10),daftarFpb(...pickFpb(8,40,2,r)),ceritaStep(mode,mode==="kpk"?pickKpk(2,12,60,99,r):pickFpb(6,48,2,r),r)];
+  else if(level==="sedang") steps=[daftarKpk(...pickKpk(4,15,120,12,r),12),daftarFpb(...pickFpb(24,100,4,r)),ceritaStep(mode,mode==="kpk"?pickKpk(4,20,120,99,r):pickFpb(12,100,3,r),r)];
+  else { let a,b; do{ a=ri(12,150,r); b=ri(12,150,r); }while(a===b||gcd(a,b)<2||gcd(a,b)===Math.min(a,b)||lcm(a,b)>900||factorize(a).length<2||factorize(b).length<2);
+    steps=[primaStep(Math.min(a,b),Math.max(a,b)),ceritaStep("kpk",pickKpk(2,15,180,999,r,3),r),ceritaStep("fpb",pickFpb(12,120,2,r,3),r)]; }
+  return {kind:"kpk",level,steps}; }
+
+const explain=p=>p.steps.map(s=>s.how);
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0); return {pasangan:genPasangan,saringan:genSaringan,pohon:genPohon,kpk:genKpk}[kind](level,r); }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify(p.steps.map(s=>[s.t,s.n,s.nums,s.target,s.opts,s.mode]));
+const DAILY={};
+function dailyPuzzle(kind,level,n){
+  const id=kind+"|"+level, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()});
+  while(c.list.length<n){ const d=c.list.length+1; let p=null,best=null,bestAge=-1;
+    for(let k=0;k<30;k++){ const q=makePuzzle(kind,level,hashStr(`kebun-faktor|${id}|${d}|${k}`)), key=puzzleKey(q), age=c.last.has(key)?d-c.last.get(key):1e9;
+      if(age>365){ p=q; break; } if(age>bestAge){ best=q; bestAge=age; } }
+    p=p||best; c.list.push(p); c.last.set(puzzleKey(p),d); }
+  return c.list[n-1];
+}
+/* ================= AKHIR INTI ================= */</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"pasangan",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("kf_prefs",{}));
+if(!KINDS[P.kind]) P.kind="pasangan"; if(!LEVELS[P.level]) P.level="mudah";
+const saveP=()=>lsSet("kf_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2400); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function resetStep(){ const st=cur();
+  G.fields=st.t==="bentuk"?st.f.map(()=>""):st.t==="prima"?["",""]:[""]; G.act=0; G.bad=null; G.sel=[]; G.struck=[]; G.phase=0;
+  G.rows=1; G.found=st.t==="susun"?[[1,st.n]]:[]; G.tree=[{v:st.n,k:null}]; G.selNode=0; G.sv={x:[],o:[]}; }
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,step:0,trees:{}};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","step","trees"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  resetStep(); $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`kf_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,step:G.step,trees:G.trees}); }
+const cur=()=>G.p.steps[Math.min(G.step,G.p.steps.length-1)];
+
+/* ---------- penggambar ---------- */
+/* ubin: r baris berisi c = n div r ubin; sisanya (merah) di kolom berikutnya */
+function tilesSVG(n,r){ const c=Math.floor(n/r), k=n%r, cols=c+(k?1:0), u=20; let s="";
+  for(let i=0;i<r;i++) for(let j=0;j<c;j++) s+=`<rect x="${j*u+1}" y="${i*u+1}" width="${u-2}" height="${u-2}" rx="3" fill="#4ADE80" stroke="#15803D" stroke-width="1.5"/>`;
+  for(let i=0;i<k;i++) s+=`<rect x="${c*u+1}" y="${i*u+1}" width="${u-2}" height="${u-2}" rx="3" fill="#FCA5A5" stroke="#DC2626" stroke-width="1.5"/>`;
+  return `<div class="tiles"><svg style="width:min(100%,${Math.round((cols*u+4)*1.7)}px)" viewBox="-2 -2 ${cols*u+4} ${r*u+4}" role="img" aria-label="${n} ubin disusun ${r} baris">${s}</svg></div>`; }
+/* pohon: daun diberi posisi x berurutan, simpul induk di tengah anak-anaknya */
+function treeLayout(T){ let leaf=0; const pos=[];
+  (function walk(i,d){ const nd=T[i]; if(nd.k){ walk(nd.k[0],d+1); walk(nd.k[1],d+1); pos[i]={x:(pos[nd.k[0]].x+pos[nd.k[1]].x)/2,y:d}; } else pos[i]={x:leaf++,y:d}; })(0,0);
+  return {pos,leaves:leaf,depth:Math.max(...pos.map(p=>p.y))}; }
+function canonTree(n){ const T=[{v:n,k:null}]; for(let i=0;i<T.length;i++){ const v=T[i].v; if(isPrime(v)) continue; const p=factorize(v)[0][0]; T[i].k=[T.length,T.length+1]; T.push({v:p,k:null},{v:v/p,k:null}); } return T; }
+function treeSVG(T,live){ const L=treeLayout(T), dx=58, dy=72, rr=23; let ln="", nd="";
+  T.forEach((n,i)=>{ const p=L.pos[i]; if(n.k) for(const j of n.k){ const q=L.pos[j]; ln+=`M${p.x*dx} ${p.y*dy}L${q.x*dx} ${q.y*dy}`; } });
+  T.forEach((n,i)=>{ const p=L.pos[i], x=p.x*dx, y=p.y*dy, pr=isPrime(n.v), leaf=!n.k, sel=live&&i===G.selNode;
+    const fill=pr&&leaf?"#BBF7D0":leaf?"#FFFFFF":"#F0FDF4", stroke=sel?"#2563EB":pr&&leaf?"#15803D":leaf?"#94A3B8":"#65A30D";
+    nd+=`<g${live&&leaf?` data-node="${i}"`:""}><circle cx="${x}" cy="${y}" r="${rr}" fill="${fill}" stroke="${stroke}" stroke-width="${sel?4.5:pr&&leaf?3:2.5}"${leaf&&!pr&&!sel?' stroke-dasharray="5 4"':""}/><text x="${x}" y="${y+1}" font-size="${n.v>99?15:18}" fill="#14532D">${n.v}</text></g>`; });
+  const w=(L.leaves-1)*dx+2*rr+12, h=L.depth*dy+2*rr+12;
+  return `<div class="tree"><svg style="width:min(100%,${Math.round(w*1.15)}px)" viewBox="${-rr-6} ${-rr-6} ${w} ${h}" role="img" aria-label="Pohon faktor ${T[0].v}"><path d="${ln}" stroke="#A16207" stroke-width="4" stroke-linecap="round" fill="none"/>${nd}</svg></div>`; }
+function boardHTML(st,cls,live){ const nums=st.nums||range(1,st.hi);
+  return `<div class="board${nums.length<=20?" big":""}${live?" live":""}" style="--c:${Math.min(10,nums.length)}">${nums.map(v=>`<button type="button" data-v="${v}" class="${cls(v)}" aria-pressed="${G.sel.includes(v)}">${v}</button>`).join("")}</div>`; }
+
+/* ---------- tampilan ---------- */
+const MODE_TX={kpk:"KPK",fpb:"FPB"};
+function render(){
+  const st=cur(), n=G.p.steps.length, done=G.done; let h="", c="", needPad=false, ok="Cek ✓";
+  h+=n>1?`<div class="prog" aria-label="Soal ${G.step+1} dari ${n}">${G.p.steps.map((_,i)=>`<i class="${i<G.step||done?"d":i===G.step?"c":""}"></i>`).join("")}</div>`:"";
+  if(st.t==="cerita") h+=`<div class="story"><span class="ic" aria-hidden="true">${st.ic}</span>${esc(st.q)}</div>`;
+  else h+=`<div class="qtext">${st.q}${st.sub&&!done?`<small>${st.sub}</small>`:""}</div>`;
+  const fld=(i,sm)=>`<span class="fld${sm?" sm":""}${G.act===i&&!done?" act":""}${G.fields[i]?"":" ph"}${G.bad&&G.bad[i]?" bad":""}" data-f="${i}">${G.fields[i]||"?"}</span>`;
+  if(st.t==="susun"){ const r=done?st.pairs[st.pairs.length-1][0]:G.rows, cc=Math.floor(st.n/r), k=st.n%r;
+    h+=tilesSVG(st.n,r)+`<p class="tinfo ${k?"no":"ok"}">${k?`${r} baris × ${cc} = ${r*cc}, sisa ${k} ✗`:`${r} × ${cc} = ${st.n} ✓`}</p>`;
+    const fp=(done?st.pairs:G.found).slice().sort((a,b)=>a[0]-b[0]);
+    h+=`<div class="found" aria-label="Pasangan yang ditemukan">${fp.map(p=>`<span>${p[0]} × ${p[1]}</span>`).join("")}</div>`;
+    if(done) c=`<div class="ans">Faktor ${st.n}: ${listTxt(divisors(st.n))}</div>`;
+    else { c=`<div class="form"><span>Banyak baris:</span>${fld(0)}<button class="btn alt" type="button" id="susunBtn" style="width:auto">Susun ▶</button></div>`; needPad=true; ok="Sudah semua ✓"; } }
+  else if(st.t==="tandai"){ const T=new Set(st.target);
+    if(st.tree) h+=treeSVG(G.trees[st.n]||canonTree(st.n),false).replace('class="tree"','class="tree sm"');
+    h+=boardHTML(st,v=>[...(st.prev||[]).filter(p=>p.set.includes(v)).map(p=>p.cls),done&&T.has(v)?"ok":G.sel.includes(v)?"sel":""].join(" "),!done);
+    if(st.prev) h+=`<div class="keyl">${st.prev.map(p=>`<span><i class="${p.cls}"></i>${esc(p.lbl)}</span>`).join("")}<span><i class="sel"></i>pilihanmu</span></div>`;
+    c=done?`<div class="ans">${listTxt(st.target)}</div>`:`<p class="sub">Sudah ditandai: <b>${G.sel.length}</b> bilangan</p>`; }
+  else if(st.t==="saring"){ const P2=primeRange(1,100);
+    h+=boardHTML(st,v=>done?(P2.includes(v)?"o":"x"):G.sv.o.includes(v)?"o":G.sv.x.includes(v)?"x":"",!done);
+    c=done?`<div class="ans">25 bilangan prima tersisa</div>`:`<p class="sub">${G.sv.x.includes(1)?`Lingkari bilangan terkecil yang belum dicoret.<br>Sudah dilingkari: <b>${G.sv.o.join(", ")||"–"}</b>`:"Langkah pertama: ketuk <b>1</b> untuk mencoretnya."}</p>`; ok=null; }
+  else if(st.t==="pilih"){ c=`<div class="ops">${st.opts.map((v,i)=>`<button type="button" class="op${done&&i===st.ans?" ok":""}" data-o="${i}" ${G.struck.includes(i)||done?"disabled":""}>${v}</button>`).join("")}</div>`; ok=null; }
+  else if(st.t==="pohon"){ const T=done?(G.trees[st.n]||canonTree(st.n)):G.tree; h+=treeSVG(T,!done); ok=null;
+    if(done) c=`<div class="ans">${st.n} = ${fLong(st.n)}</div>`;
+    else { const s=G.tree[G.selNode];
+      if(s&&!s.k&&!isPrime(s.v)){ c=`<div class="form"><span>${s.v} =</span>${fld(0)}<span>× …</span></div><button class="btn alt" type="button" id="splitBtn">Pecah ✂</button>`; needPad=true; }
+      else c=`<p class="sub">${s&&isPrime(s.v)?`<b>${s.v}</b> sudah bilangan prima, tidak bisa dipecah lagi. `:""}Ketuk bilangan di pohon yang belum prima (garis putus-putus).</p>`; } }
+  else if(st.t==="bentuk"){ h+=treeSVG(G.trees[st.n]||canonTree(st.n),false);
+    c=done?`<div class="ans">${st.n} = ${fText(st.f)}</div>`:`<div class="form"><span>${st.n} =</span>${st.f.map((f,i)=>`<span class="pw"><span>${f[0]}</span>${fld(i,true)}</span>`).join("<span>×</span>")}</div>`; needPad=!done; }
+  else if(st.t==="daftar"){ const word=st.mode==="kpk"?"Kelipatan":"Faktor";
+    h+=st.lists.map((l,li)=>`<div class="lst"><b>${word} ${st.nums[li]}:</b><div class="chips">${l.map(v=>`<button type="button" data-c="${v}" class="${done&&v===st.ans?"ok":G.struck.includes(v)?"no":""}" ${done?"disabled":""}>${v}</button>`).join("")}${st.mode==="kpk"?"<span aria-hidden=\"true\">…</span>":""}</div></div>`).join("");
+    c=done?`<div class="ans">${MODE_TX[st.mode]}(${st.nums.join(", ")}) = ${st.ans}</div>`:`<p class="sub">Ketuk angkanya di salah satu daftar.</p>`; ok=null; }
+  else if(st.t==="prima"){ h+=`<div class="fz">${st.nums.map(x=>`<div>${x} = ${fText(factorize(x))}</div>`).join("")}</div>`;
+    c=done?`<div class="ans">KPK = ${st.ans[0]} · FPB = ${st.ans[1]}</div>`:`<div class="form"><span>KPK =</span>${fld(0)}</div><div class="form"><span>FPB =</span>${fld(1)}</div>`; needPad=!done; }
+  else if(st.t==="cerita"){
+    if(done) c=`<div class="ans">${MODE_TX[st.mode]} = ${st.ans} ${esc(st.unit)}</div>`;
+    else if(!G.phase){ c=`<p class="sub">Soal ini diselesaikan dengan…</p><div class="ops">${["kpk","fpb"].map(m=>`<button type="button" class="op" data-m="${m}" ${G.struck.includes(m)?"disabled":""}>${MODE_TX[m]}<small>${m==="kpk"?"kelipatan persekutuan terkecil":"faktor persekutuan terbesar"}</small></button>`).join("")}</div>`; ok=null; }
+    else { c=`<p class="sub">✓ Pakai <b>${MODE_TX[st.mode]}</b> dari ${danList(st.nums)}.</p><div class="form">${fld(0)}<span>${esc(st.unit)}</span></div>`; needPad=true; } }
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=c;
+  $("pad").hidden=!needPad; $("okBtn").hidden=done||!ok; $("okBtn").textContent=ok||"Cek ✓";
+  $("hintBtn").hidden=!(G.wrong>=3&&!done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0, short={pasangan:"Pasangan",saringan:"Saringan",pohon:"Pohon",kpk:"KPK·FPB"};
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`kf_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}"><span style="display:block">${v.icon}</span>${short[k]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}<small>${l.sub}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+
+/* ---------- interaksi ---------- */
+function nextStep(msg){ G.step++; $("fb").innerHTML=msg?`<span class="ok">✓ ${msg}</span>`:"";
+  if(G.step>=G.p.steps.length){ G.step=G.p.steps.length-1; return finish(); } resetStep(); saveDay(); render(); }
+function miss(msg){ G.wrong++; $("fb").innerHTML=`<span class="no">✗ ${msg}</span>`; saveDay(); render(); }
+const info=msg=>{ $("fb").innerHTML=`<span>${msg}</span>`; };
+function susun(){ const st=cur(), r=+G.fields[0];
+  if(!r){ toast("Ketik banyak baris dulu."); return; } if(r>st.n){ toast(`Paling banyak ${st.n} baris.`); return; }
+  G.rows=r; G.fields[0]="";
+  if(st.n%r===0){ const p=[Math.min(r,st.n/r),Math.max(r,st.n/r)];
+    if(G.found.some(q=>q[0]===p[0])) info(`Pasangan ${p[0]} × ${p[1]} sudah ditemukan (bentuknya hanya diputar).`);
+    else { G.found.push(p); info(`<span class="ok">✓ Pas! ${r} × ${st.n/r} = ${st.n}</span>`); } }
+  else info(`Tidak pas, sisa ${st.n%r} ubin. Jadi ${r} bukan faktor ${st.n}.`);
+  render(); }
+function split(){ const st=cur(), s=G.tree[G.selNode], a=+G.fields[0]; if(!s||s.k||isPrime(s.v)) return;
+  if(!a){ toast("Ketik salah satu faktornya dulu."); return; }
+  if(a===1||a===s.v){ toast(`Pakai faktor selain 1 dan ${s.v}.`); return; }
+  if(s.v%a) return miss(`${a} bukan faktor ${s.v}, karena ${s.v} : ${a} tidak habis.`);
+  s.k=[G.tree.length,G.tree.length+1]; G.tree.push({v:a,k:null},{v:s.v/a,k:null}); G.fields[0]=""; $("fb").innerHTML="";
+  const L=treeLayout(G.tree), open=G.tree.map((n,i)=>i).filter(i=>!G.tree[i].k&&!isPrime(G.tree[i].v)).sort((i,j)=>L.pos[i].x-L.pos[j].x);
+  if(!open.length){ G.trees[st.n]=G.tree; return nextStep(`Semua ujung sudah prima: ${st.n} = ${fLong(st.n)}.`); }
+  G.selNode=open[0]; render(); }
+function sieveTap(v){ const sv=G.sv;
+  if(sv.x.includes(v)||sv.o.includes(v)) return;
+  if(!sv.x.includes(1)){ if(v===1){ sv.x.push(1); info("1 dicoret: 1 bukan bilangan prima."); return render(); } return miss("Mulai dengan mencoret 1. Angka 1 bukan bilangan prima."); }
+  const free=()=>range(2,100).find(x=>!sv.x.includes(x)&&!sv.o.includes(x));
+  if(v!==free()) return miss("Belum. Lingkari dulu bilangan terkecil yang belum dicoret.");
+  sv.o.push(v); for(let m=2*v;m<=100;m+=v) if(!sv.x.includes(m)) sv.x.push(m);
+  const nx=free();
+  if(nx===undefined||nx*nx>100){ return nextStep(`${v} dilingkari. Berikutnya ${nx}, dan ${nx} × ${nx} = ${nx*nx} sudah lebih dari 100, jadi semua yang tersisa adalah bilangan prima.`); }
+  info(`${v} dilingkari, kelipatan ${v} tercoret.`); render(); }
+$("play").addEventListener("click",e=>{ if(!G||G.done) return; const st=cur();
+  const nd=e.target.closest("[data-node]"); if(nd&&st.t==="pohon"){ G.selNode=+nd.dataset.node; G.fields[0]=""; render(); return; }
+  const b=e.target.closest("[data-v]"); if(b&&st.t==="tandai"){ const v=+b.dataset.v, i=G.sel.indexOf(v); if(i>=0) G.sel.splice(i,1); else G.sel.push(v); render(); return; }
+  if(b&&st.t==="saring") return sieveTap(+b.dataset.v);
+  const ch=e.target.closest("[data-c]"); if(ch&&st.t==="daftar"&&!ch.disabled){ const v=+ch.dataset.c, both=st.lists.every(l=>l.includes(v)), MT=MODE_TX[st.mode];
+    if(v===st.ans) return nextStep(`Benar! ${MT}(${st.nums.join(", ")}) = ${st.ans}.`);
+    if(G.struck.includes(v)) return; G.struck.push(v);
+    return miss(both?(st.mode==="kpk"?`${v} memang kelipatan persekutuan, tapi masih ada yang lebih kecil.`:`${v} memang faktor persekutuan, tapi masih ada yang lebih besar.`):`${v} tidak ada di kedua daftar. Cari angka yang muncul di dua-duanya.`); }
+});
+$("ctrlBody").addEventListener("click",e=>{ if(!G||G.done) return; const st=cur(), b=e.target.closest("button,.fld"); if(!b) return;
+  if(b.dataset.f!==undefined){ G.act=+b.dataset.f; render(); return; }
+  if(b.id==="susunBtn") return susun();
+  if(b.id==="splitBtn") return split();
+  if(b.dataset.o!==undefined&&!b.disabled){ const i=+b.dataset.o, v=st.opts[i]; if(i===st.ans) return nextStep(`Benar, ${v}!`);
+    G.struck.push(i); return miss(isPrime(v)?`${v} bilangan prima: hanya habis dibagi 1 dan ${v}.`:`${notPrimeWhy(v)}, jadi ${v} bukan bilangan prima.`); }
+  if(b.dataset.m!==undefined&&!b.disabled){ const m=b.dataset.m; if(m===st.mode){ G.phase=1; info(""); render(); return; }
+    G.struck.push(m); return miss(st.mode==="kpk"?"Belum tepat. Kejadiannya berulang dan ditanya kapan bersamaan lagi, jadi memakai kelipatan (KPK).":"Belum tepat. Barangnya dibagi sama rata tanpa sisa dan ditanya paling banyak/terbesar, jadi memakai faktor (FPB)."); }
+});
+function press(k){
+  const st=cur(); if(!G||G.done||$("pad").hidden) return;
+  if(k==="ok") return check();
+  if(k==="next"){ G.act=(G.act+1)%G.fields.length; render(); return; }
+  let v=G.fields[G.act]; if(k==="del") v=v.slice(0,-1); else if(v.length<(st.t==="bentuk"?1:4)) v=(v==="0"?"":v)+k;
+  G.fields[G.act]=v; if(G.bad) G.bad[G.act]=false;
+  if(st.t==="bentuk"&&k!=="del"&&G.act<G.fields.length-1) G.act++;
+  render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G||G.done) return;
+  if(e.key==="Tab"){ if(!$("pad").hidden){ e.preventDefault(); press("next"); } return; }
+  if(e.key==="Enter"){ if(document.activeElement&&document.activeElement.tagName==="BUTTON") return; e.preventDefault(); const t=cur().t;
+    if(t==="susun"&&G.fields[0]) return susun(); if(t==="pohon") return split(); if(!$("okBtn").hidden) check(); return; }
+  if(/^[0-9]$/.test(e.key)||e.key==="Backspace"){ e.preventDefault(); press(e.key==="Backspace"?"del":e.key); }
+});
+function check(){
+  if(G.done) return; const st=cur();
+  if(st.t==="susun"){ const left=st.pairs.length-G.found.length; if(!left) return nextStep(`Lengkap! ${st.n} punya ${st.pairs.length} pasangan faktor.`);
+    return miss(`Masih ada ${left} pasangan faktor yang belum ditemukan.`); }
+  if(st.t==="tandai"){ if(!G.sel.length){ toast("Ketuk bilangannya dulu."); return; } const T=new Set(st.target), S=new Set(G.sel);
+    const lack=st.target.filter(v=>!S.has(v)).length, extra=G.sel.filter(v=>!T.has(v)).length;
+    if(!lack&&!extra) return nextStep("Tepat!");
+    return miss([lack?`${lack} bilangan belum ditandai`:"",extra?`${extra} bilangan yang ditandai tidak sesuai`:""].filter(Boolean).join(", ")+"."); }
+  if(G.fields.some(v=>v==="")){ toast("Isi semua kotak dulu."); return; }
+  if(st.t==="bentuk"){ G.bad=st.f.map((f,i)=>+G.fields[i]!==f[1]); if(!G.bad.some(Boolean)) return nextStep(`${st.n} = ${fText(st.f)}`);
+    return miss("Belum tepat. Hitung berapa kali setiap bilangan prima muncul di ujung pohon."); }
+  if(st.t==="prima"){ const [a,b]=st.nums, v=G.fields.map(Number); G.bad=[v[0]!==st.ans[0],v[1]!==st.ans[1]]; if(!G.bad.some(Boolean)) return nextStep(`KPK = ${st.ans[0]}, FPB = ${st.ans[1]}.`);
+    const m=[]; if(G.bad[0]) m.push(v[0]===a*b?`${a} × ${b} belum tentu KPK. Ambil pangkat terbesar dari setiap faktor prima.`:"KPK: kalikan semua faktor prima dengan pangkat terbesarnya.");
+    if(G.bad[1]) m.push("FPB: kalikan faktor prima yang ada di kedua bilangan, dengan pangkat terkecilnya."); return miss(m.join(" ")); }
+  if(st.t==="cerita"){ const v=+G.fields[0]; if(v===st.ans) return nextStep(`Benar, ${st.ans} ${st.unit}!`);
+    if(st.mode==="kpk") return miss(v>0&&st.nums.every(x=>v%x===0)?"Itu kelipatan persekutuan, tapi belum yang terkecil.":"Belum tepat. Apakah angka itu habis dibagi semua bilangan di soal?");
+    return miss(v>0&&st.nums.every(x=>x%v===0)?"Itu faktor persekutuan, tapi masih ada yang lebih besar.":"Belum tepat. Apakah semua bilangan di soal habis dibagi angka itu?"); }
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${explain(G.p).map((x,i)=>`<div>${G.p.steps.length>1?`<b>${i+1}.</b> `:""}${x}</div>`).join("")}</div>`;
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Petunjuk</h2><div class="how"><div>${cur().how}</div></div><p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("kf_st_"+l,{})); }
+function recordDay(){
+  const allk=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`kf_day_${G.level}_${k}`,null));
+  if(!allk.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=allk.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("kf_st_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Petunjuk":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`kf_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h;
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`kf_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Kebun Faktor #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.step||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
