@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Game Matematika Mawari</title>
-<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, Kuis Kelas, Tebak Persamaan, Teka-Teki Simbol, Mesin Fungsi, Ubin Aljabar, Atur Data, Sniper Grafik, Kapal Perang Kartesius, Eksperimen Peluang, Rantai Pangkat, Menara Barisan, Toko Diskon, Arsitek Pythagoras, Pabrik Kubus, Untung Maksimal, Kode Matriks, Hitung Cara, Berburu Bentuk, Tangga Satuan, Timbangan Seimbang, Data Kita, Busur Sudut, dan Kebun Faktor.">
+<meta name="description" content="Teka-teki angka untuk segala usia: Candy Magic Square, Jadikan 24, Krypto, Tebak Angka, Sudoku Hitung, Silang Hitung, Benar atau Salah?, Pas 10, Kejar Urutan, Ganjil atau Genap?, Garis Bilangan, Jam Berapa?, Warung Kembalian, Pecahan Pizza, Lanjutkan Pola, Petualangan Perkalian, Kuis Kelas, Tebak Persamaan, Teka-Teki Simbol, Mesin Fungsi, Ubin Aljabar, Atur Data, Sniper Grafik, Kapal Perang Kartesius, Eksperimen Peluang, Rantai Pangkat, Menara Barisan, Toko Diskon, Arsitek Pythagoras, Pabrik Kubus, Untung Maksimal, Kode Matriks, Hitung Cara, Berburu Bentuk, Tangga Satuan, Timbangan Seimbang, Data Kita, Busur Sudut, Kebun Faktor, dan Detektif Sudut.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231A1424'/%3E%3Crect x='10' y='10' width='20' height='20' rx='5' fill='%23FF5FA2'/%3E%3Crect x='34' y='34' width='20' height='20' rx='5' fill='%233FE0A8'/%3E%3Crect x='34' y='10' width='20' height='20' rx='5' fill='%23FFD23F'/%3E%3Crect x='10' y='34' width='20' height='20' rx='5' fill='%23FFF4E4'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -298,6 +298,12 @@ header p{margin:6px 0 0;color:var(--muted);font-size:1.02rem;max-width:52ch;line
 .game.kfk .tags span{background:rgba(20,83,45,.06);border-color:rgba(20,83,45,.14)}
 .kfk .go{background:#16A34A;color:#fff}
 .kfkp{width:170px;height:90px}
+.game.dsk{background:#FFFBEB;color:#1E1B4B}
+.game.dsk p{color:#57534E}
+.game.dsk h2 span{color:#B45309}
+.game.dsk .tags span{background:rgba(30,27,75,.06);border-color:rgba(30,27,75,.14)}
+.dsk .go{background:#B45309;color:#fff}
+.dskp{width:170px;height:90px}
 .game.silang{background:radial-gradient(120% 90% at 50% 0%,var(--walnut-2),var(--walnut) 75%)}
 .game.silang h2 span{color:#F2C14E}
 .silang .go{background:var(--leaf);color:#0D2A1A}
@@ -847,6 +853,16 @@ footer{color:var(--muted);font-size:.85rem;line-height:1.5;border-top:1px solid 
       <h2>Kebun <span>Faktor</span></h2>
       <p>Susun ubin untuk menemukan pasangan faktor, saring kelipatan dan bilangan prima, buat pohon faktor, lalu cari KPK dan FPB, termasuk lewat soal cerita sehari-hari.</p>
       <div class="tags"><span>Kelas 4–6</span><span>KPK &amp; FPB</span><span>Bilangan prima</span></div>
+      <span class="go">Main <span aria-hidden="true">→</span></span>
+    </a>
+    <a class="game dsk" href="detektif-sudut/" data-topik="geometri">
+      <span class="lvl lv-smp">SMP–SMA</span>
+      <div class="peek" aria-hidden="true">
+        <svg class="dskp" viewBox="0 0 170 90" font-family="sans-serif"><path d="M8 22H162M8 68H162" stroke="#1E1B4B" stroke-width="2.4"/><path d="M134 17l7 5-7 5M134 63l7 5-7 5" stroke="#B45309" stroke-width="2.2" fill="none" stroke-linecap="round"/><path d="M82.0 0" stroke="none"/><path d="M66 86L112 4" stroke="#1E1B4B" stroke-width="2.4"/><path d="M114 22A12 12 0 0 0 96 12" fill="none" stroke="#1D4ED8" stroke-width="2.2"/><text x="122" y="14" font-size="11" font-weight="800" fill="#1D4ED8">60°</text><path d="M74 68A12 12 0 0 0 82 58" fill="none" stroke="#EA580C" stroke-width="2.4"/><text x="58" y="61" font-size="12" font-weight="800" fill="#EA580C">x</text><circle cx="101" cy="22" r="2.6" fill="#1E1B4B"/><circle cx="75" cy="68" r="2.6" fill="#1E1B4B"/></svg>
+      </div>
+      <h2>Detektif <span>Sudut</span></h2>
+      <p>Cari besar sudut pada garis berpotongan, garis sejajar, dan segitiga, lalu sebutkan alasannya. Ada bentuk aljabar dan kasus berantai di rel kereta, atap rumah, dan rangka jembatan.</p>
+      <div class="tags"><span>Kelas 7–9</span><span>Garis sejajar</span><span>Sudut segitiga</span></div>
       <span class="go">Main <span aria-hidden="true">→</span></span>
     </a>
     <a class="game silang" href="silang-hitung/" data-topik="bilangan">

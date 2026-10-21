@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FFFBEB">
+<title>Detektif Sudut</title>
+<meta name="description" content="Detektif Sudut untuk SMP kelas 7–9: hubungan antarsudut pada garis berpotongan, garis sejajar yang dipotong garis transversal, dan segitiga. Cari besar sudut, sebutkan alasannya, selesaikan bentuk aljabar, dan pecahkan kasus berantai.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231E1B4B'/%3E%3Cpath d='M8 22h48M8 44h48M18 54L46 10' stroke='%23fff' stroke-width='3.5' stroke-linecap='round'/%3E%3Cpath d='M30 22a8 8 0 0 0-4-7' stroke='%23F59E0B' stroke-width='3' fill='none'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FFFBEB;
+  --card:#FFFFFF;
+  --ink:#1E1B4B;
+  --muted:#57534E;
+  --line:#FDE68A;
+  --gr:#B45309;
+  --gr-d:#92400E;
+  --soft:#FEF3C7;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1100px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--gr)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+@media (max-width:360px){#segKind button{font-size:.76rem;letter-spacing:-.2px}}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+.qtext{font-weight:800;font-size:1.12rem;line-height:1.45;text-align:center}
+.qtext small{display:block;font-weight:700;font-size:.85rem;color:var(--muted)}
+.prog{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.prog i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.prog i.d{background:var(--green)} .prog i.c{background:var(--gr);transform:scale(1.25)}
+/* gambar sudut */
+.figw{display:flex;justify-content:center}
+.fig{display:block;width:100%;max-width:460px;height:auto;max-height:52vh;background:#fff;border:2px dashed var(--line);border-radius:14px;user-select:none;-webkit-user-select:none}
+.fig text{font-family:'Baloo 2',sans-serif;font-weight:800;text-anchor:middle;dominant-baseline:central;paint-order:stroke;stroke:#fff;stroke-width:4px;stroke-linejoin:round}
+.fig [data-s]{cursor:pointer}
+.cap{text-align:center;font-size:.85rem;font-weight:700;color:var(--muted);margin:-4px 0 0}
+.known{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;font-size:.9rem;font-weight:700}
+.known span{background:var(--soft);border:1.5px solid var(--line);border-radius:999px;padding:2px 10px}
+.known span.f{background:#D1FAE5;border-color:#6EE7B7}
+.rsn{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:6px}
+.rsn button{border:2px solid var(--line);background:#fff;border-radius:12px;padding:6px 6px;font-weight:800;font-size:.95rem;cursor:pointer;color:var(--ink);line-height:1.15;font-family:inherit}
+.rsn button small{display:block;font-weight:700;font-size:.72rem;color:var(--muted)}
+.rsn button:disabled{opacity:.3;cursor:default}
+.eqn{text-align:center;font-weight:800;font-size:1.15rem;background:var(--soft);border-radius:12px;padding:6px 10px}
+.ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}
+.op{border:3px solid var(--line);background:#fff;border-radius:14px;padding:8px 6px;font-weight:800;font-size:1.15rem;cursor:pointer;color:var(--ink);font-family:inherit;line-height:1.15}
+.op small{display:block;font-size:.76rem;color:var(--muted)}
+.op:disabled{opacity:.3;cursor:default}
+.op.ok{border-color:var(--green);background:#D1FAE5;opacity:1}
+.ans{text-align:center;font-weight:800;font-size:1.3rem;color:var(--gr-d)}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.form sup{font-size:.7em}
+.fld{min-width:60px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.pw{display:inline-flex;align-items:flex-start;gap:2px}
+.pw>span:first-child{padding-top:14px;font-size:1.5rem}
+.fld.sm{min-width:34px;height:32px;font-size:1.05rem;padding:0 4px}
+.fld.act{border-color:var(--gr);background:#fff;box-shadow:0 0 0 3px #86EFAC}
+.fld.ph{color:#9CA3AF}
+.fld.bad{border-color:var(--rose);background:#FFE4E6}
+.pad{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:var(--soft);font-weight:800;font-size:1.3rem;cursor:pointer}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+#ctrlBody{display:flex;flex-direction:column;gap:10px}
+#ctrlBody .btn{width:100%}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--gr);color:#fff;box-shadow:0 3px 0 var(--gr-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--gr-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.btn.alt{background:#FEF9C3;color:var(--ink);box-shadow:0 3px 0 #EAB308}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#FDE68A}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--gr-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(30,27,75,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .qtext{font-size:1.45rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:56px;min-width:100px} .kelas .fld.sm{height:44px;min-width:56px;font-size:1.4rem}
+  .kelas .pad button{height:52px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem}
+  .kelas .ans{font-size:2rem} .kelas .rsn button{font-size:1.15rem} .kelas .eqn{font-size:1.5rem}
+  .kelas .fig{max-width:700px;max-height:max(300px,calc(100vh - 440px))}
+  .kelas #ctrl,.kelas #ctrlBody{gap:8px} .kelas .seg button{padding:4px 3px} .kelas .wrap{gap:8px}
+  .kelas .grid2{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Detektif <span>Sudut</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button>
+        <button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="next" aria-label="Kotak berikutnya">→</button><button type="button" data-k="del" aria-label="Hapus" style="grid-column:span 3">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Petunjuk</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li>Setiap soal: <b>isi besar sudutnya</b>, lalu <b>pilih alasannya</b> (misalnya bertolak belakang, sehadap, dalam berseberangan). Keduanya harus benar.</li>
+      <li><b>✖️ Garis Berpotongan</b>: bertolak belakang (sama besar), berpelurus (180°), berpenyiku (90°), satu putaran (360°).</li>
+      <li><b>🛤️ Garis Sejajar</b> (tanda panah ›): sehadap, dalam berseberangan, luar berseberangan (sama besar); dalam sepihak, luar sepihak (jumlah 180°).</li>
+      <li><b>🔺 Segitiga</b>: jumlah sudut 180°, sudut luar = jumlah dua sudut dalam yang tidak bersisian, sudut alas segitiga sama kaki (tanda garis kecil) sama besar.</li>
+      <li><b>🕵️ Kasus Detektif</b>: ketuk lingkaran kecil di sudut mana saja, isi besarnya, dan beri alasan. Alasan hanya boleh memakai sudut yang sudah diketahui. Teruskan sampai <b>x</b> ketemu.</li>
+      <li><b>Mudah</b> kelas 7 (satu langkah), <b>Sedang</b> kelas 8 (dua langkah, gambar diputar), <b>Sulit</b> kelas 9 (bentuk aljabar, kasus 3–4 langkah). Gambar sesuai skala.</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Petunjuk</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+<script>/* ================= INTI: mesin geometri sudut, pembuat soal, pembahasan ================= */
+/* ===== Detektif Sudut: hubungan antarsudut (garis berpotongan, garis sejajar, segitiga) ===== */
+const KINDS={potong:{label:"Garis Berpotongan",icon:"✖️"},sejajar:{label:"Garis Sejajar",icon:"🛤️"},segitiga:{label:"Segitiga",icon:"🔺"},kasus:{label:"Kasus Detektif",icon:"🕵️"}};
+const LEVELS={mudah:{label:"Mudah",sub:"kelas 7"},sedang:{label:"Sedang",sub:"kelas 8"},sulit:{label:"Sulit",sub:"kelas 9"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const range=(a,b,s)=>{ const o=[]; for(let x=a;x<=b;x+=s||1) o.push(x); return o; };
+
+/* ---------- alasan ---------- */
+const RS={tolak:["Bertolak belakang","sama besar"],pelurus:["Berpelurus","jumlah 180°"],penyiku:["Berpenyiku","jumlah 90°"],putaran:["Satu putaran","jumlah 360°"],
+  sehadap:["Sehadap","sama besar"],dalamSeb:["Dalam berseberangan","sama besar"],luarSeb:["Luar berseberangan","sama besar"],dalamSep:["Dalam sepihak","jumlah 180°"],luarSep:["Luar sepihak","jumlah 180°"],
+  segitiga:["Jumlah sudut segitiga","jumlah 180°"],luar:["Sudut luar segitiga","= jumlah 2 sudut dalam"],samakaki:["Segitiga sama kaki","sudut alas sama"]};
+const KIND_RS={potong:["tolak","pelurus","penyiku","putaran"],sejajar:["sehadap","dalamSeb","luarSeb","dalamSep","luarSep","tolak","pelurus"],
+  segitiga:["segitiga","luar","samakaki","pelurus","tolak"],kasus:["tolak","pelurus","sehadap","dalamSeb","luarSeb","dalamSep","luarSep","segitiga","luar","samakaki"]};
+const SUM={pelurus:180,penyiku:90,putaran:360,segitiga:180,dalamSep:180,luarSep:180}, EQ=new Set(["tolak","sehadap","dalamSeb","luarSeb"]);
+
+/* ---------- geometri: arah dalam derajat bulat, berlawanan jarum jam, sumbu y ke atas ---------- */
+const D2R=Math.PI/180, cosd=d=>Math.cos(d*D2R), sind=d=>Math.sin(d*D2R);
+const nrm=a=>((a%360)+360)%360;
+const segm=(x,y,d,t0,t1,o)=>Object.assign({x,y,d:nrm(d),t0,t1},o||{});
+const rot=(p,a)=>[p[0]*cosd(a)-p[1]*sind(a),p[0]*sind(a)+p[1]*cosd(a)];
+function inter(s1,s2){ const u1=[cosd(s1.d),sind(s1.d)], u2=[cosd(s2.d),sind(s2.d)], den=u1[0]*u2[1]-u1[1]*u2[0]; if(Math.abs(den)<1e-9) return null;
+  const dx=s2.x-s1.x, dy=s2.y-s1.y, t1=(dx*u2[1]-dy*u2[0])/den, t2=(dx*u1[1]-dy*u1[0])/den;
+  if(t1<s1.t0-1e-6||t1>s1.t1+1e-6||t2<s2.t0-1e-6||t2>s2.t1+1e-6) return null; return {x:s1.x+t1*u1[0],y:s1.y+t1*u1[1],t1,t2}; }
+/* titik potong, sinar, sektor (sudut antara dua sinar berurutan), dan semua hubungan antarsudut */
+function analyze(F){ const V=[];
+  const addV=(x,y)=>{ let i=V.findIndex(v=>Math.hypot(v.x-x,v.y-y)<0.5); if(i<0){ V.push({x,y,on:[]}); i=V.length-1; } return i; };
+  F.segs.forEach((s,i)=>F.segs.forEach((s2,j)=>{ if(j<=i) return; const p=inter(s,s2); if(!p) return; const vi=addV(p.x,p.y); V[vi].on.push([i,p.t1],[j,p.t2]); }));
+  V.forEach(v=>{ const rs=new Set(), seen=new Map(); for(const [i,t] of v.on){ if(seen.has(i)) continue; seen.set(i,t); const s=F.segs[i]; if(s.t1-t>1) rs.add(s.d); if(t-s.t0>1) rs.add(nrm(s.d+180)); }
+    v.rays=[...rs].sort((a,b)=>a-b); v.tp=Object.fromEntries(seen); delete v.on; });
+  const S=[]; V.forEach((v,vi)=>{ const r=v.rays; if(r.length<2) return; for(let k=0;k<r.length;k++){ const a=r[k], b=r[(k+1)%r.length], val=nrm(b-a)||360; if(val<180) S.push({id:S.length,v:vi,a,b,val}); } });
+  const sec=(vi,a,b)=>S.find(s=>s.v===vi&&s.a===nrm(a)&&s.b===nrm(b));
+  const R=[], add=(t,m,x)=>{ const k=t+":"+m.join(","); if(!R.some(q=>q.k===k)) R.push(Object.assign({t,m,k},x||{})); };
+  for(const s of S){ const o=sec(s.v,s.a+180,s.b+180); if(o&&o.id>s.id) add("tolak",[s.id,o.id]); }
+  V.forEach((v,vi)=>{ for(const r of v.rays){ const o=nrm(r+180); if(!v.rays.includes(o)) continue; const ms=[]; let c=r, ok=true;
+    while(c!==o){ const s=S.find(x=>x.v===vi&&x.a===c); if(!s){ ok=false; break; } ms.push(s.id); c=s.b; } if(ok&&ms.length>=2) add("pelurus",ms); } });
+  for(const p of F.perp||[]){ const vi=V.findIndex(v=>Math.hypot(v.x-p.x,v.y-p.y)<0.5), ms=[]; let c=nrm(p.r); while(c!==nrm(p.r+90)){ const s=S.find(x=>x.v===vi&&x.a===c); if(!s) break; ms.push(s.id); c=s.b; } if(ms.length>=2) add("penyiku",ms); }
+  if(F.putaran) V.forEach((v,vi)=>{ const ms=S.filter(s=>s.v===vi); if(ms.length>=3&&ms.reduce((a,s)=>a+s.val,0)===360) add("putaran",ms.map(s=>s.id)); });
+  /* garis sejajar dipotong garis lain */
+  const segOf=vi=>Object.keys(V[vi].tp).map(Number);
+  F.segs.forEach((L1,i)=>F.segs.forEach((L2,j)=>{ if(j<=i||!L1.g||L1.g!==L2.g) return;
+    F.segs.forEach((T,k)=>{ if(T.g===L1.g) return; const v1=V.findIndex(v=>i in v.tp&&k in v.tp), v2=V.findIndex(v=>j in v.tp&&k in v.tp); if(v1<0||v2<0) return;
+      const ld=[L1.d,nrm(L1.d+180)], td=[T.d,nrm(T.d+180)];
+      const cls=(s,vi,vo)=>{ const m=s.a+s.val/2, sT=Math.sign(sind(m-T.d)), sL=Math.sign(sind(m-L1.d)), o=Math.sign(cosd(L1.d)*(V[vo].y-V[vi].y)-sind(L1.d)*(V[vo].x-V[vi].x)); return {sT,sL,inn:sL===o}; };
+      const pick2=vi=>S.filter(s=>s.v===vi&&((ld.includes(s.a)&&td.includes(s.b))||(td.includes(s.a)&&ld.includes(s.b))));
+      for(const s1 of pick2(v1)) for(const s2 of pick2(v2)){ const c1=cls(s1,v1,v2), c2=cls(s2,v2,v1); let t=null;
+        if(c1.sT===c2.sT&&c1.sL===c2.sL) t="sehadap"; else if(c1.inn&&c2.inn) t=c1.sT!==c2.sT?"dalamSeb":"dalamSep"; else if(!c1.inn&&!c2.inn) t=c1.sT!==c2.sT?"luarSeb":"luarSep";
+        if(t) add(t,[s1.id,s2.id]); } }); }));
+  /* segitiga: tiga titik yang saling terhubung ruas garis */
+  const dirTo=(a,b)=>{ const k=segOf(a).find(i=>i in V[b].tp); if(k===undefined) return null; const s=F.segs[k]; return V[b].tp[k]>V[a].tp[k]?s.d:nrm(s.d+180); };
+  const inner=(vi,d1,d2)=>nrm(d2-d1)<180?sec(vi,d1,d2):sec(vi,d2,d1);
+  for(let a=0;a<V.length;a++) for(let b=a+1;b<V.length;b++) for(let c=b+1;c<V.length;c++){
+    const ab=dirTo(a,b), ac=dirTo(a,c), ba=dirTo(b,a), bc=dirTo(b,c), ca=dirTo(c,a), cb=dirTo(c,b); if([ab,ac,bc].includes(null)||ab===ac||ba===bc||ca===cb) continue;
+    const IA=inner(a,ab,ac), IB=inner(b,ba,bc), IC=inner(c,ca,cb); if(!IA||!IB||!IC) continue;
+    add("segitiga",[IA.id,IB.id,IC.id],{tri:[a,b,c]});
+    for(const [vi,d1,d2,I,o1,o2] of [[a,ab,ac,IA,IB,IC],[b,ba,bc,IB,IA,IC],[c,ca,cb,IC,IA,IB]]) for(const [x,y] of [[d1,d2],[d2,d1]]){ if(!V[vi].rays.includes(nrm(x+180))) continue; const E=inner(vi,y,x+180); if(E) add("luar",[E.id,o1.id,o2.id]); }
+    const len=(p,q)=>Math.hypot(V[p].x-V[q].x,V[p].y-V[q].y);
+    for(const [ap,b1,b2,IAp,I1,I2] of [[a,b,c,IA,IB,IC],[b,a,c,IB,IA,IC],[c,a,b,IC,IA,IB]]) if(F.iso&&Math.abs(len(ap,b1)-len(ap,b2))<1e-6) add("samakaki",[IAp.id,I1.id,I2.id],{sides:[[ap,b1],[ap,b2]]}); }
+  return {V,S,R}; }
+/* nilai sudut sid dari hubungan r, kalau anggota lain yang dibutuhkan sudah diketahui */
+function deriveVal(r,sid,K){ const o=r.m.filter(x=>x!==sid), kn=x=>K[x]!==undefined;
+  if(r.t==="samakaki"){ const [ap,b1,b2]=r.m; if(sid===ap) return kn(b1)?180-2*K[b1]:kn(b2)?180-2*K[b2]:null; const ob=sid===b1?b2:b1; return kn(ob)?K[ob]:kn(ap)?(180-K[ap])/2:null; }
+  if(!o.every(kn)) return null;
+  if(EQ.has(r.t)) return K[o[0]];
+  if(r.t==="luar"){ const [e,i1,i2]=r.m; return sid===e?K[i1]+K[i2]:K[e]-K[sid===i1?i2:i1]; }
+  return SUM[r.t]-o.reduce((a,x)=>a+K[x],0); }
+/* jenis alasan yang sah untuk menurunkan sid dari sudut-sudut yang sudah diketahui */
+const validReasons=(F,sid,K)=>[...new Set(F.R.filter(r=>r.m.includes(sid)&&deriveVal(r,sid,K)===F.S[sid].val).map(r=>r.t))];
+/* langkah terpendek: kedalaman + hubungan yang dipakai */
+function closure(F,givens,allowed){ const K=Object.assign({},givens), dep={}, how={}; for(const k in K) dep[k]=0;
+  for(let it=0;it<12;it++){ let ch=false;
+    for(const r of F.R){ if(allowed&&!allowed.includes(r.t)) continue;
+      for(const sid of r.m){ const v=deriveVal(r,sid,K); if(v===null||v!==F.S[sid].val) continue; const used=r.t==="samakaki"?r.m.filter(x=>x!==sid&&K[x]!==undefined).slice(0,1):r.m.filter(x=>x!==sid);
+        const d=1+Math.max(0,...used.map(x=>dep[x])); if(dep[sid]===undefined||d<dep[sid]){ dep[sid]=d; how[sid]={r,used}; K[sid]=v; ch=true; } } }
+    if(!ch) break; }
+  return {dep,how}; }
+function chainOf(cl,sid){ const out=[]; (function go(s){ if(!cl.how[s]) return; for(const u of cl.how[s].used) go(u); if(!out.includes(s)) out.push(s); })(sid); return out; }
+
+/* ---------- penamaan & teks ---------- */
+const exprText=(a,b)=>`${a===1?"":a}x${b>0?` + ${b}`:b<0?` − ${-b}`:""}`;
+function explainStep(F,sid,r,names){ const nm=x=>names[x]||`${F.S[x].val}°`, o=r.m.filter(x=>x!==sid), v=F.S[sid].val, R0=RS[r.t][0].toLowerCase();
+  if(EQ.has(r.t)||(r.t==="samakaki"&&o.some(x=>F.S[x].val===v)&&r.m[0]!==sid)) return `${names[sid]} = ${nm(o.find(x=>F.S[x].val===v)||o[0])} (${R0}), jadi ${names[sid]} = <b>${v}°</b>.`;
+  if(r.t==="samakaki") return r.m[0]===sid?`${names[sid]} = 180° − 2 × ${F.S[r.m[1]].val}° (segitiga sama kaki) = <b>${v}°</b>.`:`${names[sid]} = (180° − ${F.S[r.m[0]].val}°) : 2 (segitiga sama kaki) = <b>${v}°</b>.`;
+  if(r.t==="luar"){ const [e,i1,i2]=r.m; return sid===e?`${names[sid]} = ${F.S[i1].val}° + ${F.S[i2].val}° (sudut luar segitiga) = <b>${v}°</b>.`:`${names[sid]} = ${F.S[e].val}° − ${F.S[sid===i1?i2:i1].val}° (sudut luar segitiga) = <b>${v}°</b>.`; }
+  return `${names[sid]} = ${SUM[r.t]}° − ${o.map(x=>`${F.S[x].val}°`).join(" − ")} (${R0}) = <b>${v}°</b>.`; }
+
+/* ---------- pembentuk gambar ---------- */
+const LONG=175;
+function finishFig(F){ const A=analyze(F); Object.assign(F,A); F.segs=F.segs.map(s=>Object.assign(s,{p:[s.x+s.t0*cosd(s.d),s.y+s.t0*sind(s.d)],q:[s.x+s.t1*cosd(s.d),s.y+s.t1*sind(s.d)]})); return F; }
+/* letak label sudut (dipakai juga oleh tampilan); gambar yang labelnya berdesakan ditolak */
+const labR=val=>34+(val<40?(40-val)*0.9:0);
+const labPos=(F,s)=>{ const v=F.V[s.v], m=s.a+s.val/2, r=labR(s.val); return [v.x+r*cosd(m),v.y+r*sind(m)]; };
+const crowded=(F,min)=>{ const L=F.S.map(s=>labPos(F,s)); return L.some((p,i)=>L.some((q,j)=>j>i&&Math.hypot(p[0]-q[0],p[1]-q[1])<min)); };
+const at=(F,x,y)=>F.V.findIndex(v=>Math.hypot(v.x-x,v.y-y)<0.5);
+const secAt=(F,vi,a,b)=>F.S.find(s=>s.v===vi&&s.a===nrm(a)&&s.b===nrm(b));
+/* garis berpotongan di O */
+function figLines(dirs,opt){ opt=opt||{}; const F={segs:dirs.map(d=>segm(0,0,d,-LONG*.85,LONG*.85)),ctx:opt.ctx||null,lab:["O"]}; return finishFig(F); }
+function figRays(dirs,opt){ opt=opt||{}; const F={segs:dirs.map(d=>segm(0,0,d,0,LONG*.8)),putaran:true,lab:["O"]}; return finishFig(F); }
+function figLineRays(d,rays,opt){ opt=opt||{}; const F={segs:[segm(0,0,d,-LONG*.85,LONG*.85),...rays.map(x=>segm(0,0,x,0,LONG*.75))],perp:opt.perp,lab:["O"]}; return finishFig(F); }
+/* dua garis sejajar (arah p) dipotong garis lain */
+function figPar(p,trans,opt){ opt=opt||{}; const h=opt.h||120, A=rot([0,h/2],p), B=rot([0,-h/2],p);
+  const segs=[segm(A[0],A[1],p,-LONG,LONG,{g:1,role:"par"}),segm(B[0],B[1],p,-LONG,LONG,{g:1,role:"par"})];
+  for(const t of trans){ const c=rot([t.c||0,t.y||0],p), half=h/2/Math.abs(sind(t.d-p)); segs.push(segm(c[0],c[1],p+t.d,-(half+(t.e0??45)),half+(t.e1??45),{role:"trans"})); }
+  return finishFig({segs,ctx:opt.ctx||null,lab:opt.lab}); }
+/* segitiga dengan alas BC; sudut B dan C, perpanjangan sisi opsional */
+function figTri(B,C,opt){ opt=opt||{}; const w=opt.w||200, r=opt.rot||0, sB=w*sind(C)/sind(B+C), sC=w*sind(B)/sind(B+C);
+  const Pb=rot([-w/2,-35],r), Pc=rot([w/2,-35],r), e=opt.ext||{};
+  const segs=[segm(Pb[0],Pb[1],r,-(e.B||0),w+(e.C||0),{role:"side"}),segm(Pb[0],Pb[1],r+B,-(e.Bb||0),sB+(e.A1||0),{role:"side"}),segm(Pc[0],Pc[1],r+180-C,-(e.Cc||0),sC+(e.A2||0),{role:"side"})];
+  return finishFig({segs,iso:opt.iso,ctx:opt.ctx||null,right:opt.right}); }
+
+/* ---------- langkah ---------- */
+const LET=["a","b","c","d"];
+function guided(F,givens,chain,kind,names0){ const names=Object.assign({},names0||{}); chain.forEach((s,i)=>{ if(!names[s]) names[s]=i===chain.length-1?"x":LET[i]; });
+  const K=Object.assign({},givens), out=[];
+  chain.forEach((sid,i)=>{ const rs=validReasons(F,sid,K), r=F.R.find(q=>q.m.includes(sid)&&rs.includes(q.t)&&deriveVal(q,sid,K)===F.S[sid].val);
+    out.push({t:"cari",fig:F,kind,givens:Object.assign({},K),sid,names,target:chain[chain.length-1],chain,ans:F.S[sid].val,
+      q:i===chain.length-1&&chain.length>1?`Sekarang cari besar sudut <b>x</b>.`:chain.length>1?`Cari dulu sudut <b>${names[sid]}</b>.`:`Berapa besar sudut <b>x</b>?`,
+      how:explainStep(F,sid,r,Object.fromEntries(Object.entries(names).map(([k,v])=>[k,`∠${v}`])))});
+    K[sid]=F.S[sid].val; });
+  return out; }
+/* pilih sudut yang diketahui + sasaran dengan panjang rantai tepat L */
+function pickTarget(F,givensList,L,r,allowed,filter){ const opts=[], seen=new Set();
+  for(const gs of givensList){ const key=gs.slice().sort((x,y)=>x-y).join(","); if(seen.has(key)) continue; seen.add(key); if(seen.size>24) break;
+    const G={}; for(const g of gs) G[g]=F.S[g].val; const cl=closure(F,G,allowed);
+    for(const s of Object.keys(cl.dep).map(Number)) if(!(s in G)&&chainOf(cl,s).length===L&&(!filter||filter(s,G))) opts.push({G,cl,s}); }
+  if(!opts.length) return null; const o=pick(opts,r); return {G:o.G,chain:chainOf(o.cl,o.s),target:o.s}; }
+const anyPairs=(F,n,r)=>{ const out=[]; for(let i=0;i<40;i++){ out.push(shuffle(F.S.map(s=>s.id),r).slice(0,n)); } return out; };
+
+/* ================= 1. GARIS BERPOTONGAN ================= */
+function genPotong(level,r){ const steps=[];
+  if(level==="mudah"){ for(const f of shuffle(["dua","sinar","siku","putar"],r).slice(0,3)){ let F,G,ch;
+      if(f==="dua"){ const th=5*ri(7,29,r); F=figLines([0,th]); }
+      else if(f==="sinar"){ const a=5*ri(5,31,r); F=figLineRays(0,[a]); }
+      else if(f==="siku"){ const a=5*ri(3,15,r); F=figLineRays(0,[90,a],{perp:[{x:0,y:0,r:0}]}); F.square=[secAt(F,0,90,180).id]; }
+      else { const n=ri(3,4,r); let ds; do{ ds=[0]; let s=0; const gaps=[]; for(let k=0;k<n;k++) gaps.push(5*ri(10,30,r)); const tot=gaps.reduce((a,b)=>a+b,0); if(tot!==360) continue; gaps.slice(0,-1).forEach(g=>{ s+=g; ds.push(s); }); }while(ds.length!==n);
+        F=figRays(ds); }
+      const sq=F.square||[], pk=pickTarget(F,f==="putar"?[F.S.map(s=>s.id).slice(1)]:f==="siku"?[[F.S.find(s=>!sq.includes(s.id)&&s.a===0).id]]:anyPairs(F,1,r).map(a=>a.filter(x=>!sq.includes(x))),1,r);
+      const giv=Object.assign({},pk.G); sq.forEach(s=>giv[s]=90); steps.push(...guided(F,giv,pk.chain,"potong")); } }
+  else if(level==="sedang") for(let n=0;n<2;n++){ const rt=5*ri(0,35,r); let F,pk;
+    for(let t=0;t<50&&!pk;t++){ if(r()<.6){ const a=5*ri(6,14,r), b=5*ri(6,14,r); if(a+b>150) continue; F=figLines([rt,rt+a,rt+a+b]); pk=pickTarget(F,anyPairs(F,2,r),2,r); }
+      else { const a=5*ri(5,12,r), b=5*ri(5,12,r); if(a+b>150) continue; F=figLineRays(rt,[rt+a,rt+a+b]); pk=pickTarget(F,anyPairs(F,1,r),2,r); } }
+    steps.push(...guided(F,pk.G,pk.chain,"potong")); }
+  else for(let n=0;n<2;n++) steps.push(...algebra(algebraFig("potong",r),"potong",r));
+  return {kind:"potong",level,steps}; }
+
+/* ================= 2. GARIS SEJAJAR ================= */
+function genSejajar(level,r){ const steps=[], PT=["sehadap","dalamSeb","luarSeb","dalamSep","luarSep"];
+  if(level==="mudah") for(const t of shuffle(PT,r).slice(0,3)){ const th=5*ri(8,28,r), F=figPar(0,[{d:th,c:ri(-3,3,r)*5}]);
+    const rel=pick(F.R.filter(q=>q.t===t),r), [g,s]=shuffle(rel.m,r); steps.push(...guided(F,{[g]:F.S[g].val},[s],"sejajar")); }
+  else if(level==="sedang") for(let n=0;n<2;n++){ const p=5*ri(-6,6,r), th=5*ri(8,28,r), ctx=r()<.5?"rel":null, F=figPar(p,[{d:th,c:ri(-3,3,r)*5}],{ctx});
+    const pk=pickTarget(F,anyPairs(F,1,r),2,r,null,(s,G)=>F.S[s].v!==F.S[+Object.keys(G)[0]].v); steps.push(...guided(F,pk.G,pk.chain,"sejajar")); }
+  else for(let n=0;n<2;n++) steps.push(...algebra(algebraFig("sejajar",r),"sejajar",r));
+  return {kind:"sejajar",level,steps}; }
+
+/* ================= 3. SEGITIGA ================= */
+function triAngles(r,step){ for(;;){ const B=step*ri(Math.ceil(30/step),Math.floor(80/step),r), C=step*ri(Math.ceil(30/step),Math.floor(80/step),r); if(B+C<=150&&B!==C) return [B,C]; } }
+function genSegitiga(level,r){ const steps=[];
+  if(level==="mudah") for(const f of shuffle(["jumlah","samakaki","luar"],r)){ let F,G,ch;
+    if(f==="jumlah"){ const [B,C]=triAngles(r,5); F=figTri(B,C); const S=F.R.find(q=>q.t==="segitiga").m; const [t,...gv]=shuffle(S,r); G={}; gv.forEach(g=>G[g]=F.S[g].val); ch=[t]; }
+    else if(f==="samakaki"){ const B=5*ri(7,16,r), ctx=r()<.4?"atap":null; F=figTri(B,B,{iso:true,ctx}); const q=F.R.find(q=>q.t==="samakaki"); const ap=q.m[0];
+      if(r()<.5){ G={[ap]:F.S[ap].val}; ch=[q.m[1]]; } else { G={[q.m[1]]:F.S[q.m[1]].val}; ch=[ap]; } }
+    else { const [B,C]=triAngles(r,5); F=figTri(B,C,{ext:{C:70}}); const q=F.R.find(q=>q.t==="luar"); const [e,i1,i2]=q.m; if(r()<.5){ G={[i1]:F.S[i1].val,[i2]:F.S[i2].val}; ch=[e]; } else { G={[e]:F.S[e].val,[i1]:F.S[i1].val}; ch=[i2]; } }
+    steps.push(...guided(F,G,ch,"segitiga")); }
+  else if(level==="sedang") for(let n=0;n<2;n++){ let F,pk;
+    for(let t=0;t<60&&!pk;t++){ const iso=r()<.35, [B,C]=iso?[5*ri(7,15,r),0]:triAngles(r,5), rt=iso?0:5*ri(-6,6,r);
+      F=figTri(B,iso?B:C,{iso,rot:rt,ext:pick([{C:70},{B:70},{C:70,A1:55},{B:70,C:70}],r),ctx:iso&&r()<.5?"atap":null});
+      pk=pickTarget(F,anyPairs(F,iso?1:2,r),2,r); }
+    steps.push(...guided(F,pk.G,pk.chain,"segitiga")); }
+  else for(let n=0;n<2;n++) steps.push(...algebra(algebraFig("segitiga",r),"segitiga",r));
+  return {kind:"segitiga",level,steps}; }
+
+/* ================= 4. KASUS DETEKTIF ================= */
+function figKasus(type,r){
+  if(type==="segitiga"){ const b=5*ri(8,15,r), c=5*ri(8,15,r); if(b+c>140) return null; const p=5*ri(-4,4,r), h=120;
+    /* puncak A di garis atas, alas B dan C di garis bawah */
+    const A=rot([5*ri(-4,4,r),h/2],p); const sB=h/sind(b), sC=h/sind(c);
+    const F={segs:[segm(rot([0,h/2],p)[0],rot([0,h/2],p)[1],p,-LONG,LONG,{g:1}),segm(rot([0,-h/2],p)[0],rot([0,-h/2],p)[1],p,-LONG,LONG,{g:1}),
+      segm(A[0],A[1],p+b+180,-(r()<.5?45:0),sB+40),segm(A[0],A[1],p+360-c,-(r()<.5?45:0),sC+40)],ctx:null}; finishFig(F); return crowded(F,26)?null:F; }
+  if(type==="silang"){ const a=5*ri(9,15,r), b=5*ri(21,27,r), p=5*ri(-4,4,r), h=190, O=rot([5*ri(-3,3,r),5*ri(-2,2,r)],p);
+    const seg2=d=>{ const s1=(h/2-(rot(O,-p)[1]))/sind(d), s2=(h/2+(rot(O,-p)[1]))/sind(d); return segm(O[0],O[1],p+d,-s2-30,s1+30); };
+    const F=finishFig({segs:[segm(rot([0,h/2],p)[0],rot([0,h/2],p)[1],p,-LONG,LONG,{g:1}),segm(rot([0,-h/2],p)[0],rot([0,-h/2],p)[1],p,-LONG,LONG,{g:1}),seg2(a),seg2(b)],ctx:null}); return crowded(F,26)?null:F; }
+  /* rangka jembatan (Warren): dua batang sejajar dan diagonal zig-zag */
+  const h=110, ph=[5*ri(10,13,r),5*ri(10,13,r),5*ri(10,13,r)], segs=[]; let x=-150; const pts=[[x,-h/2]];
+  ph.forEach((f,i)=>{ const up=i%2===0, dx=h/Math.tan(f*D2R); x+=dx; pts.push([x,up?h/2:-h/2]); });
+  const cx=(pts[0][0]+pts[pts.length-1][0])/2; pts.forEach(q=>q[0]-=cx);
+  segs.push(segm(0,h/2,0,Math.min(...pts.map(q=>q[0]))-40,Math.max(...pts.map(q=>q[0]))+40,{g:1}),segm(0,-h/2,0,Math.min(...pts.map(q=>q[0]))-40,Math.max(...pts.map(q=>q[0]))+40,{g:1}));
+  ph.forEach((f,i)=>{ const P0=pts[i], up=i%2===0, d=up?f:360-f, len=h/sind(f); segs.push(segm(P0[0],P0[1],d,0,len)); });
+  const F=finishFig({segs,ctx:"jembatan"}); return crowded(F,26)?null:F; }
+function genKasus(level,r){ const steps=[], L0=level==="mudah"?2:level==="sedang"?3:pick([3,4],r);
+  for(let n=0;n<2;n++){ let F,pk,L=L0;
+    for(let t=0;!pk;t++){ if(t===150&&L>3) L=3; if(t>600) throw new Error("kasus tidak ditemukan");
+      const type=level==="mudah"?"segitiga":level==="sedang"?pick(["segitiga","silang"],r):pick(["silang","jembatan","segitiga"],r); F=figKasus(type,r); if(!F) continue;
+      pk=pickTarget(F,anyPairs(F,level==="mudah"?2:pick([1,2],r),r),L,r,KIND_RS.kasus); }
+    const names={[pk.target]:"x"};
+    const cl=closure(F,pk.G,KIND_RS.kasus), K=Object.assign({},pk.G);
+    const how=chainOf(cl,pk.target).map((s,i,arr)=>{ const nm=Object.assign({},names); arr.forEach((q,j)=>{ if(!nm[q]) nm[q]=LET[j]; }); const t=explainStep(F,s,cl.how[s].r,Object.fromEntries(Object.entries(nm).map(([k,v])=>[k,`∠${v}`]))); K[s]=F.S[s].val; return t; });
+    steps.push({t:"kasus",fig:F,kind:"kasus",givens:pk.G,target:pk.target,names,ans:F.S[pk.target].val,minSteps:L,
+      q:`Temukan besar sudut <b>x</b>.`,sub:"Ketuk sudut yang ingin kamu cari, isi besarnya, lalu pilih alasannya. Ulangi sampai x ketemu.",how:`Salah satu jalan (${L} langkah): `+how.join(" ")}); }
+  return {kind:"kasus",level,steps}; }
+
+/* ================= ALJABAR (Sulit) ================= */
+function algebraFig(kind,r){
+  if(kind==="potong"){ const f=pick(["dua","sinar","siku"],r), rt=5*ri(0,35,r);
+    if(f==="dua"){ const th=ri(40,140,r); return {F:figLines([rt,rt+th],{ctx:r()<.5?"jalan":null}),rel:pick(["tolak","pelurus"],r)}; }
+    if(f==="sinar"){ const a=ri(35,145,r); return {F:figLineRays(rt,[rt+a]),rel:"pelurus"}; }
+    const a=ri(25,65,r), F=figLineRays(rt,[rt+90,rt+a],{perp:[{x:0,y:0,r:rt}]}); F.square=[secAt(F,0,rt+90,rt+180).id]; return {F,rel:"penyiku"}; }
+  if(kind==="sejajar"){ const p=5*ri(-6,6,r), th=ri(40,140,r); return {F:figPar(p,[{d:th,c:ri(-3,3,r)*5}],{ctx:r()<.5?"rel":null}),rel:pick(["sehadap","dalamSeb","luarSeb","dalamSep","luarSep"],r)}; }
+  const f=pick(["jumlah","samakaki","luar"],r);
+  if(f==="samakaki"){ const B=2*ri(18,38,r); return {F:figTri(B,B,{iso:true,ext:{C:70},ctx:r()<.5?"atap":null}),rel:"samakaki"}; }
+  const [B,C]=triAngles(r,1); return {F:figTri(B,C,{rot:5*ri(-4,4,r),ext:{C:70}}),rel:f==="jumlah"?"segitiga":"luar"}; }
+function algebra({F,rel},kind,r){
+  for(let t=0;t<200;t++){ const q=pick(F.R.filter(x=>x.t===rel),r); if(!q) break; const x=ri(8,40,r), ex={}; let ok=true;
+    const mem=rel==="samakaki"?[q.m[0],q.m[1]]:q.m;
+    for(const s of mem){ const a=ri(1,5,r), b=F.S[s].val-a*x; if(Math.abs(b)>90){ ok=false; break; } ex[s]=[a,b]; }
+    if(!ok) continue;
+    if(EQ.has(rel)&&ex[mem[0]][0]===ex[mem[1]][0]) continue;
+    /* langkah 2: sudut lain yang langsung didapat dari salah satu sudut beraljabar */
+    const K={}; mem.forEach(s=>K[s]=F.S[s].val); if(rel==="samakaki") K[q.m[2]]=F.S[q.m[2]].val;
+    const cand=F.S.map(s=>s.id).filter(s=>!(s in K)&&!(F.square||[]).includes(s)&&validReasons(F,s,K).length);
+    if(!cand.length) continue; const s2=pick(cand,r);
+    const names={}; mem.forEach(s=>names[s]=exprText(...ex[s])); names[s2]="y";
+    const eq=rel==="samakaki"?`(${names[q.m[0]]}) + 2 × (${names[q.m[1]]}) = 180°`:EQ.has(rel)?`${names[mem[0]]} = ${names[mem[1]]}`:rel==="luar"?`${names[q.m[0]]} = (${names[q.m[1]]}) + (${names[q.m[2]]})`:`${mem.map(s=>`(${names[s]})`).join(" + ")} = ${SUM[rel]}°`;
+    const giv={}; (F.square||[]).forEach(s=>giv[s]=90);
+    const r2=F.R.find(z=>z.m.includes(s2)&&deriveVal(z,s2,K)===F.S[s2].val);
+    return [{t:"x",fig:F,kind,givens:giv,exprs:ex,mem,rel,names,eq,ans:x,q:"Berapa nilai <b>x</b>?",sub:"Pilih dulu hubungan sudutnya, lalu selesaikan persamaannya.",
+        how:`Hubungannya ${RS[rel][0].toLowerCase()}: ${eq}. Diselesaikan: <b>x = ${x}</b>.`},
+      {t:"cari",fig:F,kind,givens:Object.assign({},giv,K),sid:s2,names,ans:F.S[s2].val,afterX:true,x,q:`Dengan x = ${x}, berapa besar sudut <b>y</b>?`,
+        how:`Dengan x = ${x}: ${mem.map(s=>`${names[s]} = ${F.S[s].val}°`).join(", ")}. ${explainStep(F,s2,r2,{...Object.fromEntries(mem.map(s=>[s,`${F.S[s].val}°`])),[s2]:"∠y"})}`}]; }
+  return algebra(algebraFig(kind,r),kind,r); }
+
+const explain=p=>p.steps.map(s=>s.how);
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0); return {potong:genPotong,sejajar:genSejajar,segitiga:genSegitiga,kasus:genKasus}[kind](level,r); }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify(p.steps.map(s=>[s.t,s.fig.segs.map(g=>[g.d,Math.round(g.x),Math.round(g.y)]),s.sid,s.target,s.ans]));
+/* ruang soalnya sangat besar (sudut dan bentuk acak), jadi soal harian langsung dari benih tanggal tanpa riwayat */
+function dailyPuzzle(kind,level,n){ return makePuzzle(kind,level,hashStr(`detektif-sudut|${kind}|${level}|${n}`)); }
+/* ================= AKHIR INTI ================= */</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"potong",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("ds_prefs",{}));
+if(!KINDS[P.kind]) P.kind="potong"; if(!LEVELS[P.level]) P.level="mudah";
+const saveP=()=>lsSet("ds_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2400); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function resetStep(){ const st=cur(); G.fields=[""]; G.act=0; G.struck=[]; G.phase=0; G.sel=st.t==="kasus"?null:st.sid; G.K=Object.assign({},st.givens); G.found=[]; }
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,step:0};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","step"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  resetStep(); $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`ds_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,step:G.step}); }
+const cur=()=>G.p.steps[Math.min(G.step,G.p.steps.length-1)];
+
+/* ---------- gambar: koordinat matematika (y ke atas) dibalik ke layar ---------- */
+const XY=(x,y)=>`${+x.toFixed(1)} ${+(-y).toFixed(1)}`;
+const PT=(v,r,d)=>[v.x+r*cosd(d),v.y+r*sind(d)];
+const ln=(p,q,a)=>`<line x1="${+p[0].toFixed(1)}" y1="${+(-p[1]).toFixed(1)}" x2="${+q[0].toFixed(1)}" y2="${+(-q[1]).toFixed(1)}" ${a}/>`;
+function arcPath(v,r,a,b){ const sw=nrm(b-a); const p=PT(v,r,a), q=PT(v,r,b); return `M${XY(...p)}A${r} ${r} 0 0 0 ${XY(...q)}`; }
+const isExpr=(st,sid)=>!!(st.exprs&&st.exprs[sid]);
+function figSVG(st){ /* L = letak label dari labPos di inti */ const F=st.fig, KN=G.K, names=st.names||{}, done=G.done, sq=F.square||[];
+  let bg="", lines="", marks="", labs="", hits="";
+  const xs=[], ys=[]; F.segs.forEach(s=>{ xs.push(s.p[0],s.q[0]); ys.push(s.p[1],s.q[1]); });
+  /* latar konteks */
+  if(F.ctx==="atap"){ const tri=(F.R.find(r=>r.t==="segitiga")||{}).tri; if(tri){ const [a,b,c]=tri.map(i=>F.V[i]), base=[a,b,c].sort((p,q)=>p.y-q.y), B=base[0].x<base[1].x?base[0]:base[1], C=base[0].x<base[1].x?base[1]:base[0], A=base[2];
+      bg+=`<polygon points="${XY(A.x,A.y)} ${XY(B.x,B.y)} ${XY(C.x,C.y)}" fill="#FECACA"/><rect x="${B.x+12}" y="${-B.y}" width="${C.x-B.x-24}" height="78" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/><rect x="${(B.x+C.x)/2-14}" y="${-B.y+34}" width="28" height="44" fill="#B45309"/><rect x="${B.x+30}" y="${-B.y+18}" width="26" height="22" fill="#BFDBFE" stroke="#B45309"/>`; ys.push(B.y-80); } }
+  if(F.ctx==="jembatan"){ const ymin=Math.min(...ys), x0=Math.min(...xs), x1=Math.max(...xs); bg+=`<rect x="${x0}" y="${-ymin+6}" width="${x1-x0}" height="34" fill="#BFDBFE"/><path d="M${x0} ${-ymin+20}q15 -6 30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0t30 0" stroke="#60A5FA" stroke-width="2" fill="none"/>`; ys.push(ymin-40); }
+  F.segs.forEach(s=>{ const road=F.ctx==="jalan"||(F.ctx==="rel"&&!s.g), rail=F.ctx==="rel"&&s.g;
+    if(road) bg+=ln(s.p,s.q,'stroke="#CBD5E1" stroke-width="24"')+ln(s.p,s.q,'stroke="#fff" stroke-width="2" stroke-dasharray="10 9"');
+    if(rail){ const n=[-sind(s.d),cosd(s.d)]; for(let t=s.t0+8;t<s.t1;t+=20){ const c=[s.x+t*cosd(s.d),s.y+t*sind(s.d)]; bg+=ln([c[0]-11*n[0],c[1]-11*n[1]],[c[0]+11*n[0],c[1]+11*n[1]],'stroke="#E7C9A9" stroke-width="4"'); }
+      for(const o of [-6,6]) bg+=ln([s.p[0]+o*n[0],s.p[1]+o*n[1]],[s.q[0]+o*n[0],s.q[1]+o*n[1]],'stroke="#92400E" stroke-width="2.2"'); }
+    if(!rail) lines+=ln(s.p,s.q,`stroke="${F.ctx==="jembatan"?"#475569":"#1F2937"}" stroke-width="${F.ctx==="jembatan"?4:2.6}" stroke-linecap="round"`);
+    /* tanda sejajar ditaruh sejauh mungkin dari titik potong supaya tidak menimpa label sudut */
+    if(s.g){ const vs=F.V.filter(v=>Math.abs((v.x-s.x)*sind(s.d)-(v.y-s.y)*cosd(s.d))<0.5).map(v=>(v.x-s.x)*cosd(s.d)+(v.y-s.y)*sind(s.d));
+      const t=[.08,.15,.85,.92].map(f=>s.t0+(s.t1-s.t0)*f).reduce((b,t)=>Math.min(...vs.map(u=>Math.abs(u-t)))>Math.min(...vs.map(u=>Math.abs(u-b)))?t:b), c=[s.x+t*cosd(s.d),s.y+t*sind(s.d)]; for(const w of [150,210]) marks+=ln(c,PT({x:c[0],y:c[1]},10,s.d+w),'stroke="#B45309" stroke-width="2.6" stroke-linecap="round"'); } });
+  /* tanda sisi sama panjang */
+  for(const r of F.R) if(r.t==="samakaki"&&r.sides) for(const [p,q] of r.sides){ const A=F.V[p], B=F.V[q], m=[(A.x+B.x)/2,(A.y+B.y)/2], d=Math.atan2(B.y-A.y,B.x-A.x)/D2R+90; marks+=ln(PT({x:m[0],y:m[1]},-6,d),PT({x:m[0],y:m[1]},6,d),'stroke="#B45309" stroke-width="2.6"'); }
+  F.V.forEach(v=>{ marks+=`<circle cx="${+v.x.toFixed(1)}" cy="${+(-v.y).toFixed(1)}" r="3" fill="#1F2937"/>`; });
+  /* sudut */
+  for(const s of F.S){ const v=F.V[s.v], L=labPos(F,s), known=KN[s.id]!==undefined, isT=s.id===st.target||s.id===st.sid;
+    if(sq.includes(s.id)){ const p1=PT(v,13,s.a), p2=PT(v,13,s.b), c=[p1[0]+p2[0]-v.x,p1[1]+p2[1]-v.y]; marks+=`<path d="M${XY(...p1)}L${XY(...c)}L${XY(...p2)}" fill="none" stroke="#1F2937" stroke-width="1.8"/>`; continue; }
+    const nm=names[s.id], ex=isExpr(st,s.id); let col=null, txt=null;
+    if(ex){ col="#7C3AED"; txt=nm; }
+    else if(known&&(st.givens[s.id]!==undefined||G.found.includes(s.id)||done)){ const given=st.givens[s.id]!==undefined&&!(st.chain&&st.chain.includes(s.id))&&!G.found.includes(s.id); col=given?"#1D4ED8":"#059669"; txt=`${s.val}°`; }
+    else if(isT&&done){ col="#059669"; txt=`${s.val}°`; }
+    /* sudut yang sedang dicari oranye tebal; sudut bernama lain (misalnya x nanti) abu-abu */
+    else if(isT||(nm&&st.t!=="kasus")){ col=s.id===G.sel||(st.t==="kasus"&&s.id===st.target)?"#EA580C":"#78716C"; txt=nm||"?"; }
+    else if(st.t==="kasus"&&!done){ const on=s.id===G.sel; hits+=`<circle cx="${+L[0].toFixed(1)}" cy="${+(-L[1]).toFixed(1)}" r="${on?11:8}" fill="${on?"#FEF3C7":"#fff"}" stroke="${on?"#EA580C":"#A8A29E"}" stroke-width="${on?3:1.8}"/>${on?`<text x="${+L[0].toFixed(1)}" y="${+(-L[1]).toFixed(1)}" font-size="13" fill="#EA580C">?</text>`:""}`; }
+    if(txt){ marks+=`<path d="${arcPath(v,20,s.a,s.b)}" fill="none" stroke="${col}" stroke-width="2.4"/>`;
+      if(st.t==="kasus"&&s.id===G.sel&&!done) marks+=`<circle cx="${+L[0].toFixed(1)}" cy="${+(-L[1]).toFixed(1)}" r="14" fill="#FEF3C7" stroke="#EA580C" stroke-width="2.5"/>`;
+      labs+=`<text x="${+L[0].toFixed(1)}" y="${+(-L[1]).toFixed(1)}" font-size="${ex?13:15}" fill="${col}">${esc(txt)}</text>`; }
+  }
+  const x0=Math.min(...xs)-22, x1=Math.max(...xs)+22, y0=Math.min(...ys)-22, y1=Math.max(...ys)+22;
+  return `<div class="figw"><svg class="fig" viewBox="${x0.toFixed(0)} ${(-y1).toFixed(0)} ${(x1-x0).toFixed(0)} ${(y1-y0).toFixed(0)}" role="img" aria-label="Gambar sudut">${bg}${lines}${marks}${labs}${hits}</svg></div>`; }
+const CAP={jalan:"🚗 Dua jalan yang bersilangan",rel:"🚆 Rel kereta (sejajar) dipotong jalan raya",atap:"🏠 Atap rumah berbentuk segitiga sama kaki",jembatan:"🌉 Rangka jembatan: batang atas dan bawah sejajar"};
+
+/* ---------- tampilan ---------- */
+const RB=(kind)=>`<div class="rsn">${KIND_RS[kind].map(t=>`<button type="button" data-r="${t}" ${G.struck.includes(t)?"disabled":""}>${RS[t][0]}<small>${RS[t][1]}</small></button>`).join("")}</div>`;
+function render(){
+  const st=cur(), n=G.p.steps.length, done=G.done; let h="", c="", needPad=false, ok="Cek ✓";
+  h+=n>1?`<div class="prog" aria-label="Soal ${G.step+1} dari ${n}">${G.p.steps.map((_,i)=>`<i class="${i<G.step||done?"d":i===G.step?"c":""}"></i>`).join("")}</div>`:"";
+  h+=`<div class="qtext">${st.q}${st.sub&&!done?`<small>${st.sub}</small>`:""}</div>`+figSVG(st)+(st.fig.ctx?`<p class="cap">${CAP[st.fig.ctx]}</p>`:"");
+  const fld=`<span class="fld act${G.fields[0]?"":" ph"}">${G.fields[0]||"?"}</span>`;
+  const nm=st.t==="kasus"?(G.sel===st.target?"x":"sudut ini"):`∠${(st.names||{})[st.sid]||"x"}`;
+  if(done){ c=`<div class="ans">${st.t==="x"?`x = ${st.ans}`:`${st.t==="kasus"?"x":nm} = ${st.ans}°`}</div>`; ok=null; }
+  else if(st.t==="x"){ if(!G.phase){ c=`<p class="sub">Hubungan apa yang dimiliki sudut <b>${st.mem.map(s=>esc(st.names[s])).join("</b> dan <b>")}</b>?</p>${RB(st.kind)}`; ok=null; }
+    else { c=`<div class="eqn">${esc(st.eq)}</div><div class="form"><span>x =</span>${fld}</div>`; needPad=true; } }
+  else if(st.t==="cari"){ if(!G.phase){ c=`<div class="form"><span>${nm} =</span>${fld}<span>°</span></div>`; needPad=true; }
+    else { c=`<p class="sub">✓ ${nm} = ${st.ans}°. Apa alasannya?</p>${RB(st.kind)}`; ok=null; } }
+  else { if(G.found.length) c+=`<div class="known">${G.found.map(f=>`<span class="f">${st.fig.S[f.s].val}° · ${RS[f.t][0]}</span>`).join("")}</div>`;
+    if(G.sel===null){ c+=`<p class="sub">Ketuk lingkaran kecil di sudut yang ingin kamu cari. Boleh mulai dari mana saja, asal alasannya memakai sudut yang sudah diketahui.</p>`; ok=null; }
+    else if(!G.phase){ c+=`<div class="form"><span>${nm} =</span>${fld}<span>°</span></div><button class="btn ghost" type="button" id="unsel">Pilih sudut lain</button>`; needPad=true; }
+    else { c+=`<p class="sub">✓ ${G.sel===st.target?"x":"Sudut itu"} = ${st.fig.S[G.sel].val}°. Apa alasannya?</p>${RB("kasus")}`; ok=null; } }
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=c;
+  $("pad").hidden=!needPad; $("okBtn").hidden=!ok;
+  $("hintBtn").hidden=!(G.wrong>=3&&!done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0, short={potong:"Potong",sejajar:"Sejajar",segitiga:"Segitiga",kasus:"Kasus"};
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`ds_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}"><span style="display:block">${v.icon}</span>${short[k]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}<small>${l.sub}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+
+/* ---------- interaksi ---------- */
+function nextStep(msg){ G.step++; $("fb").innerHTML=msg?`<span class="ok">✓ ${msg}</span>`:"";
+  if(G.step>=G.p.steps.length){ G.step=G.p.steps.length-1; return finish(); } resetStep(); saveDay(); render(); }
+function miss(msg){ G.wrong++; $("fb").innerHTML=`<span class="no">✗ ${msg}</span>`; saveDay(); render(); }
+const info=msg=>{ $("fb").innerHTML=msg?`<span class="ok">${msg}</span>`:""; };
+/* alasan salah: bedakan "nama hubungannya keliru" dan "pasangannya belum diketahui" */
+function reasonMiss(F,sid,t,KN){ const exists=F.R.some(r=>r.t===t&&r.m.includes(sid));
+  return miss(exists?`Hubungan ${RS[t][0].toLowerCase()} memang ada di gambar, tapi sudut pasangannya belum diketahui.`:`Belum tepat. Perhatikan letak sudut ini terhadap sudut yang sudah diketahui.`); }
+/* ketukan dipetakan ke label sudut terdekat, jadi sudut yang berdekatan tetap bisa dipilih */
+function pickSector(cx,cy){ const st=cur(), svg=document.querySelector('#play .fig'), m=svg&&svg.getScreenCTM(); if(!m) return null;
+  const p=new DOMPoint(cx,cy).matrixTransform(m.inverse()), x=p.x, y=-p.y; let best=null, bd=26;
+  for(const s of st.fig.S){ if(G.K[s.id]!==undefined||(st.fig.square||[]).includes(s.id)) continue; const L=labPos(st.fig,s), d=Math.hypot(L[0]-x,L[1]-y); if(d<bd){ bd=d; best=s.id; } }
+  return best; }
+$("play").addEventListener("click",e=>{ if(!G||G.done) return; const st=cur(); if(st.t!=="kasus"||!e.target.closest(".fig")) return; const s=pickSector(e.clientX,e.clientY); if(s===null) return;
+  G.sel=s; G.phase=0; G.fields=[""]; G.struck=[]; info(""); render(); });
+$("ctrlBody").addEventListener("click",e=>{ if(!G||G.done) return; const st=cur(), b=e.target.closest("button"); if(!b) return;
+  if(b.id==="unsel"){ G.sel=null; G.phase=0; G.fields=[""]; render(); return; }
+  if(b.dataset.r===undefined||b.disabled) return; const t=b.dataset.r, F=st.fig;
+  if(st.t==="x"){ if(F.R.some(r=>r.t===t&&st.mem.every(m=>r.m.includes(m)))){ G.phase=1; info(`${RS[t][0]}. Sekarang selesaikan persamaannya.`); render(); return; }
+    G.struck.push(t); return miss(`Belum tepat. Lihat lagi letak kedua sudut beraljabar itu.`); }
+  if(st.t==="cari"){ if(validReasons(F,st.sid,G.K).includes(t)) return nextStep(`${RS[t][0]}: ∠${st.names[st.sid]} = ${st.ans}°.`);
+    G.struck.push(t); return reasonMiss(F,st.sid,t,G.K); }
+  /* kasus: alasan harus memakai sudut yang sudah diketahui */
+  if(validReasons(F,G.sel,G.K).includes(t)){ G.K[G.sel]=F.S[G.sel].val; G.found.push({s:G.sel,t});
+    if(G.sel===st.target) return nextStep(`Kasus terpecahkan! x = ${st.ans}° (${G.found.length} langkah).`);
+    info(`✓ ${F.S[G.sel].val}° (${RS[t][0].toLowerCase()}). Lanjutkan!`); G.sel=null; G.phase=0; G.fields=[""]; G.struck=[]; render(); return; }
+  G.struck.push(t); return reasonMiss(F,G.sel,t,G.K);
+});
+function press(k){
+  if(!G||G.done||$("pad").hidden) return;
+  if(k==="ok") return check(); if(k==="next") return;
+  let v=G.fields[0]; if(k==="del") v=v.slice(0,-1); else if(v.length<3) v=(v==="0"?"":v)+k;
+  G.fields[0]=v; render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G||G.done) return;
+  if(e.key==="Enter"){ if(document.activeElement&&document.activeElement.tagName==="BUTTON") return; e.preventDefault(); if(!$("okBtn").hidden) check(); return; }
+  if(/^[0-9]$/.test(e.key)||e.key==="Backspace"){ e.preventDefault(); press(e.key==="Backspace"?"del":e.key); }
+});
+function check(){
+  if(G.done) return; const st=cur(); if(!G.fields[0]){ toast("Ketik jawabannya dulu."); return; } const v=+G.fields[0];
+  if(st.t==="x"){ if(v===st.ans) return nextStep(`x = ${st.ans}.`); return miss("Belum tepat. Pindahkan suku x ke satu ruas dan angka ke ruas lain."); }
+  const sid=st.t==="kasus"?G.sel:st.sid, want=st.fig.S[sid].val;
+  if(v===want){ G.phase=1; G.fields=[""]; info(""); render(); return; }
+  if(v>=180) return miss("Sudut di gambar ini semuanya kurang dari 180°.");
+  if(st.t==="kasus"&&!validReasons(st.fig,sid,Object.assign({},G.K,{[sid]:undefined})).length) return miss("Belum tepat. Sudut ini mungkin belum bisa dicari dari sudut yang sudah diketahui. Coba sudut lain dulu.");
+  return miss(st.afterX?`Belum tepat. Hitung dulu besar sudut beraljabar dengan x = ${st.x}.`:"Belum tepat. Lihat sudut yang sudah diketahui di dekatnya.");
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${explain(G.p).map((x,i)=>`<div>${G.p.steps.length>1?`<b>${i+1}.</b> `:""}${x}</div>`).join("")}</div>`;
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Petunjuk</h2><div class="how"><div>${cur().how}</div></div><p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("ds_st_"+l,{})); }
+function recordDay(){
+  const allk=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`ds_day_${G.level}_${k}`,null));
+  if(!allk.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=allk.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("ds_st_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Petunjuk":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`ds_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h;
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`ds_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Detektif Sudut #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.step||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
