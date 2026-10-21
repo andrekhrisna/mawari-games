@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FAF6EE">
+<title>Juring Data</title>
+<meta name="description" content="Juring Data untuk SMP kelas 7–9: membaca dan membuat diagram lingkaran, menghitung sudut juring, persen, dan banyak data, mengukur juring dengan busur, serta menilai kesimpulan dari dua diagram.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%234338CA'/%3E%3Cpath d='M32 32V10A22 22 0 0 1 53 38Z' fill='%23FBBF24'/%3E%3Cpath d='M32 32L53 38A22 22 0 0 1 18 49Z' fill='%2334D399'/%3E%3Cpath d='M32 32L18 49A22 22 0 0 1 32 10Z' fill='%2360A5FA'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FAF6EE;
+  --card:#FFFFFF;
+  --ink:#1F2A2E;
+  --muted:#5B6466;
+  --line:#E7DCC4;
+  --gr:#4338CA;
+  --gr-d:#3730A3;
+  --soft:#EEF2FF;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1100px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--gr)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+@media (max-width:360px){#segKind button{font-size:.76rem;letter-spacing:-.2px}}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+.qtext{font-weight:800;font-size:1.12rem;line-height:1.45;text-align:center}
+.qtext small{display:block;font-weight:700;font-size:.85rem;color:var(--muted)}
+.prog{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.prog i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.prog i.d{background:var(--green)} .prog i.c{background:var(--gr);transform:scale(1.25)}
+/* gambar, kertas berpetak, papan titik, animasi */
+.figw{display:flex;justify-content:center}
+.fig{display:block;width:100%;max-width:460px;height:auto;max-height:56vh;background:#fff;border:2px solid var(--line);border-radius:14px;user-select:none;-webkit-user-select:none}
+.fig text,.anim text{font-family:'Baloo 2',sans-serif;font-weight:800;text-anchor:middle;dominant-baseline:central}
+.fig text.h,.anim text.h{paint-order:stroke;stroke:#fff;stroke-width:3.5px;stroke-linejoin:round}
+#ukg,#buatg{touch-action:none;cursor:grab}
+.dt{border-collapse:collapse;margin:0 auto;font-weight:700;font-size:1rem;min-width:240px}
+.dt caption{font-weight:800;color:var(--muted);font-size:.85rem;padding-bottom:4px}
+.dt th,.dt td{border:1px solid var(--line);padding:5px 10px;text-align:left}
+.dt th{background:var(--soft);font-size:.85rem}
+.dt td.v{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dt tr.tot td{font-weight:800;background:#FAFAF9}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.bsl{display:flex;flex-direction:column;gap:8px}
+.bsr{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:var(--bg);border-radius:12px;padding:8px 10px;font-weight:700;line-height:1.35}
+.bsr .tg{display:flex;gap:4px}
+.bsr button{border:2px solid var(--line);background:#fff;border-radius:10px;padding:6px 8px;font-weight:800;cursor:pointer;font-size:.85rem}
+.bsr button[aria-pressed="true"].b{background:#DCFCE7;border-color:#16A34A;color:#14532D}
+.bsr button[aria-pressed="true"].s{background:#FFE4E6;border-color:#E11D48;color:#881337}
+.op svg{display:block;width:100%;max-width:120px;margin:0 auto}
+.op.txt{text-align:left;font-size:.98rem;font-weight:700;line-height:1.35}
+.ops.one{grid-template-columns:1fr}
+.nudge{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.tools .btn{width:100%}
+.ref{background:var(--soft);border-radius:12px;padding:6px 10px;text-align:center;font-weight:700;font-size:.92rem}
+.story{font-size:1.05rem;line-height:1.5;font-weight:700;text-align:left;background:var(--soft);border-radius:14px;padding:10px 14px}
+.story .ic{font-size:2.1rem;float:left;margin:0 10px 0 0;line-height:1}
+.ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.op{border:3px solid var(--line);background:#fff;border-radius:14px;padding:10px 6px;font-weight:800;font-size:1.1rem;cursor:pointer;color:var(--ink);font-family:inherit;line-height:1.15}
+.op:disabled{opacity:.3;cursor:default}
+.ans{text-align:center;font-weight:800;font-size:1.3rem;color:var(--gr-d)}
+.animw{display:flex;flex-direction:column;align-items:center;gap:6px;background:#fff!important;padding:6px!important}
+.anim{display:block;width:100%;max-width:440px;height:auto}
+.replay{padding:4px 12px!important;font-size:.9rem!important}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.form sup{font-size:.7em}
+.fld{min-width:60px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.pw{display:inline-flex;align-items:flex-start;gap:2px}
+.pw>span:first-child{padding-top:14px;font-size:1.5rem}
+.fld.sm{min-width:34px;height:32px;font-size:1.05rem;padding:0 4px}
+.fld.act{border-color:var(--gr);background:#fff;box-shadow:0 0 0 3px #86EFAC}
+.fld.ph{color:#9CA3AF}
+.fld.bad{border-color:var(--rose);background:#FFE4E6}
+.pad{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:var(--soft);font-weight:800;font-size:1.3rem;cursor:pointer}
+.pad button:disabled{opacity:.3;cursor:default}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+#ctrlBody{display:flex;flex-direction:column;gap:10px}
+#ctrlBody .btn{width:100%}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--gr);color:#fff;box-shadow:0 3px 0 var(--gr-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--gr-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.btn.alt{background:#FEF9C3;color:var(--ink);box-shadow:0 3px 0 #EAB308}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#E7DCC4}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--gr-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(31,42,46,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .qtext{font-size:1.45rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:56px;min-width:100px} .kelas .fld.sm{height:44px;min-width:56px;font-size:1.4rem}
+  .kelas .pad button{height:52px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem}
+  .kelas .ans{font-size:2rem} .kelas .op{font-size:1.4rem} .kelas .story{font-size:1.3rem}
+  .kelas .fig{max-width:700px;max-height:max(250px,calc(100vh - 505px))}
+  .kelas #ctrl,.kelas #ctrlBody{gap:8px} .kelas .seg button{padding:4px 3px} .kelas .wrap{gap:8px}
+  .kelas .grid2{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Juring <span>Data</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button>
+        <button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k=",">,</button><button type="button" data-k="del" aria-label="Hapus" style="grid-column:span 3">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Petunjuk</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li><b>📖 Baca Diagram</b>: banyak data = persen × total, atau sudut : 360° × total.</li>
+      <li><b>🧮 Hitung Juring</b>: sudut juring = banyak : total × 360°, persen = banyak : total × 100%. Jumlah semua juring 360°.</li>
+      <li><b>✏️ Buat Diagram</b>: seret titik di tepi lingkaran untuk mengatur batas juring (urutan searah jarum jam mulai dari atas). Tombol −1° dan +1° untuk merapikan.</li>
+      <li><b>🔍 Detektif Data</b>: tandai setiap pernyataan benar atau salah, atau pilih diagram dan kesimpulan yang tepat. Hati-hati: juring lebih besar belum tentu banyaknya lebih banyak kalau totalnya berbeda.</li>
+      <li>Di level Sulit, juring tanpa ukuran diukur dengan <b>busur</b>: seret busur untuk memutarnya sampai garis 0 menempel di batas juring. <b>Mudah</b> kelas 7, <b>Sedang</b> kelas 8, <b>Sulit</b> kelas 9. Semua data fiktif.</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Petunjuk</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+<script>/* ================= INTI: pembuat soal diagram lingkaran ================= */
+/* ===== Juring Data: diagram lingkaran SMP kelas 7–9 ===== */
+const KINDS={baca:{label:"Baca Diagram",icon:"📖"},hitung:{label:"Hitung Juring",icon:"🧮"},buat:{label:"Buat Diagram",icon:"✏️"},detektif:{label:"Detektif Data",icon:"🔍"}};
+const LEVELS={mudah:{label:"Mudah",sub:"kelas 7"},sedang:{label:"Sedang",sub:"kelas 8"},sulit:{label:"Sulit",sub:"kelas 9"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const range=(a,b,s)=>{ const o=[]; for(let x=a;x<=b;x+=s||1) o.push(x); return o; };
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const grp=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,".");
+const num=x=>{ const r=Math.round(x*100)/100, [i,f]=String(Math.abs(r)).split("."); return (r<0?"−":"")+grp(i)+(f?","+f:""); };
+const near=(a,b)=>Math.abs(a-b)<1e-9;
+
+/* ---------- konteks (semua data fiktif) ---------- */
+const CTX=[
+  {t:"Ekskul pilihan siswa kelas 8",u:"siswa",w:"siswa yang memilih",n:"pemilih",g:"kelas",c:["Pramuka","Futsal","Paduan suara","PMR","Pencak silat","Tari"]},
+  {t:"Cara siswa berangkat ke sekolah",u:"siswa",w:"siswa yang memilih",n:"siswa",g:"kelas",c:["Jalan kaki","Sepeda","Diantar motor","Angkot","Ojek daring"]},
+  {t:"Menu kantin favorit siswa",u:"siswa",w:"siswa yang memilih",n:"pemilih",g:"kelas",c:["Nasi goreng","Bakso","Mi ayam","Soto","Gado-gado","Siomay"]},
+  {t:"Sampah yang dipilah OSIS dalam sebulan",u:"kg",w:"kg sampah",n:"sampah",g:"sekolah",c:["Organik","Plastik","Kertas","Kaleng","Kaca"]},
+  {t:"Hasil panen Desa Mekarsari",u:"ton",w:"ton hasil panen",n:"hasil panen",g:"desa",c:["Padi","Jagung","Kedelai","Singkong","Kacang tanah"]},
+  {t:"Pekerjaan warga RW 05",u:"orang",w:"warga yang bekerja sebagai",n:"warga",g:"RW",c:["Petani","Pedagang","Nelayan","Buruh pabrik","Guru"]},
+  {t:"Penggunaan lahan Desa Mekarsari",u:"hektare",w:"hektare lahan",n:"lahan",g:"desa",c:["Sawah","Kebun","Permukiman","Hutan","Kolam ikan"]}];
+const SISWA=CTX.slice(0,3);
+
+/* k sudut kelipatan g (masing-masing ≥ minA, semua berbeda) yang jumlahnya 360° */
+function angles(k,g,minA,r){ const U=360/g, m=Math.ceil(minA/g);
+  if(!Number.isInteger(U)||k*m+k*(k-1)/2>U) throw new Error(`sudut mustahil: k=${k} g=${g} min=${minA}`);
+  for(;;){ const rest=U-k*m, cuts=range(1,k-1).map(()=>ri(0,rest,r)).sort((a,b)=>a-b), parts=[]; let prev=0;
+    for(const c of cuts){ parts.push(c-prev+m); prev=c; } parts.push(rest-prev+m); const th=parts.map(u=>u*g); if(new Set(th).size===k) return th; } }
+/* total terkecil yang membuat semua frekuensi bulat, lalu kelipatannya dalam [lo, hi] */
+function totals(th,lo,hi){ const base=360/th.reduce(gcd,360), o=[]; for(let N=base;N<=hi;N+=base) if(N>=lo) o.push(N); return o; }
+function mkData(th,N,r,ctxs,C){ C=C||pick(ctxs||CTX,r); const nm=shuffle(C.c,r).slice(0,th.length);
+  return {t:C.t,u:C.u,w:C.w,n:C.n,g:C.g,N,cats:th.map((a,i)=>({nm:nm[i],col:i,th:a,v:a*N/360,p:a/3.6}))}; }
+const B=s=>`<b>${s}</b>`;
+const who=(D,i)=>`${D.w} ${B(D.cats[i].nm)}`;
+/* pilih indeks berbeda */
+const idx=(D,r,n)=>shuffle(range(0,D.cats.length-1),r).slice(0,n);
+function finishSteps(steps){ let clash=false; for(const s of steps){ if(s.traps){ const seen=new Set(); s.traps=s.traps.filter(([v])=>{ const k=Math.round(v*1000); if(near(v,s.ans)) clash=true; if(near(v,s.ans)||seen.has(k)||!(v>0)) return false; seen.add(k); return true; }); } }
+  if(clash) steps.clash=true; return steps; }
+
+/* ================= 1. BACA DIAGRAM ================= */
+function genBaca(level,r){ const steps=[];
+  if(level==="mudah"){ let D; for(;;){ const th=angles(4,18,36,r), Ns=totals(th,20,200); if(!Ns.length) continue; D=mkData(th,pick(Ns,r),r); break; }
+    const fig={pie:D,lab:"pct"}, [x,y,z]=idx(D,r,3), X=D.cats[x], Y=D.cats[y], Z=D.cats[z], [hi,lo]=X.p>Y.p?[X,Y]:[Y,X];
+    steps.push({t:"angka",fig,q:`Diagram menunjukkan persentase dari ${D.N} ${D.u}. Berapa ${who(D,x)}?`,ans:X.v,unit:D.u,
+      traps:[[X.p,"Itu persennya. Banyak data = persen × total."],[X.p*D.N,"Persen dibagi 100 dulu: p% = p/100."]],how:`${X.nm}: ${num(X.p)}% × ${D.N} = ${num(X.p)}/100 × ${D.N} = ${B(num(X.v)+" "+D.u)}.`,
+      chk:{f:"v",i:x}});
+    steps.push({t:"angka",fig,q:`Berapa selisih banyaknya ${D.n} ${B(hi.nm)} dan ${B(lo.nm)}?`,ans:hi.v-lo.v,unit:D.u,
+      traps:[[hi.p-lo.p,"Itu selisih persennya. Ubah ke banyak data: × total : 100."],[hi.v+lo.v,"Selisih berarti dikurangi, bukan dijumlahkan."]],
+      how:`${hi.nm} = ${num(hi.v)}, ${lo.nm} = ${num(lo.v)}. Selisihnya ${num(hi.v)} − ${num(lo.v)} = ${B(num(hi.v-lo.v)+" "+D.u)}. (Cara cepat: (${num(hi.p)}% − ${num(lo.p)}%) × ${D.N}.)`,chk:{f:"dv",i:D.cats.indexOf(hi),j:D.cats.indexOf(lo)}});
+    steps.push({t:"angka",fig,q:`Berapa derajat sudut juring ${B(Z.nm)}?`,ans:Z.th,unit:"°",
+      traps:[[Z.p,"Itu persennya. Sudut juring = persen × 360°."],[Z.p*360,"Persen dibagi 100 dulu: p% × 360°."],[Z.v,"Itu banyak datanya, bukan sudutnya."]],
+      how:`${num(Z.p)}% × 360° = ${num(Z.p)}/100 × 360° = ${B(Z.th+"°")}.`,anim:{k:"sweep",i:z},chk:{f:"th",i:z}}); }
+  else if(level==="sedang"){ let D; for(;;){ const th=angles(ri(4,5,r),9,36,r), Ns=totals(th,24,400); if(!Ns.length) continue; D=mkData(th,pick(Ns,r),r); break; }
+    const fig={pie:D,lab:"deg"}, [x,y]=idx(D,r,2), X=D.cats[x], Y=D.cats[y], hi=D.cats.reduce((a,c)=>c.th>a.th?c:a), lo=D.cats.reduce((a,c)=>c.th<a.th?c:a);
+    steps.push({t:"angka",fig,q:`Diagram menunjukkan data ${D.N} ${D.u}. Berapa ${who(D,x)}?`,ans:X.v,unit:D.u,
+      traps:[[X.th,"Itu besar sudutnya. Banyak data = sudut : 360° × total."],[X.th*D.N/100,"Sudut dibagi 360°, bukan 100."]],how:`${X.th}°/360° × ${D.N} = ${B(num(X.v)+" "+D.u)}.`,anim:{k:"sweep",i:x},chk:{f:"v",i:x}});
+    steps.push({t:"angka",fig,q:`Berapa persen ${D.n} ${B(Y.nm)}?`,ans:Y.p,unit:"%",dec:true,
+      traps:[[Y.th,"Itu sudutnya. Persen = sudut : 360° × 100%."],[Y.v,"Itu banyak datanya. Persen = banyak : total × 100%."]],how:`${Y.th}°/360° × 100% = ${B(num(Y.p)+"%")}.`,chk:{f:"p",i:y}});
+    steps.push({t:"angka",fig,q:`Juring terbesar ${B(hi.nm)} dan terkecil ${B(lo.nm)}. Berapa selisih banyak datanya?`,ans:hi.v-lo.v,unit:D.u,
+      traps:[[hi.th-lo.th,"Itu selisih sudutnya. Ubah ke banyak data: × total : 360°."]],how:`(${hi.th}° − ${lo.th}°)/360° × ${D.N} = ${hi.th-lo.th}/360 × ${D.N} = ${B(num(hi.v-lo.v)+" "+D.u)}.`,chk:{f:"dv",i:D.cats.indexOf(hi),j:D.cats.indexOf(lo)}}); }
+  else { let D; for(;;){ const th=angles(5,5,30,r), Ns=totals(th,36,720); if(!Ns.length) continue; D=mkData(th,pick(Ns,r),r); if(D.cats.filter(c=>c.th>=40).length<2) continue; break; }
+    const cand=D.cats.map((c,i)=>i).filter(i=>D.cats[i].th>=40), x=pick(cand,r), y=pick(range(0,4).filter(i=>i!==x),r), X=D.cats[x], Y=D.cats[y];
+    const fig={pie:D,lab:"deg",hide:[x,y]}, others=D.cats.filter((c,i)=>i!==x&&i!==y), so=others.reduce((a,c)=>a+c.th,0);
+    steps.push({t:"ukur",fig,i:x,q:`Juring ${B(X.nm)} dan ${B(Y.nm)} belum diberi ukuran. Ukur sudut juring ${B(X.nm)} dengan busur.`,ans:X.th,unit:"°",
+      sub:"Seret busur untuk memutarnya. Garis 0 akan menempel kalau didekatkan ke garis batas juring.",how:`Tempelkan garis 0 busur ke salah satu batas juring ${X.nm}, lalu baca angka di batas yang lain: ${B(X.th+"°")}.`,chk:{f:"th",i:x}});
+    const fig2={pie:D,lab:"deg",hide:[y]};
+    steps.push({t:"angka",fig:fig2,q:`Berapa derajat sudut juring ${B(Y.nm)}?`,ans:Y.th,unit:"°",
+      traps:[[360-so,`Itu sudut ${X.nm} dan ${Y.nm} bersama. Kurangi sudut ${X.nm} yang sudah diukur.`],[X.th,`Itu sudut juring ${X.nm} yang tadi diukur.`]],
+      how:`Jumlah semua juring 360°. Juring yang diketahui: ${others.map(c=>c.th+"°").join(" + ")} = ${so}°. ${Y.nm} = 360° − ${so}° − ${X.th}° = ${B(Y.th+"°")}.`,chk:{f:"th",i:y}});
+    steps.push({t:"angka",fig:fig2,q:`Diagram itu menggambarkan ${D.N} ${D.u}. Berapa ${who(D,y)}?`,ans:Y.v,unit:D.u,
+      traps:[[Y.th,"Itu sudutnya. Banyak data = sudut : 360° × total."]],how:`${Y.th}°/360° × ${D.N} = ${B(num(Y.v)+" "+D.u)}.`,anim:{k:"sweep",i:y},chk:{f:"v",i:y}}); }
+  return {kind:"baca",level,steps:finishSteps(steps)}; }
+
+/* ================= 2. HITUNG JURING ================= */
+/* tabel: baris {nm, col, val} — val angka atau "?" */
+const tblOf=(D,hideV,extra)=>({rows:D.cats.map((c,i)=>({nm:c.nm,col:c.col,val:i===hideV?"?":c.v})),u:D.u,total:D.N,head:D.t,extra});
+function genHitung(level,r){ const steps=[];
+  if(level==="mudah"){ let D; for(;;){ const th=angles(4,15,45,r), Ns=totals(th,12,120); if(!Ns.length) continue; D=mkData(th,pick(Ns,r),r,SISWA); break; }
+    const [x,y]=idx(D,r,2), X=D.cats[x], Y=D.cats[y], zc=range(0,3).filter(i=>i!==y&&Number.isInteger(D.cats[i].p)); if(!zc.length) return genHitung(level,r);
+    const z=pick(zc,r), Z=D.cats[z], fig={tbl:tblOf(D,y)};
+    steps.push({t:"angka",fig,q:`Data akan dibuat diagram lingkaran. Berapa derajat sudut juring ${B(X.nm)}?`,ans:X.th,unit:"°",
+      traps:[[X.v,"Itu banyak datanya. Sudut juring = banyak : total × 360°."],[X.v*100/D.N,"Itu persennya. Kalikan dengan 360°, bukan 100%."]],how:`${num(X.v)}/${D.N} × 360° = ${B(X.th+"°")}.`,anim:{k:"sweep",i:x,pie:1},chk:{f:"th",i:x}});
+    steps.push({t:"angka",fig,q:`Pada diagram lingkarannya, juring ${B(Y.nm)} bersudut ${Y.th}°. Berapa ${who(D,y)}?`,ans:Y.v,unit:D.u,
+      traps:[[Y.th,"Itu sudutnya. Banyak = sudut : 360° × total."],[Y.th*D.N/100,"Sudut dibagi 360°, bukan 100."]],how:`${Y.th}°/360° × ${D.N} = ${B(num(Y.v)+" "+D.u)}. Cek: jumlah semua baris harus ${D.N}.`,chk:{f:"v",i:y}});
+    steps.push({t:"angka",fig,q:`Berapa persen ${D.n} ${B(Z.nm)}?`,ans:Z.p,unit:"%",
+      traps:[[Z.v,"Itu banyak datanya. Persen = banyak : total × 100%."],[Z.th,"Itu sudut juringnya. Persen = banyak : total × 100%."]],how:`${num(Z.v)}/${D.N} × 100% = ${B(num(Z.p)+"%")}.`,chk:{f:"p",i:z}}); }
+  else if(level==="sedang"){ let D; for(;;){ const N=pick([30,40,45,60,72,80,90,120,180,240],r), st=N/gcd(N,360), th0=angles(4,360*st/N,30,r); D=mkData(th0,N,r,SISWA); if(D.cats.every(c=>Number.isInteger(c.v))) break; }
+    const [x,dd]=idx(D,r,2), X=D.cats[x], Dd=D.cats[dd];
+    steps.push({t:"angka",fig:{tbl:tblOf(D,-1)},q:`Berapa derajat sudut juring ${B(X.nm)}?`,ans:X.th,unit:"°",
+      traps:[[X.v,"Itu banyak datanya. Sudut juring = banyak : total × 360°."],[X.v*100/D.N,"Itu persennya. Kalikan dengan 360°, bukan 100%."]],how:`${num(X.v)}/${D.N} × 360° = ${B(X.th+"°")}.`,anim:{k:"sweep",i:x,pie:1},chk:{f:"th",i:x}});
+    let E; for(;;){ const th=angles(ri(4,5,r),pick([5,6,8,9,10,12],r),30,r), Ns=totals(th,30,400); if(!Ns.length) continue; E=mkData(th,pick(Ns,r),r); break; }
+    const a=ri(0,E.cats.length-1,r), A=E.cats[a];
+    steps.push({t:"angka",fig:{pie:E,lab:"deg",only:[a],noN:1},q:`Pada diagram ini, juring ${B(A.nm)} bersudut ${A.th}° dan mewakili ${num(A.v)} ${E.u}. Berapa ${E.u} seluruhnya?`,ans:E.N,unit:E.u,
+      traps:[[A.v*A.th/360,"Terbalik: total = banyak : sudut × 360°."],[A.v*360,"Banyak dibagi sudutnya dulu, lalu dikali 360°."],[A.v*100/A.th,"Satu lingkaran 360°, bukan 100."]],
+      how:`${A.th}° mewakili ${num(A.v)} ${E.u}, jadi 1° mewakili ${num(A.v)}/${A.th}. Satu lingkaran: ${num(A.v)}/${A.th} × 360° = ${B(num(E.N)+" "+E.u)}.`,chk:{f:"N",d:"E"},E});
+    steps.push({t:"angka",fig:{tbl:tblOf(D,dd)},q:`Satu baris datanya hilang, tetapi totalnya ${D.N} ${D.u}. Berapa derajat sudut juring ${B(Dd.nm)}?`,ans:Dd.th,unit:"°",
+      traps:[[Dd.v,`Itu banyak data ${Dd.nm}. Ubah ke sudut: banyak : total × 360°.`],[360-Dd.v,"Hitung dulu banyak datanya dari total, lalu ubah ke sudut."]],
+      how:`${Dd.nm} = ${D.N} − ${D.cats.filter((c,i)=>i!==dd).map(c=>num(c.v)).join(" − ")} = ${num(Dd.v)} ${D.u}. Sudutnya ${num(Dd.v)}/${D.N} × 360° = ${B(Dd.th+"°")}.`,anim:{k:"sweep",i:dd,pie:1},chk:{f:"th",i:dd}}); }
+  else { let D; for(;;){ const th=angles(5,ri(1,3,r)*2,24,r), Ns=totals(th,40,400); if(!Ns.length) continue; D=mkData(th,pick(Ns,r),r); const s=D.cats.slice().sort((p,q)=>q.th-p.th); if(s[0].v-s[1].v>=2) break; }
+    const s=D.cats.slice().sort((p,q)=>q.th-p.th), [A,Bc]=[s[0],pick(s.slice(1),r)], dv=A.v-Bc.v, dth=A.th-Bc.th;
+    steps.push({t:"angka",fig:{pie:D,lab:"deg",noN:1},q:`Banyak ${D.n} ${B(A.nm)} ${num(dv)} ${D.u} lebih banyak daripada ${B(Bc.nm)}. Berapa ${D.u} seluruhnya?`,ans:D.N,unit:D.u,
+      traps:[[dv*360/A.th,"Selisih banyak harus dipasangkan dengan selisih sudut, bukan sudut satu juring."],[dv*dth,"Total = selisih banyak : selisih sudut × 360°."],[dv*360,"Bagi dulu dengan selisih sudutnya."]],
+      how:`Selisih sudutnya ${A.th}° − ${Bc.th}° = ${dth}° dan mewakili ${num(dv)} ${D.u}. Total = ${num(dv)}/${dth} × 360° = ${B(num(D.N)+" "+D.u)}.`,chk:{f:"N"}});
+    for(;;){ const x=ri(2,15,r), c=ri(1,9,r), d=ri(3,20,r), N=4*x+c+d; if((720*x)%N||N<20) continue; const vals=[x,2*x,x+c,d]; if(new Set(vals).size<4) continue; const C=pick(SISWA,r), nm=shuffle(C.c,r).slice(0,4), thB=720*x/N;
+      steps.push({t:"angka",fig:{tbl:{rows:[{nm:nm[0],col:0,val:"x"},{nm:nm[1],col:1,val:"2x"},{nm:nm[2],col:2,val:`x + ${c}`},{nm:nm[3],col:3,val:d}],u:C.u,total:N,head:C.t}},q:`Tentukan ${B("x")} lebih dulu. Berapa derajat sudut juring ${B(nm[1])}?`,ans:thB,unit:"°",
+        traps:[[2*x,`Itu banyak data ${nm[1]} (2x). Ubah ke sudut.`],[x,"Itu nilai x. Lanjutkan sampai sudut juringnya."],[360*x/N,`Itu sudut untuk x. ${nm[1]} = 2x.`]],
+        how:`x + 2x + (x + ${c}) + ${d} = ${N} → 4x = ${N-c-d} → x = ${x}. ${nm[1]} = 2x = ${2*x}. Sudutnya ${2*x}/${N} × 360° = ${B(num(thB)+"°")}.`,chk:{f:"alg",x,c,d,N}}); break; }
+    for(;;){ const C=pick(CTX,r), nm=shuffle(C.c,r).slice(0,4), th1=angles(4,10,40,r), th2=angles(4,10,40,r), i=ri(0,3,r);
+      const N1s=totals(th1,40,300), N2s=totals(th2,40,400); if(!N1s.length||!N2s.length) continue; const N1=pick(N1s,r), N2=pick(N2s,r), v1=th1[i]*N1/360, v2=th2[i]*N2/360; if(v2<=v1||th2[i]>=th1[i]&&r()<.7) continue;
+      const D1={t:C.t,u:C.u,N:N1,cats:th1.map((a,j)=>({nm:nm[j],col:j,th:a,v:a*N1/360,p:a/3.6}))}, D2={t:C.t,u:C.u,N:N2,cats:th2.map((a,j)=>({nm:nm[j],col:j,th:a,v:a*N2/360,p:a/3.6}))};
+      steps.push({t:"angka",fig:{pies:[{D:D1,cap:`Tahun lalu · ${num(N1)} ${C.u}`},{D:D2,cap:`Tahun ini · ${num(N2)} ${C.u}`}],lab:"deg"},q:`Berapa pertambahan banyak ${C.n} ${B(nm[i])} dari tahun lalu ke tahun ini?`,ans:v2-v1,unit:C.u,
+        traps:[[Math.abs(th2[i]-th1[i]),"Itu selisih sudutnya. Hitung banyak datanya tiap tahun dulu."],[v2,"Itu banyak tahun ini. Kurangi dengan banyak tahun lalu."]],
+        how:`Tahun lalu: ${th1[i]}°/360° × ${num(N1)} = ${num(v1)}. Tahun ini: ${th2[i]}°/360° × ${num(N2)} = ${num(v2)}. Bertambah ${num(v2)} − ${num(v1)} = ${B(num(v2-v1)+" "+C.u)}${th2[i]<th1[i]?`, padahal juringnya mengecil karena totalnya berubah`:""}.`,chk:{f:"yr",i,D1,D2}}); break; } }
+  return {kind:"hitung",level,steps:finishSteps(steps)}; }
+
+/* ================= 3. BUAT DIAGRAM ================= */
+function genBuat(level,r){ const steps=[]; const mk=(th,N,ctxs)=>mkData(th,N,r,ctxs);
+  const build=(D,show,q,how)=>({t:"buat",fig:{tbl:{rows:D.cats.map(c=>({nm:c.nm,col:c.col,val:show==="th"?c.th+"°":show==="p"?num(c.p)+"%":c.v})),u:show==="th"?"":show==="p"?"":D.u,total:show==="v"?D.N:null,head:D.t,pctTot:show==="p",degTot:show==="th"}},need:{th:D.cats.map(c=>c.th)},D,q,how});
+  if(level==="mudah"){ { const D=mk(angles(3,30,60,r),360,SISWA);
+      steps.push(build(D,"th",`Buat diagram lingkaran dari tabel sudut ini. Seret titik di tepi lingkaran untuk mengatur batas juring.`,`Atur tiap juring sesuai tabel: ${D.cats.map(c=>`${c.nm} ${c.th}°`).join(", ")}. Jumlahnya ${B("360°")}.`)); }
+    for(;;){ const N=pick([12,24,36],r), th=angles(4,N===24?15:30,30,r); if(totals(th,N,N).length!==1) continue; const D=mk(th,N,SISWA);
+      steps.push(build(D,"v",`Buat diagram lingkaran dari tabel ini. Hitung dulu sudut tiap juring.`,`Sudut = banyak : ${N} × 360°, jadi 1 ${D.u} = ${360/N}°: ${D.cats.map(c=>`${c.nm} ${c.v} × ${360/N}° = ${c.th}°`).join(", ")}. ${B("Jumlahnya 360°")}.`)); break; } }
+  else if(level==="sedang"){ for(;;){ const th=angles(4,5,40,r), Ns=totals(th,20,200); if(!Ns.length) continue; const D=mk(th,pick(Ns,r));
+      steps.push(build(D,"v",`Buat diagram lingkaran dari tabel ini. Hitung dulu sudut tiap juring.`,`Sudut = banyak : ${D.N} × 360°: ${D.cats.map(c=>`${c.nm} ${num(c.v)}/${D.N} × 360° = ${c.th}°`).join(", ")}. ${B("Jumlahnya 360°")}.`)); break; }
+    { const D=mk(angles(ri(4,5,r),18,36,r),100);
+      steps.push(build(D,"p",`Buat diagram lingkaran dari tabel persentase ini.`,`Sudut = persen × 360°: ${D.cats.map(c=>`${c.nm} ${num(c.p)}% × 360° = ${c.th}°`).join(", ")}. ${B("Jumlahnya 360°")}.`)); } }
+  else { for(;;){ const N=pick([40,45,60,72,90,120,180],r), st=N/gcd(N,360), th=angles(5,360*st/N,24,r); const D=mk(th,N); if(!D.cats.every(c=>Number.isInteger(c.v))) continue;
+      steps.push(build(D,"v",`Buat diagram lingkaran dari tabel ini.`,`1 ${D.u} = 360° : ${N} = ${num(360/N)}°. ${D.cats.map(c=>`${c.nm} ${c.v} × ${num(360/N)}° = ${c.th}°`).join(", ")}. ${B("Jumlahnya 360°")}.`)); break; }
+    { const D=mk(angles(5,18,36,r),100), last=D.cats.length-1, rest=100-D.cats.slice(0,last).reduce((a,c)=>a+c.p,0), st=build(D,"p",`Satu persentase belum ditulis. Lengkapi lalu buat diagram lingkarannya.`,
+        `${D.cats[last].nm} = 100% − ${D.cats.slice(0,last).map(c=>num(c.p)+"%").join(" − ")} = ${num(rest)}%. Lalu sudut = persen × 360°: ${D.cats.map(c=>`${c.nm} ${c.th}°`).join(", ")}. ${B("Jumlahnya 360°")}.`);
+      st.fig.tbl.rows[last].val="?"; steps.push(st); } }
+  return {kind:"buat",level,steps}; }
+
+/* ================= 4. DETEKTIF DATA ================= */
+/* pernyataan untuk satu diagram; tf dihitung dari data */
+/* pengecoh angka memakai salah konsep yang umum: persen (diagram persen) atau sudut (diagram derajat) dibaca sebagai banyak data */
+function stmOne(D,r,mode){ const o=[], c=D.cats, s=c.slice().sort((p,q)=>q.th-p.th), u=D.u, A=s[0], Z=s[s.length-1], wv=X=>mode==="pct"?X.p:X.th, wa=X=>mode==="pct"?X.p:X.v;
+  o.push({s:`${B(A.nm)} lebih dari setengah keseluruhan.`,tf:A.p>50,k:"half"});
+  for(const X of shuffle(c,r).slice(0,2)){ o.push({s:`Banyak ${B(X.nm)} ada ${num(X.v)} ${u}.`,tf:true,k:"v"}); if(!near(wv(X),X.v)&&Number.isInteger(wv(X))) o.push({s:`Banyak ${B(X.nm)} ada ${num(wv(X))} ${u}.`,tf:false,k:"v"});
+    o.push({s:`Juring ${B(X.nm)} besarnya ${X.th}°.`,tf:true,k:"th"}); if(!near(wa(X),X.th)&&Number.isInteger(wa(X))) o.push({s:`Juring ${B(X.nm)} besarnya ${num(wa(X))}°.`,tf:false,k:"th"}); }
+  const [X,Y]=shuffle(c,r); o.push({s:`Banyak ${B(X.nm)} dua kali banyak ${B(Y.nm)}.`,tf:near(X.v,2*Y.v),k:"dbl"});
+  o.push({s:`${B(A.nm)} dan ${B(Z.nm)} bersama-sama lebih dari setengah keseluruhan.`,tf:A.p+Z.p>50,k:"sum"});
+  const wd=wv(A)-wv(Z); o.push({s:`${B(A.nm)} lebih banyak ${num(A.v-Z.v)} ${u} daripada ${B(Z.nm)}.`,tf:true,k:"dv"}); if(!near(A.v-Z.v,wd)&&Number.isInteger(wd)) o.push({s:`${B(A.nm)} lebih banyak ${num(wd)} ${u} daripada ${B(Z.nm)}.`,tf:false,k:"dv"});
+  const q=c.find(x=>x.th===90); o.push(q?{s:`${B(q.nm)} tepat seperempat keseluruhan.`,tf:true,k:"q"}:{s:`${B(s[1].nm)} tepat seperempat keseluruhan.`,tf:false,k:"q"});
+  return o; }
+/* pilih 3 pernyataan: minimal satu benar dan satu salah, jenisnya berbeda */
+function pick3(pool,r){ for(let t=0;t<200;t++){ const p=shuffle(pool,r), out=[], ks=new Set(); for(const x of p){ if(ks.has(x.k)) continue; ks.add(x.k); out.push(x); if(out.length===3) break; }
+    if(out.length===3&&out.some(x=>x.tf)&&out.some(x=>!x.tf)) return out; } return null; }
+function twoPies(r,mode){ for(;;){ const C=pick(mode==="yr"?CTX:SISWA,r), nm=shuffle(C.c,r).slice(0,4), th1=angles(4,10,40,r), th2=angles(4,10,40,r), N1s=totals(th1,20,200), N2s=totals(th2,20,400); if(!N1s.length||!N2s.length) continue;
+    const N1=pick(N1s,r), N2=pick(N2s,r); if(N1===N2) continue; const mk=(th,N)=>({t:C.t,u:C.u,N,cats:th.map((a,j)=>({nm:nm[j],col:j,th:a,v:a*N/360,p:a/3.6}))}), D1=mk(th1,N1), D2=mk(th2,N2);
+    /* minimal satu kategori yang juringnya lebih besar tetapi banyaknya lebih sedikit (jebakan utama) */
+    const trap=range(0,3).filter(i=>th1[i]>th2[i]&&D1.cats[i].v<D2.cats[i].v); if(!trap.length) continue;
+    return {C,nm,D1,D2,ti:pick(trap,r),caps:mode==="yr"?["Tahun lalu","Tahun ini"]:["Kelas 8A","Kelas 8B"]}; } }
+function stmTwo(T,r,mode){ const {D1,D2,ti,caps}=T, u=D1.u, o=[], X1=D1.cats[ti], X2=D2.cats[ti], nm=X1.nm;
+  if(mode==="yr"){ o.push({s:`Juring ${B(nm)} tahun ini lebih kecil daripada tahun lalu.`,tf:X2.th<X1.th,k:"th"});
+    o.push({s:`Banyak ${B(nm)} tahun ini lebih sedikit daripada tahun lalu.`,tf:X2.v<X1.v,k:"v"});
+    o.push({s:`Banyak ${B(nm)} bertambah ${num(X2.v-X1.v)} ${u}.`,tf:true,k:"d"}); o.push({s:`Banyak ${B(nm)} berkurang ${num(Math.abs(X1.th-X2.th))} ${u}.`,tf:false,k:"d"});
+    const js=range(0,3).filter(i=>i!==ti&&!near(D1.cats[i].v,D2.cats[i].v)); if(!js.length) return o; const j=pick(js,r), Y1=D1.cats[j], Y2=D2.cats[j]; o.push({s:`Banyak ${B(Y1.nm)} tahun ini ${Y2.v>Y1.v?"lebih banyak":"lebih sedikit"} daripada tahun lalu.`,tf:true,k:"v2"}); o.push({s:`Banyak ${B(Y1.nm)} tahun ini sama dengan tahun lalu.`,tf:near(Y1.v,Y2.v),k:"v2"}); }
+  else { o.push({s:`Persentase ${B(nm)} di ${caps[0]} lebih besar daripada di ${caps[1]}.`,tf:X1.p>X2.p,k:"p"});
+    o.push({s:`Banyak ${D1.u} ${B(nm)} di ${caps[0]} lebih banyak daripada di ${caps[1]}.`,tf:X1.v>X2.v,k:"v"});
+    o.push({s:`Pemilih ${B(nm)} di kedua kelas seluruhnya ${num(X1.v+X2.v)} ${u}.`,tf:true,k:"sum"}); if(!near(X1.th+X2.th,X1.v+X2.v)) o.push({s:`Pemilih ${B(nm)} di kedua kelas seluruhnya ${num(X1.th+X2.th)} ${u}.`,tf:false,k:"sum"});
+    const js=range(0,3).filter(i=>i!==ti&&D1.cats[i].th!==D2.cats[i].th); if(!js.length) return o; const j=pick(js,r), Y1=D1.cats[j], Y2=D2.cats[j]; o.push({s:`Juring ${B(Y1.nm)} di ${caps[0]} ${Y1.th>Y2.th?"lebih besar":"lebih kecil"} daripada di ${caps[1]}.`,tf:true,k:"th"}); }
+  return o; }
+function bsStep(fig,pool,r,q,how){ const st=pick3(pool,r); if(!st) return null; return {t:"bs",fig,stm:st.map(x=>({s:x.s,tf:x.tf,k:x.k})),q,how:how(st)}; }
+const howBS=st=>st.map(x=>`${x.s} → ${B(x.tf?"Benar":"Salah")}`).join("<br>");
+/* pilih diagram yang cocok dengan tabel: benar, dua juring tertukar, semua juring sama besar */
+function matchStep(D,r,n){ const th=D.cats.map(c=>c.th), s=th.map((a,i)=>i).sort((p,q)=>th[q]-th[p]);
+  const sw=(a,b)=>{ const t=th.slice(); [t[a],t[b]]=[t[b],t[a]]; return t; }, eq=th.map(()=>360/th.length);
+  /* juring yang ditukar harus berselisih minimal 30° supaya bedanya terlihat */
+  const a0=s[0], a1=s[s.length-1]; if(th[a0]-th[a1]<30||Math.max(...th.map(x=>Math.abs(x-360/th.length)))<30) return null;
+  const opts=[{th,ok:1},{th:sw(a0,a1),why:"juring terbesar dan terkecil tertukar"},{th:eq,why:"semua juring dibuat sama besar"}];
+  if(n>3){ let best=null; for(let i=0;i<th.length;i++) for(let j=i+1;j<th.length;j++){ if((i===a0&&j===a1)||(i===a1&&j===a0)) continue; const d=Math.abs(th[i]-th[j]); if(d>=30&&(!best||d>best[2])) best=[i,j,d]; }
+    if(!best) return null; opts.push({th:sw(best[0],best[1]),why:`juring ${D.cats[best[0]].nm} dan ${D.cats[best[1]].nm} tertukar`}); }
+  const o=shuffle(opts,r); return {t:"pilih",fig:{tbl:tblOf(D,-1)},q:`Diagram mana yang cocok dengan tabel ini?`,opts:o.map(x=>({pie:x.th})),D,ans:o.findIndex(x=>x.ok),
+    how:`Hitung sudutnya: ${D.cats.map(c=>`${c.nm} ${num(c.v)}/${D.N} × 360° = ${c.th}°`).join(", ")}. Diagram yang lain salah karena ${o.filter(x=>!x.ok).map(x=>x.why).join(" atau ")}. ${B("Pilih diagram yang juringnya sesuai")}.`}; }
+function genDetektif(level,r){ const steps=[]; const one=(lab,g,lo,hi,k)=>{ for(;;){ const th=angles(k||4,g,36,r), Ns=totals(th,lo,hi); if(!Ns.length) continue; return mkData(th,pick(Ns,r),r); } };
+  const tryPush=f=>{ for(;;){ const s=f(); if(s){ steps.push(s); return; } } };
+  if(level==="mudah"){ tryPush(()=>{ const D=one("pct",18,20,200); return bsStep({pie:D,lab:"pct"},stmOne(D,r,"pct"),r,`Diagram menunjukkan persentase dari ${D.N} ${D.u}. Tandai setiap pernyataan: benar atau salah?`,howBS); });
+    for(;;){ const th=angles(3,30,60,r), Ns=totals(th,12,60); if(!Ns.length) continue; const m=matchStep(mkData(th,pick(Ns,r),r,SISWA),r,3); if(m){ steps.push(m); break; } }
+    tryPush(()=>{ const D=one("deg",15,12,120); return bsStep({pie:D,lab:"deg"},stmOne(D,r,"deg"),r,`Diagram menggambarkan ${D.N} ${D.u}. Tandai setiap pernyataan: benar atau salah?`,howBS); }); }
+  else if(level==="sedang"){ tryPush(()=>{ const T=twoPies(r,"kls"); return bsStep({pies:[{D:T.D1,cap:`${T.caps[0]} · ${T.D1.N} siswa`},{D:T.D2,cap:`${T.caps[1]} · ${T.D2.N} siswa`}],lab:"deg"},stmTwo(T,r,"kls"),r,`Diagram menunjukkan data dari dua kelas. Tandai setiap pernyataan: benar atau salah?`,
+      st=>howBS(st)+`<br>Ingat: persen atau juring yang lebih besar belum tentu banyaknya lebih banyak, karena totalnya berbeda.`); });
+    for(;;){ const th=angles(4,10,40,r), Ns=totals(th,20,120); if(!Ns.length) continue; const m=matchStep(mkData(th,pick(Ns,r),r),r,4); if(m){ steps.push(m); break; } }
+    tryPush(()=>{ const D=one("deg",9,24,400,ri(4,5,r)); return bsStep({pie:D,lab:"deg"},stmOne(D,r,"deg"),r,`Diagram menggambarkan ${D.N} ${D.u}. Tandai setiap pernyataan: benar atau salah?`,howBS); }); }
+  else { tryPush(()=>{ const T=twoPies(r,"yr"); return bsStep({pies:[{D:T.D1,cap:`${T.caps[0]} · ${num(T.D1.N)} ${T.D1.u}`},{D:T.D2,cap:`${T.caps[1]} · ${num(T.D2.N)} ${T.D2.u}`}],lab:"deg"},stmTwo(T,r,"yr"),r,`${T.C.t}: tahun lalu dan tahun ini. Tandai setiap pernyataan: benar atau salah?`,
+      st=>howBS(st)+`<br>Bandingkan banyaknya (sudut : 360° × total), bukan hanya besar juringnya.`); });
+    tryPush(()=>{ const D=one("deg",5,36,720,5); return bsStep({pie:D,lab:"deg"},stmOne(D,r,"deg"),r,`Diagram menggambarkan ${num(D.N)} ${D.u}. Tandai setiap pernyataan: benar atau salah?`,howBS); });
+    for(;;){ const T=twoPies(r,"yr"), pool=stmTwo(T,r,"yr"), tr=shuffle(pool.filter(x=>x.tf),r), fl=shuffle(pool.filter(x=>!x.tf),r); if(!tr.length||fl.length<3) continue;
+      const o=shuffle([tr[0]].concat(fl.slice(0,3)),r);
+      steps.push({t:"pilih",fig:{pies:[{D:T.D1,cap:`${T.caps[0]} · ${num(T.D1.N)} ${T.D1.u}`},{D:T.D2,cap:`${T.caps[1]} · ${num(T.D2.N)} ${T.D2.u}`}],lab:"deg"},q:`Kesimpulan mana yang ${B("tepat")}?`,opts:o.map(x=>({s:x.s})),ans:o.indexOf(tr[0]),
+        how:`${tr[0].s} → ${B("tepat")}. Banyak data = sudut : 360° × total; total tahun lalu ${num(T.D1.N)} dan tahun ini ${num(T.D2.N)}.`}); break; } }
+  return {kind:"detektif",level,steps}; }
+
+const explain=p=>p.steps.map(s=>s.how);
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0), gen={baca:genBaca,hitung:genHitung,buat:genBuat,detektif:genDetektif}[kind];
+  for(;;){ const p=gen(level,r); if(!p.steps.clash) return p; } }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify(p.steps.map(s=>[s.t,s.q,s.ans,s.need,s.stm&&s.stm.map(x=>x.s),s.fig&&JSON.stringify(s.fig)]));
+const DAILY={};
+/* rantai per blok 365 hari: soal tidak berulang dalam setahun dan biaya hitungnya tidak terus bertambah */
+function dailyPuzzle(kind,level,n){
+  const blk=Math.floor((n-1)/365), id=kind+"|"+level+"|"+blk, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()}), m=n-blk*365;
+  while(c.list.length<m){ const d=blk*365+c.list.length+1; let p=null,best=null,bestAge=-1;
+    for(let k=0;k<30;k++){ const q=makePuzzle(kind,level,hashStr(`juring-data|${kind}|${level}|${d}|${k}`)), key=puzzleKey(q), age=c.last.has(key)?d-c.last.get(key):1e9;
+      if(age>365){ p=q; break; } if(age>bestAge){ best=q; bestAge=age; } }
+    p=p||best; c.list.push(p); c.last.set(puzzleKey(p),d); }
+  return c.list[m-1];
+}
+/* ================= AKHIR INTI ================= */</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"baca",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("jd_prefs",{}));
+if(!KINDS[P.kind]) P.kind="baca"; if(!LEVELS[P.level]) P.level="mudah";
+const saveP=()=>lsSet("jd_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2600); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function resetStep(){ const st=cur(); G.fields=[""]; G.act=0; G.bad=null; G.struck=[]; G.bs=st.stm?st.stm.map(()=>null):[]; G.phi=33; G.sel=0;
+  if(st.t==="buat"){ const k=st.need.th.length; G.cut=range(1,k-1).map(i=>Math.round(360*i/k)); } }
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,step:0};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","step"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  resetStep(); $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`jd_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,step:G.step}); }
+const cur=()=>G.p.steps[Math.min(G.step,G.p.steps.length-1)];
+
+/* ---------- diagram lingkaran (arah 0° = atas, searah jarum jam) ---------- */
+const COLS=["#3B82F6","#F59E0B","#10B981","#EF4444","#8B5CF6","#EC4899"];
+const f1=n=>+n.toFixed(1);
+const bp=(cx,cy,R,b)=>[f1(cx+R*Math.sin(b*Math.PI/180)),f1(cy-R*Math.cos(b*Math.PI/180))];
+function secPath(cx,cy,R,b0,b1){ const a=bp(cx,cy,R,b0), c=bp(cx,cy,R,b1); return `M${cx} ${cy}L${a[0]} ${a[1]}A${R} ${R} 0 ${b1-b0>180?1:0} 1 ${c[0]} ${c[1]}Z`; }
+const tx=(x,y,s,fs,fill,o)=>`<text class="h" x="${f1(x)}" y="${f1(y)}" font-size="${fs||12}" fill="${fill||"#1F2A2E"}"${o||""}>${esc(s)}</text>`;
+const cumul=th=>{ let b=0; return th.map(a=>{ const r=[b,b+a]; b+=a; return r; }); };
+function valTx(D,i,o){ const c=D.cats[i]; if(o.hide&&o.hide.includes(i)) return "?"; if(o.only&&!o.only.includes(i)) return ""; return o.lab==="pct"?num(c.p)+"%":o.lab==="deg"?c.th+"°":""; }
+/* isi lingkaran + label; th boleh berbeda dari data (editor) */
+function pieCore(D,th,cx,cy,R,o){ let s=""; const cb=cumul(th);
+  cb.forEach(([b0,b1],i)=>{ s+=`<path d="${secPath(cx,cy,R,b0,b1)}" fill="${COLS[D.cats[i].col]}" stroke="#fff" stroke-width="2"/>`; });
+  cb.forEach(([b0,b1],i)=>{ const a=b1-b0, m=b0+a/2, v=o.vals?o.vals[i]:valTx(D,i,o), nm=D.cats[i].nm, big=a>=58&&R>=80&&!o.noName;
+    if(big){ const p=bp(cx,cy,R*0.6,m); s+=tx(p[0],p[1]-(v?8:0),nm,11)+(v?tx(p[0],p[1]+9,v,13,v==="?"?"#B91C1C":"#111827"):""); }
+    else if(v){ const p=a>=24?bp(cx,cy,R*0.68,m):bp(cx,cy,R+(o.ring?54:14),m); s+=tx(p[0],p[1],v,a>=24?13:11,v==="?"?"#B91C1C":"#111827"); } });
+  return s; }
+function legend(D,x0,y0,W){ let s=""; D.cats.forEach((c,i)=>{ const col=i%2, row=Math.floor(i/2), x=x0+col*(W/2), y=y0+row*20; s+=`<rect x="${x}" y="${y-6}" width="12" height="12" rx="3" fill="${COLS[c.col]}"/>`+tx(x+18,y,c.nm,12,"#1F2A2E",` style="text-anchor:start"`); }); return s; }
+function pieLayout(D,o){ const R=o.R||100, W=o.W||340, ring=o.ring?46:0, top=o.title===false?6:44, cx=W/2, cy=top+R+ring+(ring?0:16), rows=Math.ceil(D.cats.length/2), H=cy+R+ring+(ring?6:20)+(o.noLegend?0:rows*20)+4; return {R,W,cx,cy,H,ly:cy+R+ring+(ring?18:30)}; }
+function pieInner(D,o,extra){ const L=pieLayout(D,o); let s=`<rect width="${L.W}" height="${L.H}" fill="#fff"/>`;
+  if(o.title!==false) s+=tx(L.W/2,14,D.t,12,"#3730A3")+tx(L.W/2,30,`(data fiktif)${o.noN?"":` · ${num(D.N)} ${D.u}`}`,11,"#6366F1");
+  s+=pieCore(D,o.th||D.cats.map(c=>c.th),L.cx,L.cy,L.R,o)+(extra?extra(L):"");
+  if(!o.noLegend) s+=legend(D,20,L.ly,L.W-30);
+  return {s,L}; }
+function pieSVG(D,o,extra){ const {s,L}=pieInner(D,o,extra);
+  return `<div class="figw"><svg class="fig" ${o.id?`id="${o.id}"`:""} viewBox="0 0 ${L.W} ${L.H}" role="img" aria-label="Diagram lingkaran ${esc(D.t)}">${s}</svg></div>`; }
+function piesSVG(f){ const W=360, R=66, cy=52+R, D=f.pies[0].D, rows=Math.ceil(D.cats.length/2), H=cy+R+26+rows*20; let s=`<rect width="${W}" height="${H}" fill="#fff"/>`+tx(W/2,12,`${D.t} (data fiktif)`,12,"#3730A3");
+  f.pies.forEach((p,j)=>{ const cx=j?270:90; s+=tx(cx,34,p.cap,12,"#1F2A2E")+pieCore(p.D,p.D.cats.map(c=>c.th),cx,cy,R,{lab:f.lab,noName:1}); });
+  s+=legend(D,20,cy+R+28,W-30); return `<div class="figw"><svg class="fig" viewBox="0 0 ${W} ${H}" role="img" aria-label="Dua diagram lingkaran">${s}</svg></div>`; }
+function miniPie(th,D){ const R=52; let s=""; cumul(th).forEach(([b0,b1],i)=>{ s+=`<path d="${secPath(60,60,R,b0,b1)}" fill="${COLS[D.cats[i].col]}" stroke="#fff" stroke-width="2"/>`; if(b1-b0>=40){ const p=bp(60,60,R*0.62,(b0+b1)/2); s+=tx(p[0],p[1],D.cats[i].nm.slice(0,2),11); } });
+  return `<svg viewBox="0 0 120 120" aria-hidden="true">${s}</svg>`; }
+function tblHTML(T){ let h=`<table class="dt"><caption>${esc(T.head)} (data fiktif)</caption><tr><th>Kategori</th><th>${T.pctTot?"Persen":T.degTot?"Sudut":"Banyak"+(T.u?` (${esc(T.u)})`:"")}</th></tr>`;
+  T.rows.forEach(r=>{ h+=`<tr><td><span class="sw" style="background:${COLS[r.col]}"></span>${esc(r.nm)}</td><td class="v">${esc(typeof r.val==="number"?num(r.val):r.val)}</td></tr>`; });
+  const tot=T.pctTot?"100%":T.degTot?"360°":T.total!=null?num(T.total):""; if(tot) h+=`<tr class="tot"><td>Jumlah</td><td class="v">${tot}</td></tr>`; return `<div class="figw">${h}</table></div>`; }
+/* nilai tabel (baris ? dihitung dari total) → sudut */
+function tblAngles(T){ const known=T.rows.filter(r=>r.val!=="?").reduce((a,r)=>a+(+r.val),0); return T.rows.map(r=>(r.val==="?"?T.total-known:+r.val)*360/T.total); }
+const dataOfTbl=T=>({t:T.head,u:T.u,N:T.total,cats:T.rows.map((r,i)=>({nm:r.nm,col:r.col,th:tblAngles(T)[i]}))});
+
+/* ---------- busur lingkaran penuh (skala luar searah jarum jam, dalam berlawanan) ---------- */
+function ringSVG(cx,cy,R,phi,ok){ const r0=R+2, r1=R+44; let s=`<path d="M${cx-r1} ${cy}a${r1} ${r1} 0 1 0 ${2*r1} 0a${r1} ${r1} 0 1 0 ${-2*r1} 0M${cx-r0} ${cy}a${r0} ${r0} 0 1 1 ${2*r0} 0a${r0} ${r0} 0 1 1 ${-2*r0} 0Z" fill="rgba(56,189,248,.18)" stroke="#0369A1" stroke-width="1.2" fill-rule="evenodd"/>`, tk="";
+  for(let v=0;v<360;v++){ const b=phi+v, L=v%10===0?13:v%5===0?9:5, a=bp(cx,cy,r0,b), c=bp(cx,cy,r0+L,b); tk+=`M${a[0]} ${a[1]}L${c[0]} ${c[1]}`; }
+  s+=`<path d="${tk}" stroke="#0C4A6E" stroke-width=".8"/>`;
+  /* angka mengikuti lengkung busur supaya skala luar dan dalam tidak bertumpuk */
+  for(let v=0;v<360;v+=10){ const b=((phi+v)%360+360)%360, rot=b>90&&b<270?b+180:b, o=bp(cx,cy,R+37,b), i=bp(cx,cy,R+25,b);
+    s+=`<text x="${o[0]}" y="${o[1]}" font-size="9" fill="#0C4A6E" transform="rotate(${f1(rot)} ${o[0]} ${o[1]})">${v}</text><text x="${i[0]}" y="${i[1]}" font-size="8" fill="#0284C7" transform="rotate(${f1(rot)} ${i[0]} ${i[1]})">${(360-v)%360}</text>`; }
+  const z=bp(cx,cy,r1,phi); s+=`<path d="M${cx} ${cy}L${z[0]} ${z[1]}" stroke="${ok?"#16A34A":"#0369A1"}" stroke-width="${ok?3.4:2.4}"/><circle cx="${cx}" cy="${cy}" r="4" fill="#fff" stroke="#0369A1" stroke-width="2"/>`;
+  return `<g id="ring">${s}</g>`; }
+const bounds=st=>cumul(st.fig.pie.cats.map(c=>c.th)).map(x=>x[0]);
+const snapB=st=>bounds(st).find(b=>Math.abs(((G.phi-b)%360+540)%360-180)<0.01);
+const ukurArgs=st=>[st.fig.pie,Object.assign({},st.fig,{ring:1,R:92,W:340,id:"ukg",noN:1}),L=>ringSVG(L.cx,L.cy,L.R,G.phi,snapB(st)!==undefined)];
+const ukurSVG=st=>pieSVG(...ukurArgs(st));
+
+/* ---------- editor diagram: seret batas juring ---------- */
+const editTh=()=>{ const c=[0].concat(G.cut,[360]); return c.slice(1).map((b,i)=>b-c[i]); };
+const buatSVG=st=>pieSVG(...buatArgs(st));
+function buatArgs(st){ const D=st.D, th=editTh(); return [D,{th,vals:th.map(a=>a+"°"),R:96,W:340,id:"buatg",title:false},L=>{ let s=""; const top=bp(L.cx,L.cy,L.R+8,0);
+    s+=`<path d="M${top[0]-6} ${top[1]-10}L${top[0]+6} ${top[1]-10}L${top[0]} ${top[1]}Z" fill="#1F2A2E"/>`;
+    G.cut.forEach((b,i)=>{ const p=bp(L.cx,L.cy,L.R,b); s+=`<circle cx="${p[0]}" cy="${p[1]}" r="${i===G.sel?13:11}" fill="${i===G.sel?"#4338CA":"#fff"}" stroke="#1F2A2E" stroke-width="2.5"/>`; }); return s; }]; }
+
+/* ---------- animasi petunjuk: juring tumbuh dari 0° ---------- */
+function sweepSVG(st){ const a=st.anim; if(!a||a.k!=="sweep") return ""; const D=st.fig.pie||dataOfTbl(st.fig.tbl), i=a.i, cb=cumul(D.cats.map(c=>c.th)), [b0,b1]=cb[i], R=90, cx=170, cy=110, n=24; let fr=[];
+  for(let f=1;f<=n;f++) fr.push(secPath(cx,cy,R,b0,b0+(b1-b0)*f/n)); let s=`<rect width="340" height="250" fill="#fff"/>`;
+  cb.forEach(([x0,x1],j)=>{ s+=`<path d="${secPath(cx,cy,R,x0,x1)}" fill="${COLS[D.cats[j].col]}" opacity=".18" stroke="#fff" stroke-width="2"/>`; });
+  s+=`<path d="${fr[0]}" fill="${COLS[D.cats[i].col]}" stroke="#fff" stroke-width="2"><animate attributeName="d" values="${fr.join(";")}" dur="1.6s" calcMode="discrete" fill="freeze"/></path>`;
+  const p=bp(cx,cy,R*0.62,(b0+b1)/2); s+=`<text class="h" x="${p[0]}" y="${p[1]}" font-size="14" fill="#111827" opacity="0">${D.cats[i].th}°<animate attributeName="opacity" from="0" to="1" begin="1.6s" dur=".3s" fill="freeze"/></text>`;
+  s+=tx(170,232,`${D.cats[i].nm}: ${num(D.cats[i].th)}° dari 360°`,13,"#3730A3");
+  return `<div class="animw"><svg class="anim" viewBox="0 0 340 250" role="img" aria-label="Animasi juring">${s}</svg><button type="button" class="btn ghost replay" data-rp="1">▶ Putar lagi</button></div>`; }
+function playAnims(root){ root.querySelectorAll("svg.anim").forEach(s=>{ try{ s.setCurrentTime(0); s.unpauseAnimations(); }catch(e){} }); }
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-rp]"); if(b) playAnims(b.closest(".animw")); });
+
+/* ---------- seret: putar busur atau geser batas juring ---------- */
+let drag=null;
+function svgPt(svg,e){ const m=svg.getScreenCTM(); if(!m) return null; const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse()); return [p.x,p.y]; }
+function centerOf(id){ const st=cur(), L=pieLayout(id==="ukg"?st.fig.pie:st.D,id==="ukg"?{ring:1,R:92,W:340}:{R:96,W:340,title:false}); return [L.cx,L.cy,L.R]; }
+const bear=(p,c)=>((Math.atan2(p[0]-c[0],-(p[1]-c[1]))*180/Math.PI)+360)%360;
+$("play").addEventListener("pointerdown",e=>{ if(!G||G.done) return; const st=cur(), svg=e.target.closest("#ukg,#buatg"); if(!svg) return; const p=svgPt(svg,e); if(!p) return; const [cx,cy,R]=centerOf(svg.id);
+  if(svg.id==="ukg"){ e.preventDefault(); drag={m:"rot",off:bear(p,[cx,cy])-G.phi,id:e.pointerId}; return; }
+  let best=-1, bd=1e9; G.cut.forEach((b,i)=>{ const q=bp(cx,cy,R,b), d=Math.hypot(q[0]-p[0],q[1]-p[1]); if(d<bd){ bd=d; best=i; } });
+  if(bd<34){ e.preventDefault(); G.sel=best; drag={m:"cut",id:e.pointerId}; redraw(); } });
+$("play").addEventListener("pointermove",e=>{ if(!drag||e.pointerId!==drag.id) return; const st=cur(), id=drag.m==="rot"?"ukg":"buatg", svg=$(id); if(!svg) return; const p=svgPt(svg,e); if(!p) return; const [cx,cy]=centerOf(id), b=bear(p,[cx,cy]);
+  if(drag.m==="rot"){ let phi=((b-drag.off)%360+360)%360; for(const x of bounds(st)){ const d=((phi-x)%360+540)%360-180; if(Math.abs(d)<3) phi=x; } G.phi=phi; }
+  else { const i=G.sel, lo=(i?G.cut[i-1]:0)+2, hi=(i<G.cut.length-1?G.cut[i+1]:360)-2; G.cut[i]=Math.max(lo,Math.min(hi,Math.round(b))); }
+  redraw(); });
+const endDrag=()=>{ drag=null; }; window.addEventListener("pointerup",endDrag); window.addEventListener("pointercancel",endDrag);
+let raf=0; function redraw(){ if(raf) return; raf=requestAnimationFrame(()=>{ raf=0; const st=cur(); if(st.t==="ukur"&&$("ukg")) $("ukg").innerHTML=pieInner(...ukurArgs(st)).s; else if(st.t==="buat"&&$("buatg")){ $("buatg").innerHTML=pieInner(...buatArgs(st)).s; const s=$("selInfo"); if(s) s.innerHTML=selInfo(st); } }); }
+const selInfo=st=>{ const i=G.sel, D=st.D; return `Batas terpilih: antara <b>${esc(D.cats[i].nm)}</b> dan <b>${esc(D.cats[i+1].nm)}</b> (${G.cut[i]}° dari atas)`; };
+
+/* ---------- tampilan ---------- */
+const showVal=(v,st)=>!v?"?":v;
+function render(){
+  const st=cur(), n=G.p.steps.length, done=G.done, f=st.fig||{}; let h="", c="", needPad=false, ok="Cek ✓";
+  h+=n>1?`<div class="prog" aria-label="Soal ${G.step+1} dari ${n}">${G.p.steps.map((_,i)=>`<i class="${i<G.step||done?"d":i===G.step?"c":""}"></i>`).join("")}</div>`:"";
+  h+=`<div class="qtext">${st.q}${st.sub&&!done?`<small>${st.sub}</small>`:""}</div>`;
+  /* layar proyektor: tabel Buat Diagram dipindah ke kolom kanan supaya editor muat */
+  const tblRight=st.t==="buat"&&G.mode==="kelas"; if(f.tbl&&!tblRight) h+=tblHTML(f.tbl);
+  if(st.t==="ukur") h+=done?pieSVG(f.pie,Object.assign({},f,{hide:[f.hide[1]],noN:1})):ukurSVG(st);
+  else if(st.t==="buat") h+=done?pieSVG(st.D,{title:false,lab:"deg",R:96}):buatSVG(st);
+  else if(f.pie) h+=pieSVG(f.pie,f); else if(f.pies) h+=piesSVG(f);
+  const fld=i=>`<span class="fld${G.act===i&&!done?" act":""}${G.fields[i]?"":" ph"}${G.bad&&G.bad[i]?" bad":""}" data-f="${i}">${showVal(G.fields[i],st)}</span>`;
+  if(done) c=`<div class="ans">${st.t==="pilih"?"✓ Pilihan yang tepat":st.t==="bs"?"✓ Semua pernyataan tepat":st.t==="buat"?"✓ Diagrammu benar!":`${num(st.ans)}${st.unit==="°"||st.unit==="%"?"":" "}${esc(st.unit)}`}</div>`;
+  else if(st.t==="pilih") { c=`<div class="ops${st.opts[0].s?" one":""}">${st.opts.map((o,i)=>`<button type="button" class="op${o.s?" txt":""}" data-o="${i}" ${G.struck.includes(i)?"disabled":""} aria-label="Pilihan ${i+1}">${o.pie?miniPie(o.pie,st.D):o.s}</button>`).join("")}</div>`; ok=null; }
+  else if(st.t==="bs") c=`<div class="bsl">${st.stm.map((x,i)=>`<div class="bsr"><span>${x.s}</span><span class="tg"><button type="button" class="b" data-bs="${i}" data-v="1" aria-pressed="${G.bs[i]===true}">Benar</button><button type="button" class="s" data-bs="${i}" data-v="0" aria-pressed="${G.bs[i]===false}">Salah</button></span></div>`).join("")}</div>`;
+  else if(st.t==="buat") c=(tblRight?tblHTML(f.tbl):"")+`<p class="sub" id="selInfo">${selInfo(st)}</p><div class="nudge"><button type="button" class="btn ghost" data-nd="-1">−1°</button><button type="button" class="btn ghost" data-nd="1">+1°</button></div>`;
+  else { c=`<div class="form">${fld(0)}<span>${esc(st.unit||"")}</span></div>`; needPad=true; }
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=c;
+  $("pad").hidden=!needPad; $("okBtn").hidden=!ok||done;
+  $("pad").querySelector('[data-k=","]').disabled=!st.dec;
+  $("hintBtn").hidden=!(G.wrong>=3&&!done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0, short={baca:"Baca",hitung:"Hitung",buat:"Buat",detektif:"Detektif"};
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`jd_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}"><span style="display:block">${v.icon}</span>${short[k]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}<small>${l.sub}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+
+/* ---------- interaksi ---------- */
+function nextStep(msg){ G.step++; $("fb").innerHTML=msg?`<span class="ok">✓ ${msg}</span>`:"";
+  if(G.step>=G.p.steps.length){ G.step=G.p.steps.length-1; return finish(); } resetStep(); saveDay(); render(); }
+function miss(msg){ G.wrong++; $("fb").innerHTML=`<span class="no">✗ ${msg}</span>`; saveDay(); render(); }
+$("ctrlBody").addEventListener("click",e=>{ if(!G||G.done) return; const st=cur(), b=e.target.closest("button,.fld"); if(!b) return;
+  if(b.dataset.f!==undefined){ G.act=+b.dataset.f; render(); return; }
+  if(b.dataset.bs!==undefined){ G.bs[+b.dataset.bs]=b.dataset.v==="1"; render(); return; }
+  if(b.dataset.nd!==undefined){ const i=G.sel, lo=(i?G.cut[i-1]:0)+2, hi=(i<G.cut.length-1?G.cut[i+1]:360)-2; G.cut[i]=Math.max(lo,Math.min(hi,G.cut[i]+(+b.dataset.nd))); render(); return; }
+  if(b.dataset.o!==undefined&&!b.disabled){ const i=+b.dataset.o; if(i===st.ans) return nextStep("Benar!");
+    G.struck.push(i); return miss(st.opts[0].pie?"Belum tepat. Hitung dulu sudut setiap juring dari tabel, lalu bandingkan.":"Belum tepat. Hitung banyak datanya tiap tahun: sudut : 360° × total."); }
+});
+function press(k){
+  const st=cur(); if(!G||G.done||$("pad").hidden) return;
+  if(k==="ok") return check();
+  let v=G.fields[G.act];
+  if(k==="del") v=v.slice(0,-1);
+  else if(k===","){ if(!st.dec||v.includes(",")) return; v=(v||"0")+","; }
+  else if(v.replace(",","").length<9&&!(v.includes(",")&&v.split(",")[1].length>=2)) v=(v==="0"?"":v)+k;
+  G.fields[G.act]=v; if(G.bad) G.bad[G.act]=false; render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b&&!b.disabled&&b.dataset.k) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G||G.done) return;
+  if(e.key==="Enter"){ if(document.activeElement&&document.activeElement.tagName==="BUTTON") return; e.preventDefault(); if(!$("okBtn").hidden) check(); return; }
+  if($("pad").hidden) return;
+  if(/^[0-9]$/.test(e.key)||e.key==="Backspace"||e.key===","||e.key==="."){ e.preventDefault(); press(e.key==="Backspace"?"del":e.key==="."?",":e.key); }
+});
+const val=s=>+String(s).replace(",",".");
+const same=(a,b)=>Math.abs(a-b)<1e-9;
+function check(){
+  if(G.done) return; const st=cur();
+  if(st.t==="bs"){ if(G.bs.some(x=>x===null)) return toast("Tandai semua pernyataan dulu."); const w=st.stm.filter((x,i)=>G.bs[i]!==x.tf).length;
+    return w?miss(`Ada ${w} pernyataan yang belum tepat.`):nextStep("Semua tepat!"); }
+  if(st.t==="buat"){ const th=editTh(), bad=st.need.th.map((a,i)=>a!==th[i]?st.D.cats[i].nm:null).filter(Boolean);
+    return bad.length?miss(`Juring ${bad.join(", ")} belum tepat.`):nextStep("Diagrammu sesuai tabel."); }
+  if(G.fields.some(v=>v===""||v.endsWith(","))){ toast("Isi jawabannya dulu."); return; }
+  const v=val(G.fields[0]);
+  if(same(v,st.ans)) return nextStep(st.t==="ukur"?`Benar, ${st.ans}°.`:"Benar!");
+  if(st.t==="ukur") return miss(Math.abs(v-st.ans)<=5?"Hampir! Pastikan garis 0 menempel di batas juring dan baca skala yang dimulai dari 0.":Math.abs(360-v-st.ans)<1e-9?"Itu dibaca dari skala yang lain. Pakai skala yang dimulai dari 0 di garis batas.":"Belum tepat. Tempelkan garis 0 busur di salah satu batas juring itu.");
+  const tr=(st.traps||[]).find(([x])=>same(x,v)); if(tr) return miss(tr[1]);
+  return miss("Belum tepat. Coba hitung lagi langkah demi langkah.");
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${G.p.steps.map((s,i)=>`<div>${G.p.steps.length>1?`<b>${i+1}.</b> `:""}${s.how}</div>${sweepSVG(s)}`).join("")}</div>`;
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Petunjuk</h2><div class="how"><div>${cur().how}</div>${sweepSVG(cur())}</div><p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  playAnims($("res")); $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("jd_st_"+l,{})); }
+function recordDay(){
+  const allk=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`jd_day_${G.level}_${k}`,null));
+  if(!allk.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=allk.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("jd_st_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Petunjuk":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`jd_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h; playAnims(r);
+  const dt=r.querySelector("details"); if(dt) dt.addEventListener("toggle",()=>{ if(dt.open) playAnims(dt); });
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`jd_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Juring Data #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.step||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
