@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FAF6EE">
+<title>Pagar Petak</title>
+<meta name="description" content="Pagar Petak untuk SD kelas 3–6: luas dan keliling dengan menghitung petak, rumus persegi panjang, segitiga, jajargenjang, trapesium, layang-layang, dan belah ketupat, bangun gabungan, serta merancang bangun sendiri di kertas berpetak dan papan titik.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2315803D'/%3E%3Cpath d='M14 14h12v12H14zM26 14h12v12H26zM14 26h12v12H14z' fill='%23BBF7D0' stroke='%23166534' stroke-width='1.5'/%3E%3Cpath d='M10 48h44M10 56h44' stroke='%23FDE68A' stroke-width='3'/%3E%3Cpath d='M14 44v16M26 44v16M38 44v16M50 44v16' stroke='%23FDE68A' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FAF6EE;
+  --card:#FFFFFF;
+  --ink:#1F2A2E;
+  --muted:#5B6466;
+  --line:#E7DCC4;
+  --gr:#15803D;
+  --gr-d:#166534;
+  --soft:#ECFDF3;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1100px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--gr)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+@media (max-width:360px){#segKind button{font-size:.76rem;letter-spacing:-.2px}}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+.qtext{font-weight:800;font-size:1.12rem;line-height:1.45;text-align:center}
+.qtext small{display:block;font-weight:700;font-size:.85rem;color:var(--muted)}
+.prog{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.prog i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.prog i.d{background:var(--green)} .prog i.c{background:var(--gr);transform:scale(1.25)}
+/* gambar, kertas berpetak, papan titik, animasi */
+.figw{display:flex;justify-content:center}
+.fig{display:block;width:100%;max-width:460px;height:auto;max-height:56vh;background:#fff;border:2px solid var(--line);border-radius:14px;user-select:none;-webkit-user-select:none}
+.fig text,.anim text{font-family:'Baloo 2',sans-serif;font-weight:800;text-anchor:middle;dominant-baseline:central}
+.fig text.h,.anim text.h{paint-order:stroke;stroke:#fff;stroke-width:3.5px;stroke-linejoin:round}
+#selg,#titg{touch-action:none;cursor:pointer}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.tools .btn{width:100%}
+.ref{background:var(--soft);border-radius:12px;padding:6px 10px;text-align:center;font-weight:700;font-size:.92rem}
+.story{font-size:1.05rem;line-height:1.5;font-weight:700;text-align:left;background:var(--soft);border-radius:14px;padding:10px 14px}
+.story .ic{font-size:2.1rem;float:left;margin:0 10px 0 0;line-height:1}
+.ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.op{border:3px solid var(--line);background:#fff;border-radius:14px;padding:10px 6px;font-weight:800;font-size:1.1rem;cursor:pointer;color:var(--ink);font-family:inherit;line-height:1.15}
+.op:disabled{opacity:.3;cursor:default}
+.ans{text-align:center;font-weight:800;font-size:1.3rem;color:var(--gr-d)}
+.animw{display:flex;flex-direction:column;align-items:center;gap:6px;background:#fff!important;padding:6px!important}
+.anim{display:block;width:100%;max-width:440px;height:auto}
+.replay{padding:4px 12px!important;font-size:.9rem!important}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.form sup{font-size:.7em}
+.fld{min-width:60px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.pw{display:inline-flex;align-items:flex-start;gap:2px}
+.pw>span:first-child{padding-top:14px;font-size:1.5rem}
+.fld.sm{min-width:34px;height:32px;font-size:1.05rem;padding:0 4px}
+.fld.act{border-color:var(--gr);background:#fff;box-shadow:0 0 0 3px #86EFAC}
+.fld.ph{color:#9CA3AF}
+.fld.bad{border-color:var(--rose);background:#FFE4E6}
+.pad{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:var(--soft);font-weight:800;font-size:1.3rem;cursor:pointer}
+.pad button:disabled{opacity:.3;cursor:default}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+#ctrlBody{display:flex;flex-direction:column;gap:10px}
+#ctrlBody .btn{width:100%}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--gr);color:#fff;box-shadow:0 3px 0 var(--gr-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--gr-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.btn.alt{background:#FEF9C3;color:var(--ink);box-shadow:0 3px 0 #EAB308}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#E7DCC4}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--gr-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(31,42,46,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .qtext{font-size:1.45rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:56px;min-width:100px} .kelas .fld.sm{height:44px;min-width:56px;font-size:1.4rem}
+  .kelas .pad button{height:52px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem}
+  .kelas .ans{font-size:2rem} .kelas .op{font-size:1.4rem} .kelas .story{font-size:1.3rem}
+  .kelas .fig{max-width:700px;max-height:max(250px,calc(100vh - 505px))}
+  .kelas #ctrl,.kelas #ctrlBody{gap:8px} .kelas .seg button{padding:4px 3px} .kelas .wrap{gap:8px}
+  .kelas .grid2{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Pagar <span>Petak</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button>
+        <button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k=",">,</button><button type="button" data-k="del" aria-label="Hapus" style="grid-column:span 3">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Petunjuk</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li><b>🟩 Hitung Petak</b>: luas = banyak petak yang menutupi bangun (setengah petak dihitung ½). Keliling = panjang garis tepi, hitung sisi petak di pinggir.</li>
+      <li><b>📐 Rumus Bangun Datar</b>: persegi panjang p × l, persegi s × s, segitiga a × t : 2, jajargenjang a × t, trapesium (a + b) × t : 2, layang-layang dan belah ketupat d₁ × d₂ : 2. Tinggi selalu tegak lurus alas (garis putus-putus).</li>
+      <li><b>🏠 Bangun Gabungan</b>: potong menjadi bangun-bangun dasar lalu jumlahkan, atau hitung bangun besarnya lalu kurangi bagian yang kosong.</li>
+      <li><b>✏️ Rancang Petak</b>: ketuk atau seret untuk mewarnai petak. Di level Sulit, ketuk titik-titik sudut di papan titik secara berurutan.</li>
+      <li>Ingat: 1 m = 100 cm dan 1 m² = 10.000 cm². Ketik desimal dengan tombol <b>,</b> (contoh 7,5). <b>Mudah</b> kelas 3–4, <b>Sedang</b> kelas 4–5, <b>Sulit</b> kelas 5–6.</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Petunjuk</b> muncul, lengkap dengan animasi potong-geser.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+<script>/* ================= INTI: pembuat soal luas dan keliling ================= */
+/* ===== Pagar Petak: luas & keliling bangun datar SD kelas 3–6 ===== */
+const KINDS={petak:{label:"Hitung Petak",icon:"🟩"},rumus:{label:"Rumus Bangun Datar",icon:"📐"},gabung:{label:"Bangun Gabungan",icon:"🏠"},rancang:{label:"Rancang Petak",icon:"✏️"}};
+const LEVELS={mudah:{label:"Mudah",sub:"kelas 3–4"},sedang:{label:"Sedang",sub:"kelas 4–5"},sulit:{label:"Sulit",sub:"kelas 5–6"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+/* angka gaya Indonesia: titik ribuan, koma desimal */
+const grp=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,".");
+const num=x=>{ const r=Math.round(x*100)/100, [i,f]=String(Math.abs(r)).split("."); return (r<0?"−":"")+grp(i)+(f?","+f:""); };
+const rp=n=>"Rp"+grp(n);
+
+/* ---------- geometri ---------- */
+const area=pts=>{ let s=0; for(let i=0;i<pts.length;i++){ const [x1,y1]=pts[i],[x2,y2]=pts[(i+1)%pts.length]; s+=x1*y2-x2*y1; } return Math.abs(s)/2; };
+const dist=(a,b)=>Math.hypot(b[0]-a[0],b[1]-a[1]);
+const cross=(a,b,c,d)=>(b[0]-a[0])*(d[1]-c[1])-(b[1]-a[1])*(d[0]-c[0]);
+const par=(a,b,c,d)=>Math.abs(cross(a,b,c,d))<1e-9;
+const perp=(a,b,c)=>Math.abs((b[0]-a[0])*(c[0]-b[0])+(b[1]-a[1])*(c[1]-b[1]))<1e-9;
+function segX(a,b,c,d){ const o=(p,q,r)=>Math.sign((q[0]-p[0])*(r[1]-p[1])-(q[1]-p[1])*(r[0]-p[0])); return o(a,b,c)*o(a,b,d)<0&&o(c,d,a)*o(c,d,b)<0; }
+const rectPts=(x,y,w,h)=>[[x,y],[x+w,y],[x+w,y+h],[x,y+h]];
+const sides=pts=>pts.map((p,i)=>dist(p,pts[(i+1)%pts.length]));
+
+/* ---------- petak (poliomino) ---------- */
+const D4=[[1,0],[-1,0],[0,1],[0,-1]];
+const ck=(x,y)=>(x+32)*128+y+32;
+const cellSet=cells=>new Set(cells.map(([x,y])=>ck(x,y)));
+function cellPer(cells){ const S=cellSet(cells); let p=0; for(const [x,y] of cells) for(const [dx,dy] of D4) if(!S.has(ck(x+dx,y+dy))) p++; return p; }
+function connected(cells){ if(!cells.length) return false; const S=cellSet(cells), seen=new Set([ck(...cells[0])]), st=[cells[0]];
+  while(st.length){ const [x,y]=st.pop(); for(const [dx,dy] of D4){ const k=ck(x+dx,y+dy); if(S.has(k)&&!seen.has(k)){ seen.add(k); st.push([x+dx,y+dy]); } } } return seen.size===S.size; }
+function bbox(cells){ const xs=cells.map(c=>c[0]), ys=cells.map(c=>c[1]), x0=Math.min(...xs), y0=Math.min(...ys); return {x0,y0,w:Math.max(...xs)-x0+1,h:Math.max(...ys)-y0+1}; }
+function hasHole(cells){ const S=cellSet(cells), b=bbox(cells), X0=b.x0-1, Y0=b.y0-1, X1=b.x0+b.w, Y1=b.y0+b.h, seen=new Set([ck(X0,Y0)]), st=[[X0,Y0]];
+  while(st.length){ const [x,y]=st.pop(); for(const [dx,dy] of D4){ const nx=x+dx, ny=y+dy, k=ck(nx,ny); if(nx<X0||nx>X1||ny<Y0||ny>Y1||S.has(k)||seen.has(k)) continue; seen.add(k); st.push([nx,ny]); } }
+  return seen.size+S.size<(X1-X0+1)*(Y1-Y0+1); }
+const isRect=cells=>{ const b=bbox(cells); return cellSet(cells).size===b.w*b.h; };
+const normCells=cells=>{ const b=bbox(cells); return cells.map(([x,y])=>[x-b.x0,y-b.y0]).sort((p,q)=>p[1]-q[1]||p[0]-q[0]); };
+/* bangun acak dari N petak dalam kotak W×H, tanpa lubang */
+function grow(N,W,H,r){ for(;;){ const S=new Set(), cells=[], fr=[];
+  const add=(x,y)=>{ S.add(ck(x,y)); cells.push([x,y]); for(const [dx,dy] of D4){ const nx=x+dx, ny=y+dy; if(nx>=0&&nx<W&&ny>=0&&ny<H&&!S.has(ck(nx,ny))) fr.push([nx,ny]); } };
+  add(ri(0,W-1,r),ri(0,H-1,r));
+  while(cells.length<N&&fr.length){ const i=Math.floor(r()*fr.length), c=fr[i]; fr[i]=fr[fr.length-1]; fr.pop(); if(!S.has(ck(c[0],c[1]))) add(c[0],c[1]); }
+  if(cells.length===N&&!hasHole(cells)) return cells.sort((p,q)=>p[1]-q[1]||p[0]-q[0]); } }
+const sameCells=(a,b)=>JSON.stringify(normCells(a))===JSON.stringify(normCells(b));
+/* garis tepi bangun petak (searah jarum jam di layar), titik segaris digabung */
+function outline(cells){ const S=cellSet(cells), E=new Map();
+  for(const [x,y] of cells){ if(!S.has(ck(x,y-1))) E.set(ck(x,y),[x+1,y]); if(!S.has(ck(x+1,y))) E.set(ck(x+1,y),[x+1,y+1]);
+    if(!S.has(ck(x,y+1))) E.set(ck(x+1,y+1),[x,y+1]); if(!S.has(ck(x-1,y))) E.set(ck(x,y+1),[x,y]); }
+  const [sx,sy]=cells[0], pts=[[sx,sy]]; let p=E.get(ck(sx,sy)); while(p&&!(p[0]===sx&&p[1]===sy)&&pts.length<=E.size){ pts.push(p); p=E.get(ck(p[0],p[1])); }
+  return pts.filter((q,i)=>{ const a=pts[(i+pts.length-1)%pts.length], b=pts[(i+1)%pts.length]; return !par(a,q,q,b); }); }
+const rowCounts=cells=>{ const m=new Map(); for(const [,y] of cells) m.set(y,(m.get(y)||0)+1); return [...m.keys()].sort((a,b)=>a-b).map(k=>m.get(k)); };
+const halfPts=([x,y,c])=>[[[x,y],[x+1,y],[x,y+1]],[[x,y],[x+1,y],[x+1,y+1]],[[x+1,y],[x+1,y+1],[x,y+1]],[[x,y],[x+1,y+1],[x,y+1]]][c];
+
+/* ---------- pemeriksa gambar bebas (dipakai tampilan dan uji) ---------- */
+function checkSel(need,cells,prev){ const n=cells.length;
+  if(!n) return {soft:1,msg:"Warnai petaknya dulu: ketuk atau seret di kertas berpetak."};
+  if(!connected(cells)) return {msg:"Ada petak yang terpisah. Semua petak harus bersambung sisi dengan sisi."};
+  if(hasHole(cells)) return {msg:"Ada lubang di dalam bangun. Tutup lubangnya dulu."};
+  const p=cellPer(cells), b=bbox(cells);
+  if(need.rect&&!isRect(cells)) return {msg:"Bangunmu belum berbentuk persegi panjang. Pastikan semua baris sama panjang dan tidak ada yang menonjol."};
+  if(need.n!==undefined&&n!==need.n) return {msg:`Luas bangunmu ${n} petak, padahal harus ${need.n} petak.`};
+  if(need.per!==undefined&&p!==need.per) return {msg:`Keliling bangunmu ${p} satuan, padahal harus ${need.per} satuan.`};
+  if(need.diff&&prev&&p===prev.per) return {msg:`Kelilingnya ${p} satuan, sama dengan persegi panjang pertamamu. Coba ukuran lain.`};
+  if(need.diffA&&prev&&n===prev.n) return {msg:`Luasnya ${n} petak, sama dengan persegi panjang pertamamu. Coba ukuran lain.`};
+  if(need.maxA&&n<need.maxA) return {msg:`Kelilingnya sudah ${p} satuan dan luasnya ${n} petak. Masih bisa lebih luas!`};
+  if(need.maxP&&p<need.maxP) return {msg:`Kelilingnya ${p} satuan. Masih bisa lebih panjang: hindari 4 petak yang membentuk kotak 2 × 2.`};
+  if(need.minP&&p>need.minP) return {msg:`Kelilingnya ${p} satuan. Masih bisa lebih pendek: susun petak lebih rapat, mendekati persegi.`};
+  return {ok:1,per:p,n,dims:[b.w,b.h]}; }
+function checkTitik(need,pts){ const n=need.n;
+  if(pts.length<n) return {soft:1,msg:`Ketuk ${n} titik sudut dulu (baru ${pts.length}).`};
+  const A=area(pts); if(A<1e-9) return {soft:1,msg:"Titik-titiknya segaris, belum membentuk bangun."};
+  if(n===4){ if(pts.some((p,i)=>par(pts[(i+3)%4],p,p,pts[(i+1)%4]))) return {soft:1,msg:"Ada tiga titik yang segaris, jadi belum segiempat."};
+    if(segX(pts[0],pts[1],pts[2],pts[3])||segX(pts[1],pts[2],pts[3],pts[0])) return {soft:1,msg:"Sisi-sisinya bersilangan. Ketuk titik sudut berurutan mengelilingi bangun."};
+    const p1=par(pts[0],pts[1],pts[3],pts[2]), p2=par(pts[1],pts[2],pts[0],pts[3]);
+    if(need.shape==="jajar"){ if(!(p1&&p2)) return {msg:"Itu belum jajargenjang: kedua pasang sisi yang berhadapan harus sejajar."};
+      if(perp(pts[0],pts[1],pts[2])) return {msg:"Itu persegi panjang (atau persegi). Buat jajargenjang yang sisinya miring."}; }
+    if(need.shape==="trap"){ if(p1&&p2) return {msg:"Itu jajargenjang karena kedua pasang sisinya sejajar. Trapesium hanya punya sepasang sisi sejajar."};
+      if(!p1&&!p2) return {msg:"Belum ada sisi yang sejajar. Trapesium punya sepasang sisi sejajar."}; } }
+  if(Math.abs(A-need.A)>1e-9) return {msg:`Luas bangunmu ${num(A)} petak, padahal harus ${num(need.A)} petak.`};
+  return {ok:1}; }
+
+/* ---------- bantuan gambar ---------- */
+const dm=(a,b,tx,o)=>Object.assign({a,b,tx},o||{});
+function rectFig(p,l,u,o){ o=o||{}; const pts=rectPts(0,0,p,l);
+  return {W:p,H:l,grid:o.grid?1:0,polys:[{pts}],dims:[dm([0,l],[p,l],o.pl||`${num(p)} ${u}`),dm([p,0],[p,l],o.ll||`${num(l)} ${u}`)].concat(o.top?[dm([0,0],[p,0],`${num(p)} ${u}`),dm([0,0],[0,l],`${num(l)} ${u}`)]:[]),texts:o.texts||[]}; }
+const ctxOr=(list,r,p)=>r()<(p||0.35)?null:pick(list,r);
+const TRI=[[3,4,5],[4,3,5],[6,8,10],[8,6,10],[5,12,13],[9,12,15],[12,9,15]];
+/* jawaban salah-konsep yang kebetulan sama dengan jawaban benar membuat soal dibuat ulang (lihat makePuzzle) */
+function finishSteps(steps){ let clash=false; for(const s of steps){ if(s.traps){ const seen=new Set(); s.traps=s.traps.filter(([v])=>{ const k=Math.round(v*1000); if(Math.abs(v-s.ans)<1e-9) clash=true; if(Math.abs(v-s.ans)<1e-9||seen.has(k)||!(v>0)) return false; seen.add(k); return true; }); } }
+  if(clash) steps.clash=true; return steps; }
+
+/* ================= 1. HITUNG PETAK ================= */
+function genPetak(level,r){ const steps=[];
+  if(level==="mudah"){ const N=ri(6,14,r), cells=grow(N,7,5,r), P=cellPer(cells), b=bbox(cells), fig={W:b.w,H:b.h,grid:1,cells:normCells(cells)};
+    const C=pick([["Lantai teras dipasangi ubin hijau.","🏡"],["Bu Sari menanam sayur di petak-petak kebun.","🥬"],["Rina menempel kertas origami hijau di kertas berpetak.","🟩"]],r);
+    steps.push({t:"angka",fig,ic:C[1],q:`${C[0]} Berapa <b>luas</b> bangun hijau itu? (1 petak = 1 satuan luas)`,ans:N,unit:"petak",
+      traps:[[P,"Itu kelilingnya. Luas = banyak petak yang menutupi bangun."]],how:`Hitung petaknya baris demi baris: ${rowCounts(fig.cells).join(" + ")} = <b>${N} petak</b>.`,anim:{k:"rows"}});
+    steps.push({t:"angka",fig,q:`Berapa <b>keliling</b> bangun itu? (sisi 1 petak = 1 satuan panjang)`,ans:P,unit:"satuan",
+      traps:[[N,"Itu luasnya (banyak petak). Keliling = panjang garis tepi: hitung sisi petak di pinggir bangun."]],how:`Telusuri garis tepinya sambil menghitung sisi petak: <b>${P} satuan</b>.`,anim:{k:"trace",unit:1}});
+    const rr=ri(3,6,r), cc=ri(4,8,r);
+    steps.push({t:"angka",fig:{W:cc,H:rr,tiles:1,cover:[1,1,cc-1,rr-1]},ic:"🧱",q:`Lantai kelas dipasangi ubin persegi. Sebagian lantai tertutup karpet. Berapa <b>banyak ubin</b> seluruhnya, termasuk yang di bawah karpet?`,ans:rr*cc,unit:"ubin",
+      traps:[[rr+cc-1,"Itu hanya ubin yang terlihat. Ubin di bawah karpet juga dihitung."],[rr+cc,"Banyak baris dan banyak ubin per baris dikalikan, bukan dijumlahkan."]],
+      how:`Satu baris ada ${cc} ubin dan ada ${rr} baris. ${rr} × ${cc} = <b>${rr*cc} ubin</b>.`,anim:{k:"rows",cap:`${rr} baris × ${cc} ubin = ${rr*cc} ubin`}}); }
+  else if(level==="sedang"){
+    for(;;){ const N=ri(6,11,r), cells=grow(N,6,4,r), S=cellSet(cells), cand=[];
+      for(const [x,y] of cells) for(const [dx,dy] of D4){ const ex=x+dx, ey=y+dy; if(S.has(ck(ex,ey))) continue; cand.push([ex,ey,pick(dx===1?[0,3]:dx===-1?[1,2]:dy===1?[0,1]:[2,3],r)]); }
+      const h=pick([2,4,6],r), used=new Set(), halves=[]; for(const c of shuffle(cand,r)){ const k=ck(c[0],c[1]); if(used.has(k)) continue; used.add(k); halves.push(c); if(halves.length===h) break; }
+      if(halves.length<h) continue;
+      const all=cells.concat(halves.map(c=>[c[0],c[1]])), b=bbox(all); if(b.w>8||b.h>6) continue;
+      const fig={W:b.w,H:b.h,grid:1,cells:cells.map(([x,y])=>[x-b.x0,y-b.y0]),halves:halves.map(([x,y,c])=>[x-b.x0,y-b.y0,c])};
+      steps.push({t:"angka",fig,q:`Berapa <b>luas</b> bangun ini? Setengah petak dihitung ½.`,ans:N+h/2,unit:"petak",
+        traps:[[N+h,"Setengah petak dihitung ½, bukan 1. Dua setengah petak = 1 petak."],[N,"Setengah petaknya belum dihitung. Dua setengah petak = 1 petak."]],
+        how:`Ada ${N} petak penuh dan ${h} setengah petak. ${h} setengah petak = ${h/2} petak. Luas = ${N} + ${h/2} = <b>${N+h/2} petak</b>.`,anim:{k:"halves"}}); break; }
+    for(;;){ const mode=r()<.5?"kel":"luas", want=pick(["A","B","sama"],r), nA=ri(6,10,r), A=grow(nA,5,4,r), pA=cellPer(A); let B=null;
+      for(let t=0;t<40&&!B;t++){ const nB=mode==="kel"?nA:want==="sama"?nA:want==="A"?ri(Math.max(5,nA-3),nA-1,r):ri(nA+1,nA+3,r), c=grow(nB,5,4,r), pB=cellPer(c);
+        if((mode==="kel"?(pA>pB?"A":pA<pB?"B":"sama")===want:pB===pA)&&!sameCells(A,c)) B=c; }
+      if(!B) continue; const nB=B.length, pB=cellPer(B), bA=bbox(A), bB=bbox(B), ans={A:0,B:1,sama:2}[want];
+      const fig={pair:[{W:bA.w,H:bA.h,grid:1,cells:normCells(A)},{W:bB.w,H:bB.h,grid:1,cells:normCells(B)}]};
+      const opts=mode==="kel"?["Bangun A","Bangun B","Sama panjang"]:["Bangun A","Bangun B","Sama luas"];
+      steps.push(mode==="kel"?{t:"pilih",fig,q:`Bangun A dan B sama-sama <b>${nA} petak</b>. Mana yang <b>kelilingnya lebih panjang</b>?`,opts,ans,
+          how:`Keliling A = ${pA} satuan dan keliling B = ${pB} satuan, jadi <b>${want==="sama"?"sama panjang":"bangun "+want}</b>. Luas sama belum tentu kelilingnya sama!`,anim:{k:"trace",unit:1}}
+        :{t:"pilih",fig,q:`Keliling bangun A dan B sama-sama <b>${pA} satuan</b>. Mana yang <b>lebih luas</b>?`,opts,ans,
+          how:`Luas A = ${nA} petak dan luas B = ${nB} petak, jadi <b>${want==="sama"?"sama luas":"bangun "+want}</b>. Keliling sama belum tentu luasnya sama!`,anim:{k:"rows"}}); break; }
+    const N=ri(6,12,r), cells=grow(N,7,5,r), P=cellPer(cells), s=pick([2,3,5],r), b=bbox(cells);
+    steps.push({t:"angka",fig:{W:b.w,H:b.h,grid:1,cells:normCells(cells),scale:`1 sisi petak = ${s} m`},ic:"🌾",q:`Denah kebun Pak Tani digambar di kertas berpetak. Setiap sisi petak mewakili <b>${s} m</b>. Kebun itu akan dipagari di sekelilingnya. Berapa meter <b>pagar</b> yang dibutuhkan?`,ans:P*s,unit:"m",
+      traps:[[P,`Itu banyak sisi petaknya. Setiap sisi petak = ${s} m, jadi masih dikali ${s}.`],[N*s*s,"Itu luas kebun. Pagar dipasang di garis tepi, jadi pakai keliling."],[N*s,"Pagar dipasang di garis tepi, jadi pakai keliling, bukan banyak petak."]],
+      how:`Keliling kebun = ${P} sisi petak. Setiap sisi ${s} m, jadi ${P} × ${s} = <b>${P*s} m</b>.`,anim:{k:"trace",unit:1,cap:`${P} sisi × ${s} m = ${P*s} m`}}); }
+  else {
+    for(;;){ const b=ri(3,7,r), h=ri(2,5,r), kind=pick(["dalam","tumpul","tumpul"],r), ax=kind==="dalam"?ri(1,b-1,r):pick([-2,-1,b+1,b+2],r), x0=Math.min(0,ax), W=Math.max(b,ax)-x0; if(W>8) continue;
+      const flip=r()<.3, Y=y=>flip?h-y:y, pts=[[0-x0,Y(h)],[b-x0,Y(h)],[ax-x0,Y(0)]], A=b*h/2, obt=ax<0||ax>b;
+      steps.push({t:"angka",fig:{W,H:h,grid:1,lat:pts},q:`Berapa <b>luas</b> segitiga ini? (1 petak = 1 satuan luas)`,ans:A,unit:"petak",dec:true,
+        traps:[[b*h,"Kamu lupa membagi 2. Luas segitiga = alas × tinggi : 2."]],
+        how:`Alasnya ${b} petak dan tingginya ${h} petak${obt?" (tinggi diukur tegak lurus dari garis alas, di luar segitiga)":""}. Luas = ${b} × ${h} : 2 = <b>${num(A)} petak</b>.`,anim:{k:"tri"}}); break; }
+    { const w=ri(3,7,r), h=ri(3,5,r), x1=ri(1,w-1,r), y2=ri(1,h-1,r), x3=ri(1,w-1,r), y4=ri(1,h-1,r), pts=[[x1,0],[w,y2],[x3,h],[0,y4]];
+      const tris=[[[0,0],[x1,0],[0,y4]],[[x1,0],[w,0],[w,y2]],[[w,y2],[w,h],[x3,h]],[[x3,h],[0,h],[0,y4]]], tv=tris.map(area), sum=tv.reduce((a,b)=>a+b,0), A=area(pts);
+      steps.push({t:"angka",fig:{W:w,H:h,grid:1,lat:pts},q:`Berapa <b>luas</b> segiempat miring ini? (1 petak = 1 satuan luas)`,ans:A,unit:"petak",dec:true,
+        traps:[[w*h,"Itu luas persegi panjang di sekelilingnya. Kurangi dulu 4 segitiga di pojok."],[sum,"Itu luas keempat segitiga pojok. Luas bangun = persegi panjang dikurangi segitiga-segitiga itu."]],
+        how:`Bingkai dengan persegi panjang ${w} × ${h} = ${w*h} petak. Empat segitiga di pojoknya: ${tv.map(num).join(" + ")} = ${num(sum)} petak. Luas = ${w*h} − ${num(sum)} = <b>${num(A)} petak</b>.`,anim:{k:"box",w,h,tris,tv}}); }
+    const N=ri(5,10,r), cells=grow(N,6,4,r), s=pick([2,3,4,5,10],r), b=bbox(cells);
+    steps.push({t:"angka",fig:{W:b.w,H:b.h,grid:1,cells:normCells(cells),scale:`1 petak = ${s} m × ${s} m`},ic:"🌳",q:`Denah taman kota digambar di kertas berpetak. Setiap petak mewakili <b>${s} m × ${s} m</b>. Berapa <b>luas taman</b> sebenarnya?`,ans:N*s*s,unit:"m²",
+      traps:[[N*s,`Luas 1 petak = ${s} × ${s} = ${s*s} m², bukan ${s} m².`],[N,`Itu banyak petaknya. Kalikan dengan luas 1 petak (${s*s} m²).`],[cellPer(cells)*s,"Itu keliling taman. Yang ditanya luasnya."]],
+      how:`1 petak = ${s} m × ${s} m = ${s*s} m². Ada ${N} petak, jadi luas taman = ${N} × ${s*s} = <b>${grp(N*s*s)} m²</b>.`,anim:{k:"scale",s}}); }
+  return {kind:"petak",level,steps:finishSteps(steps)}; }
+
+/* ================= 2. RUMUS BANGUN DATAR ================= */
+/* segitiga: alas a, tinggi t; puncak di dalam alas, di luar alas (tumpul), atau siku-siku */
+function triFig(a,t,u,type,tr){ const [dx,,s]=tr||[0,t,t]; let pts, hts=[], dims=[], ra=[], sl=null;
+  if(type==="siku"){ pts=[[0,t],[a,t],[0,0]]; dims=[dm([0,t],[a,t],`${a} ${u}`),dm([0,0],[0,t],`${t} ${u}`)]; ra=[{p:[0,t],u:[1,0],v:[0,-1]}]; }
+  else if(type==="dalam"){ pts=[[0,t],[a,t],[dx,0]]; sl=s; dims=[dm([0,t],[a,t],`${a} ${u}`),dm([0,t],[dx,0],`${s} ${u}`)]; hts=[{a:[dx,0],b:[dx,t],tx:`${t} ${u}`}]; }
+  else { pts=[[dx,t],[dx+a,t],[0,0]]; sl=s; dims=[dm([dx,t],[dx+a,t],`${a} ${u}`),dm([dx,t],[0,0],`${s} ${u}`)]; hts=[{a:[0,0],b:[0,t],tx:`${t} ${u}`,ext:[[0,t],[dx,t]]}]; }
+  const xs=pts.map(p=>p[0]); return {fig:{W:Math.max(...xs),H:t,polys:[{pts}],dims,hts,ra},sl}; }
+function trapFig(a,b,t,u,mode,tr,f){ f=f||1; const L=v=>`${grp(v*f)} ${u}`; let dx=0, s=null, dims=[], hts=[], ra=[];
+  if(mode==="siku"){ dims=[dm([0,t],[a,t],L(a)),dm([0,0],[b,0],L(b)),dm([0,0],[0,t],L(t))]; ra=[{p:[0,t],u:[1,0],v:[0,-1]},{p:[0,0],u:[1,0],v:[0,1]}]; }
+  else { dx=tr[0]; s=tr[2]; dims=[dm([0,t],[a,t],L(a)),dm([dx,0],[dx+b,0],L(b)),dm([0,t],[dx,0],L(s))]; hts=[{a:[dx,0],b:[dx,t],tx:L(t)}]; }
+  return {fig:{W:a,H:t,polys:[{pts:[[0,t],[a,t],[dx+b,0],[dx,0]]}],dims,hts,ra},s,dx}; }
+function kiteFig(d1,d2,k,u,f){ f=f||1; const pts=[[d1/2,0],[d1,k],[d1/2,d2],[0,k]];
+  return {W:d1,H:d2,polys:[{pts}],dims:[dm([0,k],[d1,k],`${grp(d1*f)} ${u}`,{diag:1}),dm([d1/2,0],[d1/2,d2],`${grp(d2*f)} ${u}`,{diag:1})]}; }
+function genRumus(level,r){ const steps=[];
+  if(level==="mudah"){
+    { const RC=[["Kebun sayur Bu Sari","🥬","m",[5,12],[3,8]],["Kolam ikan","🐟","m",[4,9],[2,6]],["Lantai kamar","🛏️","m",[3,6],[3,5]],["Kartu ucapan","💌","cm",[8,15],[5,9]],["Papan nama kelas","🏷️","cm",[10,15],[3,6]]];
+      const c=ctxOr(RC,r), u=c?c[2]:pick(["cm","m"],r); let p,l; do{ p=c?ri(...c[3],r):ri(4,12,r); l=c?ri(...c[4],r):ri(2,9,r); }while(l>=p);
+      steps.push({t:"angka",fig:rectFig(p,l,u,{grid:1}),ic:c&&c[1],q:`${c?c[0]+" berbentuk persegi panjang":"Sebuah persegi panjang"} berukuran ${p} ${u} × ${l} ${u}. Berapa <b>luasnya</b>?`,ans:p*l,unit:u+"²",
+        traps:[[2*(p+l),"Itu kelilingnya. Luas persegi panjang = panjang × lebar."],[p+l,"Panjang dan lebar dikalikan, bukan dijumlahkan."]],
+        how:`Luas = panjang × lebar = ${p} × ${l} = <b>${p*l} ${u}²</b>. Di gambar: ${l} baris, setiap baris ${p} persegi satuan.`,anim:{k:"rows",rect:[0,0,p,l],n:l,per:p,cap:`${l} baris × ${p} = ${p*l} ${u}²`}}); }
+    { const KC=[["Pak Darto akan memagari kebun","🌱","m","Berapa meter <b>pagar</b> yang dibutuhkan?"],["Rina menempel pita di sepanjang tepi bingkai foto","🖼️","cm","Berapa cm <b>pita</b> yang dibutuhkan?"],["Doni berlari satu kali mengelilingi lapangan","🏃","m","Berapa meter <b>jarak</b> yang ditempuh Doni?"],["Ibu menjahit renda di sepanjang tepi taplak","🧺","cm","Berapa cm <b>renda</b> yang dibutuhkan?"]];
+      const c=ctxOr(KC,r), u=c?c[2]:pick(["cm","m"],r), ask=c?c[3]:"Berapa <b>kelilingnya</b>?";
+      if(r()<.5){ const s=ri(3,12,r);
+        steps.push({t:"angka",fig:rectFig(s,s,u),ic:c&&c[1],q:`${c?c[0]+" berbentuk persegi dengan sisi "+s+" "+u:"Sebuah persegi bersisi "+s+" "+u}. ${ask}`,ans:4*s,unit:u,
+          traps:[[s*s,"Itu luasnya. Keliling = jumlah panjang keempat sisi."],[2*s,"Itu baru dua sisi. Persegi punya 4 sisi yang sama panjang."]],how:`Keliling = ${s} + ${s} + ${s} + ${s} = 4 × ${s} = <b>${4*s} ${u}</b>.`,anim:{k:"trace"}}); }
+      else { let p,l; do{ p=ri(4,15,r); l=ri(2,10,r); }while(l>=p);
+        steps.push({t:"angka",fig:rectFig(p,l,u),ic:c&&c[1],q:`${c?c[0]+" berbentuk persegi panjang berukuran "+p+" "+u+" × "+l+" "+u:"Sebuah persegi panjang berukuran "+p+" "+u+" × "+l+" "+u}. ${ask}`,ans:2*(p+l),unit:u,
+          traps:[[p*l,"Itu luasnya. Keliling = jumlah panjang keempat sisi."],[p+l,"Itu baru dua sisi. Keliling = panjang + lebar + panjang + lebar."]],how:`Keliling = ${p} + ${l} + ${p} + ${l} = <b>${2*(p+l)} ${u}</b>.`,anim:{k:"trace"}}); } }
+    { const u=pick(["cm","m"],r); let p,l; do{ p=ri(4,10,r); l=ri(2,9,r); }while(l>=p);
+      if(r()<.5){ const A=p*l;
+        steps.push({t:"angka",fig:rectFig(p,l,u,{ll:"?",texts:[{p:[p/2,l/2],s:`Luas ${A} ${u}²`}]}),q:`Luas persegi panjang ${A} ${u}² dan panjangnya ${p} ${u}. Berapa <b>lebarnya</b>?`,ans:l,unit:u,
+          traps:[[A-p,"Lebar = luas : panjang (dibagi, bukan dikurangi)."]],how:`Lebar = luas : panjang = ${A} : ${p} = <b>${l} ${u}</b>, karena ${p} × ${l} = ${A}.`,anim:{k:"rows",rect:[0,0,p,l],n:l,per:p,cap:`${A} : ${p} = ${l} baris`}}); }
+      else { const K=2*(p+l);
+        steps.push({t:"angka",fig:rectFig(p,l,u,{ll:"?",texts:[{p:[p/2,l/2],s:`Keliling ${K} ${u}`}]}),q:`Keliling persegi panjang ${K} ${u} dan panjangnya ${p} ${u}. Berapa <b>lebarnya</b>?`,ans:l,unit:u,
+          traps:[[K-p,"Keliling memuat dua panjang dan dua lebar. Kurangi dua panjang dulu, lalu bagi 2."],[K-2*p,"Itu jumlah dua lebar. Bagi 2 untuk satu lebar."]],
+          how:`Dua lebar = ${K} − ${p} − ${p} = ${K-2*p}. Satu lebar = ${K-2*p} : 2 = <b>${l} ${u}</b>.`,anim:{k:"trace"}}); } } }
+  else if(level==="sedang"){
+    { const TC=[["Bendera segitiga hiasan 17 Agustus","🇮🇩","cm"],["Bagian depan atap rumah","🏠","m"],["Potongan kain perca","🧵","cm"]], c=ctxOr(TC,r), u=c?c[2]:pick(["cm","m"],r);
+      for(;;){ const type=pick(["dalam","dalam","tumpul","siku"],r); let a,t,tr=null;
+        if(type==="siku"){ t=ri(3,12,r); a=ri(3,14,r); } else { tr=pick(TRI.filter(x=>x[0]<=9),r); t=tr[1]; a=type==="dalam"?ri(tr[0]+2,tr[0]+10,r):ri(3,12,r); }
+        if((a*t)%2) continue; const {fig,sl}=triFig(a,t,u,type,tr);
+        steps.push({t:"angka",fig,ic:c&&c[1],q:`${c?c[0]+" berbentuk segitiga.":"Perhatikan segitiga ini."} Berapa <b>luasnya</b>?`,ans:a*t/2,unit:u+"²",
+          traps:[[a*t,"Kamu lupa membagi 2. Luas segitiga = alas × tinggi : 2."]].concat(sl?[[a*sl/2,`Itu memakai sisi miring ${sl} ${u}. Tinggi adalah garis yang tegak lurus alas.`],[a*sl,"Pakai tinggi (tegak lurus alas), bukan sisi miring, lalu bagi 2."]]:[]),
+          how:`Luas = alas × tinggi : 2 = ${a} × ${t} : 2 = <b>${a*t/2} ${u}²</b>.${sl?` Sisi miring ${sl} ${u} tidak dipakai.`:""}`,anim:{k:"tri"}}); break; } }
+    { const JC=[["Ubin teras berbentuk jajargenjang","🧱","cm"],["Petak taman bunga berbentuk jajargenjang","🌷","m"]], c=ctxOr(JC,r), u=c?c[2]:pick(["cm","m"],r);
+      const tr=pick(TRI.filter(x=>x[0]<=8),r), [dx,t,s]=tr, a=ri(Math.max(dx+1,4),14,r), pts=[[0,t],[a,t],[a+dx,0],[dx,0]];
+      steps.push({t:"angka",fig:{W:a+dx,H:t,polys:[{pts}],dims:[dm([0,t],[a,t],`${a} ${u}`),dm([0,t],[dx,0],`${s} ${u}`)],hts:[{a:[dx,0],b:[dx,t],tx:`${t} ${u}`}]},ic:c&&c[1],
+        q:`${c?c[0]+".":"Perhatikan jajargenjang ini."} Berapa <b>luasnya</b>?`,ans:a*t,unit:u+"²",
+        traps:[[a*s,`Itu memakai sisi miring ${s} ${u}. Tinggi jajargenjang adalah garis putus-putus yang tegak lurus alas.`],[a*t/2,"Jajargenjang tidak dibagi 2: luasnya alas × tinggi."],[2*(a+s),"Itu kelilingnya."]],
+        how:`Potong segitiga di kiri lalu geser ke kanan: jadi persegi panjang ${a} × ${t}. Luas = alas × tinggi = ${a} × ${t} = <b>${a*t} ${u}²</b>.`,anim:{k:"jajar"}}); }
+    for(;;){ const s=pick([20,25,40,50],r), p=ri(2,6,r), l=ri(2,5,r); if((p*100)%s||(l*100)%s) continue; const cx=p*100/s, cy=l*100/s, n=cx*cy; if(n>400) continue;
+      steps.push({t:"angka",fig:Object.assign(rectFig(p,l,"m"),{tile:s/100,tileTx:`ubin ${s} cm`}),ic:"🧱",q:`Lantai kamar berukuran ${p} m × ${l} m akan dipasangi ubin persegi bersisi ${s} cm. Berapa <b>banyak ubin</b> yang dibutuhkan?`,ans:n,unit:"ubin",
+        traps:[[p*l,"Itu luas lantai dalam m². Ubah dulu ukurannya ke cm, lalu hitung banyak ubin."],[cx+cy,"Banyak ubin per baris dan banyak baris dikalikan, bukan dijumlahkan."],[p*l*10000/s,`Luas lantai harus dibagi luas 1 ubin (${s} × ${s} cm²), bukan panjang sisinya.`]],
+        how:`${p} m = ${p*100} cm, jadi satu baris muat ${p*100} : ${s} = ${cx} ubin. ${l} m = ${l*100} cm, jadi ada ${l*100} : ${s} = ${cy} baris. Banyak ubin = ${cy} × ${cx} = <b>${grp(n)} ubin</b>. (Cara lain: ${p*l} m² = ${grp(p*l*10000)} cm², dibagi luas 1 ubin ${s*s} cm².)`,
+        anim:{k:"rows",rect:[0,0,p,l],n:cy,per:cx,tile:s/100,cap:`${cy} baris × ${cx} ubin = ${grp(n)} ubin`}}); break; } }
+  else {
+    { const C=[["Meja kelas berbentuk trapesium","🪑","cm",10],["Sawah Pak Tani berbentuk trapesium","🌾","m",1]], c=ctxOr(C,r), u=c?c[2]:pick(["cm","m"],r), f=c?c[3]:1;
+      for(;;){ const mode=r()<.4?"siku":"miring"; let a,b,t,tr=null;
+        if(mode==="siku"){ t=ri(3,10,r); a=ri(6,14,r); b=ri(3,a-2,r); } else { tr=pick(TRI.filter(x=>x[0]<=8&&x[1]<=12),r); t=tr[1]; b=ri(3,10,r); a=b+tr[0]+ri(0,4,r); }
+        if(((a+b)*t)%2||a>20) continue; const T=trapFig(a,b,t,u,mode,tr,f), A=(a+b)*t/2*f*f;
+        steps.push({t:"angka",fig:T.fig,ic:c&&c[1],q:`${c?c[0]+".":"Perhatikan trapesium ini."} Berapa <b>luasnya</b>?`,ans:A,unit:u+"²",
+          traps:[[(a+b)*t*f*f,"Kamu lupa membagi 2. Luas trapesium = (a + b) × t : 2."],[a*t*f*f,"Kedua sisi sejajar dijumlah dulu: (a + b) × t : 2."]].concat(T.s?[[(a+b)*T.s/2*f*f,"Itu memakai sisi miring. Tinggi adalah garis putus-putus yang tegak lurus kedua sisi sejajar."]]:[]),
+          how:`Luas = (sisi sejajar atas + bawah) × tinggi : 2 = (${grp(a*f)} + ${grp(b*f)}) × ${grp(t*f)} : 2 = <b>${grp(A)} ${u}²</b>.`,anim:{k:"trap"}}); break; } }
+    { const kite=r()<.5, C=kite?[["Layangan Dimas","🪁","cm",5]]:[["Kue wajik berbentuk belah ketupat","🍮","cm",1]], c=ctxOr(C,r,.3), u=c?c[2]:pick(["cm","m"],r), f=c?c[3]:1;
+      for(;;){ const d1=ri(4,12,r), d2=kite?ri(6,16,r):ri(4,14,r), k=kite?ri(2,Math.floor(d2/2)-1,r):d2/2; if((d1*d2)%2||(kite&&k<1)||(!kite&&d1===d2)) continue; const A=d1*d2/2*f*f;
+        steps.push({t:"angka",fig:kiteFig(d1,d2,k,u,f),ic:c&&c[1],q:`${c?c[0]+".":`Perhatikan ${kite?"layang-layang":"belah ketupat"} ini.`} Panjang kedua diagonalnya ${grp(d1*f)} ${u} dan ${grp(d2*f)} ${u}. Berapa <b>luasnya</b>?`,ans:A,unit:u+"²",
+          traps:[[d1*d2*f*f,"Kamu lupa membagi 2. Luas = diagonal 1 × diagonal 2 : 2."],[(d1+d2)*f,"Kedua diagonal dikalikan lalu dibagi 2, bukan dijumlahkan."]],
+          how:`Luas ${kite?"layang-layang":"belah ketupat"} = d₁ × d₂ : 2 = ${grp(d1*f)} × ${grp(d2*f)} : 2 = <b>${grp(A)} ${u}²</b>.`,anim:{k:"kite"}}); break; } }
+    for(;;){ const sh=pick(["segitiga","jajar","trapesium","ketupat"],r), u=pick(["cm","m"],r);
+      if(sh==="segitiga"){ const type=pick(["dalam","siku"],r), tr=type==="dalam"?pick(TRI.filter(x=>x[0]<=8),r):null, t=tr?tr[1]:ri(3,12,r), a=tr?ri(tr[0]+2,tr[0]+10,r):ri(4,14,r); if((a*t)%2) continue; const A=a*t/2, T=triFig(a,t,u,type,tr);
+        if(type==="siku") T.fig.dims[1].tx="?"; else { T.fig.hts[0].tx="?"; T.fig.dims=T.fig.dims.slice(0,1); } T.fig.note=`Luas ${A} ${u}²`;
+        steps.push({t:"angka",fig:T.fig,q:`Luas segitiga ${A} ${u}² dan alasnya ${a} ${u}. Berapa <b>tingginya</b>?`,ans:t,unit:u,traps:[[A/a,"Ingat rumusnya dibagi 2: tinggi = 2 × luas : alas."],[A-a,"Tinggi didapat dengan membagi, bukan mengurangi."]],
+          how:`Alas × tinggi : 2 = luas, jadi tinggi = 2 × luas : alas = 2 × ${A} : ${a} = <b>${t} ${u}</b>.`,anim:{k:"tri"}}); }
+      else if(sh==="jajar"){ const tr=pick(TRI.filter(x=>x[0]<=8),r), [dx,t]=tr, a=ri(Math.max(dx+1,4),14,r), A=a*t, pts=[[0,t],[a,t],[a+dx,0],[dx,0]];
+        steps.push({t:"angka",fig:{W:a+dx,H:t,polys:[{pts}],dims:[dm([0,t],[a,t],`${a} ${u}`)],hts:[{a:[dx,0],b:[dx,t],tx:"?"}],note:`Luas ${A} ${u}²`},q:`Luas jajargenjang ${A} ${u}² dan alasnya ${a} ${u}. Berapa <b>tingginya</b>?`,ans:t,unit:u,
+          traps:[[2*A/a,"Jajargenjang tidak dibagi 2: tinggi = luas : alas."],[A-a,"Tinggi didapat dengan membagi, bukan mengurangi."]],how:`Luas = alas × tinggi, jadi tinggi = luas : alas = ${A} : ${a} = <b>${t} ${u}</b>.`,anim:{k:"jajar"}}); }
+      else if(sh==="trapesium"){ const t=ri(3,10,r), a=ri(6,14,r), b=ri(3,a-2,r); if(((a+b)*t)%2) continue; const A=(a+b)*t/2, T=trapFig(a,b,t,u,"siku");
+        T.fig.dims[2].tx="?"; T.fig.note=`Luas ${A} ${u}²`;
+        steps.push({t:"angka",fig:T.fig,q:`Luas trapesium ${A} ${u}². Sisi sejajarnya ${a} ${u} dan ${b} ${u}. Berapa <b>tingginya</b>?`,ans:t,unit:u,traps:[[A/(a+b),"Ingat rumusnya dibagi 2: tinggi = 2 × luas : (a + b)."],[2*A/a,"Kedua sisi sejajar dijumlah dulu: tinggi = 2 × luas : (a + b)."]],
+          how:`(a + b) × t : 2 = luas, jadi t = 2 × luas : (a + b) = 2 × ${A} : ${a+b} = <b>${t} ${u}</b>.`,anim:{k:"trap"}}); }
+      else { const d1=ri(4,12,r), d2=ri(4,14,r); if((d1*d2)%2||d1===d2) continue; const A=d1*d2/2, F=kiteFig(d1,d2,d2/2,u); F.dims[1].tx="?"; F.note=`Luas ${A} ${u}²`;
+        steps.push({t:"angka",fig:F,q:`Luas belah ketupat ${A} ${u}² dan salah satu diagonalnya ${d1} ${u}. Berapa panjang <b>diagonal yang lain</b>?`,ans:d2,unit:u,traps:[[A/d1,"Ingat rumusnya dibagi 2: d₂ = 2 × luas : d₁."],[A-d1,"Diagonal didapat dengan membagi, bukan mengurangi."]],
+          how:`d₁ × d₂ : 2 = luas, jadi d₂ = 2 × luas : d₁ = 2 × ${A} : ${d1} = <b>${d2} ${u}</b>.`,anim:{k:"kite"}}); }
+      break; } }
+  return {kind:"rumus",level,steps:finishSteps(steps)}; }
+
+/* ================= 3. BANGUN GABUNGAN ================= */
+/* bentuk L: persegi panjang W×H dipotong cw×ch di salah satu pojok */
+function lShape(W,H,cw,ch,corner){ const fx=corner===1||corner===2, fy=corner===2||corner===3, T=([x,y])=>[fx?W-x:x,fy?H-y:y];
+  const pts=[[0,0],[W-cw,0],[W-cw,ch],[W,ch],[W,H],[0,H]].map(T), len=[W-cw,ch,cw,H-ch,W,H];
+  return {pts,len,parts:[rectPts(0,0,W-cw,ch).map(T),rectPts(0,ch,W,H-ch).map(T)]}; }
+const sideDims=(pts,txs)=>pts.map((p,i)=>dm(p,pts[(i+1)%pts.length],txs[i])).filter(d=>d.tx!==null);
+function genGabung(level,r){ const steps=[];
+  if(level==="mudah"){ const LC=[["Denah ruang kelas berbentuk L","🏫","m"],["Taman bermain berbentuk L","🛝","m"],["Kertas karton yang dipotong berbentuk L","✂️","cm"]], c=ctxOr(LC,r), u=c?c[2]:pick(["cm","m"],r);
+    const W=ri(6,12,r), H=ri(5,9,r), cw=ri(2,W-3,r), ch=ri(2,H-3,r), L=lShape(W,H,cw,ch,ri(0,3,r)), A1=(W-cw)*ch, A2=W*(H-ch), A=A1+A2, K=2*(W+H);
+    const q=ri(0,3,r), si=[0,2,1,3][q], tx=L.len.map(v=>`${v} ${u}`); tx[si]="?";
+    const hor=si===0||si===2, other=hor?L.len[2-si]:L.len[4-si], big=hor?W:H;
+    steps.push({t:"angka",fig:{W,H,polys:[{pts:L.pts}],dims:sideDims(L.pts,tx)},ic:c&&c[1],q:`${c?c[0]+".":"Perhatikan bangun berbentuk L ini."} Berapa panjang sisi yang bertanda <b>?</b>`,ans:L.len[si],unit:u,
+      traps:[[big+other,`Sisi ? adalah selisihnya: ${big} − ${other}, bukan dijumlahkan.`]],how:`Sisi ${big} ${u} sama panjang dengan ${other} ${u} ditambah sisi ?. Jadi ? = ${big} − ${other} = <b>${L.len[si]} ${u}</b>.`,
+      anim:{k:"seg",segs:[[hor?4:5],[hor?2-si:4-si,si]],cap:`${big} − ${other} = ${L.len[si]}`}});
+    const fig={W,H,polys:[{pts:L.pts}],dims:sideDims(L.pts,L.len.map(v=>`${v} ${u}`))};
+    steps.push({t:"angka",fig,q:`Berapa <b>luas</b> bangun L itu?`,ans:A,unit:u+"²",traps:[[W*H,"Itu luas persegi panjang penuh. Bagian yang terpotong tidak ikut dihitung."],[K,"Itu kelilingnya."]],
+      how:`Potong menjadi dua persegi panjang: ${W-cw} × ${ch} = ${A1} dan ${W} × ${H-ch} = ${A2}. Luas = ${A1} + ${A2} = <b>${A} ${u}²</b>.`,
+      anim:{k:"split",parts:[{pts:L.parts[0],lbl:`${W-cw} × ${ch} = ${A1}`},{pts:L.parts[1],lbl:`${W} × ${H-ch} = ${A2}`}],cap:`${A1} + ${A2} = ${A} ${u}²`}});
+    steps.push({t:"angka",fig,q:`Berapa <b>keliling</b> bangun L itu?`,ans:K,unit:u,traps:[[A,"Itu luasnya. Keliling = jumlah panjang semua sisi."],[K-cw-ch,"Ada sisi yang terlewat. Bangun L punya 6 sisi."]],
+      how:`Jumlahkan keenam sisinya: ${L.len.join(" + ")} = <b>${K} ${u}</b>.`,anim:{k:"trace"}}); }
+  else if(level==="sedang"){
+    for(;;){ const W=ri(4,10,r), H=ri(3,6,r), t=ri(2,4,r); if((W*t)%2) continue; const ax=W/2, pts=[[0,t],[ax,0],[W,t],[W,t+H],[0,t+H]], A=W*H+W*t/2;
+      const c=r()<.5;
+      steps.push({t:"angka",fig:{W,H:H+t,polys:[{pts}],dims:[dm([0,t+H],[W,t+H],`${W} m`),dm([W,t],[W,t+H],`${H} m`)],hts:[{a:[ax,0],b:[ax,t],tx:`${t} m`}]},ic:"🏠",
+        q:c?`Dinding depan rumah ini akan dicat. Berapa <b>luas</b> dinding yang dicat?`:`Pak Ahmad membuat papan nama berbentuk rumah untuk pos ronda. Berapa <b>luas</b> papannya?`,ans:A,unit:"m²",
+        traps:[[W*H,"Bagian segitiga (atap) belum dihitung."],[W*H+W*t,"Luas segitiga = alas × tinggi : 2. Jangan lupa dibagi 2."]],
+        how:`Persegi panjang ${W} × ${H} = ${W*H} m². Segitiga ${W} × ${t} : 2 = ${W*t/2} m². Luas = ${W*H} + ${W*t/2} = <b>${A} m²</b>.`,
+        anim:{k:"split",parts:[{pts:[[0,t],[W,t],[W,t+H],[0,t+H]],lbl:`${W} × ${H} = ${W*H}`},{pts:[[0,t],[ax,0],[W,t]],lbl:`${W} × ${t} : 2 = ${W*t/2}`}],cap:`${W*H} + ${W*t/2} = ${A} m²`}}); break; }
+    { const W=ri(8,15,r), H=ri(7,12,r), w=ri(3,W-4,r), h=ri(2,H-4,r), x=ri(1,W-w-1,r), y=ri(1,H-h-1,r), A=W*H-w*h, ko=rectPts(x,y,w,h);
+      steps.push({t:"angka",fig:{W,H,polys:[{pts:rectPts(0,0,W,H)},{pts:ko,cls:"air"}],dims:[dm([0,H],[W,H],`${W} m`),dm([0,0],[0,H],`${H} m`),y>=H-y-h?dm([x,y],[x+w,y],`${w} m`,{p:1}):dm([x,y+h],[x+w,y+h],`${w} m`,{p:1}),W-x-w>=x?dm([x+w,y],[x+w,y+h],`${h} m`,{p:1}):dm([x,y],[x,y+h],`${h} m`,{p:1})]},ic:"🐟",
+        q:`Taman berbentuk persegi panjang. Di dalamnya ada kolam ikan, dan sisanya ditanami rumput. Berapa <b>luas rumput</b>?`,ans:A,unit:"m²",
+        traps:[[W*H,"Kolamnya belum dikurangi."],[w*h,"Itu luas kolam. Luas rumput = luas taman − luas kolam."],[W*H+w*h,"Kolamnya dikurangi, bukan ditambah."]],
+        how:`Luas taman ${W} × ${H} = ${W*H} m². Luas kolam ${w} × ${h} = ${w*h} m². Luas rumput = ${W*H} − ${w*h} = <b>${A} m²</b>.`,
+        anim:{k:"split",parts:[{pts:rectPts(0,0,W,H),lbl:`${W} × ${H} = ${W*H}`},{pts:ko,lbl:`${w} × ${h} = ${w*h}`,hole:1}],cap:`${W*H} − ${w*h} = ${A} m²`}}); }
+    { const W=ri(8,12,r), H=ri(5,8,r), nw=ri(3,W-4,r), lt=ri(1,W-nw-1,r), rt=W-nw-lt, nd=ri(2,H-2,r), fy=r()<.4, T=([x,y])=>[x,fy?H-y:y];
+      const pts=[[0,0],[lt,0],[lt,nd],[lt+nw,nd],[lt+nw,0],[W,0],[W,H],[0,H]].map(T), len=[lt,nd,nw,nd,rt,H,W,H], K=len.reduce((a,b)=>a+b,0), u=pick(["m","cm"],r), c=u==="m"&&r()<.6;
+      steps.push({t:"angka",fig:{W,H,polys:[{pts}],dims:sideDims(pts,len.map(v=>`${v} ${u}`))},ic:c?"🌱":null,q:c?`Pak Joko akan memagari kebun yang bentuknya seperti ini. Berapa meter <b>pagar</b> yang dibutuhkan?`:`Berapa <b>keliling</b> bangun ini?`,ans:K,unit:u,
+        traps:[[2*(W+H),"Sisi-sisi di lekukan juga termasuk keliling. Hitung semua sisinya."],[W*H-nw*nd,"Itu luasnya. Keliling = jumlah panjang semua sisi."]],
+        how:`Jumlahkan kedelapan sisinya: ${len.join(" + ")} = <b>${K} ${u}</b>.`,anim:{k:"trace"}}); } }
+  else {
+    for(;;){ const W=ri(6,12,r), H=ri(3,7,r), b=ri(2,W-2,r), t=ri(2,5,r), dx=ri(0,W-b,r); if(((W+b)*t)%2) continue; const At=(W+b)*t/2, Ar=W*H, A=At+Ar, hx=dx>0?dx:dx+b;
+      const pts=[[0,t],[dx,0],[dx+b,0],[W,t],[W,t+H],[0,t+H]];
+      steps.push({t:"angka",fig:{W,H:H+t,polys:[{pts}],dims:[dm([0,t+H],[W,t+H],`${W} m`),dm([W,t],[W,t+H],`${H} m`),dm([dx,0],[dx+b,0],`${b} m`)],hts:[{a:[hx,0],b:[hx,t],tx:`${t} m`}]},ic:"🏡",
+        q:`Denah sebidang tanah terdiri atas trapesium dan persegi panjang. Berapa <b>luas</b> tanah itu?`,ans:A,unit:"m²",
+        traps:[[W*(H+t),"Bagian atas berbentuk trapesium, bukan persegi panjang."],[Ar+(W+b)*t,"Luas trapesium dibagi 2: (a + b) × t : 2."],[Ar,"Bagian trapesiumnya belum dihitung."]],
+        how:`Trapesium: (${W} + ${b}) × ${t} : 2 = ${At} m². Persegi panjang: ${W} × ${H} = ${Ar} m². Luas = ${At} + ${Ar} = <b>${A} m²</b>.`,
+        anim:{k:"split",parts:[{pts:[[0,t],[dx,0],[dx+b,0],[W,t]],lbl:`(${W} + ${b}) × ${t} : 2 = ${At}`},{pts:[[0,t],[W,t],[W,t+H],[0,t+H]],lbl:`${W} × ${H} = ${Ar}`}],cap:`${At} + ${Ar} = ${A} m²`}}); break; }
+    if(r()<.5){ const w=ri(4,10,r), h=ri(3,8,r), j=ri(1,2,r), OW=w+2*j, OH=h+2*j, A=OW*OH-w*h, ko=rectPts(j,j,w,h);
+      steps.push({t:"angka",fig:{W:OW,H:OH,polys:[{pts:rectPts(0,0,OW,OH),cls:"jalan"},{pts:ko,cls:"air"}],dims:[dm([j,j],[j+w,j],`${w} m`,{p:1,inside:1}),dm([j+w,j],[j+w,j+h],`${h} m`,{p:1,inside:1}),dm([0,OH-j/2],[j,OH-j/2],`${j} m`,{diag:1})]},ic:"🐟",
+        q:`Di sekeliling kolam dibuat jalan setapak selebar ${j} m. Berapa <b>luas jalan</b> setapak itu?`,ans:A,unit:"m²",
+        traps:[[OW*OH,"Kolamnya belum dikurangi."],[w*h,"Itu luas kolam."],[(w+j)*(h+j)-w*h,`Jalan ada di kedua sisi kolam: panjang luar = ${w} + 2 × ${j}.`]],
+        how:`Ukuran luar: (${w} + 2 × ${j}) × (${h} + 2 × ${j}) = ${OW} × ${OH} = ${OW*OH} m². Kolam: ${w} × ${h} = ${w*h} m². Luas jalan = ${OW*OH} − ${w*h} = <b>${A} m²</b>.`,
+        anim:{k:"split",parts:[{pts:rectPts(0,0,OW,OH),lbl:`${OW} × ${OH} = ${OW*OH}`},{pts:ko,lbl:`${w} × ${h} = ${w*h}`,hole:1}],cap:`${OW*OH} − ${w*h} = ${A} m²`}}); }
+    else { let W,H,dw=1,dh=2,ww,wh=1,dx,wx; do{ W=ri(6,9,r); H=ri(3,4,r); ww=ri(1,2,r); dx=ri(1,W-4,r); wx=ri(dx+dw+1,W-ww-1,r); }while(wx+ww>W-1||wx<dx+dw+1);
+      const A=W*H-dw*dh-ww*wh, door=rectPts(dx,H-dh,dw,dh), win=rectPts(wx,1,ww,wh);
+      steps.push({t:"angka",fig:{W,H,polys:[{pts:rectPts(0,0,W,H),cls:"tembok"},{pts:door,cls:"pintu"},{pts:win,cls:"kaca"}],dims:[dm([0,H],[W,H],`${W} m`),dm([0,0],[0,H],`${H} m`),dm([dx,H-dh],[dx+dw,H-dh],`${dw} m`,{p:1}),dm([dx+dw,H-dh],[dx+dw,H],`${dh} m`,{p:1}),dm([wx,1],[wx+ww,1],`${ww} m`,{p:2}),dm([wx+ww,1],[wx+ww,2],`${wh} m`,{p:2})]},ic:"🖌️",
+        q:`Tembok ini akan dicat, kecuali pintu dan jendela. Berapa <b>luas</b> tembok yang dicat?`,ans:A,unit:"m²",
+        traps:[[W*H,"Pintu dan jendela tidak dicat, jadi dikurangi."],[W*H-dw*dh,"Jendelanya belum dikurangi."],[W*H-ww*wh,"Pintunya belum dikurangi."]],
+        how:`Tembok ${W} × ${H} = ${W*H} m². Pintu ${dw} × ${dh} = ${dw*dh} m², jendela ${ww} × ${wh} = ${ww*wh} m². Luas dicat = ${W*H} − ${dw*dh} − ${ww*wh} = <b>${A} m²</b>.`,
+        anim:{k:"split",parts:[{pts:rectPts(0,0,W,H),lbl:`${W} × ${H} = ${W*H}`},{pts:door,lbl:`${dw*dh}`,hole:1},{pts:win,lbl:`${ww*wh}`,hole:1}],cap:`${W*H} − ${dw*dh} − ${ww*wh} = ${A} m²`}}); }
+    { const W=ri(6,12,r), H=ri(5,9,r), cw=ri(2,W-3,r), ch=ri(2,H-3,r), L=lShape(W,H,cw,ch,ri(0,3,r)), A=W*H-cw*ch, K=2*(W+H), A1=(W-cw)*ch, A2=W*(H-ch);
+      const fig={W,H,polys:[{pts:L.pts}],dims:sideDims(L.pts,L.len.map(v=>`${v} m`))};
+      if(r()<.5){ const [nm,pr]=pick([["rumput",20000],["keramik",75000],["paving block",90000]],r);
+        steps.push({t:"angka",fig,ic:"💰",q:`Lahan berbentuk L ini akan dipasangi ${nm} seharga ${rp(pr)} per m². Berapa <b>biayanya</b>?`,ans:A*pr,money:true,
+          traps:[[A,"Itu luasnya. Kalikan dengan harga per m²."],[K*pr,`${nm[0].toUpperCase()+nm.slice(1)} menutupi permukaan, jadi pakai luas, bukan keliling.`],[W*H*pr,"Bagian yang terpotong tidak ikut dipasangi."]],
+          how:`Luas = ${A1} + ${A2} = ${A} m². Biaya = ${A} × ${rp(pr)} = <b>${rp(A*pr)}</b>.`,anim:{k:"split",parts:[{pts:L.parts[0],lbl:`${A1}`},{pts:L.parts[1],lbl:`${A2}`}],cap:`${A} m² × ${rp(pr)} = ${rp(A*pr)}`}}); }
+      else { const [nm,pr]=pick([["pagar bambu",25000],["pagar kawat",40000],["pagar besi",120000]],r);
+        steps.push({t:"angka",fig,ic:"💰",q:`Sekeliling lahan berbentuk L ini akan dipasangi ${nm} seharga ${rp(pr)} per meter. Berapa <b>biayanya</b>?`,ans:K*pr,money:true,
+          traps:[[K,"Itu panjang pagarnya. Kalikan dengan harga per meter."],[A*pr,"Pagar dipasang di tepi, jadi pakai keliling, bukan luas."]],
+          how:`Keliling = ${L.len.join(" + ")} = ${K} m. Biaya = ${K} × ${rp(pr)} = <b>${rp(K*pr)}</b>.`,anim:{k:"trace",cap:`${K} m × ${rp(pr)} = ${rp(K*pr)}`}}); } } }
+  return {kind:"gabung",level,steps:finishSteps(steps)}; }
+
+/* ================= 4. RANCANG PETAK ================= */
+const GW=8, GH=6;  /* kertas berpetak 8 × 6 */
+const rectsFor=N=>{ const o=[]; for(let a=1;a<=GH;a++) if(N%a===0&&N/a>=a&&N/a<=GW) o.push([N/a,a]); return o; };
+const rectsPer=P=>{ const s=P/2, o=[]; for(let a=1;a<=GH;a++){ const b=s-a; if(b>=a&&b<=GW) o.push([b,a]); } return o; };
+const rectCells=(w,h,x,y)=>{ const o=[]; for(let j=0;j<h;j++) for(let i=0;i<w;i++) o.push([(x||0)+i,(y||0)+j]); return o; };
+const minPer=N=>2*Math.ceil(2*Math.sqrt(N)-1e-9);
+const dimsTx=rs=>rs.map(([b,a])=>`${b} × ${a}`).join(", ");
+function genRancang(level,r){ const steps=[];
+  if(level==="mudah"){
+    if(r()<.5){ const N=pick([4,6,8,12,16,24],r), R=shuffle(rectsFor(N),r), [e1,e2]=R;
+      steps.push({t:"sel",need:{rect:1,n:N},q:`Warnai petak-petak menjadi <b>persegi panjang</b> (persegi juga boleh) dengan <b>luas ${N} petak</b>.`,ex:rectCells(...e1,0,0),
+        how:`Cari dua bilangan yang hasil kalinya ${N}: ${dimsTx(R)}. Contoh: <b>${e1[0]} × ${e1[1]} = ${N} petak</b>.`,anim:{k:"ex",cap:`${e1[0]} × ${e1[1]} = ${N} petak`}});
+      steps.push({t:"sel",need:{rect:1,n:N,diff:1},q:`Buat <b>persegi panjang lain</b> yang luasnya juga <b>${N} petak</b>, tetapi <b>kelilingnya berbeda</b>.`,ex:rectCells(...e2,0,0),
+        how:`Ukuran yang luasnya ${N} petak: ${dimsTx(R)}. Misalnya ${e1[0]} × ${e1[1]} kelilingnya ${2*(e1[0]+e1[1])}, sedangkan ${e2[0]} × ${e2[1]} kelilingnya ${2*(e2[0]+e2[1])}. Luasnya sama, <b>kelilingnya berbeda</b>.`,anim:{k:"ex",cap:`${e2[0]} × ${e2[1]}: keliling ${2*(e2[0]+e2[1])} satuan`}}); }
+    else { const P=pick([8,10,12,14,16,18,20,22,24,26],r), R=shuffle(rectsPer(P),r), [e1,e2]=R;
+      steps.push({t:"sel",need:{rect:1,per:P},q:`Warnai petak-petak menjadi <b>persegi panjang</b> (persegi juga boleh) dengan <b>keliling ${P} satuan</b>.`,ex:rectCells(...e1,0,0),
+        how:`Panjang + lebar = ${P} : 2 = ${P/2}. Pilihannya: ${dimsTx(R)}. Contoh: <b>${e1[0]} × ${e1[1]}</b>, kelilingnya ${e1[0]} + ${e1[1]} + ${e1[0]} + ${e1[1]} = ${P}.`,anim:{k:"ex",cap:`${e1[0]} + ${e1[1]} + ${e1[0]} + ${e1[1]} = ${P} satuan`}});
+      steps.push({t:"sel",need:{rect:1,per:P,diffA:1},q:`Buat <b>persegi panjang lain</b> yang kelilingnya juga <b>${P} satuan</b>, tetapi <b>luasnya berbeda</b>.`,ex:rectCells(...e2,0,0),
+        how:`Ukuran yang kelilingnya ${P}: ${dimsTx(R)}. Misalnya ${e1[0]} × ${e1[1]} = ${e1[0]*e1[1]} petak, sedangkan ${e2[0]} × ${e2[1]} = ${e2[0]*e2[1]} petak. Kelilingnya sama, <b>luasnya berbeda</b>.`,anim:{k:"ex",cap:`${e2[0]} × ${e2[1]} = ${e2[0]*e2[1]} petak`}}); }
+    const N=ri(4,11,r), ex=grow(N,GW,GH,r), P=cellPer(ex);
+    steps.push({t:"sel",need:{n:N,per:P},q:`Buat bangun bebas dengan <b>luas ${N} petak</b> dan <b>keliling ${P} satuan</b>. Petaknya harus bersambung sisi dengan sisi.`,ex,
+      how:`Salah satu contoh ada di gambar: <b>${N} petak, keliling ${P} satuan</b>. Bentuk lain juga boleh asal luas dan kelilingnya sama.`,anim:{k:"ex",cap:`luas ${N} petak, keliling ${P} satuan`}}); }
+  else if(level==="sedang"){
+    { const N=ri(8,13,r), ex=grow(N,GW,GH,r), P=cellPer(ex);
+      steps.push({t:"sel",need:{n:N,per:P},q:`Buat bangun dengan <b>luas ${N} petak</b> dan <b>keliling ${P} satuan</b>. Petaknya harus bersambung sisi dengan sisi.`,ex,
+        how:`Salah satu contoh ada di gambar: <b>${N} petak, keliling ${P} satuan</b>. Kalau keliling terlalu panjang, rapatkan; kalau terlalu pendek, buat lebih berlekuk.`,anim:{k:"ex",cap:`luas ${N} petak, keliling ${P} satuan`}}); }
+    { const P=pick([12,14,16,18,20,22,24],r), s=P/2, R=rectsPer(P), a=Math.floor(s/2), b=s-a, best=a*b;
+      steps.push({t:"sel",need:{rect:1,per:P,maxA:best},q:`Pak Tani punya pagar sepanjang <b>${P} m</b> (1 sisi petak = 1 m). Buat kebun <b>persegi panjang</b> (persegi juga boleh) berkeliling ${P} m yang <b>luasnya paling besar</b>.`,ex:rectCells(b,a,0,0),
+        how:`Panjang + lebar = ${P} : 2 = ${s}. Coba: ${R.map(([x,y])=>`${x} × ${y} = ${x*y}`).join(", ")}. Paling luas <b>${b} × ${a} = ${best} petak</b>: makin mendekati persegi, makin luas.`,anim:{k:"ex",cap:`${b} × ${a} = ${best} m² (paling luas)`}}); }
+    { const N=ri(6,10,r), max=r()<.5;
+      if(max){ const ex=N<=GW?rectCells(N,1,0,2):rectCells(GW,1,0,1).concat(rectCells(1,N-GW,GW-1,2));
+        steps.push({t:"sel",need:{n:N,maxP:2*N+2},q:`Buat bangun dengan <b>luas ${N} petak</b> yang <b>kelilingnya paling panjang</b>.`,ex,
+          how:`Keliling paling panjang kalau tidak ada 4 petak yang membentuk kotak 2 × 2, misalnya bangun memanjang atau berkelok. Kelilingnya <b>${2*N+2} satuan</b>.`,anim:{k:"ex",cap:`keliling ${2*N+2} satuan`}}); }
+      else { const w=Math.ceil(Math.sqrt(N)), ex=[]; for(let i=0;i<N;i++) ex.push([i%w,Math.floor(i/w)]);
+        steps.push({t:"sel",need:{n:N,minP:minPer(N)},q:`Buat bangun dengan <b>luas ${N} petak</b> yang <b>kelilingnya paling pendek</b>.`,ex,
+          how:`Susun petak serapat mungkin sampai hampir berbentuk persegi. Keliling terpendek untuk ${N} petak adalah <b>${minPer(N)} satuan</b>.`,anim:{k:"ex",cap:`keliling ${minPer(N)} satuan`}}); } } }
+  else {
+    for(;;){ const b=ri(2,8,r), h=ri(2,6,r); if((b*h)%2) continue; const A=b*h/2; if(A<3||A>16) continue; const x0=ri(0,GW-b,r), ax=ri(0,GW,r), ex=[[x0,GH],[x0+b,GH],[ax,GH-h]];
+      steps.push({t:"titik",need:{n:3,A},q:`Gambar <b>segitiga</b> yang luasnya <b>${A} petak</b>. Ketuk 3 titik sebagai titik sudutnya.`,ex,
+        how:`Contoh: alas ${b} petak dan tinggi ${h} petak, luasnya ${b} × ${h} : 2 = <b>${A} petak</b>. Puncaknya boleh digeser ke kiri atau kanan, luasnya tetap.`,anim:{k:"ex",cap:`${b} × ${h} : 2 = ${A} petak`}}); break; }
+    for(;;){ const b=ri(2,7,r), h=ri(2,6,r), d=ri(1,GW-b,r), A=b*h; if(A<4||A>24) continue; const x0=ri(0,GW-b-d,r), ex=[[x0,GH],[x0+b,GH],[x0+b+d,GH-h],[x0+d,GH-h]];
+      steps.push({t:"titik",need:{n:4,A,shape:"jajar"},q:`Gambar <b>jajargenjang</b> (bukan persegi panjang) yang luasnya <b>${A} petak</b>. Ketuk 4 titik sudutnya berurutan.`,ex,
+        how:`Contoh: alas ${b} petak, tinggi ${h} petak, sisi atas digeser ${d} petak. Luasnya ${b} × ${h} = <b>${A} petak</b>.`,anim:{k:"ex",cap:`${b} × ${h} = ${A} petak`}}); break; }
+    for(;;){ const a=ri(3,8,r), c=ri(1,a-1,r), h=ri(2,6,r); if(((a+c)*h)%2) continue; const A=(a+c)*h/2; if(A<5||A>24) continue; const x0=ri(0,GW-a,r), dx=ri(0,a-c,r), ex=[[x0,GH],[x0+a,GH],[x0+dx+c,GH-h],[x0+dx,GH-h]];
+      steps.push({t:"titik",need:{n:4,A,shape:"trap"},q:`Gambar <b>trapesium</b> yang luasnya <b>${A} petak</b>. Ketuk 4 titik sudutnya berurutan.`,ex,
+        how:`Contoh: sisi sejajar ${a} dan ${c} petak, tinggi ${h} petak. Luasnya (${a} + ${c}) × ${h} : 2 = <b>${A} petak</b>.`,anim:{k:"ex",cap:`(${a} + ${c}) × ${h} : 2 = ${A} petak`}}); break; } }
+  return {kind:"rancang",level,steps}; }
+
+const explain=p=>p.steps.map(s=>s.how);
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0), gen={petak:genPetak,rumus:genRumus,gabung:genGabung,rancang:genRancang}[kind];
+  for(;;){ const p=gen(level,r); if(!p.steps.clash) return p; } }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify(p.steps.map(s=>[s.t,s.q,s.ans,s.need,s.fig&&(s.fig.cells||s.fig.lat||s.fig.pair&&s.fig.pair.map(f=>f.cells)||s.fig.W)]));
+const DAILY={};
+/* Hitung Petak: ruang soalnya sangat besar sehingga seed langsung sudah unik (diuji 365 hari).
+   Jenis lain: rantai per blok 365 hari supaya soal tidak berulang dalam setahun dan biaya hitungnya tidak terus bertambah. */
+function dailyPuzzle(kind,level,n){
+  if(kind==="petak") return makePuzzle(kind,level,hashStr(`pagar-petak|${kind}|${level}|${n}`));
+  const blk=Math.floor((n-1)/365), id=kind+"|"+level+"|"+blk, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()}), m=n-blk*365;
+  while(c.list.length<m){ const d=blk*365+c.list.length+1; let p=null,best=null,bestAge=-1;
+    for(let k=0;k<30;k++){ const q=makePuzzle(kind,level,hashStr(`pagar-petak|${id}|${d}|${k}`)), key=puzzleKey(q), age=c.last.has(key)?d-c.last.get(key):1e9;
+      if(age>365){ p=q; break; } if(age>bestAge){ best=q; bestAge=age; } }
+    p=p||best; c.list.push(p); c.last.set(puzzleKey(p),d); }
+  return c.list[m-1];
+}
+/* ================= AKHIR INTI ================= */</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"petak",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("pp_prefs",{}));
+if(!KINDS[P.kind]) P.kind="petak"; if(!LEVELS[P.level]) P.level="mudah";
+const saveP=()=>lsSet("pp_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2600); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function resetStep(){ G.fields=[""]; G.act=0; G.bad=null; G.struck=[]; G.sel=[]; G.pts=[]; }
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,step:0,prev:null,sol:null};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","step","prev","sol"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  resetStep(); $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`pp_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,step:G.step,prev:G.prev,sol:G.sol}); }
+const cur=()=>G.p.steps[Math.min(G.step,G.p.steps.length-1)];
+
+/* ---------- menggambar bangun sesuai skala (satuan gambar → piksel) ---------- */
+const f1=n=>+n.toFixed(1);
+const COL={main:["#FDE68A","#92400E"],air:["#93C5FD","#1D4ED8"],jalan:["#E7E5E4","#57534E"],tembok:["#FED7AA","#9A3412"],pintu:["#A16207","#713F12"],kaca:["#BFDBFE","#1E40AF"]};
+const centroid=pts=>[pts.reduce((a,p)=>a+p[0],0)/pts.length,pts.reduce((a,p)=>a+p[1],0)/pts.length];
+function inPoly(pts,[x,y]){ let c=false; for(let i=0,j=pts.length-1;i<pts.length;j=i++){ const [xi,yi]=pts[i],[xj,yj]=pts[j]; if((yi>y)!==(yj>y)&&x<(xj-xi)*(y-yi)/(yj-yi)+xi) c=!c; } return c; }
+const tw=s=>String(s).length*7.2+4;
+/* skala label : panjang gambar (sama untuk semua label, karena gambar sesuai skala) */
+function ratioOf(fig){ for(const d of (fig.dims||[]).concat(fig.hts||[])){ if(d.tx==="?") continue; const L=dist(d.a,d.b); if(L>1e-9){ const v=+String(d.tx).replace(/[a-z²\s]/gi,"").replace(/\./g,"").replace(",","."); if(v>0) return v/L; } } return 1; }
+function layout(fig,extra,capLines){ const pts=[[0,0],[fig.W,fig.H]].concat(extra||[]), xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]);
+  const x0=Math.min(...xs), y0=Math.min(...ys), bw=Math.max(...xs)-x0||1, bh=Math.max(...ys)-y0||1, lab=(fig.dims||[]).concat(fig.hts||[]).map(d=>tw(d.tx));
+  const k=Math.min(300/bw,200/bh,fig.cells||fig.lat||fig.tiles||fig.grid?44:60), m=lab.length?Math.max(36,14+Math.max(...lab)):14, foot=(fig.scale||fig.note?24:0)+(capLines||0)*22;
+  const VH=bh*k+2*m+foot; return {k,m,x0,y0,VW:bw*k+2*m,VH,X:x=>f1(m+(x-x0)*k),Y:y=>f1(m+(y-y0)*k),foot,cap0:VH-(capLines||0)*22}; }
+const ptsAttr=(pts,L)=>pts.map(p=>`${L.X(p[0])},${L.Y(p[1])}`).join(" ");
+const txt=(x,y,s,o)=>{ o=o||{}; return `<text class="h" x="${f1(x)}" y="${f1(y)}" font-size="${o.fs||12}" fill="${o.fill||"#1F2A2E"}"${o.anchor?` style="text-anchor:${o.anchor}"`:""}${o.op!==undefined?` opacity="${o.op}"`:""}>${esc(s)}${o.anim||""}</text>`; };
+function gridLines(W,H,L,col){ let s=""; for(let x=0;x<=W;x++) s+=`M${L.X(x)} ${L.Y(0)}V${L.Y(H)}`; for(let y=0;y<=H;y++) s+=`M${L.X(0)} ${L.Y(y)}H${L.X(W)}`; return `<path d="${s}" stroke="${col||"#E5E7EB"}" stroke-width="1"/>`; }
+function drawFig(fig,L,o){ o=o||{}; let s=`<rect width="${f1(L.VW)}" height="${f1(L.VH)}" fill="#fff"/>`, lb="";
+  if(fig.tiles){ for(let y=0;y<fig.H;y++) for(let x=0;x<fig.W;x++) s+=`<rect x="${L.X(x)}" y="${L.Y(y)}" width="${f1(L.k)}" height="${f1(L.k)}" fill="#FEF3C7" stroke="#D97706" stroke-width="1.2"/>`;
+    if(fig.cover&&!o.noCover){ const [cx,cy,cw,ch]=fig.cover; s+=`<g class="cover"><rect x="${L.X(cx)}" y="${L.Y(cy)}" width="${f1(cw*L.k)}" height="${f1(ch*L.k)}" rx="6" fill="#B91C1C" stroke="#7F1D1D" stroke-width="2"/><text x="${L.X(cx+cw/2)}" y="${L.Y(cy+ch/2)}" font-size="15" fill="#fff">karpet</text>${o.coverAnim||""}</g>`; } }
+  if(fig.grid&&!fig.tiles) s+=gridLines(fig.W,fig.H,L);
+  for(const [x,y] of fig.cells||[]) s+=`<rect x="${L.X(x)}" y="${L.Y(y)}" width="${f1(L.k)}" height="${f1(L.k)}" fill="#86EFAC" stroke="#15803D" stroke-width="1.5"/>`;
+  for(const h of fig.halves||[]) s+=`<polygon points="${ptsAttr(halfPts(h),L)}" fill="#86EFAC" stroke="#15803D" stroke-width="1.5" stroke-linejoin="round"/>`;
+  if(fig.lat){ s+=`<polygon points="${ptsAttr(fig.lat,L)}" fill="rgba(34,197,94,.38)" stroke="#15803D" stroke-width="2.5" stroke-linejoin="round"/>`; for(let y=0;y<=fig.H;y++) for(let x=0;x<=fig.W;x++) s+=`<circle cx="${L.X(x)}" cy="${L.Y(y)}" r="1.8" fill="#9CA3AF"/>`; }
+  (fig.polys||[]).forEach((p,i)=>{ if(o.skipMain&&i===0) return; const [fl,st]=COL[p.cls||"main"]; s+=`<polygon points="${ptsAttr(p.pts,L)}" fill="${fl}" stroke="${st}" stroke-width="2.2" stroke-linejoin="round"/>`; });
+  if(o.extra) s+=o.extra;
+  if(fig.grid&&fig.polys) s+=gridLines(fig.W,fig.H,L,"rgba(146,64,14,.25)");
+  if(fig.tile){ const t=fig.tile; for(let j=0;j<2;j++) for(let i=0;i<3;i++) s+=`<rect x="${L.X(i*t)}" y="${L.Y(fig.H-(j+1)*t)}" width="${f1(t*L.k)}" height="${f1(t*L.k)}" fill="#fff" stroke="#B45309" stroke-width="1.2"/>`;
+    s+=txt(L.X(3*t)+6,L.Y(fig.H-t),fig.tileTx,{fs:11,anchor:"start",fill:"#92400E"}); }
+  const main=fig.polys&&fig.polys[0]&&fig.polys[0].pts;
+  for(const h of fig.hts||[]){ const ax=L.X(h.a[0]), ay=L.Y(h.a[1]), bx=L.X(h.b[0]), by=L.Y(h.b[1]);
+    if(h.ext) s+=`<path d="M${L.X(h.ext[0][0])} ${L.Y(h.ext[0][1])}L${L.X(h.ext[1][0])} ${L.Y(h.ext[1][1])}" stroke="#6B7280" stroke-width="1.6" stroke-dasharray="4 3"/>`;
+    const inside=main&&inPoly(main,[(h.a[0]+h.b[0])/2+1e-6,(h.a[1]+h.b[1])/2]), side=inside||!main?1:Math.sign(h.a[0]-centroid(main)[0])||1, sx=bx+(side>0?0:0);
+    s+=`<path d="M${ax} ${ay}L${bx} ${by}" stroke="#DC2626" stroke-width="2" stroke-dasharray="6 4"/><path d="M${sx+side*9} ${by}V${by-9}H${sx}" fill="none" stroke="#DC2626" stroke-width="1.5"/>`;
+    lb+=txt(ax+side*7,(ay+by)/2,h.tx,{anchor:side>0?"start":"end",fill:h.tx==="?"?"#DC2626":"#B91C1C",fs:h.tx==="?"?17:13}); }
+  for(const r of fig.ra||[]){ const x=L.X(r.p[0]), y=L.Y(r.p[1]); s+=`<path d="M${f1(x+r.u[0]*9)} ${f1(y+r.u[1]*9)}L${f1(x+(r.u[0]+r.v[0])*9)} ${f1(y+(r.u[1]+r.v[1])*9)}L${f1(x+r.v[0]*9)} ${f1(y+r.v[1]*9)}" fill="none" stroke="#374151" stroke-width="1.4"/>`; }
+  for(const d of fig.dims||[]){ const A=[L.X(d.a[0]),L.Y(d.a[1])], B=[L.X(d.b[0]),L.Y(d.b[1])], len=Math.hypot(B[0]-A[0],B[1]-A[1])||1; let nx=-(B[1]-A[1])/len, ny=(B[0]-A[0])/len; const q=d.tx==="?";
+    if(d.diag){ s+=`<path d="M${A[0]} ${A[1]}L${B[0]} ${B[1]}" stroke="#7C3AED" stroke-width="1.8" stroke-dasharray="5 4"/>`; if(ny>0||(Math.abs(nx)>Math.abs(ny)&&nx<0)){ nx=-nx; ny=-ny; }
+      const at=Math.abs(B[0]-A[0])>=Math.abs(B[1]-A[1])?0.24:0.76, px=A[0]+(B[0]-A[0])*at, py=A[1]+(B[1]-A[1])*at, off=6+Math.abs(nx)*tw(d.tx)/2+Math.abs(ny)*6;
+      lb+=txt(px+nx*off,py+ny*off,d.tx,{fill:q?"#DC2626":"#6D28D9",fs:q?17:13}); continue; }
+    const poly=(fig.polys||[])[d.p||0], mu=(d.a[0]+d.b[0])/2, mv=(d.a[1]+d.b[1])/2;
+    if(poly&&inPoly(poly.pts,[mu+nx*0.02,mv+ny*0.02])!==!!d.inside){ nx=-nx; ny=-ny; }
+    const off=7+Math.abs(nx)*tw(d.tx)/2+Math.abs(ny)*5; lb+=txt((A[0]+B[0])/2+nx*off,(A[1]+B[1])/2+ny*off,d.tx,{fill:q?"#DC2626":"#1F2A2E",fs:q?17:13}); }
+  for(const t of fig.texts||[]) lb+=txt(L.X(t.p[0]),L.Y(t.p[1]),t.s,{fs:13,fill:"#374151"});
+  const fy=L.VH-L.foot+14; if(fig.scale) lb+=txt(L.VW/2,fy,fig.scale,{fs:12,fill:"#166534"}); if(fig.note) lb+=txt(L.VW/2,fy,fig.note,{fs:13,fill:"#166534"});
+  return o.part==="body"?s:o.part==="labels"?lb:s+lb; }
+function pairLayout(fig,capLines){ const [a,b]=fig.pair, k=Math.min(130/Math.max(a.W,b.W),140/Math.max(a.H,b.H),34), m=14, gap=30, H=Math.max(a.H,b.H)*k;
+  const La={k,m:0,x0:0,y0:0,X:x=>f1(m+x*k),Y:y=>f1(m+24+y*k)}, ox=m+a.W*k+gap, Lb={k,m:0,x0:0,y0:0,X:x=>f1(ox+x*k),Y:y=>f1(m+24+y*k)};
+  return {La,Lb,VW:ox+b.W*k+m,VH:m*2+24+H+(capLines||0)*22,foot:(capLines||0)*22,k}; }
+function drawPair(fig,PL){ const [a,b]=fig.pair; let s=`<rect width="${f1(PL.VW)}" height="${f1(PL.VH)}" fill="#fff"/>`;
+  [[a,PL.La,"A"],[b,PL.Lb,"B"]].forEach(([f,L,n])=>{ s+=gridLines(f.W,f.H,L); for(const [x,y] of f.cells) s+=`<rect x="${L.X(x)}" y="${L.Y(y)}" width="${f1(L.k)}" height="${f1(L.k)}" fill="#86EFAC" stroke="#15803D" stroke-width="1.5"/>`;
+    s+=txt(L.X(f.W/2),12,`Bangun ${n}`,{fs:13,fill:"#166534"}); }); return s; }
+function figSVG(st){ const f=st.fig; if(!f) return "";
+  if(f.pair){ const PL=pairLayout(f); return `<div class="figw"><svg class="fig" viewBox="0 0 ${f1(PL.VW)} ${f1(PL.VH)}" role="img" aria-label="Bangun A dan bangun B di kertas berpetak">${drawPair(f,PL)}</svg></div>`; }
+  const L=layout(f); return `<div class="figw"><svg class="fig" style="max-width:${Math.round(L.VW*1.3)}px" viewBox="0 0 ${f1(L.VW)} ${f1(L.VH)}" role="img" aria-label="Gambar bangun">${drawFig(f,L)}</svg></div>`; }
+
+/* ---------- animasi petunjuk & pembahasan (SMIL, bisa diputar ulang) ---------- */
+const fadeIn=(t,d)=>`<animate attributeName="opacity" from="0" to="1" begin="${f1(t)}s" dur="${d||0.4}s" fill="freeze"/>`;
+const fadeTo=(t,v,d)=>`<animate attributeName="opacity" to="${v}" begin="${f1(t)}s" dur="${d||0.4}s" fill="freeze"/>`;
+const capAt=(L,i,t,s,col)=>txt(L.VW/2,L.cap0+11+i*22,s,{fs:13,fill:col||"#166534",op:0,anim:fadeIn(t)});
+function tracePath(pts,L){ return "M"+pts.map(p=>`${L.X(p[0])} ${L.Y(p[1])}`).join("L")+"Z"; }
+function traceAnim(pts,L,t,unit,R){ const d=tracePath(pts,L), lens=sides(pts), tot=lens.reduce((a,b)=>a+b,0), Lpx=tot*L.k, dur=unit?Math.min(7,Math.max(2,tot*0.17)):2.6; let s="", cum=0;
+  s+=`<path d="${d}" fill="none" stroke="#DC2626" stroke-width="4" stroke-linejoin="round" stroke-dasharray="${f1(Lpx)}" stroke-dashoffset="${f1(Lpx)}"><animate attributeName="stroke-dashoffset" from="${f1(Lpx)}" to="0" begin="${t}s" dur="${f1(dur)}s" fill="freeze"/></path>`;
+  s+=`<circle r="6" fill="#DC2626" stroke="#fff" stroke-width="2" opacity="0"><set attributeName="opacity" to="1" begin="${t}s" fill="freeze"/><animateMotion path="${d}" begin="${t}s" dur="${f1(dur)}s" fill="freeze"/></circle>`;
+  const marks=[]; pts.forEach((p,i)=>{ const q=pts[(i+1)%pts.length], len=lens[i]; let nx=(q[1]-p[1])/len, ny=-(q[0]-p[0])/len; if(inPoly(pts,[(p[0]+q[0])/2+nx*0.02,(p[1]+q[1])/2+ny*0.02])){ nx=-nx; ny=-ny; }
+    if(unit){ for(let j=0;j<Math.round(len);j++){ const u=(j+0.5)/len, x=p[0]+(q[0]-p[0])*u, y=p[1]+(q[1]-p[1])*u; marks.push([L.X(x)+nx*8,L.Y(y)+ny*8,t+(cum+j+0.5)/tot*dur]); } }
+    cum+=len; marks.done=marks.done||[]; marks.done.push([t+cum/tot*dur,len*R]); });
+  if(unit) marks.forEach(([x,y,tt],i)=>{ s+=txt(x,y,String(i+1),{fs:9,fill:"#B91C1C",op:0,anim:fadeIn(tt,0.15)}); });
+  return {s,end:t+dur,done:marks.done||[]}; }
+function animSVG(st){ const a=st.anim; if(!a) return ""; const f=a.k==="ex"?{W:GW,H:GH,grid:1}:st.fig; let L, base="", over="", caps=[];
+  const R=f&&!f.pair?ratioOf(f):1, u=st.unit||"", col=["#93C5FD","#FCA5A5","#C4B5FD"];
+  const finish=(Lx,body,top)=>{ if(top===undefined&&f&&!f.pair&&a.k!=="ex") top=drawFig(f,Lx,{part:"labels"}); const need=Math.max(0,...caps.map(c=>String(c[1]).length*7.4+24)), VW=Math.max(Lx.VW,need), dx=(VW-Lx.VW)/2;
+    return `<svg class="anim" viewBox="0 0 ${f1(VW)} ${f1(Lx.VH)}" role="img" aria-label="Animasi penjelasan"><rect width="${f1(VW)}" height="${f1(Lx.VH)}" fill="#fff"/><g transform="translate(${f1(dx)} 0)">${body}${top||""}</g>${caps.map((c,i)=>capAt({VW,cap0:Lx.cap0},i,c[0],c[1],c[2])).join("")}</svg>`; };
+  if(f.pair){ const PL=pairLayout(f,2); PL.VH+=0; const Lc={VW:PL.VW,VH:PL.VH,foot:PL.foot,cap0:PL.VH-44}; base=drawPair(f,PL); let t=0.3;
+    f.pair.forEach((sub,i)=>{ const Ls=i?PL.Lb:PL.La, nm=i?"B":"A";
+      if(a.k==="trace"){ const tr=traceAnim(outline(sub.cells),Ls,t,1,1); over+=tr.s; caps.push([tr.end,`Keliling ${nm} = ${cellPer(sub.cells)} satuan`]); t=tr.end+0.3; }
+      else { const rows=rowCounts(sub.cells); sub.cells.forEach(([x,y])=>{ const ry=[...new Set(sub.cells.map(c=>c[1]))].sort((p,q)=>p-q).indexOf(y); over+=`<rect x="${Ls.X(x)}" y="${Ls.Y(y)}" width="${f1(Ls.k)}" height="${f1(Ls.k)}" fill="#F59E0B" opacity="0">${fadeTo(t+ry*0.45,0.75)}</rect>`; });
+        t+=rows.length*0.45; caps.push([t,`Luas ${nm} = ${rows.join(" + ")} = ${sub.cells.length} petak`]); t+=0.3; } });
+    return finish(Lc,base+over); }
+  if(a.k==="tri"||a.k==="trap"){ const pts=(f.lat||f.polys[0].pts), M=a.k==="tri"?[(pts[1][0]+pts[2][0])/2,(pts[1][1]+pts[2][1])/2]:[(pts[1][0]+pts[2][0])/2,(pts[1][1]+pts[2][1])/2];
+    /* salinan = pencerminan titik terhadap M: geser 2(M − c) sambil berputar 180° di titik beratnya c */
+    const c=centroid(pts), rm=Math.max(...pts.map(p=>dist(p,c))), e=[2*M[0]-c[0],2*M[1]-c[1]], extra=pts.map(p=>[2*M[0]-p[0],2*M[1]-p[1]]).concat([[c[0]-rm,c[1]-rm],[c[0]+rm,c[1]+rm],[e[0]-rm,e[1]-rm],[e[0]+rm,e[1]+rm]].map(([x,y])=>[Math.max(Math.min(x,Math.max(...pts.map(p=>p[0]))+rm*0.6),Math.min(...pts.map(p=>p[0]))-rm*0.6),Math.max(Math.min(y,Math.max(...pts.map(p=>p[1]))+rm*0.35),Math.min(...pts.map(p=>p[1]))-rm*0.35)]));
+    L=layout(f,extra,2); base=drawFig(f,L,{part:"body"});
+    const cx=L.X(c[0]), cy=L.Y(c[1]), tx=f1((e[0]-c[0])*L.k), ty=f1((e[1]-c[1])*L.k);
+    over=`<polygon points="${ptsAttr(pts,L)}" fill="#93C5FD" fill-opacity=".8" stroke="#1D4ED8" stroke-width="2" opacity="0"><set attributeName="opacity" to="1" begin="0.5s" fill="freeze"/><animateTransform attributeName="transform" type="translate" from="0 0" to="${tx} ${ty}" begin="0.7s" dur="1.6s" fill="freeze"/><animateTransform attributeName="transform" type="rotate" from="0 ${cx} ${cy}" to="180 ${cx} ${cy}" begin="0.7s" dur="1.6s" fill="freeze" additive="sum"/></polygon>`;
+    caps=a.k==="tri"?[[2.5,"2 segitiga = 1 jajargenjang (alas × tinggi)"],[3.4,"Jadi 1 segitiga = alas × tinggi : 2"]]:[[2.5,"2 trapesium = jajargenjang beralas (a + b)"],[3.4,"Jadi 1 trapesium = (a + b) × tinggi : 2"]];
+    return finish(L,base+over); }
+  if(a.k==="jajar"){ const pts=f.polys[0].pts, dx=pts[3][0]-pts[0][0], aa=pts[1][0]-pts[0][0], t=pts[0][1]-pts[3][1], y0=pts[3][1], y1=pts[0][1], x0=pts[0][0];
+    L=layout(f,[[x0+aa+dx,y1]],2); const [fl,stc]=COL.main;
+    base=drawFig(f,L,{skipMain:1,part:"body",extra:`<polygon points="${ptsAttr([[x0+dx,y1],[x0+aa,y1],[x0+aa+dx,y0],[x0+dx,y0]],L)}" fill="${fl}" stroke="${stc}" stroke-width="2.2"/>`});
+    over=`<g><polygon points="${ptsAttr([[x0,y1],[x0+dx,y1],[x0+dx,y0]],L)}" fill="#FCA5A5" stroke="#B91C1C" stroke-width="2"/><animateTransform attributeName="transform" type="translate" from="0 0" to="${f1(aa*L.k)} 0" begin="0.9s" dur="1.5s" fill="freeze"/></g>`;
+    caps=[[0.3,"Potong segitiga merah di kiri…"],[2.6,`…geser ke kanan: persegi panjang ${num(aa*R)} × ${num(t*R)}`]]; return finish(L,base+over); }
+  if(a.k==="kite"){ const pts=f.polys[0].pts, d1=f.W, d2=f.H, k=pts[1][1]; L=layout(f,[],2); base=drawFig(f,L,{part:"body"});
+    const tris=[[[0,0],[d1/2,0],[0,k]],[[d1/2,0],[d1,0],[d1,k]],[[d1,k],[d1,d2],[d1/2,d2]],[[0,k],[d1/2,d2],[0,d2]]];
+    over=`<rect x="${L.X(0)}" y="${L.Y(0)}" width="${f1(d1*L.k)}" height="${f1(d2*L.k)}" fill="none" stroke="#1D4ED8" stroke-width="2" stroke-dasharray="6 4" opacity="0">${fadeIn(0.4)}</rect>`+tris.map((tr,i)=>`<polygon points="${ptsAttr(tr,L)}" fill="#BFDBFE" stroke="#1D4ED8" stroke-width="1" opacity="0">${fadeTo(1+i*0.35,0.9)}</polygon>`).join("");
+    caps=[[1,`Persegi panjang d₁ × d₂ = ${num(d1*R)} × ${num(d2*R)}`],[2.8,"Biru = kuning, jadi luasnya setengahnya"]]; return finish(L,base+over); }
+  if(a.k==="box"){ L=layout(f,[],2); base=drawFig(f,L,{part:"body"}); over=`<rect x="${L.X(0)}" y="${L.Y(0)}" width="${f1(a.w*L.k)}" height="${f1(a.h*L.k)}" fill="none" stroke="#1D4ED8" stroke-width="2.5" stroke-dasharray="6 4" opacity="0">${fadeIn(0.3)}</rect>`;
+    a.tris.forEach((tr,i)=>{ const c=centroid(tr); over+=`<polygon points="${ptsAttr(tr,L)}" fill="#FDBA74" stroke="#C2410C" stroke-width="1.5" opacity="0">${fadeTo(0.9+i*0.6,0.85)}</polygon>`+txt(L.X(c[0]),L.Y(c[1]),num(a.tv[i]),{fs:12,fill:"#7C2D12",op:0,anim:fadeIn(0.9+i*0.6)}); });
+    const sum=a.tv.reduce((x,y)=>x+y,0); caps=[[0.4,`Persegi panjang ${a.w} × ${a.h} = ${a.w*a.h} petak`],[3.4,`${a.w*a.h} − (${a.tv.map(num).join(" + ")}) = ${num(a.w*a.h-sum)} petak`]]; return finish(L,base+over); }
+  if(a.k==="rows"){ L=layout(f,f.cells||f.tiles?[[f.W+0.9,0]]:[],f.tiles||a.rect?1:2);
+    if(f.tiles){ base=drawFig(f,L,{coverAnim:fadeTo(0.5,0,0.8),part:"body"}); for(let y=0;y<f.H;y++) over+=`<rect x="${L.X(0)}" y="${L.Y(y)}" width="${f1(f.W*L.k)}" height="${f1(L.k)}" fill="#F59E0B" opacity="0">${fadeTo(1.4+y*0.5,0.45)}</rect>`+txt(L.X(f.W)+12,L.Y(y+0.5),String(f.W),{fs:11,fill:"#92400E",op:0,anim:fadeIn(1.4+y*0.5)});
+      caps=[[1.6+f.H*0.5,a.cap]]; return finish(L,base+over); }
+    if(a.rect){ const [x,y,w,h]=a.rect, n=a.n, gap=Math.min(0.5,3/n); base=drawFig(f,L,{part:"body"});
+      for(let i=0;i<n;i++){ let strip=`<rect x="${L.X(x)}" y="${L.Y(y+i*h/n)}" width="${f1(w*L.k)}" height="${f1(h/n*L.k)}" fill="#F59E0B" fill-opacity=".5" stroke="#B45309" stroke-width="1"/>`;
+        if(a.tile){ let dd=""; for(let c=1;c<a.per;c++) dd+=`M${L.X(x+c*w/a.per)} ${L.Y(y+i*h/n)}v${f1(h/n*L.k)}`; strip+=`<path d="${dd}" stroke="#B45309" stroke-width=".8"/>`; }
+        over+=`<g opacity="0">${strip}${fadeIn(0.4+i*gap,0.25)}</g>`; }
+      caps=[[0.6+n*gap,a.cap]]; return finish(L,base+over); }
+    base=drawFig(f,L,{part:"body"}); const ys=[...new Set(f.cells.map(c=>c[1]))].sort((p,q)=>p-q), rows=rowCounts(f.cells);
+    ys.forEach((yy,i)=>{ const row=f.cells.filter(c=>c[1]===yy), xr=Math.max(...row.map(c=>c[0]))+1; row.forEach(([x])=>{ over+=`<rect x="${L.X(x)}" y="${L.Y(yy)}" width="${f1(L.k)}" height="${f1(L.k)}" fill="#F59E0B" opacity="0">${fadeTo(0.4+i*0.6,0.7)}</rect>`; });
+      over+=txt(L.X(xr)+10,L.Y(yy+0.5),String(row.length),{fs:12,fill:"#92400E",anchor:"start",op:0,anim:fadeIn(0.4+i*0.6)}); });
+    caps=[[0.6+ys.length*0.6,`${rows.join(" + ")} = ${f.cells.length} petak`]]; return finish(L,base+over); }
+  if(a.k==="trace"){ const pts=f.cells?outline(f.cells):f.lat||f.polys[0].pts, unit=!!a.unit||!!f.cells; L=layout(f,f.cells||f.lat?[[-0.6,-0.6],[f.W+0.6,f.H+0.6]]:[],a.cap?2:1); base=drawFig(f,L,{part:"body"});
+    const tr=traceAnim(pts,L,0.3,unit,R); over=tr.s; const tot=tr.done.reduce((x,d)=>x+d[1],0);
+    if(unit) caps.push([tr.end,`Keliling = ${num(tot)} ${f.cells?"satuan":u}`]);
+    else { const parts=tr.done.map(d=>num(d[1])); caps.push([tr.end,`${parts.join(" + ")} = ${num(tot)} ${u||"m"}`]); }
+    if(a.cap) caps.push([tr.end+0.6,a.cap]); return finish(L,base+over); }
+  if(a.k==="halves"){ L=layout(f,[],1); base=drawFig(f,L,{part:"body"}); f.halves.forEach(h=>{ const p=halfPts(h), c=centroid(p);
+      over+=`<polygon points="${ptsAttr(p,L)}" fill="#F59E0B" opacity="0"><animate attributeName="opacity" values="0;.85;.35;.85" begin="0.3s" dur="1.6s" fill="freeze"/></polygon>`+txt(L.X(c[0]),L.Y(c[1]),"½",{fs:12,fill:"#7C2D12",op:0,anim:fadeIn(0.3)}); });
+    caps=[[2.1,`${f.cells.length} petak penuh + ${f.halves.length} × ½ = ${num(f.cells.length+f.halves.length/2)} petak`]]; return finish(L,base+over); }
+  if(a.k==="scale"){ L=layout(f,[],2); base=drawFig(f,L,{part:"body"}); f.cells.forEach(([x,y],i)=>{ over+=txt(L.X(x+0.5),L.Y(y+0.5),String(a.s*a.s),{fs:Math.min(12,L.k*0.42),fill:"#14532D",op:0,anim:fadeIn(0.8+i*0.2,0.2)}); });
+    caps=[[0.2,`1 petak = ${a.s} × ${a.s} = ${a.s*a.s} m²`],[1+f.cells.length*0.2,`${f.cells.length} × ${a.s*a.s} = ${grp(f.cells.length*a.s*a.s)} m²`]]; return finish(L,base+over); }
+  if(a.k==="split"){ L=layout(f,[],1); base=drawFig(f,L,{part:"body"}); let ci=0; const holes=a.parts.some(p=>p.hole);
+    a.parts.forEach((p,i)=>{ const t=0.4+i*1.1, c=centroid(p.pts); if(holes&&!p.hole) c[1]=Math.min(...p.pts.map(q=>q[1]))+12/L.k;
+      over+=`<polygon points="${ptsAttr(p.pts,L)}" fill="${p.hole?"#F87171":col[ci++%3]}" fill-opacity="${p.hole?.75:.7}" stroke="${p.hole?"#991B1B":"#1F2A2E"}" stroke-width="1.5" opacity="0">${fadeIn(t)}</polygon>`;
+      over+=txt(L.X(c[0]),L.Y(c[1])+0,(p.hole?"− ":"")+p.lbl,{fs:11,fill:"#111827",op:0,anim:fadeIn(t+0.2)}); });
+    caps=[[0.6+a.parts.length*1.1,a.cap]]; return finish(L,base+over); }
+  if(a.k==="seg"){ L=layout(f,[],1); base=drawFig(f,L,{part:"body"}); const pts=f.polys[0].pts, cl=["#2563EB","#F97316"];
+    a.segs.forEach((g,gi)=>g.forEach((si,j)=>{ const p=pts[si], q=pts[(si+1)%pts.length]; over+=`<path d="M${L.X(p[0])} ${L.Y(p[1])}L${L.X(q[0])} ${L.Y(q[1])}" stroke="${gi&&j===g.length-1?"#DC2626":cl[gi]}" stroke-width="6" stroke-linecap="round" opacity="0">${fadeIn(0.4+gi*1.1+j*0.4)}</path>`; }));
+    caps=[[2.6,a.cap]]; return finish(L,base+over); }
+  if(a.k==="ex"){ const E={W:GW,H:GH,grid:1}; L=layout(E,[],1); base=drawFig(E,L);
+    if(st.t==="sel") st.ex.forEach(([x,y],i)=>{ over+=`<rect x="${L.X(x)}" y="${L.Y(y)}" width="${f1(L.k)}" height="${f1(L.k)}" fill="#22C55E" stroke="#15803D" stroke-width="1.5" opacity="0">${fadeIn(0.2+i*0.07,0.2)}</rect>`; });
+    else { for(let y=0;y<=GH;y++) for(let x=0;x<=GW;x++) base+=`<circle cx="${L.X(x)}" cy="${L.Y(y)}" r="2.5" fill="#9CA3AF"/>`;
+      const d="M"+st.ex.map(p=>`${L.X(p[0])} ${L.Y(p[1])}`).join("L")+"Z"; over+=`<path d="${d}" fill="rgba(34,197,94,.4)" stroke="#15803D" stroke-width="3" opacity="0">${fadeIn(0.3,0.8)}</path>`+st.ex.map((p,i)=>`<circle cx="${L.X(p[0])}" cy="${L.Y(p[1])}" r="6" fill="#15803D" opacity="0">${fadeIn(0.2+i*0.3,0.2)}</circle>`).join(""); }
+    caps=[[0.6+(st.t==="sel"?st.ex.length*0.07:1),a.cap]]; return finish(L,base+over); }
+  return ""; }
+const reduced=()=>{ try{ return matchMedia("(prefers-reduced-motion: reduce)").matches; }catch(e){ return false; } };
+function playAnims(root){ root.querySelectorAll("svg.anim").forEach(s=>{ try{ if(reduced()){ s.pauseAnimations(); s.setCurrentTime(60); } else { s.setCurrentTime(0); s.unpauseAnimations(); } }catch(e){} }); }
+const animBlock=st=>{ const s=animSVG(st); return s?`<div class="animw">${s}<button type="button" class="btn ghost replay" data-rp="1">▶ Putar lagi</button></div>`:""; };
+document.addEventListener("click",e=>{ const b=e.target.closest("[data-rp]"); if(b) playAnims(b.closest(".animw")); });
+
+/* ---------- kertas berpetak & papan titik ---------- */
+const CS=40, PD=4;
+function selInner(cells){ const on=new Set(cells.map(([x,y])=>x+","+y)); let s=`<rect width="${GW*CS+2*PD}" height="${GH*CS+2*PD}" fill="#fff"/>`;
+  for(let y=0;y<GH;y++) for(let x=0;x<GW;x++){ const f=on.has(x+","+y); s+=`<rect x="${PD+x*CS}" y="${PD+y*CS}" width="${CS}" height="${CS}" fill="${f?"#22C55E":"#F8FAFC"}" stroke="${f?"#15803D":"#CBD5E1"}" stroke-width="${f?2:1}"/>`; }
+  return s; }
+const selSVG=(cells,live)=>`<div class="figw"><svg class="fig" ${live?'id="selg"':""} viewBox="0 0 ${GW*CS+2*PD} ${GH*CS+2*PD}" role="img" aria-label="Kertas berpetak 8 kali 6"><g id="selgg">${selInner(cells)}</g></svg></div>`;
+const TP=18;
+function titSVG(pts,n,live){ let s=`<rect width="${GW*CS+2*TP}" height="${GH*CS+2*TP}" fill="#fff"/>`;
+  for(let y=0;y<GH;y++) for(let x=0;x<GW;x++) s+=`<rect x="${TP+x*CS}" y="${TP+y*CS}" width="${CS}" height="${CS}" fill="none" stroke="#EEF2F7"/>`;
+  if(pts.length>1){ const d="M"+pts.map(([x,y])=>`${TP+x*CS} ${TP+y*CS}`).join("L")+(pts.length===n?"Z":""); s+=`<path d="${d}" fill="${pts.length===n?"rgba(34,197,94,.35)":"none"}" stroke="#15803D" stroke-width="3" stroke-linejoin="round"/>`; }
+  for(let y=0;y<=GH;y++) for(let x=0;x<=GW;x++) s+=`<circle cx="${TP+x*CS}" cy="${TP+y*CS}" r="4" fill="#94A3B8"/>`;
+  pts.forEach(([x,y],i)=>{ s+=`<circle cx="${TP+x*CS}" cy="${TP+y*CS}" r="9" fill="#15803D" stroke="#fff" stroke-width="2"/><text x="${TP+x*CS}" y="${TP+y*CS}" font-size="11" fill="#fff">${i+1}</text>`; });
+  return `<div class="figw"><svg class="fig" ${live?'id="titg"':""} viewBox="0 0 ${GW*CS+2*TP} ${GH*CS+2*TP}" role="img" aria-label="Papan titik 9 kali 7"><g id="titgg">${s}</g></svg></div>`; }
+function svgPt(svg,e){ const m=svg.getScreenCTM(); if(!m) return null; const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse()); return [p.x,p.y]; }
+let paint=null;
+function selAt(e){ const svg=$("selg"); if(!svg) return null; const p=svgPt(svg,e); if(!p) return null; const x=Math.floor((p[0]-PD)/CS), y=Math.floor((p[1]-PD)/CS); return x>=0&&x<GW&&y>=0&&y<GH?[x,y]:null; }
+function setCell(c,on){ const i=G.sel.findIndex(([x,y])=>x===c[0]&&y===c[1]); if(on&&i<0) G.sel.push(c); else if(!on&&i>=0) G.sel.splice(i,1); else return; const g=$("selgg"); if(g) g.innerHTML=selInner(G.sel); }
+$("play").addEventListener("pointerdown",e=>{ if(!G||G.done) return; const st=cur();
+  if(st.t==="sel"&&e.target.closest("#selg")){ const c=selAt(e); if(!c) return; e.preventDefault(); paint={on:!G.sel.some(([x,y])=>x===c[0]&&y===c[1]),id:e.pointerId}; setCell(c,paint.on); return; }
+  if(st.t==="titik"&&e.target.closest("#titg")){ e.preventDefault(); const p=svgPt($("titg"),e); if(!p) return; const x=Math.round((p[0]-TP)/CS), y=Math.round((p[1]-TP)/CS);
+    if(x<0||x>GW||y<0||y>GH||Math.hypot(p[0]-TP-x*CS,p[1]-TP-y*CS)>CS*0.45) return; const n=st.need.n, last=G.pts[G.pts.length-1];
+    if(last&&last[0]===x&&last[1]===y) G.pts.pop(); else if(G.pts.some(q=>q[0]===x&&q[1]===y)) return toast("Titik itu sudah dipakai. Pilih titik lain."); else if(G.pts.length>=n) return toast(`Sudah ${n} titik. Ketuk titik terakhir untuk menghapusnya.`); else G.pts.push([x,y]);
+    render(); } });
+$("play").addEventListener("pointermove",e=>{ if(!paint||e.pointerId!==paint.id) return; const c=selAt(e); if(c) setCell(c,paint.on); });
+const endPaint=()=>{ paint=null; }; window.addEventListener("pointerup",endPaint); window.addEventListener("pointercancel",endPaint);
+
+/* ---------- tampilan ---------- */
+const showVal=(v,st)=>!v?"?":st&&st.money?grp(v):v;
+function render(){
+  const st=cur(), n=G.p.steps.length, done=G.done; let h="", c="", needPad=false, ok="Cek ✓";
+  h+=n>1?`<div class="prog" aria-label="Soal ${G.step+1} dari ${n}">${G.p.steps.map((_,i)=>`<i class="${i<G.step||done?"d":i===G.step?"c":""}"></i>`).join("")}</div>`:"";
+  h+=st.ic?`<div class="story"><span class="ic" aria-hidden="true">${st.ic}</span>${st.q}</div>`:`<div class="qtext">${st.q}</div>`;
+  if(st.t==="sel") h+=selSVG(done?(G.sol||st.ex):G.sel,!done);
+  else if(st.t==="titik") h+=titSVG(done?(G.sol||st.ex):G.pts,st.need.n,!done);
+  else h+=figSVG(st);
+  const fld=i=>`<span class="fld${G.act===i&&!done?" act":""}${G.fields[i]?"":" ph"}${G.bad&&G.bad[i]?" bad":""}" data-f="${i}">${showVal(G.fields[i],st)}</span>`;
+  if(done) c=`<div class="ans">${st.t==="pilih"?st.opts[st.ans]:st.t==="sel"||st.t==="titik"?"✓ Gambarmu benar!":st.money?rp(st.ans):`${num(st.ans)} ${esc(st.unit)}`}</div>`;
+  else if(st.t==="pilih"){ c=`<div class="ops">${st.opts.map((o,i)=>`<button type="button" class="op" data-o="${i}" ${G.struck.includes(i)?"disabled":""}>${esc(o)}</button>`).join("")}</div>`; ok=null; }
+  else if(st.t==="sel"){ const pr=(st.need.diff||st.need.diffA)&&G.prev?`<div class="ref">Persegi panjang pertamamu: ${G.prev.dims[0]} × ${G.prev.dims[1]} petak (luas ${G.prev.n}, keliling ${G.prev.per})</div>`:"";
+    c=`${pr}<p class="sub">Ketuk petak untuk mewarnai atau menghapus. Bisa juga diseret.</p><div class="tools"><button type="button" class="btn ghost" data-act="clr">🧽 Hapus semua</button></div>`; }
+  else if(st.t==="titik") c=`<p class="sub">Titik sudut: <b>${G.pts.length}</b> dari ${st.need.n}. Ketuk titik terakhir untuk menghapusnya.</p><div class="tools"><button type="button" class="btn ghost" data-act="undo">↶ Hapus titik terakhir</button><button type="button" class="btn ghost" data-act="clr">🧽 Ulang</button></div>`;
+  else { c=`<div class="form">${st.money?"<span>Rp</span>":""}${fld(0)}<span>${esc(st.unit||"")}</span></div>`; needPad=true; }
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=c;
+  $("pad").hidden=!needPad; $("okBtn").hidden=!ok||done;
+  $("pad").querySelector('[data-k=","]').disabled=!st.dec;
+  $("hintBtn").hidden=!(G.wrong>=3&&!done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0, short={petak:"Petak",rumus:"Rumus",gabung:"Gabungan",rancang:"Rancang"};
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`pp_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}"><span style="display:block">${v.icon}</span>${short[k]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}<small>${l.sub}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+
+/* ---------- interaksi ---------- */
+function nextStep(msg){ G.step++; $("fb").innerHTML=msg?`<span class="ok">✓ ${msg}</span>`:"";
+  if(G.step>=G.p.steps.length){ G.step=G.p.steps.length-1; return finish(); } resetStep(); saveDay(); render(); }
+function miss(msg){ G.wrong++; $("fb").innerHTML=`<span class="no">✗ ${msg}</span>`; saveDay(); render(); }
+$("ctrlBody").addEventListener("click",e=>{ if(!G||G.done) return; const st=cur(), b=e.target.closest("button,.fld"); if(!b) return;
+  if(b.dataset.f!==undefined){ G.act=+b.dataset.f; render(); return; }
+  if(b.dataset.act==="clr"){ G.sel=[]; G.pts=[]; render(); return; }
+  if(b.dataset.act==="undo"){ G.pts.pop(); render(); return; }
+  if(b.dataset.o!==undefined&&!b.disabled){ const i=+b.dataset.o; if(i===st.ans) return nextStep("Benar!");
+    G.struck.push(i); return miss(/keliling/.test(st.q.split("Mana")[1])?"Belum tepat. Telusuri garis tepi kedua bangun dan hitung sisi petaknya.":"Belum tepat. Hitung banyak petak kedua bangun."); }
+});
+function press(k){
+  const st=cur(); if(!G||G.done||$("pad").hidden) return;
+  if(k==="ok") return check();
+  if(k==="next") return;
+  let v=G.fields[G.act];
+  if(k==="del") v=v.slice(0,-1);
+  else if(k===","){ if(!st.dec||v.includes(",")) return; v=(v||"0")+","; }
+  else if(v.replace(",","").length<9&&!(v.includes(",")&&v.split(",")[1].length>=2)) v=(v==="0"?"":v)+k;
+  G.fields[G.act]=v; if(G.bad) G.bad[G.act]=false; render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b&&!b.disabled) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G||G.done) return;
+  if(e.key==="Enter"){ if(document.activeElement&&document.activeElement.tagName==="BUTTON") return; e.preventDefault(); if(!$("okBtn").hidden) check(); return; }
+  if($("pad").hidden) return;
+  if(/^[0-9]$/.test(e.key)||e.key==="Backspace"||e.key===","||e.key==="."){ e.preventDefault(); press(e.key==="Backspace"?"del":e.key==="."?",":e.key); }
+});
+const val=s=>+String(s).replace(",",".");
+const same=(a,b)=>Math.abs(a-b)<1e-9;
+function check(){
+  if(G.done) return; const st=cur();
+  if(st.t==="sel"){ const r=checkSel(st.need,G.sel,G.prev); if(r.soft) return toast(r.msg); if(!r.ok) return miss(r.msg);
+    G.prev={per:r.per,n:r.n,dims:r.dims}; G.sol=G.sel.slice(); return nextStep(`Benar! Luas ${r.n} petak, keliling ${r.per} satuan.`); }
+  if(st.t==="titik"){ const r=checkTitik(st.need,G.pts); if(r.soft) return toast(r.msg); if(!r.ok) return miss(r.msg); G.sol=G.pts.slice(); return nextStep(`Benar! Luasnya ${num(st.need.A)} petak.`); }
+  if(G.fields.some(v=>v===""||v.endsWith(","))){ toast("Isi jawabannya dulu."); return; }
+  const v=val(G.fields[0]);
+  if(same(v,st.ans)) return nextStep("Benar!");
+  const tr=(st.traps||[]).find(([x])=>same(x,v)); if(tr) return miss(tr[1]);
+  return miss(/²/.test(st.unit||"")?"Belum tepat. Periksa lagi ukuran yang dipakai dan rumusnya.":"Belum tepat. Coba hitung lagi langkah demi langkah.");
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${G.p.steps.map((s,i)=>`<div>${G.p.steps.length>1?`<b>${i+1}.</b> `:""}${s.how}</div>${animBlock(s)}`).join("")}</div>`;
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Petunjuk</h2><div class="how"><div>${cur().how}</div>${animBlock(cur())}</div><p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  playAnims($("res")); $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("pp_st_"+l,{})); }
+function recordDay(){
+  const allk=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`pp_day_${G.level}_${k}`,null));
+  if(!allk.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=allk.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("pp_st_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Petunjuk":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`pp_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h; playAnims(r);
+  const dt=r.querySelector("details"); if(dt) dt.addEventListener("toggle",()=>{ if(dt.open) playAnims(dt); });
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`pp_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Pagar Petak #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.step||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
