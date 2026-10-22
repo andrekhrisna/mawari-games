@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FAF6EE">
+<title>Bangun Kembar</title>
+<meta name="description" content="Bangun Kembar untuk SMP kelas 9: kesebangunan dan kekongruenan. Kenali bangun sebangun dan kongruen, tumpuk segitiga di layar, cari sisi dengan faktor skala dan garis sejajar, hitung tinggi dari bayangan, cermin, dan maket, serta pilih syarat kongruen s.s.s, s.sd.s, sd.s.sd, sd.sd.s. Mode Harian, Latihan, dan Kelas 2 Tim.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%236D28D9'/%3E%3Cpath d='M8 50L22 22L30 50Z' fill='%23DDD6FE'/%3E%3Cpath d='M30 54L48 12L58 54Z' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FAF6EE;
+  --card:#FFFFFF;
+  --ink:#1F2A2E;
+  --muted:#5B6466;
+  --line:#E7DCC4;
+  --gr:#6D28D9;
+  --gr-d:#5B21B6;
+  --soft:#F5F3FF;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1100px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--gr)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+@media (max-width:360px){#segKind button{font-size:.76rem;letter-spacing:-.2px} .brand{font-size:1.04rem}}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+.qtext{font-weight:800;font-size:1.12rem;line-height:1.45;text-align:center}
+.qtext small{display:block;font-weight:700;font-size:.85rem;color:var(--muted)}
+.prog{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.prog i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.prog i.d{background:var(--green)} .prog i.c{background:var(--gr);transform:scale(1.25)}
+/* gambar, kertas berpetak, papan titik, animasi */
+.figw{display:flex;justify-content:center}
+.kl{display:grid;gap:8px;justify-items:center}
+@media (min-width:600px){.kl{grid-template-columns:3fr 2fr;align-items:center}}
+.kl .figw{width:100%}
+.fig{display:block;width:100%;max-width:460px;height:auto;max-height:56vh;background:#fff;border:2px solid var(--line);border-radius:14px;user-select:none;-webkit-user-select:none}
+.fig text,.anim text{font-family:'Baloo 2',sans-serif;font-weight:800;text-anchor:middle;dominant-baseline:central}
+.fig text.h,.anim text.h{paint-order:stroke;stroke:#fff;stroke-width:3.5px;stroke-linejoin:round}
+#tpg{touch-action:none}
+#tpg .mv{cursor:grab}
+.tpb{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sd{cursor:pointer}
+.vt{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.vt span{background:var(--soft);border:1px solid #A5F3FC;border-radius:8px;padding:2px 8px;font-weight:700;font-size:.88rem;white-space:nowrap}
+.frm{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:800;font-size:1.25rem}
+.frac{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+.frac .sl{min-width:92px;padding:4px 10px;border-radius:10px;border:2px dashed var(--line);text-align:center;background:var(--bg);font-size:1rem}
+.frac .sl.on{border-style:solid;border-color:var(--gr);background:#fff}
+.frac hr{width:100%;border:0;border-top:3px solid var(--ink);margin:0}
+.dt{border-collapse:collapse;margin:0 auto;font-weight:700;font-size:1rem;min-width:240px}
+.dt caption{font-weight:800;color:var(--muted);font-size:.85rem;padding-bottom:4px}
+.dt th,.dt td{border:1px solid var(--line);padding:5px 10px;text-align:left}
+.dt th{background:var(--soft);font-size:.85rem}
+.dt td.v{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dt tr.tot td{font-weight:800;background:#FAFAF9}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.bsl{display:flex;flex-direction:column;gap:8px}
+.bsr{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:var(--bg);border-radius:12px;padding:8px 10px;font-weight:700;line-height:1.35}
+.bsr .tg{display:flex;gap:4px}
+.bsr button{border:2px solid var(--line);background:#fff;border-radius:10px;padding:6px 8px;font-weight:800;cursor:pointer;font-size:.85rem}
+.bsr button[aria-pressed="true"].b{background:#DCFCE7;border-color:#16A34A;color:#14532D}
+.bsr button[aria-pressed="true"].s{background:#FFE4E6;border-color:#E11D48;color:#881337}
+.op svg{display:block;width:100%;max-width:120px;margin:0 auto}
+.op.txt{text-align:left;font-size:.98rem;font-weight:700;line-height:1.35}
+.ops.one{grid-template-columns:1fr}
+.nudge{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.tools .btn{width:100%}
+.ref{background:var(--soft);border-radius:12px;padding:6px 10px;text-align:center;font-weight:700;font-size:.92rem}
+.story{font-size:1.05rem;line-height:1.5;font-weight:700;text-align:left;background:var(--soft);border-radius:14px;padding:10px 14px}
+.story .ic{font-size:2.1rem;float:left;margin:0 10px 0 0;line-height:1}
+.ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.op{border:3px solid var(--line);background:#fff;border-radius:14px;padding:10px 6px;font-weight:800;font-size:1.1rem;cursor:pointer;color:var(--ink);font-family:inherit;line-height:1.15}
+.op:disabled{opacity:.3;cursor:default}
+.op small{display:block;font-size:.72rem;font-weight:700;color:var(--muted);margin-top:2px}
+.ans{text-align:center;font-weight:800;font-size:1.3rem;color:var(--gr-d)}
+.animw{display:flex;flex-direction:column;align-items:center;gap:6px;background:#fff!important;padding:6px!important}
+.anim{display:block;width:100%;max-width:440px;height:auto}
+.replay{padding:4px 12px!important;font-size:.9rem!important}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.form sup{font-size:.7em}
+.fld{min-width:60px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.pw{display:inline-flex;align-items:flex-start;gap:2px}
+.pw>span:first-child{padding-top:14px;font-size:1.5rem}
+.fld.sm{min-width:34px;height:32px;font-size:1.05rem;padding:0 4px}
+.fld.act{border-color:var(--gr);background:#fff;box-shadow:0 0 0 3px #86EFAC}
+.fld.ph{color:#9CA3AF}
+.fld.bad{border-color:var(--rose);background:#FFE4E6}
+.pad{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:var(--soft);font-weight:800;font-size:1.3rem;cursor:pointer}
+.pad button:disabled{opacity:.3;cursor:default}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+#ctrlBody{display:flex;flex-direction:column;gap:10px}
+#ctrlBody .btn{width:100%}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--gr);color:#fff;box-shadow:0 3px 0 var(--gr-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--gr-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.btn.alt{background:#FEF9C3;color:var(--ink);box-shadow:0 3px 0 #EAB308}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#E7DCC4}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--gr-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(31,42,46,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .qtext{font-size:1.45rem} .kelas .qtext.long{font-size:1.2rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:56px;min-width:100px} .kelas .fld.sm{height:44px;min-width:56px;font-size:1.4rem}
+  .kelas .pad button{height:52px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem}
+  .kelas .ans{font-size:2rem} .kelas .op{font-size:1.4rem} .kelas .story{font-size:1.3rem}
+  .kelas .fig{max-width:700px;max-height:max(250px,calc(100vh - 505px))}
+  .kelas #ctrl,.kelas #ctrlBody{gap:8px} .kelas .seg button{padding:4px 3px} .kelas .wrap{gap:8px}
+  .kelas .grid2{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Bangun <span>Kembar</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button>
+        <button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k=",">,</button><button type="button" data-k="/" aria-label="Per">/</button><button type="button" data-k="del" aria-label="Hapus" style="grid-column:span 2">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Petunjuk</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li><b>Kongruen</b>: bentuk dan ukurannya sama persis. <b>Sebangun</b>: sudut-sudut yang bersesuaian sama besar dan sisi-sisi yang bersesuaian dikali faktor skala yang sama.</li>
+      <li><b>🔍 Kenali & Pasangkan</b>: tentukan sebangun, kongruen, atau tidak keduanya, lalu cari pasangan sisinya. Di level Mudah, seret segitiga, putar, atau cerminkan sampai tepat menumpuk.</li>
+      <li><b>📏 Cari Sisi</b>: cari faktor skala dari sepasang sisi yang bersesuaian, lalu kalikan. Kalau DE ∥ BC, bandingkan AD dengan AB (bukan dengan DB).</li>
+      <li><b>🌳 Bayangan & Maket</b>: benda dan bayangannya pada saat yang sama membentuk segitiga sebangun. Luas berbanding sebagai kuadrat faktor skala.</li>
+      <li><b>🧩 Syarat Kongruen</b>: s.s.s, s.sd.s (sudutnya diapit dua sisi), sd.s.sd (sisinya diapit dua sudut), sd.sd.s. Tiga pasang sudut sama saja belum menjamin kongruen.</li>
+      <li>Ketik desimal dengan koma (7,5) atau pecahan dengan <b>/</b> (15/2). Semua level untuk kelas 9.</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Petunjuk</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+<script>/* ================= INTI: pembuat soal kesebangunan dan kekongruenan ================= */
+/* ===== Bangun Kembar: kesebangunan dan kekongruenan SMP kelas 9 ===== */
+const KINDS={kenali:{label:"Kenali & Pasangkan",icon:"🔍"},sisi:{label:"Cari Sisi",icon:"📏"},bayangan:{label:"Bayangan & Maket",icon:"🌳"},kongruen:{label:"Syarat Kongruen",icon:"🧩"}};
+const LEVELS={mudah:{label:"Mudah",sub:"kelas 9"},sedang:{label:"Sedang",sub:"kelas 9"},sulit:{label:"Sulit",sub:"kelas 9"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const gcd=(a,b)=>b?gcd(b,a%b):a;
+const grp=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,".");
+const num=x=>{ const r=Math.round(x*100)/100, [i,f]=String(Math.abs(r)).split("."); return (r<0?"−":"")+grp(i)+(f?","+f:""); };
+const B=s=>`<b>${s}</b>`;
+const rad=d=>d*Math.PI/180, deg=x=>x*180/Math.PI;
+
+/* ---------- pecahan ---------- */
+function Q(n,d){ d=d||1; if(d<0){ n=-n; d=-d; } const g=gcd(Math.abs(n),d)||1; return {n:n/g,d:d/g}; }
+const qv=q=>q.n/q.d, qi=n=>Q(n,1), qeq=(a,b)=>a.n*b.d===b.n*a.d;
+const qmul=(a,b)=>Q(a.n*b.n,a.d*b.d), qdiv=(a,b)=>Q(a.n*b.d,a.d*b.n);
+/* bilangan desimal dari isian/tabel: "1,5" → 3/2 */
+const qd=x=>{ const s=String(x).split("."), f=s[1]||""; return Q(+(s[0]+f),10**f.length); };
+const decLen=q=>{ for(let k=0;k<6;k++) if((q.n*10**k)%q.d===0) return k; return 99; };
+const dec1=q=>decLen(q)<=1;
+const qfmt=q=>decLen(q)<=2?num(qv(q)):`${q.n}/${q.d}`;
+/* baca isian: bilangan bulat, desimal dengan koma, atau pecahan a/b */
+function qparse(t){ let m=/^(\d+)(?:,(\d+))?$/.exec(t); if(m){ const f=m[2]||""; return {q:Q(+(m[1]+f),10**f.length),simple:true}; }
+  m=/^(\d+)\/(\d+)$/.exec(t); if(m&&+m[2]>0){ const q=Q(+m[1],+m[2]); return {q,simple:q.n===+m[1]&&q.d===+m[2]&&q.d!==1}; } return null; }
+
+/* ---------- geometri (y ke atas) ---------- */
+const dist=(p,q)=>Math.hypot(q[0]-p[0],q[1]-p[1]);
+function angAt(v,p,q){ let d=Math.abs(Math.atan2(p[1]-v[1],p[0]-v[0])-Math.atan2(q[1]-v[1],q[0]-v[0])); d=deg(d); return d>180?360-d:d; }
+/* segitiga dari panjang sisi: a = BC, b = CA, c = AB */
+function triSides(a,b,c){ const x=(c*c+a*a-b*b)/(2*a); return {B:[0,0],C:[a,0],A:[x,Math.sqrt(Math.max(0,c*c-x*x))]}; }
+/* segitiga dari dua sudut dan sisi AB */
+function triAngles(A,Bd,c){ const C=180-A-Bd, b=c*Math.sin(rad(Bd))/Math.sin(rad(C)); return {A:[0,0],B:[c,0],C:[b*Math.cos(rad(A)),b*Math.sin(rad(A))]}; }
+function angDeg(a,b,c){ const A=deg(Math.acos((b*b+c*c-a*a)/(2*b*c))), Bv=deg(Math.acos((a*a+c*c-b*b)/(2*a*c))); return [A,Bv,180-A-Bv]; }
+const okTri=(s,minA)=>{ const [a,b,c]=s; if(a+b<=c||a+c<=b||b+c<=a) return false; const A=angDeg(a,b,c); return Math.min(...A)>=(minA||30)&&Math.max(...A)<=112&&!A.some(x=>Math.abs(x-90)<5); };
+/* tiga panjang sisi bulat yang berbeda (segitiga sembarang, tidak terlalu pipih, tidak tampak siku-siku) */
+function sides3(r,lo,hi,minA){ for(;;){ const s=[ri(lo,hi,r),ri(lo,hi,r),ri(lo,hi,r)]; if(new Set(s).size<3) continue; if(okTri(s,minA)) return s; } }
+/* cermin (x → −x), putar rot derajat, skala s, geser (dx, dy) */
+function tf(P,o){ const t=rad(o.rot||0), c=Math.cos(t), s=Math.sin(t), k=o.s||1, out={}; for(const n in P){ let [x,y]=P[n]; if(o.flip) x=-x; out[n]=[(x*c-y*s)*k+(o.dx||0),(x*s+y*c)*k+(o.dy||0)]; } return out; }
+function bb(P){ const v=Object.values(P); return {x0:Math.min(...v.map(p=>p[0])),x1:Math.max(...v.map(p=>p[0])),y0:Math.min(...v.map(p=>p[1])),y1:Math.max(...v.map(p=>p[1]))}; }
+/* letakkan bangun kedua di kanan bangun pertama */
+function besides(P,P2,gap){ const a=bb(P), b=bb(P2), w=Math.max(a.x1-a.x0,b.x1-b.x0,a.y1-a.y0,b.y1-b.y0); return tf(P2,{dx:a.x1+w*(gap||0.3)-b.x0,dy:(a.y0+a.y1)/2-(b.y0+b.y1)/2}); }
+const ren=(P,m)=>{ const o={}; for(const n in P) o[m[n]||n]=P[n]; return o; };
+const r3=x=>Math.round(x*1e4)/1e4;
+const rp=P=>{ const o={}; for(const n in P) o[n]=[r3(P[n][0]),r3(P[n][1])]; return o; };
+const lerp=(p,q,t)=>[p[0]+(q[0]-p[0])*t,p[1]+(q[1]-p[1])*t];
+const geo=(P,polys,ex)=>Object.assign({k:"geo",P:rp(P),polys},ex||{});
+const NM=[["P","Q","R"],["K","L","M"],["D","E","F"],["S","T","U"]];
+const corr=r=>{ const p=shuffle(pick(NM,r),r); return {A:p[0],B:p[1],C:p[2]}; };
+const SD=["BC","CA","AB"], OPP={A:"BC",B:"CA",C:"AB"};
+const mapS=(m,s)=>m[s[0]]+m[s[1]];
+const nk=s=>s.split("").sort().join("");
+/* segitiga kedua: bayangan ABC (skala k), diputar/dicerminkan, diberi nama baru, diletakkan di kanan */
+function twin(T,m,k,r,o){ o=o||{}; const rot=o.rot!==undefined?o.rot:ri(0,11,r)*30, flip=o.flip!==undefined?o.flip:r()<.5; return besides(T,ren(tf(T,{rot,flip,s:k}),m),o.gap||0.6); }
+const triName=m=>"Δ"+[m.A,m.B,m.C].sort().join("");
+/* busur penanda sudut sama di kedua segitiga (1, 2, 3 busur) */
+const eqArcs=(m,which)=>(which||["A","B","C"]).flatMap((v,i)=>{ const [a,b]=OPP[v].split(""); return [{v,a,b,n:i+1},{v:m[v],a:m[a],b:m[b],n:i+1}]; });
+function finishSteps(steps){ for(const s of steps){ if(!s.traps) continue; const seen=new Set();
+    s.traps=s.traps.filter(([v])=>{ if(!v||!(qv(v)>0)||qeq(v,s.ans)) return false; const k=v.n+"/"+v.d; if(seen.has(k)) return false; seen.add(k); return true; }); }
+  return steps; }
+const OPT3=["Kongruen","Sebangun, tetapi tidak kongruen","Tidak sebangun"];
+const expr=(p,q)=>`${p===1?"":p}x${q>0?" + "+q:q<0?" − "+(-q):""}`;
+
+/* ================= 1. KENALI & PASANGKAN ================= */
+function genKenali(level,r){ const steps=[];
+  if(level==="mudah"){
+    { let w,h,W,H,ty,k,d; for(;;){ w=ri(2,6,r); h=ri(w+1,9,r); const u=r(); if(u<.22){ W=w;H=h;ty=0; } else if(u<.62){ k=ri(2,3,r); W=w*k;H=h*k;ty=1; } else { d=ri(1,4,r); W=w+d;H=h+d;ty=2; } if(H<=24) break; }
+      const R1={A:[0,0],B:[h,0],C:[h,w],D:[0,w]}, R2=besides(R1,tf({P:[0,0],Q:[H,0],R:[H,W],S:[0,W]},{rot:r()<.4?90:0}),0.3);
+      const msg=[[null,"Ukurannya sama persis, jadi kongruen. (Bangun yang kongruen pasti juga sebangun.)","Ukurannya sama persis, jadi kongruen."],
+        [`Kongruen berarti ukurannya juga sama. Di sini setiap sisi dikali ${k}.`,null,`Bandingkan sisi yang bersesuaian dengan membagi: ${H} : ${h} dan ${W} : ${w}.`],
+        ["Ukurannya berbeda, jadi pasti tidak kongruen.",`Setiap sisi memang ditambah ${d}, tetapi sebangun harus dikali dengan faktor yang sama: ${H} : ${h} tidak sama dengan ${W} : ${w}.`,null]][ty];
+      steps.push({t:"pilih",fig:geo(Object.assign({},R1,R2),[{v:["A","B","C","D"]},{v:["P","Q","R","S"],f:1}],{lab:{AB:h+" cm",BC:w+" cm",PQ:H+" cm",QR:W+" cm"},right:[{v:"A",a:"B",b:"D"},{v:"P",a:"Q",b:"S"}]}),
+        opts:OPT3.map((s,i)=>({s,m:msg[i]})),ans:ty,q:`Persegi panjang ABCD dan PQRS. Bagaimana hubungan keduanya?`,
+        how:[`Sisi yang bersesuaian sama panjang (${h} = ${H}, ${w} = ${W}), jadi ${B("kongruen")}.`,`${H} : ${h} = ${k} dan ${W} : ${w} = ${k}. Perbandingannya sama tetapi ukurannya berbeda, jadi ${B("sebangun, tidak kongruen")}.`,`${H} : ${h} = ${qfmt(Q(H,h))}, sedangkan ${W} : ${w} = ${qfmt(Q(W,w))}. Perbandingannya tidak sama, jadi ${B("tidak sebangun")}.`][ty],chk:{rect:[w,h,W,H,ty]}}); }
+    { const s=sides3(r,3,9,32), T=triSides(...s), m=corr(r); let rot=90*ri(0,3,r); const flip=r()<.5; if(!rot&&!flip) rot=90*ri(1,3,r);
+      const lab={BC:String(s[0]),CA:String(s[1]),AB:String(s[2])};
+      steps.push({t:"tumpuk",fig:{k:"tumpuk",T:rp(T),m,rot,flip,lab},q:`Geser ΔABC, lalu putar atau cerminkan sampai tepat menumpuk di ${triName(m)}.`,sub:"Seret segitiga ungu. Pakai tombol Putar dan Cermin.",
+        how:`A menumpuk di ${m.A}, B di ${m.B}, dan C di ${m.C}. Jadi ${B(`ΔABC ≅ Δ${m.A}${m.B}${m.C}`)}.`});
+      const T2=besides(T,ren(tf(T,{rot,flip}),m),0.5), ask=pick(SD,r), need=mapS(m,ask), L={}; SD.forEach((sd,i)=>{ L[sd]=String(s[i]); L[mapS(m,sd)]=String(s[i]); });
+      steps.push({t:"ketuk",fig:geo(Object.assign({},T,T2),[{v:["A","B","C"]},{v:[m.A,m.B,m.C],f:1}],{lab:L,tap:SD.map(sd=>mapS(m,sd))}),need,
+        q:`Segitiga yang tadi ditumpuk: ΔABC ≅ ${triName(m)}. Ketuk sisi ${triName(m)} yang bersesuaian dengan sisi ${B(ask)}.`,miss:`Pada bangun yang kongruen, sisi yang bersesuaian sama panjang: ${ask} = ${L[ask]} cm.`,
+        how:`${ask[0]} ↔ ${m[ask[0]]} dan ${ask[1]} ↔ ${m[ask[1]]}, jadi ${ask} bersesuaian dengan ${B(need)} (sama-sama ${L[ask]} cm).`}); } }
+  else if(level==="sedang"){
+    const angs=()=>{ let a,b,c; do{ a=5*ri(7,15,r); b=5*ri(7,15,r); c=180-a-b; }while(c<35||new Set([a,b,c]).size<3||[a,b,c].includes(90)); return [a,b,c]; };
+    { const [al,be,ga]=angs(), sim=r()<.55; let c2=ga, b2=be; if(!sim){ do{ c2=ga+5*pick([-3,-2,-1,1,2,3],r); b2=180-al-c2; }while(c2<35||b2<35||b2===be||c2===be||c2===90||b2===90||new Set([al,b2,c2]).size<3); }
+      const T=triAngles(al,be,6), m=corr(r), k=pick([0.6,0.7,1.4,1.6,1.8],r), T2=twin(triAngles(al,b2,6),m,k,r), oth=pick(["A","B"],r), A2={A:al,B:b2,C:c2};
+      const fig=geo(Object.assign({},T,T2),[{v:["A","B","C"]},{v:[m.A,m.B,m.C],f:1}],{arcs:[{v:"A",a:"B",b:"C",t:al+"°"},{v:"B",a:"C",b:"A",t:be+"°"},{v:m.C,a:m.A,b:m.B,t:c2+"°"},{v:m[oth],a:m[oth==="A"?"B":"A"],b:m.C,t:A2[oth]+"°"}]});
+      const third=180-c2-A2[oth];
+      steps.push({t:"pilih",fig,opts:[{s:"Sebangun",m:sim?null:"Hitung sudut ketiga tiap segitiga. Ada pasangan sudut yang tidak sama besar."},{s:"Tidak sebangun",m:sim?"Hitung dulu sudut ketiga tiap segitiga, lalu bandingkan ketiga pasang sudutnya.":null},{s:"Kongruen",m:sim?"Sudut yang sama besar hanya menjamin sebangun. Ukurannya bisa berbeda, seperti pada gambar.":"Ukurannya berbeda, dan sudutnya pun tidak sama semua."}],
+        ans:sim?0:1,q:`Apakah ΔABC dan ${triName(m)} sebangun?`,how:`Sudut ketiga ΔABC = 180° − ${al}° − ${be}° = ${ga}°. Sudut ketiga ${triName(m)} = 180° − ${c2}° − ${A2[oth]}° = ${third}°. `+(sim?`Ketiga pasang sudut sama besar, jadi ${B("sebangun")}.`:`Ada pasangan sudut yang berbeda, jadi ${B("tidak sebangun")}.`),chk:{aa:[[al,be,ga],[al,b2,c2],sim]}}); }
+    { const [al,be,ga]=angs(), T=triAngles(al,be,6), m=corr(r), T2=twin(T,m,pick([0.6,0.7,1.4,1.6,1.8],r),r), oth=pick(["A","B"],r), AN={A:al,B:be,C:ga};
+      const fig=geo(Object.assign({},T,T2),[{v:["A","B","C"]},{v:[m.A,m.B,m.C],f:1}],{arcs:[{v:"A",a:"B",b:"C",t:al+"°"},{v:"B",a:"C",b:"A",t:be+"°"},{v:m.C,a:m.A,b:m.B,t:ga+"°"},{v:m[oth],a:m[oth==="A"?"B":"A"],b:m.C,t:AN[oth]+"°"}],tap:SD.map(sd=>mapS(m,sd))});
+      const ask=pick(SD,r), opp=["A","B","C"].find(v=>!ask.includes(v)), need=mapS(m,ask);
+      steps.push({t:"ketuk",fig,need,q:`ΔABC ~ ${triName(m)}. Ketuk sisi ${triName(m)} yang bersesuaian dengan sisi ${B(ask)}.`,miss:`Sisi yang bersesuaian terletak di depan sudut yang sama besar. Sisi ${ask} ada di depan ∠${opp} = ${AN[opp]}°.`,
+        how:`${ask} ada di depan ∠${opp} = ${AN[opp]}°. Pada ${triName(m)}, sudut ${AN[opp]}° ada di ${m[opp]}, dan sisi di depannya ${B(need)}.`});
+      const perms=[["A","B","C"],["A","C","B"],["B","A","C"],["B","C","A"],["C","A","B"],["C","B","A"]].map(p=>p.map(v=>m[v]).join("")), right=perms[0], opts=shuffle([right].concat(shuffle(perms.slice(1),r).slice(0,3)),r);
+      steps.push({t:"pilih",fig:Object.assign({},fig,{tap:undefined}),opts:opts.map(o=>({s:`ΔABC ~ Δ${o}`,m:o===right?null:`Urutan huruf menunjukkan pasangan: huruf ke-1 dengan ke-1, dan seterusnya. Pasangan A adalah titik sudut yang besarnya ${al}°.`})),ans:opts.indexOf(right),
+        q:`Penulisan kesebangunan yang tepat adalah…`,how:`A ↔ ${m.A} (${al}°), B ↔ ${m.B} (${be}°), C ↔ ${m.C} (${ga}°). Jadi ${B(`ΔABC ~ Δ${right}`)}.`}); } }
+  else {
+    { let s1,s2,ty,n=1,d=1,e=0,pert=false; for(;;){ [n,d]=pick([[3,2],[4,3],[5,3],[5,2],[2,3],[3,4],[1,1],[1,1]],r); const t=sides3(r,2,7,30); s1=t.map(v=>v*d); s2=t.map(v=>v*n); ty=n===d?0:1;
+        if(r()<.4){ if(r()<.5){ e=ri(1,3,r); s2=s1.map(v=>v+e); } else { const i=ri(0,2,r); s2=s2.slice(); s2[i]+=pick([-2,-1,1,2],r); pert=true; } ty=2; }
+        if(Math.max(...s1,...s2)>30||!okTri(s2,26)) continue; const a=s1.slice().sort((x,y)=>x-y), b=s2.slice().sort((x,y)=>x-y); if(ty===2&&a[0]*b[1]===a[1]*b[0]&&a[1]*b[2]===a[2]*b[1]) continue; break; }
+      const T=triSides(...s1), m=corr(r), T2=twin(triSides(...s2),m,1,r), L={}; SD.forEach((sd,i)=>{ L[sd]=String(s1[i]); L[mapS(m,sd)]=String(s2[i]); });
+      const a=s1.slice().sort((x,y)=>x-y), b=s2.slice().sort((x,y)=>x-y), rt=a.map((v,i)=>`${b[i]} : ${v}`).join(", ");
+      const msg=[[null,"Ketiga pasang sisinya sama panjang, jadi kongruen.","Urutkan sisinya dari yang terpendek, lalu bandingkan pasangannya: semuanya sama panjang."],
+        ["Ukurannya berbeda, jadi tidak kongruen.",null,"Urutkan sisinya dari yang terpendek, lalu bandingkan: pendek dengan pendek, sedang dengan sedang, panjang dengan panjang."],
+        ["Ukurannya berbeda, jadi pasti tidak kongruen.",e?`Setiap sisi memang ditambah ${e}, tetapi sebangun harus dikali dengan faktor yang sama.`:"Urutkan sisinya lalu bandingkan setiap pasangan. Ada perbandingan yang tidak sama.",null]][ty];
+      steps.push({t:"pilih",fig:geo(Object.assign({},T,T2),[{v:["A","B","C"]},{v:[m.A,m.B,m.C],f:1}],{lab:L}),opts:OPT3.map((s,i)=>({s,m:msg[i]})),ans:ty,q:`Bagaimana hubungan ΔABC dan ${triName(m)}?`,
+        how:`Urutkan sisi lalu bandingkan: ${rt}. `+[`Semuanya sama panjang, jadi ${B("kongruen")}.`,`Semua perbandingannya ${qfmt(Q(n,d))}, jadi ${B("sebangun, tidak kongruen")}.`,`Perbandingannya tidak sama semua, jadi ${B("tidak sebangun")}.`][ty],chk:{sss:[s1,s2,ty]}}); }
+    { let s; do{ s=sides3(r,6,13,40); }while(Math.abs(s[1]-s[2])<3);
+      const T=triSides(...s), AB=s[2], AC=s[1], f=0.5*Math.min(AC/AB,AB/AC)+0.05*r(), D=lerp(T.A,T.C,f*AB/AC), E=lerp(T.A,T.B,f*AC/AB), P=Object.assign({},T,{D,E}), ask=pick(["AB","AC"],r), need=ask==="AB"?"AD":"AE";
+      steps.push({t:"ketuk",fig:geo(P,[{v:["A","B","C"]},{v:["A","D","E"],f:1}],{arcs:[{v:"B",a:"A",b:"C",n:1},{v:"D",a:"A",b:"E",n:1},{v:"A",a:"D",b:"E",n:2}],tap:["AD","DE","EA"]}),need,
+        q:`∠ADE = ∠ABC (bertanda sama). Ketuk sisi ΔADE yang bersesuaian dengan sisi ${B(ask)}.`,miss:`Letak titik bisa menipu. Pasangan dicari dari sudut yang sama besar: ∠ADE = ∠ABC, jadi D bersesuaian dengan B.`,
+        how:`∠A milik kedua segitiga dan ∠ADE = ∠ABC, jadi ΔADE ~ ΔABC dengan A ↔ A, D ↔ B, E ↔ C. Sisi ${ask} bersesuaian dengan ${B(need)}.`,chk:{anti:1}}); }
+    { const [n,d]=pick([[3,2],[2,1],[5,2],[4,3],[3,1],[2,3],[1,2]],r), m=corr(r);
+      if(r()<.6){ let u,v,h; do{ u=ri(2,6,r); v=ri(2,6,r); }while((u*v)%2); const c=d*u, hh=d*v, x0=c*(0.2+0.6*r()), T={A:[0,0],B:[c,0],C:[x0,hh]}, A1=c*hh/2, A2=qmul(qi(A1),Q(n*n,d*d));
+        if(!okTri([dist(T.B,T.C),dist(T.C,T.A),c],28)) return genKenali(level,r); const T2=twin(T,m,n/d,r);
+        steps.push({t:"num",fig:geo(Object.assign({},T,T2),[{v:["A","B","C"]},{v:[m.A,m.B,m.C],f:1}],{lab:{AB:c+" cm",[mapS(m,"AB")]:qfmt(Q(c*n,d))+" cm"},arcs:eqArcs(m)}),ans:A2,unit:"cm²",
+          q:`ΔABC ~ ${triName(m)}. Luas ΔABC = ${A1} cm². Berapa ${B("luas "+triName(m))}?`,traps:[[qmul(qi(A1),Q(n,d)),`Luas berbanding sebagai kuadrat faktor skala: (${qfmt(Q(n,d))})².`],[qi(A1),"Segitiganya tidak sama besar."]],
+          how:`Faktor skala = ${qfmt(Q(c*n,d))} : ${c} = ${qfmt(Q(n,d))}. Luas dikali kuadratnya: ${A1} × (${qfmt(Q(n,d))})² = ${B(qfmt(A2)+" cm²")}.`,chk:{area:[A1,n,d]}}); }
+      else { let t; do{ t=sides3(r,2,8,30); }while(Math.max(...t)*Math.max(n,d)>30); const s1=t.map(v=>v*d), K1=s1[0]+s1[1]+s1[2], K2=Q(K1*n,d), T=triSides(...s1), T2=twin(T,m,n/d,r);
+        steps.push({t:"num",fig:geo(Object.assign({},T,T2),[{v:["A","B","C"]},{v:[m.A,m.B,m.C],f:1}],{lab:{AB:s1[2]+" cm",[mapS(m,"AB")]:qfmt(Q(s1[2]*n,d))+" cm"},arcs:eqArcs(m)}),ans:K2,unit:"cm",
+          q:`ΔABC ~ ${triName(m)}. Keliling ΔABC = ${K1} cm. Berapa ${B("keliling "+triName(m))}?`,traps:[[qmul(qi(K1),Q(n*n,d*d)),"Keliling berbanding sebagai faktor skala, bukan kuadratnya."],[qi(K1),"Segitiganya tidak sama besar."]],
+          how:`Faktor skala = ${qfmt(Q(s1[2]*n,d))} : ${s1[2]} = ${qfmt(Q(n,d))}. Keliling ikut dikali faktor skala: ${K1} × ${qfmt(Q(n,d))} = ${B(qfmt(K2)+" cm")}.`,chk:{per:[s1,n,d]}}); } } }
+  return {kind:"kenali",level,steps:finishSteps(steps)}; }
+
+/* ================= 2. CARI SISI ================= */
+/* dua segitiga sebangun: sisi s1 (ABC) dan s1 × f; x di salah satu segitiga */
+function pairX(r,s1,f,xIn2,all1){ const m=corr(r), T=triSides(...s1), T2=twin(T,m,qv(f),r), s2=s1.map(v=>qmul(qi(v),f)), g=ri(0,2,r); let xi; do{ xi=ri(0,2,r); }while(xi===g);
+  const L={}, k2=i=>mapS(m,SD[i]); L[SD[g]]=String(s1[g]); L[k2(g)]=qfmt(s2[g]);
+  if(xIn2){ L[SD[xi]]=String(s1[xi]); L[k2(xi)]="x"; if(all1) SD.forEach((sd,i)=>{ if(!L[sd]) L[sd]=String(s1[i]); }); } else { L[SD[xi]]="x"; L[k2(xi)]=qfmt(s2[xi]); }
+  return {m,T,T2,s2,g,xi,L,fig:geo(Object.assign({},T,T2),[{v:["A","B","C"]},{v:[m.A,m.B,m.C],f:1}],{lab:L,arcs:eqArcs(m)})}; }
+/* DE ∥ BC: D di AB, E di AC; ADE dari sisi (DE, EA, AD) dan ABC = ADE × k */
+function parFig(de,ea,ad,k,lab){ const T=triSides(de*qv(k),ea*qv(k),ad*qv(k)), D=lerp(T.A,T.B,1/qv(k)), E=lerp(T.A,T.C,1/qv(k));
+  return geo(Object.assign({},T,{D,E}),[{v:["A","B","C"]},{v:["A","D","E"],f:1}],{lab,par:{DE:1,BC:1}}); }
+function genSisi(level,r){ const steps=[];
+  if(level==="mudah"){
+    { const t=sides3(r,2,8,32), k=ri(2,3,r), big=r()<.5, s1=big?t:t.map(v=>v*k), f=big?Q(k):Q(1,k), P=pairX(r,s1,f,true,true), {g,xi,m,s2}=P, need=SD[xi];
+      steps.push({t:"ketuk",fig:Object.assign({},P.fig,{tap:SD.slice()}),need,q:`Kedua segitiga sebangun (sudut yang bertanda sama, sama besar). Sisi ${B("x")} bersesuaian dengan sisi mana pada ΔABC? Ketuk sisinya.`,
+        miss:"Sisi yang bersesuaian terletak di depan sudut yang bertanda sama. Lihat sudut di depan sisi x.",how:`Sisi x ada di depan sudut ${m[["A","B","C"].find(v=>!need.includes(v))]}, yang bertanda sama dengan ∠${["A","B","C"].find(v=>!need.includes(v))}. Jadi x bersesuaian dengan ${B(need)}.`});
+      steps.push({t:"num",fig:P.fig,ans:s2[xi],unit:"cm",q:`Berapa panjang ${B("x")}?`,traps:[[qi(s1[xi]),"Segitiganya tidak sama besar. Kalikan atau bagi dengan faktor skala dulu."],[qdiv(qi(s1[xi]),f),"Faktor skalanya terbalik. Bandingkan sisi segitiga kanan dengan pasangannya di kiri."],[qi(s1[xi]+qv(s2[g])-s1[g]),"Sebangun berarti dikali faktor skala, bukan ditambah selisihnya."]],
+        how:`Faktor skala = ${qfmt(s2[g])} : ${s1[g]} = ${qfmt(f)}. x = ${s1[xi]} × ${qfmt(f)} = ${B(qfmt(s2[xi])+" cm")}.`,chk:{geoX:1}}); }
+    { const t=sides3(r,2,7,32), k=ri(2,3,r), askBC=r()<.6, L={AD:String(t[2]),DB:String((k-1)*t[2])}; if(askBC){ L.DE=String(t[0]); L.BC="x"; } else { L.BC=String(k*t[0]); L.DE="x"; }
+      const ans=askBC?qi(k*t[0]):qi(t[0]);
+      steps.push({t:"num",fig:parFig(t[0],t[1],t[2],qi(k),L),ans,unit:"cm",q:`DE ∥ BC. Berapa panjang ${B("x")}?`,
+        traps:askBC?[[Q(t[0]*(k-1)),"Perbandingan sisinya AD : AB (segitiga kecil : segitiga besar), bukan AD : DB."],[qi(t[0]+(k-1)*t[2]),"Dikali faktor skala, bukan ditambah."]]:[[Q(k*t[0],k-1),"Perbandingan sisinya AD : AB, bukan AD : DB."],[qi(k*t[0]-(k-1)*t[2]),"Dikali (atau dibagi) faktor skala, bukan dikurangi."]],
+        how:`DE ∥ BC, jadi ΔADE ~ ΔABC. AB = ${t[2]} + ${(k-1)*t[2]} = ${k*t[2]}, faktor skala AB : AD = ${k}. `+(askBC?`BC = ${k} × ${t[0]} = ${B(k*t[0]+" cm")}.`:`DE = ${k*t[0]} : ${k} = ${B(t[0]+" cm")}.`),chk:{geoX:1}}); }
+  }
+  else if(level==="sedang"){
+    { let s1,f; do{ s1=sides3(r,2,9,30); f=pick([Q(3,2),Q(5,2),Q(2,5),Q(3,5),Q(4,5),Q(6,5),Q(7,5),Q(8,5),Q(7,2)],r); }while(Math.max(...s1)*qv(f)>30||Math.min(...s1)*qv(f)<1.5);
+      const in2=r()<.6, P=pairX(r,s1,f,in2), {g,xi,s2}=P, ans=in2?s2[xi]:qi(s1[xi]);
+      steps.push({t:"num",fig:P.fig,ans,unit:"cm",q:`Kedua segitiga sebangun. Berapa panjang ${B("x")}?`,traps:[[in2?qi(s1[xi]):s2[xi],"Segitiganya tidak sama besar. Pakai faktor skala."],[in2?qdiv(qi(s1[xi]),f):qmul(s2[xi],f),"Faktor skalanya terbalik."],[in2?Q(Math.round((s1[xi]+qv(s2[g])-s1[g])*10),10):Q(Math.round((qv(s2[xi])-qv(s2[g])+s1[g])*10),10),"Sebangun berarti dikali faktor skala, bukan ditambah selisihnya."]],
+        how:`Faktor skala = ${qfmt(s2[g])} : ${s1[g]} = ${qfmt(f)}. `+(in2?`x = ${s1[xi]} × ${qfmt(f)} = ${B(qfmt(ans)+" cm")}.`:`x = ${qfmt(s2[xi])} : ${qfmt(f)} = ${B(qfmt(ans)+" cm")}.`),chk:{geoX:1}}); }
+    { for(;;){ const a=ri(2,8,r), b=ri(2,9,r); if(a===b) continue; const k=Q(a+b,a);
+        if(r()<.5){ const e=ri(2,9,r), ans=qmul(qi(e),k); let ea=0; for(let i=0;i<20&&!ea;i++){ const c=ri(2,10,r); if(c!==a&&c!==e&&okTri([e,c,a],32)) ea=c; } if(!ea||!dec1(ans)||qv(ans)>30) continue;
+          steps.push({t:"num",fig:parFig(e,ea,a,k,{AD:String(a),DB:String(b),DE:String(e),BC:"x"}),ans,unit:"cm",q:`DE ∥ BC. Berapa panjang ${B("x")}?`,
+            traps:[[Q(e*b,a),"Perbandingan sisinya AD : AB, bukan AD : DB. AB = AD + DB."],[qi(e+b),"Dikali faktor skala, bukan ditambah."]],how:`DE ∥ BC, jadi ΔADE ~ ΔABC. AB = ${a} + ${b} = ${a+b}. BC = DE × AB : AD = ${e} × ${a+b} : ${a} = ${B(qfmt(ans)+" cm")}.`,chk:{geoX:1}}); }
+        else { const c=ri(2,9,r), ans=Q(c*b,a); if(!dec1(ans)||qv(ans)>20||c===a) continue; let de=0; for(let i=0;i<20&&!de;i++){ const x=ri(2,10,r); if(okTri([x,c,a],32)) de=x; } if(!de) continue;
+          steps.push({t:"num",fig:parFig(de,c,a,k,{AD:String(a),DB:String(b),AE:String(c),EC:"x"}),ans,unit:"cm",q:`DE ∥ BC. Berapa panjang ${B("x")}?`,
+            traps:[[Q(c*a,b),"Terbalik: AD : DB = AE : EC."],[Q(c*(a+b),a),"Itu panjang AC. Yang ditanya EC."]],how:`Garis yang sejajar BC membagi kedua sisi dengan perbandingan sama: AD : DB = AE : EC → ${a} : ${b} = ${c} : EC → EC = ${c} × ${b} : ${a} = ${B(qfmt(ans)+" cm")}.`,chk:{geoX:1}}); }
+        break; } }
+    { for(;;){ const oa=ri(3,9,r), ob=ri(3,9,r), g=ri(3,10,r); if(oa===ob||!okTri([g,ob,oa],30)) continue; const phi=deg(Math.acos((oa*oa+ob*ob-g*g)/(2*oa*ob))); if(phi<45||phi>105) continue;
+        const f=pick([Q(3,2),Q(5,2),Q(2),Q(6,5),Q(4,5),Q(3,5),Q(1,2),Q(7,5)],r), up=90+ri(-20,20,r), A=[oa*Math.cos(rad(up+phi/2)),oa*Math.sin(rad(up+phi/2))], Bp=[ob*Math.cos(rad(up-phi/2)),ob*Math.sin(rad(up-phi/2))];
+        const P={O:[0,0],A,B:Bp,C:[-A[0]*qv(f),-A[1]*qv(f)],D:[-Bp[0]*qv(f),-Bp[1]*qv(f)]}, oc=qmul(qi(oa),f), cd=qmul(qi(g),f), v=ri(0,1,r);
+        const lab=v===0?{OA:String(oa),OC:qfmt(oc),AB:String(g),CD:"x"}:{OA:String(oa),AB:String(g),CD:qfmt(cd),OC:"x"}, ans=v===0?cd:oc;
+        if(!dec1(oc)||!dec1(cd)||qv(cd)<2) continue;
+        steps.push({t:"num",fig:geo(P,[{v:["O","A","B"]},{v:["O","C","D"],f:1}],{lab,par:{AB:1,CD:1}}),ans,unit:"cm",q:`AB ∥ CD, dan AC berpotongan dengan BD di O. Berapa panjang ${B("x")}?`,
+          traps:v===0?[[qdiv(qi(g),f),"Terbalik: CD : AB = OC : OA."],[Q(Math.round((g+qv(oc)-oa)*10),10),"Dikali faktor skala, bukan ditambah."]]:[[qdiv(qi(oa),f),"Terbalik: OC : OA = CD : AB."],[Q(Math.round((oa+qv(cd)-g)*10),10),"Dikali faktor skala, bukan ditambah."]],
+          how:`AB ∥ CD, jadi ΔOAB ~ ΔOCD (sudut bertolak belakang di O, sudut dalam berseberangan) dengan A ↔ C dan B ↔ D. `+(v===0?`CD = AB × OC : OA = ${g} × ${qfmt(oc)} : ${oa} = ${B(qfmt(cd)+" cm")}.`:`OC = OA × CD : AB = ${oa} × ${qfmt(cd)} : ${g} = ${B(qfmt(oc)+" cm")}.`),chk:{geoX:1}}); break; } } }
+  else {
+    { const ty=pick(["CD","AC","BC"],r), CDL=[[1,4],[4,9],[2,8],[3,12],[4,16],[9,16],[1,9],[8,18],[5,20]], ACL=[[4,5],[9,16],[16,9],[1,3],[2,6],[3,9],[4,12],[1,8],[5,15],[8,10],[9,7],[4,21]];
+      let [p,q]=pick(ty==="CD"?CDL:ACL,r); if(ty==="CD"&&r()<.5) [p,q]=[q,p]; if(ty==="BC") [p,q]=[q,p];
+      const h=Math.sqrt(p*q), P={A:[0,0],B:[p+q,0],D:[p,0],C:[p,h]}, ans=qi(Math.round(ty==="CD"?h:ty==="AC"?Math.sqrt(p*(p+q)):Math.sqrt(q*(p+q))));
+      const fig=geo(P,[{v:["A","B","C"]}],{segs:[["C","D"]],right:[{v:"C",a:"A",b:"B"},{v:"D",a:"B",b:"C"}],lab:{AD:String(p),DB:String(q),[ty]:"x"}});
+      const tr=ty==="CD"?[[Q(p+q,2),"Itu rata-rata AD dan DB. Pakai CD² = AD × DB."],[qi(p*q),`Lupa menarik akar: CD² = ${p*q}.`]]:ty==="AC"?[[Number.isInteger(h)?qi(h):null,"Itu CD. Untuk AC pakai AC² = AD × AB."],[qi(p*(p+q)),`Lupa menarik akar: AC² = ${p*(p+q)}.`]]:[[Number.isInteger(h)?qi(h):null,"Itu CD. Untuk BC pakai BC² = DB × AB."],[qi(q*(p+q)),`Lupa menarik akar: BC² = ${q*(p+q)}.`]];
+      steps.push({t:"num",fig,ans,unit:"cm",q:`ΔABC siku-siku di C dan CD tegak lurus AB. Berapa panjang ${B("x")}?`,traps:tr,
+        how:ty==="CD"?`ΔACD ~ ΔCBD, jadi AD : CD = CD : DB → CD² = AD × DB = ${p} × ${q} = ${p*q} → CD = ${B(qfmt(ans)+" cm")}.`:ty==="AC"?`ΔACD ~ ΔABC (∠A milik keduanya, sama-sama punya sudut siku-siku), jadi AD : AC = AC : AB → AC² = AD × AB = ${p} × ${p+q} = ${p*(p+q)} → AC = ${B(qfmt(ans)+" cm")}.`:`ΔBCD ~ ΔBAC (∠B milik keduanya, sama-sama punya sudut siku-siku), jadi DB : BC = BC : AB → BC² = DB × AB = ${q} × ${p+q} = ${q*(p+q)} → BC = ${B(qfmt(ans)+" cm")}.`,chk:{geoX:1}}); }
+    { for(;;){ const x=ri(2,8,r), mm=pick([1,2],r), c0=pick([-1,1,2,3,4],r), DB=mm*x+c0, a=ri(3,9,r), lam=pick([Q(1,2),Q(3,2),Q(2),Q(2,3),Q(4,3),Q(3,4),Q(5,4)],r), e=qmul(qi(a),lam), f=qmul(qi(DB),lam);
+        if(DB<3||DB>16||e.d!==1||f.d!==1||e.n<2||f.n<2||a===DB) continue; const AB=a+DB, AC=e.n+f.n; let bc=0; for(let i=0;i<30&&!bc;i++){ const v=ri(4,24,r); if(okTri([v,AC,AB],30)) bc=v; } if(!bc) continue;
+        const T=triSides(bc,AC,AB), k=a/AB, D=lerp(T.A,T.B,k), E=lerp(T.A,T.C,k), wrong=Q(a*e.n,f.n);
+        steps.push({t:"num",fig:geo(Object.assign({},T,{D,E}),[{v:["A","B","C"]},{v:["A","D","E"],f:1}],{lab:{AD:String(a),DB:expr(mm,c0),AE:String(e.n),EC:String(f.n)},par:{DE:1,BC:1}}),ans:qi(x),unit:"",
+          q:`DE ∥ BC. Berapa nilai ${B("x")}?`,traps:[[qi(DB),`Itu panjang DB. Masih harus dicari x dari ${expr(mm,c0)} = ${DB}.`],[wrong.d===1?Q(wrong.n-c0,mm):null,"Perbandingannya AD : DB = AE : EC."]],
+          how:`AD : DB = AE : EC → ${a} : (${expr(mm,c0)}) = ${e.n} : ${f.n} → ${expr(mm,c0)} = ${a} × ${f.n} : ${e.n} = ${DB} → x = ${B(x)}.`,chk:{alj:[a,mm,c0,e.n,f.n,x]}}); break; } }
+    { for(;;){ const a=ri(4,12,r), b=ri(a+3,a+14,r), mm=ri(1,4,r), nn=ri(1,4,r); if(mm===nn) continue; const ans=Q(a*(mm+nn)+(b-a)*mm,mm+nn); if(!dec1(ans)) continue;
+        const s=ri(1,3,r), L=(mm+nn)*s, dx=(b-a)*(0.2+0.6*r()); if(dx>=0.9*L) continue; const H=Math.sqrt(L*L-dx*dx); if(H<0.3*b||H>1.1*b) continue;
+        const A=[0,0], Bp=[b,0], D=[dx,H], C=[dx+a,H], E=lerp(D,A,mm/(mm+nn)), F=lerp(C,Bp,mm/(mm+nn));
+        steps.push({t:"num",fig:geo({A,B:Bp,C,D,E,F},[{v:["A","B","C","D"]}],{segs:[["E","F"]],lab:{DC:String(a),AB:String(b),DE:String(mm*s),EA:String(nn*s),EF:"x"},par:{DC:1,EF:1,AB:1}}),ans,unit:"cm",
+          q:`ABCD trapesium dengan DC ∥ EF ∥ AB. Berapa panjang ${B("x")}?`,traps:[[Q(a+b,2),"Itu rata-rata kedua sisi sejajar. Hanya berlaku kalau E titik tengah AD."],[Q(a*(mm+nn)+(b-a)*nn,mm+nn),"Perbandingannya terbalik. Tambahan dari DC sebanding dengan DE : DA."]],
+          how:`Tarik garis dari D sejajar BC, sehingga terbentuk segitiga-segitiga sebangun. Tambahan panjang dari DC sebanding dengan DE : DA. EF = DC + (AB − DC) × DE : DA = ${a} + ${b-a} × ${mm*s} : ${L} = ${B(qfmt(ans)+" cm")}.`,chk:{geoX:1}}); break; } } }
+  return {kind:"sisi",level,steps:finishSteps(steps)}; }
+
+/* ================= 3. BAYANGAN & MAKET ================= */
+const OBJ=[["tiang","tiang bendera"],["pohon","pohon"],["gedung","gedung"],["menara","menara"]];
+const objFor=(H,r)=>H<=12?pick([OBJ[0],OBJ[1]],r):H<=25?pick([OBJ[1],OBJ[2],OBJ[0]],r):pick([OBJ[2],OBJ[3]],r);
+const mv=q=>num(qv(q))+" m";
+function genBayangan(level,r){ const steps=[];
+  if(level==="mudah"){
+    { let t,s,k; for(;;){ t=ri(1,2,r); s=ri(2,5,r); k=ri(2,8,r); if(t*k<=20&&s*k<=30&&s!==t) break; } const H=t*k, S=s*k, [ob,nm]=objFor(H,r);
+      steps.push({t:"num",fig:{k:"scene",ty:"bayangan",obj:ob,t,s,H,S,lab:{t:t+" m",s:s+" m",H:"?",S:S+" m"}},ans:qi(H),unit:"m",q:`Pada saat yang sama, tongkat setinggi ${t} m mempunyai bayangan ${s} m, sedangkan bayangan ${nm} ${S} m. Berapa ${B("tinggi "+nm)}?`,
+        traps:[[Q(S*s,t),`Terbalik: tinggi : bayangan sama untuk keduanya, jadi tinggi = bayangan × ${t} : ${s}.`],[qi(S-s+t),`Bayangannya bertambah ${S-s} m, tetapi tingginya tidak ikut bertambah sebanyak itu. Pakai perbandingan.`]],
+        how:`Tongkat dan ${nm} beserta bayangannya membentuk dua segitiga sebangun. Tinggi : bayangan = ${t} : ${s}, jadi tinggi ${nm} = ${S} × ${t} : ${s} = ${B(H+" m")}.`,chk:{bay:[t,s,S,"H"]}}); }
+    { const [w,h]=pick([[2,3],[3,4],[4,6],[3,5],[4,5],[5,7],[6,8],[4,7]],r), k=ri(2,5,r), askH=r()<.6, W=w*k, H=h*k;
+      steps.push({t:"num",fig:{k:"scene",ty:"foto",w,h,W,H,lab:{w:w+" cm",h:h+" cm",W:askH?W+" cm":"?",H:askH?"?":H+" cm"}},ans:qi(askH?H:W),unit:"cm",
+        q:`Foto berukuran ${w} cm × ${h} cm diperbesar sehingga sebangun dengan aslinya. ${askH?`Lebarnya menjadi ${W} cm`:`Panjangnya menjadi ${H} cm`}. Berapa ${B(askH?"panjangnya":"lebarnya")} sekarang?`,
+        traps:askH?[[qi(h+W-w),"Diperbesar berarti dikali, bukan ditambah selisihnya."],[Q(W*w,h),"Pasangan sisinya tertukar: lebar dengan lebar, panjang dengan panjang."]]:[[qi(w+H-h),"Diperbesar berarti dikali, bukan ditambah selisihnya."],[Q(H*h,w),"Pasangan sisinya tertukar: lebar dengan lebar, panjang dengan panjang."]],
+        how:askH?`Faktor skala = ${W} : ${w} = ${k}. Panjang = ${h} × ${k} = ${B(H+" cm")}.`:`Faktor skala = ${H} : ${h} = ${k}. Lebar = ${w} × ${k} = ${B(W+" cm")}.`,chk:{foto:[w,h,W,H,askH]}}); }
+    { const M=pick([["pesawat","rentang sayap",[[20,18],[30,27],[40,36],[25,20]],[2]],["kapal","tinggi",[[25,10],[30,12],[40,16],[35,14]],[2,3,4]],["bus","tinggi",[[24,6],[28,8],[32,8],[20,6]],[0.5]]],r);
+      const [p,q]=pick(M[2],r), fm=pick(M[3],r), P=p*fm, Qv=q*fm, askQ=r()<.65;
+      steps.push({t:"num",fig:{k:"scene",ty:"model",obj:M[0],p,q,P,Q:Qv,lab:{p:p+" cm",q:askQ?q+" cm":"?",P:P+" m",Q:askQ?"?":Qv+" m"}},ans:qd(askQ?Qv:q),unit:askQ?"m":"cm",
+        q:`Model ${M[0]} dibuat sebangun dengan aslinya. Panjang model ${p} cm dan panjang ${M[0]} asli ${num(P)} m. `+(askQ?`${M[1][0].toUpperCase()+M[1].slice(1)} model ${q} cm. Berapa ${B(M[1]+" "+M[0]+" asli")}?`:`${M[1][0].toUpperCase()+M[1].slice(1)} ${M[0]} asli ${num(Qv)} m. Berapa ${B(M[1]+" model")}?`),
+        traps:askQ?[[qi(q),"Model dan aslinya berbeda ukuran. Kalikan dengan faktor skala."]]:[[qd(Qv),"Model dan aslinya berbeda ukuran. Bagi dengan faktor skala."]],
+        how:`Setiap 1 cm pada model = ${num(fm)} m pada aslinya (${num(P)} m : ${p} cm). `+(askQ?`${M[1][0].toUpperCase()+M[1].slice(1)} asli = ${q} × ${num(fm)} = ${B(num(Qv)+" m")}.`:`${M[1][0].toUpperCase()+M[1].slice(1)} model = ${num(Qv)} : ${num(fm)} = ${B(q+" cm")}.`),chk:{model:[p,q,P,Qv,askQ]}}); } }
+  else if(level==="sedang"){
+    { for(;;){ const t=qd(pick([1.2,1.4,1.5,1.6,1.8,2],r)), s=qd(pick([0.8,1.2,1.5,1.6,2,2.4,2.5,3],r)), askH=r()<.7;
+        if(askH){ const S=qi(ri(4,24,r)), H=qdiv(qmul(t,S),s); if(!dec1(H)||qv(H)<3||qv(H)>30||qv(S)/qv(s)<2) continue; const [ob,nm]=objFor(qv(H),r);
+          steps.push({t:"num",fig:{k:"scene",ty:"bayangan",obj:ob,t:qv(t),s:qv(s),H:qv(H),S:qv(S),orang:true,lab:{t:mv(t),s:mv(s),H:"?",S:mv(S)}},ans:H,unit:"m",
+            q:`Pada saat yang sama, seorang siswa setinggi ${mv(t)} mempunyai bayangan ${mv(s)}, sedangkan bayangan ${nm} ${mv(S)}. Berapa ${B("tinggi "+nm)}?`,
+            traps:[[qdiv(qmul(s,S),t),"Terbalik: tinggi : bayangan harus sama untuk keduanya."],[Q(Math.round((qv(S)-qv(s)+qv(t))*10),10),"Pakai perbandingan, bukan selisih."]],
+            how:`Tinggi : bayangan = ${num(qv(t))} : ${num(qv(s))} untuk keduanya. Tinggi ${nm} = ${num(qv(S))} × ${num(qv(t))} : ${num(qv(s))} = ${B(mv(H))}.`,chk:{bay:[qv(t),qv(s),qv(S),"H"]}}); }
+        else { const H=qi(ri(4,20,r)), S=qdiv(qmul(H,s),t); if(!dec1(S)||qv(S)<3||qv(S)>30) continue; const [ob,nm]=objFor(qv(H),r);
+          steps.push({t:"num",fig:{k:"scene",ty:"bayangan",obj:ob,t:qv(t),s:qv(s),H:qv(H),S:qv(S),orang:true,lab:{t:mv(t),s:mv(s),H:mv(H),S:"?"}},ans:S,unit:"m",
+            q:`Pada saat yang sama, seorang siswa setinggi ${mv(t)} mempunyai bayangan ${mv(s)}. Berapa panjang ${B("bayangan "+nm)} yang tingginya ${mv(H)}?`,
+            traps:[[qdiv(qmul(t,H),s),"Terbalik: bayangan : tinggi harus sama untuk keduanya."]],how:`Bayangan : tinggi = ${num(qv(s))} : ${num(qv(t))} untuk keduanya. Bayangan ${nm} = ${num(qv(H))} × ${num(qv(s))} : ${num(qv(t))} = ${B(mv(S))}.`,chk:{bay:[qv(t),qv(s),qv(H),"S"]}}); }
+        break; } }
+    { for(;;){ const w=pick([10,12,15,16,20,24,30],r), rho=pick([Q(4,3),Q(3,2),Q(5,4),Q(7,5)],r), h=qmul(qi(w),rho), m=ri(1,5,r); if(h.d!==1) continue; const W=w+2*m, Hk=Q(h.n*W,w), bot=Q(Hk.n-(h.n+m)*Hk.d,Hk.d);
+        if(!dec1(Hk)||!dec1(bot)||qv(bot)<=m) continue;
+        steps.push({t:"num",fig:{k:"scene",ty:"karton",w,h:h.n,m,W,Hk:qv(Hk),lab:{w:w+" cm",h:h.n+" cm",m:m+" cm",b:"?"}},ans:bot,unit:"cm",
+          q:`Foto ${w} cm × ${h.n} cm ditempel pada karton yang sebangun dengan foto. Tepi kiri, kanan, dan atas karton masing-masing ${m} cm. Berapa lebar ${B("tepi bawah")}?`,
+          traps:[[qi(m),"Kalau semua tepi sama lebar, karton tidak sebangun dengan foto."],[Hk,"Itu tinggi karton. Kurangi dengan tinggi foto dan tepi atas."],[Q(Hk.n-h.n*Hk.d,Hk.d),"Masih harus dikurangi tepi atas."]],
+          how:`Lebar karton = ${w} + 2 × ${m} = ${W} cm. Karton sebangun dengan foto: tinggi karton = ${h.n} × ${W} : ${w} = ${qfmt(Hk)} cm. Tepi bawah = ${qfmt(Hk)} − ${h.n} − ${m} = ${B(qfmt(bot)+" cm")}.`,chk:{karton:[w,h.n,m]}}); break; } }
+    { for(;;){ const a=ri(6,18,r), b=ri(3,6,r), c=ri(3,9,r), w=Q(c*a,b); if(!dec1(w)||qv(w)<8||qv(w)>40||a/b<2||a/b>3.5||b===c) continue;
+        steps.push({t:"num",fig:{k:"scene",ty:"sungai",a,b,c,w:qv(w),lab:{a:a+" m",b:b+" m",c:c+" m",w:"?"}},ans:w,unit:"m",
+          q:`Patok dipasang seperti gambar sehingga ΔABC ~ ΔEDC. BC = ${a} m, CD = ${b} m, dan DE = ${c} m. Berapa ${B("lebar sungai AB")}?`,
+          traps:[[Q(c*b,a),"Terbalik: AB : DE = BC : DC."],[Q(a*b,c),"Pasangan sisinya keliru. AB berpasangan dengan DE, BC dengan DC."]],
+          how:`ΔABC ~ ΔEDC (siku-siku di B dan D, sudut bertolak belakang di C). AB : DE = BC : DC → AB = ${c} × ${a} : ${b} = ${B(qfmt(w)+" m")}.`,chk:{sungai:[a,b,c]}}); break; } } }
+  else {
+    { for(;;){ const t=qd(pick([1.2,1.4,1.5,1.6],r)), d1=qd(pick([1.2,1.5,2,2.4,2.5,3],r)), d2=qi(ri(6,40,r)), H=qdiv(qmul(t,d2),d1); if(!dec1(H)||qv(H)<6||qv(H)>60) continue;
+        steps.push({t:"num",fig:{k:"scene",ty:"cermin",t:qv(t),d1:qv(d1),d2:qv(d2),H:qv(H),lab:{t:mv(t),d1:mv(d1),d2:mv(d2),H:"?"}},ans:H,unit:"m",
+          q:`Dina meletakkan cermin di tanah ${mv(d2)} dari kaki gedung, lalu mundur ${mv(d1)} dari cermin sampai puncak gedung terlihat di cermin. Tinggi mata Dina ${mv(t)}. Berapa ${B("tinggi gedung")}?`,
+          traps:[[qdiv(qmul(t,d1),d2),"Terbalik: tinggi gedung : jarak cermin–gedung = tinggi mata : jarak Dina–cermin."],[qdiv(qmul(d1,d2),t),"Pasangan sisinya keliru."]],
+          how:`Sudut datang = sudut pantul, jadi dua segitiga siku-siku itu sebangun. Tinggi gedung : ${num(qv(d2))} = ${num(qv(t))} : ${num(qv(d1))}, jadi tinggi gedung = ${num(qv(t))} × ${num(qv(d2))} : ${num(qv(d1))} = ${B(mv(H))}.`,chk:{cermin:[qv(t),qv(d1),qv(d2)]}}); break; } }
+    { for(;;){ const t=qd(pick([1.2,1.4,1.5,1.6],r)), x=qd(pick([2,2.5,3,3.5,4,4.5,5,6],r)), s=qd(pick([1,1.5,2,2.5,3,4],r)), L=qdiv(qmul(t,Q(x.n*s.d+s.n*x.d,x.d*s.d)),s); if(!dec1(L)||qv(L)<3||qv(L)>9) continue;
+        steps.push({t:"num",fig:{k:"scene",ty:"lampu",t:qv(t),x:qv(x),s:qv(s),L:qv(L),lab:{t:mv(t),x:mv(x),s:mv(s),L:"?"}},ans:L,unit:"m",
+          q:`Seorang anak setinggi ${mv(t)} berdiri ${mv(x)} dari tiang lampu. Panjang bayangannya ${mv(s)}. Berapa ${B("tinggi lampu")}?`,
+          traps:[[qdiv(qmul(t,x),s),`Alas segitiga besar diukur dari kaki tiang sampai ujung bayangan: ${num(qv(x))} + ${num(qv(s))}.`],[qdiv(qmul(t,Q(x.n*s.d+s.n*x.d,x.d*s.d)),x),"Pasangannya keliru: tinggi anak berpasangan dengan bayangannya sendiri."]],
+          how:`Segitiga kecil (anak dan bayangannya) sebangun dengan segitiga besar (tiang lampu sampai ujung bayangan). Tinggi lampu : (${num(qv(x))} + ${num(qv(s))}) = ${num(qv(t))} : ${num(qv(s))}, jadi tinggi lampu = ${num(qv(t))} × ${num(qv(x)+qv(s))} : ${num(qv(s))} = ${B(mv(L))}.`,chk:{lampu:[qv(t),qv(x),qv(s)]}}); break; } }
+    { for(;;){ const hm=pick([20,24,25,30,40,50],r), f=qd(pick([0.5,1,1.5,2,2.5,3],r)), Hm=qmul(qi(hm),f), a=ri(6,30,r), b=ri(6,30,r), ans=qmul(qi(a*b),qmul(f,f)); if(a===b||!dec1(ans)||!dec1(Hm)||qv(Hm)<10||qv(Hm)>90||qv(ans)>3000) continue;
+        steps.push({t:"num",fig:{k:"scene",ty:"maket",hm,Hm:qv(Hm),a,b,lab:{hm:hm+" cm",Hm:mv(Hm),a:a+" cm",b:b+" cm"}},ans,unit:"m²",
+          q:`Maket gedung sebangun dengan gedung aslinya. Tinggi maket ${hm} cm, tinggi gedung ${mv(Hm)}. Lantai maket berukuran ${a} cm × ${b} cm. Berapa ${B("luas lantai gedung")}?`,
+          traps:[[qmul(qi(a*b),f),`Luas berbanding sebagai kuadrat faktor skala: kalikan dengan (${num(qv(f))})².`],[qi(a*b),"Itu luas lantai maket (dalam cm²)."]],
+          how:`Setiap 1 cm pada maket = ${num(qv(f))} m (${num(qv(Hm))} m : ${hm} cm). Lantai asli = ${num(a*qv(f))} m × ${num(b*qv(f))} m = ${B(qfmt(ans)+" m²")}.`,chk:{maket:[hm,qv(Hm),a,b]}}); break; } } }
+  return {kind:"bayangan",level,steps:finishSteps(steps)}; }
+
+/* ================= 4. SYARAT KONGRUEN ================= */
+const KR={sss:"s.s.s (sisi-sisi-sisi)",sas:"s.sd.s (sisi-sudut-sisi)",asa:"sd.s.sd (sudut-sisi-sudut)",aas:"sd.sd.s (sudut-sudut-sisi)",no:"Belum tentu kongruen"};
+const KRS=["sss","sas","asa","aas"];
+function krMsg(act,ch){
+  if(act==="aaa") return "Tiga pasang sudut yang sama hanya menjamin sebangun. Ukurannya bisa berbeda, seperti pada gambar.";
+  if(act==="ssa") return "Sudut yang ditandai tidak diapit oleh kedua sisi itu (s.s.sd). Data seperti ini bisa menghasilkan dua segitiga yang berbeda, seperti pada gambar.";
+  if(ch==="no") return "Tanda-tanda pada gambar sudah memenuhi salah satu syarat kongruen. Hitung pasangan sisi dan sudut yang ditandai.";
+  if((ch==="asa"&&act==="aas")||(ch==="aas"&&act==="asa")) return "Perhatikan letak sisi yang ditandai: apakah sisi itu diapit oleh kedua sudut yang ditandai?";
+  const ns={sss:3,sas:2,asa:1,aas:1}[act], na={sss:0,sas:1,asa:2,aas:2}[act];
+  return `Hitung tandanya: ada ${ns} pasang sisi dan ${na?na+" pasang":"tidak ada"} sudut yang ditandai sama.`; }
+/* dua segitiga dengan tanda sisi/sudut sama sesuai syarat */
+function markPair(r,crit){ const m=corr(r); let s,T,T2;
+  if(crit==="ssa"){ for(;;){ const c=ri(7,11,r), be=ri(28,42,r), h=c*Math.sin(rad(be)), b=ri(Math.ceil(h+0.8),c-1,r), q=Math.sqrt(b*b-h*h), x=c*Math.cos(rad(be)), a1=x+q, a2=x-q; if(a2<2.2||a1-a2<2) continue;
+      const A=[x,h]; T={A,B:[0,0],C:[a1,0]}; T2=twin({A,B:[0,0],C:[a2,0]},m,1,r); const g2=angDeg(a2,b,c); if(Math.min(...g2)<12||Math.max(...g2)>135) continue; break; }
+    return {m,T,T2,tick:{AB:1,[mapS(m,"AB")]:1,CA:2,[mapS(m,"CA")]:2},arcs:[{v:"B",a:"A",b:"C",n:1},{v:m.B,a:m.A,b:m.C,n:1}]}; }
+  s=sides3(r,4,10,32); T=triSides(...s); T2=twin(T,m,crit==="aaa"?pick([0.62,0.7,1.4,1.55],r):1,r);
+  const V=pick(["A","B","C"],r), [P1,P2]=OPP[V].split(""), arc=(v,n)=>{ const [a,b]=OPP[v].split(""); return [{v,a,b,n},{v:m[v],a:m[a],b:m[b],n}]; }, tk={}, tick=(sd,n)=>{ tk[sd]=n; tk[mapS(m,sd)]=n; };
+  let arcs=[];
+  if(crit==="sss"){ tick("AB",1); tick("BC",2); tick("CA",3); }
+  else if(crit==="sas"){ tick(V+P1,1); tick(V+P2,2); arcs=arc(V,1); }
+  else if(crit==="asa"){ tick(P1+P2,1); arcs=arc(P1,1).concat(arc(P2,2)); }
+  else if(crit==="aas"){ tick(V+P2,1); arcs=arc(V,1).concat(arc(P1,2)); }
+  else if(crit==="aaa"){ arcs=arc("A",1).concat(arc("B",2),arc("C",3)); }
+  return {m,T,T2,tick:tk,arcs}; }
+const pairGeo=(M,ex)=>geo(Object.assign({},M.T,M.T2),[{v:["A","B","C"]},{v:[M.m.A,M.m.B,M.m.C],f:1}],Object.assign({tick:M.tick,arcs:M.arcs},ex||{}));
+function genKongruen(level,r){ const steps=[];
+  const krStep=(crit,withNo)=>{ const M=markPair(r,crit), ks=withNo?KRS.concat("no"):KRS, ans=ks.indexOf(crit==="aaa"||crit==="ssa"?"no":crit);
+    return {t:"pilih",fig:pairGeo(M),opts:ks.map(k=>({s:KR[k],m:k===ks[ans]?null:krMsg(crit,k)})),ans,q:`Tanda yang sama menunjukkan sisi atau sudut yang sama besar. ${withNo?"Apakah kedua segitiga pasti kongruen? Jika ya, dengan syarat apa?":"Kedua segitiga kongruen karena memenuhi syarat…"}`,
+      how:{sss:`Tiga pasang sisi sama panjang: ${B(KR.sss)}.`,sas:`Dua pasang sisi sama panjang dan sudut yang diapitnya sama besar: ${B(KR.sas)}.`,asa:`Dua pasang sudut sama besar dan sisi yang diapit keduanya sama panjang: ${B(KR.asa)}.`,aas:`Dua pasang sudut sama besar dan sepasang sisi yang tidak diapit keduanya sama panjang: ${B(KR.aas)}.`,
+        aaa:`Tiga pasang sudut sama hanya menjamin sebangun, jadi ${B("belum tentu kongruen")}.`,ssa:`Sudutnya tidak diapit kedua sisi (s.s.sd); bisa terbentuk dua segitiga berbeda, jadi ${B("belum tentu kongruen")}.`}[crit],chk:{kr:crit}}; };
+  if(level==="mudah"){ for(const c of shuffle(KRS,r).slice(0,3)) steps.push(krStep(c,false)); }
+  else if(level==="sedang"){
+    { const cf=pick(["layang","x","jajar","sama"],r), rot=ri(0,11,r)*30; let P,polys,ex,crit,stmt,msgX;
+      if(cf==="layang"){ const w=ri(3,6,r), h1=ri(2,5,r), h2=ri(6,10,r); P={A:[0,h1],B:[-w,0],C:[0,-h2],D:[w,0]}; polys=[{v:["A","B","C"]},{v:["A","D","C"],f:1}]; ex={tick:{AB:1,AD:1,BC:2,DC:2}}; crit="sss"; stmt="ΔABC ≅ ΔADC"; msgX="AC adalah sisi bersama (dimiliki kedua segitiga), jadi AC = AC."; }
+      else if(cf==="x"){ const oa=ri(3,7,r), oc=ri(3,7,r), ph=ri(55,80,r); if(oa===oc) return genKongruen(level,r); const u=[Math.cos(rad(ph/2)),Math.sin(rad(ph/2))], v=[Math.cos(rad(-ph/2)),Math.sin(rad(-ph/2))];
+        P={O:[0,0],A:[-u[0]*oa,-u[1]*oa],B:[u[0]*oa,u[1]*oa],C:[-v[0]*oc,-v[1]*oc],D:[v[0]*oc,v[1]*oc]}; polys=[{v:["A","O","C"]},{v:["B","O","D"],f:1}]; ex={tick:{OA:1,OB:1,OC:2,OD:2}}; crit="sas"; stmt="ΔAOC ≅ ΔBOD"; msgX="∠AOC dan ∠BOD bertolak belakang, jadi sama besar."; }
+      else if(cf==="jajar"){ const b=ri(6,10,r), dx=ri(2,4,r), h=ri(3,6,r); P={A:[0,0],B:[b,0],C:[b+dx,h],D:[dx,h]}; polys=[{v:["A","B","C"]},{v:["C","D","A"],f:1}]; ex={par:{AB:1,DC:1,AD:2,BC:2}}; crit="asa"; stmt="ΔABC ≅ ΔCDA"; msgX="Garis sejajar membuat sudut dalam berseberangan sama besar, dan AC adalah sisi bersama. Perhatikan letak AC terhadap kedua sudut itu."; }
+      else { const w=ri(3,6,r), h=ri(5,9,r); P={A:[0,h],B:[-w,0],C:[w,0],D:[0,0]}; polys=[{v:["A","B","D"]},{v:["A","C","D"],f:1}]; ex={tick:{AB:1,AC:1,BD:2,DC:2}}; crit="sss"; stmt="ΔABD ≅ ΔACD"; msgX="AD adalah sisi bersama (dimiliki kedua segitiga), jadi AD = AD."; }
+      const ks=KRS.concat("no"), ans=ks.indexOf(crit);
+      steps.push({t:"pilih",fig:geo(tf(P,{rot}),polys,ex),opts:ks.map(k=>({s:KR[k],m:k===crit?null:msgX})),ans,q:`Mengapa ${stmt}?`,
+        how:{layang:`AB = AD, BC = DC, dan AC sisi bersama: ${B(KR.sss)}.`,x:`OA = OB, OC = OD, dan ∠AOC = ∠BOD (bertolak belakang) yang diapit kedua sisi itu: ${B(KR.sas)}.`,jajar:`∠BAC = ∠DCA dan ∠BCA = ∠DAC (dalam berseberangan), dengan AC sisi bersama yang diapit kedua sudut: ${B(KR.asa)}.`,sama:`AB = AC, BD = DC, dan AD sisi bersama: ${B(KR.sss)}.`}[cf],chk:{cf}}); }
+    steps.push(krStep(r()<.5?pick(["aaa","ssa"],r):pick(KRS,r),true));
+    { const s=sides3(r,4,10,32), T=triSides(...s), m=corr(r), T2=twin(T,m,1,r), ord=pick([["A","B","C"],["B","C","A"],["C","A","B"],["B","A","C"],["A","C","B"],["C","B","A"]],r), ask=pick(SD,r), need=mapS(m,ask);
+      const st=`Δ${ord.join("")} ≅ Δ${ord.map(v=>m[v]).join("")}`;
+      steps.push({t:"ketuk",fig:geo(Object.assign({},T,T2),[{v:["A","B","C"]},{v:[m.A,m.B,m.C],f:1}],{tap:SD.map(sd=>mapS(m,sd))}),need,q:`Diketahui ${st}. Ketuk sisi ${triName(m)} yang sama panjang dengan ${B(ask)}.`,
+        miss:"Pasangan dibaca dari urutan huruf: huruf ke-1 dengan ke-1, ke-2 dengan ke-2, ke-3 dengan ke-3.",how:`Dari ${st}: ${ask[0]} ↔ ${m[ask[0]]} dan ${ask[1]} ↔ ${m[ask[1]]}. Jadi ${ask} = ${B(need)}.`}); } }
+  else {
+    { const crit=pick(KRS,r), M=markPair(r,"sss"), m=M.m, ro=shuffle(["A","B","C"],r), [X,Y,Z]=ro, n2=v=>m[v];
+      const S=(a,b)=>({s:`${a}${b} = ${n2(a)}${n2(b)}`}), Ag=v=>({s:`∠${v} = ∠${n2(v)}`}); const tk={}, arcs=[], tick=(a,b,n)=>{ tk[a+b]=n; tk[n2(a)+n2(b)]=n; }, arc=(v,n)=>{ const [a,b]=["A","B","C"].filter(u=>u!==v); arcs.push({v,a,b,n},{v:n2(v),a:n2(a),b:n2(b),n}); };
+      let given, opts;
+      if(crit==="sas"){ tick(X,Y,1); arc(X,1); given=`${X}${Y} = ${n2(X)}${n2(Y)} dan ∠${X} = ∠${n2(X)}`; opts=[[S(X,Z),null],[S(Y,Z),"Itu membuat s.s.sd: sudutnya tidak diapit kedua sisi, jadi belum tentu kongruen."],[Ag(Y),"Itu membuat sd.s.sd, bukan s.sd.s."],[Ag(Z),"Itu membuat sd.sd.s, bukan s.sd.s."]]; }
+      else if(crit==="asa"){ tick(X,Y,1); arc(X,1); given=`∠${X} = ∠${n2(X)} dan ${X}${Y} = ${n2(X)}${n2(Y)}`; opts=[[Ag(Y),null],[Ag(Z),`Itu membuat sd.sd.s: sisi ${X}${Y} tidak diapit ∠${X} dan ∠${Z}.`],[S(X,Z),"Itu membuat s.sd.s, bukan sd.s.sd."],[S(Y,Z),"Itu membuat s.s.sd, belum tentu kongruen."]]; }
+      else if(crit==="sss"){ tick(X,Y,1); tick(Y,Z,2); given=`${X}${Y} = ${n2(X)}${n2(Y)} dan ${Y}${Z} = ${n2(Y)}${n2(Z)}`; opts=[[S(X,Z),null],[Ag(Y),"Itu membuat s.sd.s, bukan s.s.s."],[Ag(X),"Itu membuat s.s.sd, belum tentu kongruen."],[Ag(Z),"Itu membuat s.s.sd, belum tentu kongruen."]]; }
+      else { arc(X,1); arc(Y,2); given=`∠${X} = ∠${n2(X)} dan ∠${Y} = ∠${n2(Y)}`; opts=[[S(Y,Z),null],[S(X,Y),`Itu membuat sd.s.sd: ${X}${Y} diapit ∠${X} dan ∠${Y}.`],[Ag(Z),"Tiga pasang sudut sama hanya menjamin sebangun."],[{s:"Tidak perlu data lagi"},"Dua pasang sudut saja belum cukup; ukurannya bisa berbeda."]]; }
+      const sh=shuffle(opts,r);
+      steps.push({t:"pilih",fig:pairGeo({T:M.T,T2:M.T2,m,tick:tk,arcs}),opts:sh.map(([o,msg])=>({s:o.s,m:msg})),ans:sh.findIndex(([,msg])=>msg===null),
+        q:`Diketahui ${given} (bertanda sama). Agar Δ${["A","B","C"].join("")} ≅ Δ${[m.A,m.B,m.C].join("")} dengan syarat ${KR[crit]}, data tambahan yang diperlukan adalah…`,
+        how:`Syarat ${KR[crit]} memerlukan ${{sas:"sudut yang diapit kedua sisi",asa:"sisi yang diapit kedua sudut",sss:"ketiga pasang sisi",aas:"sepasang sisi yang tidak diapit kedua sudut"}[crit]}. Data yang kurang: ${B(sh.find(([,msg])=>msg===null)[0].s)}.`,chk:{tambah:crit}}); }
+    { let al,be,ga; do{ al=5*ri(7,16,r); be=5*ri(7,16,r); ga=180-al-be; }while(ga<30||new Set([al,be,ga]).size<3||[al,be,ga].includes(90));
+      const T=triAngles(al,be,7), m=corr(r), T2=twin(T,m,1,r), ord=pick([["A","B","C"],["B","C","A"],["C","A","B"],["B","A","C"]],r), st=`Δ${ord.join("")} ≅ Δ${ord.map(v=>m[v]).join("")}`;
+      steps.push({t:"num",fig:geo(Object.assign({},T,T2),[{v:["A","B","C"]},{v:[m.A,m.B,m.C],f:1}],{arcs:[{v:"A",a:"B",b:"C",t:al+"°"},{v:m.B,a:m.A,b:m.C,t:be+"°"},{v:m.C,a:m.A,b:m.B,t:"?"}]}),ans:qi(ga),unit:"°",
+        q:`Diketahui ${st}, ∠A = ${al}°, dan ∠${m.B} = ${be}°. Berapa besar ${B("∠"+m.C)}?`,traps:[[qi(al),`∠${m.C} berpasangan dengan ∠C, bukan dengan ∠A. Lihat urutan huruf.`],[qi(be),"Itu sudut yang sudah diketahui. Pakai jumlah sudut segitiga 180°."],[qi(180-al),"Kurangi kedua sudut yang diketahui dari 180°."]],
+        how:`Dari ${st}: ∠${m.A} = ∠A = ${al}° dan ∠${m.C} = ∠C. Jumlah sudut segitiga 180°, jadi ∠${m.C} = 180° − ${al}° − ${be}° = ${B(ga+"°")}.`,chk:{sudut:[al,be,ga]}}); }
+    { for(;;){ const x=ri(2,7,r), p=pick([2,3],r), q=ri(-4,4,r), AB=p*x+q, s0=(p-1)*x+q; if(AB<5||AB>20||s0<=0||q===0) continue; let bc=0,ca=0;
+        for(let i=0;i<40&&!bc;i++){ const u=ri(4,20,r), v=ri(4,20,r); if(u!==v&&u!==AB&&v!==AB&&okTri([u,v,AB],32)){ bc=u; ca=v; } } if(!bc) continue;
+        const T=triSides(bc,ca,AB), m=corr(r), T2=twin(T,m,1,r), ord=pick([["A","B","C"],["B","C","A"],["C","A","B"],["B","A","C"],["C","B","A"]],r), st=`Δ${ord.join("")} ≅ Δ${ord.map(v=>m[v]).join("")}`, wx=Q(bc-q,p);
+        steps.push({t:"num",fig:geo(Object.assign({},T,T2),[{v:["A","B","C"]},{v:[m.A,m.B,m.C],f:1}],{lab:{AB:expr(p,q),[mapS(m,"AB")]:expr(1,s0),[mapS(m,"BC")]:String(bc)}}),ans:qi(AB),unit:"cm",
+          q:`Diketahui ${st}. Berapa ${B("panjang AB")}?`,traps:[[qi(x),`Itu nilai x. Panjang AB = ${expr(p,q)} = …`],[wx.d===1&&wx.n>0?qi(bc):null,`${mapS(m,"BC")} bukan pasangan AB. Lihat urutan huruf pada pernyataan kongruen.`]],
+          how:`AB berpasangan dengan ${mapS(m,"AB")}, jadi ${expr(p,q)} = ${expr(1,s0)} → x = ${x}. AB = ${p} × ${x} ${q>0?"+ "+q:"− "+(-q)} = ${B(AB+" cm")}.`,chk:{aljk:[p,q,s0,x]}}); break; } } }
+  return {kind:"kongruen",level,steps:finishSteps(steps)}; }
+
+const explain=p=>p.steps.map(s=>s.how);
+/* jawaban isian tidak boleh kebetulan sama dengan angka lain di gambar (bisa ditebak tanpa menghitung) */
+const leaky=p=>p.steps.some(st=>st.t==="num"&&st.fig&&Object.values(st.fig.lab||{}).some(v=>String(v).replace(/ (cm|m)$/,"")===qfmt(st.ans)));
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0), gen={kenali:genKenali,sisi:genSisi,bayangan:genBayangan,kongruen:genKongruen}[kind];
+  for(;;){ const p=gen(level,r); if(!leaky(p)) return p; } }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify(p.steps.map(s=>[s.t,s.q,s.ans,s.need,s.fig&&JSON.stringify(s.fig)]));
+const DAILY={};
+/* rantai per blok 365 hari: soal tidak berulang dalam setahun dan biaya hitungnya tidak terus bertambah */
+function dailyPuzzle(kind,level,n){
+  const blk=Math.floor((n-1)/365), id=kind+"|"+level+"|"+blk, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()}), m=n-blk*365;
+  while(c.list.length<m){ const d=blk*365+c.list.length+1; let p=null,best=null,bestAge=-1;
+    for(let k=0;k<30;k++){ const q=makePuzzle(kind,level,hashStr(`bangun-kembar|${kind}|${level}|${d}|${k}`)), key=puzzleKey(q), age=c.last.has(key)?d-c.last.get(key):1e9;
+      if(age>365){ p=q; break; } if(age>bestAge){ best=q; bestAge=age; } }
+    p=p||best; c.list.push(p); c.last.set(puzzleKey(p),d); }
+  return c.list[m-1];
+}
+/* ================= AKHIR INTI ================= */</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"kenali",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("bk_prefs",{}));
+if(!KINDS[P.kind]) P.kind="kenali"; if(!LEVELS[P.level]) P.level="mudah";
+const saveP=()=>lsSet("bk_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2600); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function resetStep(){ G.fields=[""]; G.pick=null; G.struck=[]; G.tp={x:88,y:120,r:0,f:false,snap:false}; }
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,step:0,tok:0};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","step"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  resetStep(); $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`bk_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,step:G.step}); }
+const cur=()=>G.p.steps[Math.min(G.step,G.p.steps.length-1)];
+
+/* ---------- alat gambar (koordinat dunia y ke atas → layar) ---------- */
+const f1=n=>+n.toFixed(1);
+const tx=(x,y,s,fs,fill,extra)=>`<text class="h" x="${f1(x)}" y="${f1(y)}" font-size="${fs||13}" fill="${fill||"#1F2A2E"}"${extra||""}>${esc(s)}</text>`;
+const tw=s=>String(s).length*7.2+4;
+const RED="#DC2626", isQ=s=>s==="?"||s==="x";
+/* muatkan titik ke kotak (bx, by, bw, bh); alas rata bawah bila bottom */
+function fitBox(pts,bx,by,bw,bh,m,bottom,mx){ const xs=pts.map(p=>p[0]), ys=pts.map(p=>p[1]), x0=Math.min(...xs), x1=Math.max(...xs), y0=Math.min(...ys), y1=Math.max(...ys); mx=mx||m;
+  const k=Math.min((bw-2*mx)/((x1-x0)||1),(bh-2*m)/((y1-y0)||1)), ox=bx+(bw-(x1-x0)*k)/2, oy=bottom?m:(bh-(y1-y0)*k)/2; return {k,X:x=>f1(ox+(x-x0)*k),Y:y=>f1(by+bh-oy-(y-y0)*k)}; }
+const svgWrap=(W,H,s,id,lab)=>`<div class="figw"><svg class="fig" ${id?`id="${id}"`:""} viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(lab||"Gambar")}">${s}</svg></div>`;
+const unit=(a,b)=>{ const l=Math.hypot(b[0]-a[0],b[1]-a[1])||1; return [(b[0]-a[0])/l,(b[1]-a[1])/l]; };
+/* busur sudut di V (layar) antara arah ke Pp dan Q; n busur; label t */
+function arcMark(V,Pp,Q,n,col,t,maxR){ const r0=Math.max(7,Math.min(17,(maxR||99)-4.5*((n||1)-1))), a1=Math.atan2(Pp[1]-V[1],Pp[0]-V[0]); let d=Math.atan2(Q[1]-V[1],Q[0]-V[0])-a1; while(d>Math.PI) d-=2*Math.PI; while(d<-Math.PI) d+=2*Math.PI; let s="";
+  for(let i=0;i<(n||1);i++){ const r=r0+4.5*i, p1=[V[0]+r*Math.cos(a1),V[1]+r*Math.sin(a1)], p2=[V[0]+r*Math.cos(a1+d),V[1]+r*Math.sin(a1+d)]; s+=`<path d="M${f1(p1[0])} ${f1(p1[1])}A${r} ${r} 0 0 ${d>0?1:0} ${f1(p2[0])} ${f1(p2[1])}" fill="none" stroke="${col}" stroke-width="2"/>`; }
+  if(t){ const m=a1+d/2, hs=Math.max(tw(t)/2,9)+2, dist=Math.min(80,Math.max(32,hs/Math.sin(Math.abs(d)/2))); s+=tx(V[0]+dist*Math.cos(m),V[1]+dist*Math.sin(m),t,isQ(t)?16:13,isQ(t)?RED:col); }
+  return s; }
+function rightMark(V,Pp,Q,sz){ const a=unit(V,Pp), b=unit(V,Q), s=sz||11; return `<path d="M${f1(V[0]+a[0]*s)} ${f1(V[1]+a[1]*s)}L${f1(V[0]+(a[0]+b[0])*s)} ${f1(V[1]+(a[1]+b[1])*s)}L${f1(V[0]+b[0]*s)} ${f1(V[1]+b[1]*s)}" fill="none" stroke="#475569" stroke-width="1.5"/>`; }
+function ticks(a,b,n){ const u=unit(a,b), nv=[-u[1],u[0]], m=[(a[0]+b[0])/2,(a[1]+b[1])/2]; let s=""; for(let i=0;i<n;i++){ const o=(i-(n-1)/2)*5, c=[m[0]+u[0]*o,m[1]+u[1]*o]; s+=`M${f1(c[0]-nv[0]*6)} ${f1(c[1]-nv[1]*6)}L${f1(c[0]+nv[0]*6)} ${f1(c[1]+nv[1]*6)}`; } return `<path d="${s}" stroke="#1F2A2E" stroke-width="2"/>`; }
+function arrows(a,b,n){ const u=unit(a,b), nv=[-u[1],u[0]], m=[(a[0]+b[0])/2,(a[1]+b[1])/2]; let s=""; for(let i=0;i<n;i++){ const o=(i-(n-1)/2)*7, c=[m[0]+u[0]*o,m[1]+u[1]*o]; s+=`M${f1(c[0]-u[0]*5+nv[0]*5)} ${f1(c[1]-u[1]*5+nv[1]*5)}L${f1(c[0])} ${f1(c[1])}L${f1(c[0]-u[0]*5-nv[0]*5)} ${f1(c[1]-u[1]*5-nv[1]*5)}`; } return `<path d="${s}" fill="none" stroke="#1F2A2E" stroke-width="2" stroke-linecap="round"/>`; }
+/* label sisi di luar bangun (menjauhi titik pusat cen) */
+function sideLab(a,b,cen,s,fs){ const m=[(a[0]+b[0])/2,(a[1]+b[1])/2], u=unit(a,b); let n=[-u[1],u[0]]; if((m[0]-cen[0])*n[0]+(m[1]-cen[1])*n[1]<0) n=[-n[0],-n[1]];
+  const off=11+Math.abs(n[0])*tw(s)/2+Math.abs(n[1])*4; return tx(m[0]+n[0]*off,m[1]+n[1]*off,s,isQ(s)?17:fs||14,isQ(s)?RED:"#1F2A2E"); }
+const PF=["#EDE9FE","#FCE7F3","#E0F2FE"], PS=["#5B21B6","#BE185D","#0369A1"], AC=["#B45309","#0F766E","#BE185D"];
+const onSeg=(p,a,b)=>{ const l=Math.hypot(b[0]-a[0],b[1]-a[1]), t=((p[0]-a[0])*(b[0]-a[0])+(p[1]-a[1])*(b[1]-a[1]))/(l*l); if(t<=0.001||t>=0.999) return false; const q=[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t]; return Math.hypot(p[0]-q[0],p[1]-q[1])<0.6; };
+
+/* ---------- bangun geometri umum ---------- */
+function geoSVG(f,o){ o=o||{}; const W=340, H=240, names=Object.keys(f.P), lw=Math.max(0,...Object.values(f.lab||{}).map(tw)), T=fitBox(names.map(n=>f.P[n]),0,0,W,H,34,false,Math.max(34,lw+18)), S={}; for(const n of names) S[n]=[T.X(f.P[n][0]),T.Y(f.P[n][1])];
+  const edges=[]; f.polys.forEach((pl,i)=>pl.v.forEach((v,j)=>edges.push([v,pl.v[(j+1)%pl.v.length],i]))); (f.segs||[]).forEach(([a,b])=>edges.push([a,b,-1]));
+  const cenOf=v=>[v.reduce((s,n)=>s+S[n][0],0)/v.length,v.reduce((s,n)=>s+S[n][1],0)/v.length], all=cenOf(names);
+  const cenFor=(a,b)=>{ for(const [u,v,i] of edges) if(i>=0&&((u===a&&v===b)||(u===b&&v===a))) return cenOf(f.polys[i].v);
+    for(const [u,v,i] of edges) if(i>=0){ const A=S[u],Bp=S[v], inA=a===u||a===v||onSeg(S[a],A,Bp), inB=b===u||b===v||onSeg(S[b],A,Bp); if(inA&&inB) return cenOf(f.polys[i].v); } return all; };
+  let s=`<rect width="${W}" height="${H}" fill="#fff"/>`;
+  f.polys.forEach(pl=>{ const c=pl.f||0; s+=`<polygon points="${pl.v.map(n=>S[n].join(",")).join(" ")}" fill="${PF[c]}" fill-opacity="${f.polys.length>1?.85:1}" stroke="${PS[c]}" stroke-width="2.5" stroke-linejoin="round"/>`; });
+  for(const [a,b] of f.segs||[]) s+=`<path d="M${S[a][0]} ${S[a][1]}L${S[b][0]} ${S[b][1]}" stroke="#5B21B6" stroke-width="2.2"/>`;
+  if(o.sel){ const [a,b]=o.sel.split(""); s+=`<path d="M${S[a][0]} ${S[a][1]}L${S[b][0]} ${S[b][1]}" stroke="#EA580C" stroke-width="7" stroke-linecap="round" opacity=".9"/>`; }
+  for(const [k,n] of Object.entries(f.tick||{})) s+=ticks(S[k[0]],S[k[1]],n);
+  for(const [k,n] of Object.entries(f.par||{})) s+=arrows(S[k[0]],S[k[1]],n);
+  for(const a of f.right||[]) s+=rightMark(S[a.v],S[a.a],S[a.b]);
+  for(const a of f.arcs||[]){ const mr=0.42*Math.min(Math.hypot(S[a.a][0]-S[a.v][0],S[a.a][1]-S[a.v][1]),Math.hypot(S[a.b][0]-S[a.v][0],S[a.b][1]-S[a.v][1])); s+=arcMark(S[a.v],S[a.a],S[a.b],a.t?1:a.n,a.t?(a.n?AC[a.n-1]:AC[0]):AC[(a.n||1)-1],a.t,mr); }
+  for(const [k,v] of Object.entries(f.lab||{})) s+=sideLab(S[k[0]],S[k[1]],cenFor(k[0],k[1]),v);
+  for(const n of names){ const nb=[]; for(const [u,v] of edges){ if(u===n) nb.push(v); else if(v===n) nb.push(u); else if(onSeg(S[n],S[u],S[v])) nb.push(u,v); }
+    const dirs=nb.map(m=>Math.atan2(S[m][1]-S[n][1],S[m][0]-S[n][0])); let best=-Math.PI/2, bd=-1;
+    for(let i=0;i<36;i++){ const a=i*Math.PI/18, d=dirs.length?Math.min(...dirs.map(b=>{ const e=Math.abs(a-b)%(2*Math.PI); return Math.min(e,2*Math.PI-e); })):9; if(d>bd+1e-9){ bd=d; best=a; } }
+    s+=tx(S[n][0]+15*Math.cos(best),S[n][1]+15*Math.sin(best),n,13,"#334155"); }
+  if(o.tap) for(const k of f.tap||[]) s+=`<line class="sd" data-side="${k}" x1="${S[k[0]][0]}" y1="${S[k[0]][1]}" x2="${S[k[1]][0]}" y2="${S[k[1]][1]}" stroke="rgba(0,0,0,0)" stroke-width="30" stroke-linecap="round"/>`;
+  return svgWrap(W,H,s,o.tap?"geog":"","Gambar bangun"); }
+
+/* ---------- tumpuk: segitiga ungu digeser, diputar, dicerminkan ---------- */
+const TC=[252,120];
+function tpPts(f,cx,cy,rot,flip){ const T=f.T, c=[(T.A[0]+T.B[0]+T.C[0])/3,(T.A[1]+T.B[1]+T.C[1])/3], R=Math.max(...["A","B","C"].map(n=>Math.hypot(T[n][0]-c[0],T[n][1]-c[1]))), k=66/R, t=rot*Math.PI/180, o={};
+  for(const n of ["A","B","C"]){ let x=T[n][0]-c[0], y=T[n][1]-c[1]; if(flip) x=-x; o[n]=[f1(cx+(x*Math.cos(t)-y*Math.sin(t))*k),f1(cy-(x*Math.sin(t)+y*Math.cos(t))*k)]; } return o; }
+function triLabs(Pt,names,labs,cen){ let s=""; [["B","C"],["C","A"],["A","B"]].forEach(([a,b])=>{ s+=sideLab(Pt[a],Pt[b],cen,labs[a+b],13); }); ["A","B","C"].forEach(n=>{ const d=unit(cen,Pt[n]); s+=tx(Pt[n][0]+d[0]*14,Pt[n][1]+d[1]*14,names[n],13,"#334155"); }); return s; }
+function tpInner(st){ const f=st.fig, tp=G.done?{x:TC[0],y:TC[1],r:f.rot/90%4,f:f.flip,snap:true}:G.tp, tg=tpPts(f,TC[0],TC[1],f.rot,f.flip), mv=tpPts(f,tp.x,tp.y,tp.r*90,tp.f), m=f.m;
+  let s=`<rect width="340" height="240" fill="#fff"/><polygon points="${["A","B","C"].map(n=>tg[n].join(",")).join(" ")}" fill="#F1F5F9" stroke="#94A3B8" stroke-width="2.5" stroke-dasharray="6 4"/>`;
+  if(!tp.snap) s+=triLabs(tg,{A:m.A,B:m.B,C:m.C},f.lab,TC);
+  s+=`<polygon class="mv" points="${["A","B","C"].map(n=>mv[n].join(",")).join(" ")}" fill="${tp.snap?"rgba(22,163,74,.35)":"rgba(109,40,217,.35)"}" stroke="${tp.snap?"#15803D":"#5B21B6"}" stroke-width="2.5"/>`;
+  s+=triLabs(mv,tp.snap?{A:`A=${m.A}`,B:`B=${m.B}`,C:`C=${m.C}`}:{A:"A",B:"B",C:"C"},tp.snap?{}:f.lab,[tp.x,tp.y]);
+  return s; }
+let drag=null;
+function svgPt(svg,e){ const m=svg.getScreenCTM(); if(!m) return null; const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse()); return [p.x,p.y]; }
+function tpMatch(){ const st=cur(), f=st.fig, tp=G.tp; if(tp.snap||G.done) return; if(tp.r===f.rot/90%4&&tp.f===!!f.flip&&Math.hypot(tp.x-TC[0],tp.y-TC[1])<26){ tp.x=TC[0]; tp.y=TC[1]; tp.snap=true; drag=null; const tok=++G.tok; redraw(); setTimeout(()=>{ if(G&&G.tok===tok&&!G.done) nextStep("Tepat menumpuk!"); },550); } }
+$("play").addEventListener("pointerdown",e=>{ if(!G||G.done) return; const st=cur();
+  if(st.t==="tumpuk"&&e.target.closest("#tpg")&&!G.tp.snap){ e.preventDefault(); const svg=$("tpg"), p=svgPt(svg,e); if(!p) return; const onMv=!!e.target.closest(".mv");
+    if(!onMv){ G.tp.x=p[0]; G.tp.y=p[1]; } drag={id:e.pointerId,dx:G.tp.x-p[0],dy:G.tp.y-p[1]}; try{ svg.setPointerCapture(e.pointerId); }catch(_){} redraw(); return; }
+  if(st.t==="ketuk"){ const sd=e.target.closest("[data-side]"); if(!sd) return; const k=sd.dataset.side; G.pick=G.pick===k?null:k; render(); } });
+$("play").addEventListener("pointermove",e=>{ if(!drag||e.pointerId!==drag.id) return; const p=svgPt($("tpg"),e); if(!p) return; G.tp.x=Math.max(16,Math.min(324,p[0]+drag.dx)); G.tp.y=Math.max(16,Math.min(224,p[1]+drag.dy)); redraw(); });
+const endDrag=()=>{ if(drag){ drag=null; if(G&&cur().t==="tumpuk") tpMatch(); } }; window.addEventListener("pointerup",endDrag); window.addEventListener("pointercancel",endDrag);
+let raf=0; function redraw(){ if(raf) return; raf=requestAnimationFrame(()=>{ raf=0; const st=cur(); if(st.t==="tumpuk"&&$("tpg")) $("tpg").innerHTML=tpInner(st); }); }
+
+/* ---------- adegan cerita ---------- */
+const dimH=(x,y0,y1,lab,left,col)=>`<path d="M${x} ${y0}V${y1}M${x-4} ${y0}h8M${x-4} ${y1}h8" stroke="${col||"#0F172A"}" stroke-width="1.3"/>`+tx(x+(left?-1:1)*(7+tw(lab)/2),(y0+y1)/2,lab,isQ(lab)?17:12,isQ(lab)?RED:col||"#0F172A");
+const dimW=(x0,x1,y,lab,below)=>`<path d="M${x0} ${y}H${x1}M${x0} ${y-4}v8M${x1} ${y-4}v8" stroke="#0F172A" stroke-width="1.3"/>`+tx((x0+x1)/2,y+(below===false?-11:12),lab,isQ(lab)?16:12,isQ(lab)?RED:"#0F172A");
+function objDraw(o,x,h,T){ const X=T.X, Y=T.Y, k=T.k, px=v=>f1(v*k);
+  if(o==="tongkat") return `<rect x="${X(x)-2}" y="${Y(h)}" width="4" height="${px(h)}" fill="#92400E"/>`;
+  if(o==="orang"){ const top=Y(h), hp=h*k, r=Math.max(3,hp*0.11); return `<g stroke="#1F2A2E" stroke-width="2" fill="none"><circle cx="${X(x)}" cy="${f1(top+r)}" r="${f1(r)}" fill="#FDE68A"/><path d="M${X(x)} ${f1(top+2*r)}V${f1(top+hp*0.6)}l-${f1(r)} ${f1(hp*0.4)}M${X(x)} ${f1(top+hp*0.6)}l${f1(r)} ${f1(hp*0.4)}M${X(x)-f1(r*1.3)} ${f1(top+hp*0.36)}H${X(x)+f1(r*1.3)}"/></g>`; }
+  if(o==="tiang") return `<path d="M${X(x)} ${Y(0)}V${Y(h)}" stroke="#64748B" stroke-width="3"/><rect x="${X(x)-px(h*0.3)}" y="${Y(h)}" width="${px(h*0.3)}" height="${px(h*0.08)}" fill="#DC2626"/><rect x="${X(x)-px(h*0.3)}" y="${f1(Y(h)+h*0.08*k)}" width="${px(h*0.3)}" height="${px(h*0.08)}" fill="#fff" stroke="#CBD5E1" stroke-width=".6"/>`;
+  if(o==="pohon") return `<rect x="${f1(X(x)-Math.max(2.5,h*0.05*k))}" y="${Y(h*0.32)}" width="${f1(2*Math.max(2.5,h*0.05*k))}" height="${px(h*0.32)}" fill="#92400E"/><polygon points="${f1(X(x)-h*0.22*k)},${Y(h*0.28)} ${f1(X(x)+h*0.22*k)},${Y(h*0.28)} ${X(x)},${Y(h)}" fill="#22C55E" stroke="#15803D" stroke-width="1.5"/>`;
+  if(o==="gedung"){ const w=h*0.4; let s=`<rect x="${X(x-w)}" y="${Y(h)}" width="${px(w)}" height="${px(h)}" fill="#CBD5E1" stroke="#475569" stroke-width="1.5"/>`; const n=Math.max(2,Math.min(8,Math.round(h/4))); for(let i=0;i<n;i++) s+=`<rect x="${f1(X(x-w)+w*k*0.2)}" y="${f1(Y(h)+(i+0.3)*h*k/n)}" width="${f1(w*k*0.6)}" height="${f1(h*k/n*0.4)}" fill="#E0F2FE"/>`; return s; }
+  if(o==="menara"){ const bw=h*0.13; let s=`<path d="M${X(x-bw)} ${Y(0)}L${X(x)} ${Y(h)}L${X(x+bw)} ${Y(0)}" fill="none" stroke="#B91C1C" stroke-width="2.4"/>`; for(let i=1;i<5;i++){ const y=h*i/5, ww=bw*(1-i/5); s+=`<path d="M${X(x-ww)} ${Y(y)}H${X(x+ww)}" stroke="#B91C1C" stroke-width="1.4"/>`; } return s; }
+  return ""; }
+/* panel bayangan: benda setinggi h di x = 0, bayangan sampai x = s */
+function shadowPanel(o,h,s,labH,labS,bx,bw,cap){ const lx=tw(labH)+16+(o==="gedung"?h*0.4/s*(bw-60):0), T=fitBox([[0,0],[s,0],[0,h]],bx+Math.min(lx,70),26,bw-Math.min(lx,70)-8,186,26,true,2), X=T.X, Y=T.Y;
+  return `<path d="M${bx+4} ${Y(0)}H${bx+bw-4}" stroke="#65A30D" stroke-width="2"/><rect x="${X(0)}" y="${Y(0)-2}" width="${f1(s*T.k)}" height="6" rx="2" fill="#475569" opacity=".75"/>`+objDraw(o,0,h,T)
+    +`<path d="M${X(0)} ${Y(h)}L${X(s)} ${Y(0)}" stroke="#F59E0B" stroke-width="2" stroke-dasharray="6 4"/>`+dimH(f1(X(0)-(o==="gedung"?h*0.4*T.k:0)-10),Y(0),Y(h),labH,true)+dimW(X(0),X(s),f1(Y(0)+16),labS)+tx(bx+bw/2,16,cap,12,"#6D28D9"); }
+function sceneSVG(f){ const W=340, H=240, L=f.lab||{}; let s=`<rect width="${W}" height="${H}" fill="#F8FAFC"/>`;
+  if(f.ty==="bayangan"){ s+=`<circle cx="22" cy="22" r="10" fill="#FDE047" stroke="#F59E0B" stroke-width="2"/>`+shadowPanel(f.orang?"orang":"tongkat",f.t,f.s,L.t,L.s,6,150,f.orang?"siswa":"tongkat")+`<path d="M168 30V215" stroke="#E2E8F0" stroke-width="1.5"/>`+shadowPanel(f.obj,f.H,f.S,L.H,L.S,176,160,{tiang:"tiang bendera",pohon:"pohon",gedung:"gedung",menara:"menara"}[f.obj]); }
+  else if(f.ty==="foto"){ const T=fitBox([[0,0],[f.w+0.35*f.W+f.W,f.H]],0,0,W,H,34,true), pic=(x0,w,h)=>{ const X=T.X, Y=T.Y; return `<rect x="${X(x0)}" y="${Y(h)}" width="${f1(w*T.k)}" height="${f1(h*T.k)}" fill="#BAE6FD" stroke="#334155" stroke-width="2"/><polygon points="${X(x0)},${Y(0)} ${X(x0+w*0.4)},${Y(h*0.55)} ${X(x0+w*0.65)},${Y(h*0.3)} ${X(x0+w)},${Y(h*0.6)} ${X(x0+w)},${Y(0)}" fill="#4ADE80" stroke="#15803D"/><circle cx="${X(x0+w*0.75)}" cy="${Y(h*0.82)}" r="${f1(Math.max(2,w*T.k*0.09))}" fill="#FDE047"/>`; }, x2=f.w+0.35*f.W;
+    s+=pic(0,f.w,f.h)+pic(x2,f.W,f.H)+dimW(T.X(0),T.X(f.w),f1(T.Y(0)+14),L.w)+dimH(f1(T.X(0)-10),T.Y(0),T.Y(f.h),L.h,true)+dimW(T.X(x2),T.X(x2+f.W),f1(T.Y(0)+14),L.W)+dimH(f1(T.X(x2+f.W)+10),T.Y(0),T.Y(f.H),L.H,false)+tx(T.X(f.w/2),f1(T.Y(f.h)-12),"asli",11,"#6D28D9")+tx(T.X(x2+f.W/2),f1(T.Y(f.H)-12),"diperbesar",11,"#6D28D9"); }
+  else if(f.ty==="model"){ const shape=(bx,bw,len,dim,labL,labD,cap)=>{ const sh=f.obj==="pesawat"?[[0,-dim/2],[len,dim/2]]:[[0,0],[len,dim]], T=fitBox(sh,bx,22,bw,190,30), X=T.X, Y=T.Y; let g="";
+      if(f.obj==="pesawat") g=`<path d="M${X(0)} ${Y(0.04*len)}H${X(len*0.92)}Q${X(len)} ${Y(0)} ${X(len*0.92)} ${Y(-0.04*len)}H${X(0)}Z" fill="#E2E8F0" stroke="#334155" stroke-width="1.5"/><polygon points="${X(len*0.42)},${Y(dim/2)} ${X(len*0.55)},${Y(dim/2)} ${X(len*0.62)},${Y(0)} ${X(len*0.55)},${Y(-dim/2)} ${X(len*0.42)},${Y(-dim/2)} ${X(len*0.5)},${Y(0)}" fill="#CBD5E1" stroke="#334155" stroke-width="1.5"/><polygon points="${X(0)},${Y(dim*0.18)} ${X(len*0.1)},${Y(dim*0.18)} ${X(len*0.14)},${Y(0)} ${X(len*0.1)},${Y(-dim*0.18)} ${X(0)},${Y(-dim*0.18)}" fill="#CBD5E1" stroke="#334155" stroke-width="1.2"/>`
+        +dimW(X(0),X(len),f1(Y(-dim/2)+14),labL)+dimH(f1(X(len)+12),Y(-dim/2),Y(dim/2),labD,false);
+      else if(f.obj==="kapal") g=`<polygon points="${X(0)},${Y(dim*0.3)} ${X(len)},${Y(dim*0.3)} ${X(len*0.9)},${Y(0)} ${X(len*0.08)},${Y(0)}" fill="#1E40AF" stroke="#1E3A8A" stroke-width="1.5"/><rect x="${X(len*0.3)}" y="${Y(dim*0.55)}" width="${f1(len*0.35*T.k)}" height="${f1(dim*0.25*T.k)}" fill="#F8FAFC" stroke="#334155"/><path d="M${X(len*0.5)} ${Y(dim*0.55)}V${Y(dim)}" stroke="#334155" stroke-width="2"/>`
+        +dimW(X(0),X(len),f1(Y(0)+14),labL)+dimH(f1(X(len)+12),Y(0),Y(dim),labD,false);
+      else g=`<rect x="${X(0)}" y="${Y(dim)}" width="${f1(len*T.k)}" height="${f1(dim*0.85*T.k)}" rx="4" fill="#F59E0B" stroke="#92400E" stroke-width="1.5"/>${[0.1,0.3,0.5,0.7].map(t=>`<rect x="${X(len*t)}" y="${f1(Y(dim)+dim*0.12*T.k)}" width="${f1(len*0.15*T.k)}" height="${f1(dim*0.3*T.k)}" fill="#E0F2FE"/>`).join("")}<circle cx="${X(len*0.2)}" cy="${Y(dim*0.12)}" r="${f1(dim*0.12*T.k)}" fill="#1F2937"/><circle cx="${X(len*0.8)}" cy="${Y(dim*0.12)}" r="${f1(dim*0.12*T.k)}" fill="#1F2937"/>`
+        +dimW(X(0),X(len),f1(Y(0)+14),labL)+dimH(f1(X(len)+12),Y(0),Y(dim),labD,false);
+      return g+tx(bx+bw/2,16,cap,12,"#6D28D9"); };
+    s+=shape(4,158,f.p,f.q,L.p,L.q,"model")+`<path d="M168 30V215" stroke="#E2E8F0" stroke-width="1.5"/>`+shape(176,160,f.P,f.Q,L.P,L.Q,f.obj+" asli"); }
+  else if(f.ty==="karton"){ const T=fitBox([[0,0],[f.W,f.Hk]],0,0,W,H,40), X=T.X, Y=T.Y, top=f.Hk-f.m, bot=f.Hk-f.m-f.h;
+    s+=`<rect x="${X(0)}" y="${Y(f.Hk)}" width="${f1(f.W*T.k)}" height="${f1(f.Hk*T.k)}" fill="#FEF3C7" stroke="#B45309" stroke-width="2"/><rect x="${X(f.m)}" y="${Y(top)}" width="${f1(f.w*T.k)}" height="${f1(f.h*T.k)}" fill="#BAE6FD" stroke="#334155" stroke-width="1.5"/>`
+      +`<polygon points="${X(f.m)},${Y(bot)} ${X(f.m+f.w*0.4)},${Y(bot+f.h*0.5)} ${X(f.m+f.w*0.65)},${Y(bot+f.h*0.3)} ${X(f.m+f.w)},${Y(bot+f.h*0.55)} ${X(f.m+f.w)},${Y(bot)}" fill="#4ADE80" stroke="#15803D"/>`
+      +tx(X(f.m+f.w/2),f1(Y(top)+13),L.w,12)+tx(f1(X(f.m)+tw(L.h)/2+5),Y(bot+f.h*0.75),L.h,12)
+      +`<path d="M${X(f.W/2)} ${Y(f.Hk)}V${Y(top)}M${X(f.W/2)} ${Y(bot)}V${Y(0)}M${X(0)} ${Y(bot+f.h/2)}H${X(f.m)}M${X(f.m+f.w)} ${Y(bot+f.h/2)}H${X(f.W)}" stroke="#B45309" stroke-width="1.6"/>`
+      +tx(X(f.W/2),f1(Y(f.Hk)-10),L.m,12,"#92400E")+tx(f1(X(0)-tw(L.m)/2-4),Y(bot+f.h/2),L.m,12,"#92400E")+tx(f1(X(f.W)+tw(L.m)/2+4),Y(bot+f.h/2),L.m,12,"#92400E")+tx(X(f.W/2),f1(Y(0)+13),L.b,17,RED); }
+  else if(f.ty==="sungai"){ const Pt={A:[0,f.w],B:[0,0],C:[f.a,0],D:[f.a+f.b,0],E:[f.a+f.b,-f.c]}, T=fitBox(Object.values(Pt).concat([[-0.12*(f.a+f.b),0]]),0,0,W,H,30), S={}; for(const n in Pt) S[n]=[T.X(Pt[n][0]),T.Y(Pt[n][1])];
+    s+=`<rect x="0" y="${S.A[1]}" width="${W}" height="${f1(S.B[1]-S.A[1])}" fill="#BAE6FD"/><path d="M0 ${S.A[1]}H${W}M0 ${S.B[1]}H${W}" stroke="#0369A1" stroke-width="1.5"/>`+tx(W-28,f1((S.A[1]+S.B[1])/2),"sungai",11,"#0369A1")
+      +`<polygon points="${S.A} ${S.B} ${S.C}" fill="#EDE9FE" fill-opacity=".6" stroke="#5B21B6" stroke-width="2"/><polygon points="${S.E} ${S.D} ${S.C}" fill="#FCE7F3" stroke="#BE185D" stroke-width="2"/><path d="M${S.A[0]} ${S.A[1]}L${S.E[0]} ${S.E[1]}" stroke="#5B21B6" stroke-width="1.5" stroke-dasharray="5 4"/>`
+      +`<circle cx="${S.A[0]}" cy="${S.A[1]-7}" r="7" fill="#22C55E" stroke="#15803D"/>`+rightMark(S.B,S.A,S.C)+rightMark(S.D,S.C,S.E)
+      +sideLab(S.B,S.C,[S.B[0],S.B[1]-40],L.a)+sideLab(S.C,S.D,[S.C[0],S.C[1]-40],L.b)+sideLab(S.D,S.E,S.C,L.c)+sideLab(S.A,S.B,S.C,L.w);
+    for(const n in S){ const d=n==="A"?[0,-1.7]:n==="E"?[0,1]:n==="B"?[-1,-0.6]:[0.3,-1]; s+=tx(S[n][0]+d[0]*14,S[n][1]+d[1]*14,n,13,"#334155"); } }
+  else if(f.ty==="cermin"){ const wb=Math.max(4,f.H*0.35), T=fitBox([[-1.5,0],[f.d1+f.d2+wb,0],[0,f.H*1.05]],0,0,W,H,30,true), X=T.X, Y=T.Y, xb=f.d1+f.d2;
+    s+=`<path d="M0 ${Y(0)}H${W}" stroke="#65A30D" stroke-width="2"/><rect x="${X(xb)}" y="${Y(f.H)}" width="${f1(wb*T.k)}" height="${f1(f.H*T.k)}" fill="#CBD5E1" stroke="#475569" stroke-width="1.5"/>`+objDraw("orang",0,f.t,T)
+      +`<rect x="${X(f.d1)-9}" y="${Y(0)-4}" width="18" height="5" rx="1" fill="#7DD3FC" stroke="#0369A1" stroke-width="1.5"/><path d="M${X(xb)} ${Y(f.H)}L${X(f.d1)} ${Y(0)}L${X(0)} ${Y(f.t)}" fill="none" stroke="#F59E0B" stroke-width="2" stroke-dasharray="6 4"/>`
+      +dimW(X(0),X(f.d1),f1(Y(0)+14),L.d1)+dimW(X(f.d1),X(xb),f1(Y(0)+14),L.d2)+dimH(f1(X(xb+wb)+10),Y(0),Y(f.H),L.H,false)+tx(f1(X(0)+tw(L.t)/2+8),f1(Y(f.t)-8),L.t,11,"#475569"); }
+  else if(f.ty==="lampu"){ const T=fitBox([[-0.8,0],[f.x+f.s+0.5,0],[0,f.L*1.08]],0,0,W,H,30,true), X=T.X, Y=T.Y;
+    s+=`<path d="M0 ${Y(0)}H${W}" stroke="#65A30D" stroke-width="2"/><path d="M${X(0)} ${Y(0)}V${Y(f.L)}" stroke="#334155" stroke-width="4"/><circle cx="${X(0)}" cy="${Y(f.L)}" r="6" fill="#FDE047" stroke="#A16207" stroke-width="1.5"/>`+objDraw("orang",f.x,f.t,T)
+      +`<rect x="${X(f.x)}" y="${Y(0)-2}" width="${f1(f.s*T.k)}" height="6" rx="2" fill="#475569" opacity=".75"/><path d="M${X(0)} ${Y(f.L)}L${X(f.x+f.s)} ${Y(0)}" stroke="#F59E0B" stroke-width="2" stroke-dasharray="6 4"/>`
+      +dimW(X(0),X(f.x),f1(Y(0)+14),L.x)+dimW(X(f.x),X(f.x+f.s),f1(Y(0)+14),L.s)+dimH(f1(X(0)-12),Y(0),Y(f.L),L.L,true)+tx(f1(X(f.x)+tw(L.t)/2+6),f1(Y(f.t)-6),L.t,11,"#475569"); }
+  else if(f.ty==="maket"){ const bld=(bx,bw,w,h,labH,cap,floor)=>{ const T=fitBox([[0,0],[w,h]],bx,26,bw,180,30,true), X=T.X, Y=T.Y; let g=`<rect x="${X(0)}" y="${Y(h)}" width="${f1(w*T.k)}" height="${f1(h*T.k)}" fill="#E2E8F0" stroke="#475569" stroke-width="1.5"/>`; const n=Math.max(3,Math.min(9,Math.round(h/w*3)));
+      for(let i=0;i<n;i++) g+=`<rect x="${f1(X(0)+w*T.k*0.15)}" y="${f1(Y(h)+(i+0.3)*h*T.k/n)}" width="${f1(w*T.k*0.7)}" height="${f1(h*T.k/n*0.4)}" fill="#BAE6FD"/>`;
+      return g+dimH(f1(X(w)+10),Y(0),Y(h),labH,false)+tx(bx+bw/2,16,cap,12,"#6D28D9")+(floor?tx(X(w/2),f1(Y(0)+14),floor,11,"#475569"):""); };
+    s+=bld(4,158,f.a,f.hm,L.hm,"maket",`lantai ${L.a} × ${L.b}`)+`<path d="M168 30V215" stroke="#E2E8F0" stroke-width="1.5"/>`+bld(176,160,f.a*f.Hm/f.hm,f.Hm,L.Hm,"gedung asli",""); }
+  return svgWrap(W,H,s,"","Gambar situasi"); }
+
+/* ---------- tampilan ---------- */
+function figHTML(st){ const f=st.fig; if(!f) return ""; if(f.k==="geo") return geoSVG(f,{tap:st.t==="ketuk"&&!G.done,sel:st.t==="ketuk"?(G.done?st.need:G.pick):null});
+  if(f.k==="tumpuk") return svgWrap(340,240,tpInner(st),"tpg","Tumpuk segitiga"); if(f.k==="scene") return sceneSVG(f); return ""; }
+function ansText(st){ if(st.t==="ketuk") return `✓ ${st.need}`; if(st.t==="pilih") return `✓ ${esc(st.opts[st.ans].s)}`; if(st.t==="tumpuk"){ const m=st.fig.m; return `✓ ΔABC ≅ Δ${m.A}${m.B}${m.C}`; }
+  return qfmt(st.ans)+(st.unit==="°"?"°":st.unit?" "+st.unit:""); }
+function render(){
+  const st=cur(), n=G.p.steps.length, done=G.done; let h="", c="", needPad=false, ok=true;
+  h+=n>1?`<div class="prog" aria-label="Soal ${G.step+1} dari ${n}">${G.p.steps.map((_,i)=>`<i class="${i<G.step||done?"d":i===G.step?"c":""}"></i>`).join("")}</div>`:"";
+  const qlen=st.q.replace(/<[^>]+>/g,"").length;
+  h+=`<div class="qtext${qlen>125?" long":""}">${st.q}${st.sub&&!done?`<small>${st.sub}</small>`:""}</div>`+figHTML(st);
+  if(done){ c=`<div class="ans">${ansText(st)}</div>`; ok=false; }
+  else if(st.t==="pilih"){ c=`<div class="ops">${st.opts.map((o,i)=>{ const m=/^(.*) \((.*)\)$/.exec(o.s); return `<button type="button" class="op" data-o="${i}" ${G.struck.includes(i)?"disabled":""}>${m?`${esc(m[1])}<small>${esc(m[2])}</small>`:esc(o.s)}</button>`; }).join("")}</div>`; ok=false; }
+  else if(st.t==="tumpuk"){ c=`<div class="tpb"><button type="button" class="btn ghost" data-act="rot">⟲ Putar 90°</button><button type="button" class="btn ghost" data-act="flip">⇋ Cerminkan</button></div>`; ok=false; }
+  else if(st.t==="ketuk") c=`<div class="ans" style="font-size:1.05rem;color:var(--ink)">Sisi terpilih: <b>${G.pick?esc(G.pick):"—"}</b></div>`;
+  else { c=`<div class="form"><span class="fld act${G.fields[0]?"":" ph"}" data-f="0" style="min-width:120px">${G.fields[0]?esc(G.fields[0]):"?"}</span><span>${esc(st.unit==="°"?"°":st.unit||"")}</span></div>`; needPad=true; }
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=c;
+  $("pad").hidden=!needPad; $("okBtn").hidden=!ok;
+  $("hintBtn").hidden=!(G.wrong>=3&&!done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0, short={kenali:"Kenali",sisi:"Sisi",bayangan:"Bayangan",kongruen:"Kongruen"};
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`bk_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}"><span style="display:block">${v.icon}</span>${short[k]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}<small>${l.sub}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+
+/* ---------- interaksi ---------- */
+function nextStep(msg){ G.tok++; G.step++; $("fb").innerHTML=msg?`<span class="ok">✓ ${msg}</span>`:"";
+  if(G.step>=G.p.steps.length){ G.step=G.p.steps.length-1; return finish(); } resetStep(); saveDay(); render(); }
+function miss(msg){ G.wrong++; $("fb").innerHTML=`<span class="no">✗ ${msg}</span>`; saveDay(); render(); }
+$("ctrlBody").addEventListener("click",e=>{ if(!G||G.done) return; const b=e.target.closest("button"); if(!b) return; const st=cur();
+  if(b.dataset.o!==undefined&&st.t==="pilih"){ const i=+b.dataset.o; if(i===st.ans) return nextStep("Benar!"); G.struck.push(i); return miss(st.opts[i].m||"Belum tepat."); }
+  if(st.t==="tumpuk"&&!G.tp.snap){ if(b.dataset.act==="rot") G.tp.r=(G.tp.r+1)%4; else if(b.dataset.act==="flip"){ G.tp.r=(4-G.tp.r)%4; G.tp.f=!G.tp.f; } redraw(); tpMatch(); } });
+function press(k){
+  const st=cur(); if(!G||G.done||$("pad").hidden) return;
+  if(k==="ok") return check();
+  let v=G.fields[0];
+  if(k==="del") v=v.slice(0,-1);
+  else if(k===","){ if(!/\d$/.test(v)||/[,\/]/.test(v)) return; v+=","; }
+  else if(k==="/"){ if(!/\d$/.test(v)||/[,\/]/.test(v)) return; v+="/"; }
+  else if(v.length<9&&!(v.includes(",")&&v.split(",")[1].length>=2)) v+=k;
+  G.fields[0]=v; render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b&&!b.disabled&&b.dataset.k) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G||G.done) return;
+  if(e.key==="Enter"){ if(document.activeElement&&document.activeElement.tagName==="BUTTON") return; e.preventDefault(); if(!$("okBtn").hidden) check(); return; }
+  if($("pad").hidden) return;
+  const m={Backspace:"del",".":",","/":"/"}; if(/^[0-9]$/.test(e.key)||m[e.key]||e.key===","){ e.preventDefault(); press(m[e.key]||e.key); }
+});
+function check(){
+  if(G.done) return; const st=cur();
+  if(st.t==="ketuk"){ if(!G.pick) return toast("Ketuk satu sisi dulu."); const pk=G.pick; G.pick=null; if(pk.split("").sort().join("")===st.need.split("").sort().join("")) return nextStep(`Benar, ${st.need}.`); return miss(st.miss); }
+  if(st.t!=="num") return;
+  const t=G.fields[0]; if(!t||/[,\/]$/.test(t)) return toast("Isi jawabannya dulu.");
+  const p=qparse(t); if(!p) return toast("Contoh penulisan: 12, 7,5, atau 15/2.");
+  if(qeq(p.q,st.ans)){ if(!p.simple) return toast("Nilainya sudah benar. Tulis pecahannya dalam bentuk paling sederhana.",3200); return nextStep("Benar!"); }
+  const tr=(st.traps||[]).find(([v])=>qeq(v,p.q)); return miss(tr?tr[1]:"Belum tepat. Coba hitung lagi langkah demi langkah.");
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${G.p.steps.map((s,i)=>`<div>${G.p.steps.length>1?`<b>${i+1}.</b> `:""}${s.how}</div>`).join("")}</div>`;
+function playAnims(){}
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Petunjuk</h2><div class="how"><div>${cur().how}</div></div><p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("bk_st_"+l,{})); }
+function recordDay(){
+  const allk=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`bk_day_${G.level}_${k}`,null));
+  if(!allk.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=allk.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("bk_st_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Petunjuk":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`bk_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h; playAnims(r);
+  const dt=r.querySelector("details"); if(dt) dt.addEventListener("toggle",()=>{ if(dt.open) playAnims(dt); });
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`bk_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Bangun Kembar #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.step||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
