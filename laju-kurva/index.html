@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FAF6EE">
+<title>Laju Kurva</title>
+<meta name="description" content="Laju Kurva untuk SMA kelas 11–12: kalkulus lewat grafik. Limit (mendekati lubang grafik, bentuk 0/0, akar sekawan, limit tak hingga), turunan (memutar garis singgung, aturan perkalian, pembagian, rantai), aplikasi turunan (titik stasioner, naik/turun, garis singgung, optimasi), dan integral (antiturunan, konstanta C, integral tentu, luas daerah). Mode Harian, Latihan, dan Kelas 2 Tim.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23047857'/%3E%3Cpath d='M8 50C20 50 22 14 34 14S48 40 56 40' fill='none' stroke='%23fff' stroke-width='5' stroke-linecap='round'/%3E%3Cpath d='M14 22L54 6' stroke='%23A7F3D0' stroke-width='3'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FAF6EE;
+  --card:#FFFFFF;
+  --ink:#1F2A2E;
+  --muted:#5B6466;
+  --line:#E7DCC4;
+  --gr:#047857;
+  --gr-d:#065F46;
+  --soft:#ECFDF5;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1100px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--gr)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+@media (max-width:360px){#segKind button{font-size:.76rem;letter-spacing:-.2px} .brand{font-size:1.04rem}}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+.qtext{font-weight:800;font-size:1.12rem;line-height:1.45;text-align:center}
+.qtext small{display:block;font-weight:700;font-size:.85rem;color:var(--muted)}
+.prog{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.prog i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.prog i.d{background:var(--green)} .prog i.c{background:var(--gr);transform:scale(1.25)}
+/* gambar, kertas berpetak, papan titik, animasi */
+.figw{display:flex;justify-content:center}
+.kl{display:grid;gap:8px;justify-items:center}
+@media (min-width:600px){.kl{grid-template-columns:3fr 2fr;align-items:center}}
+.kl .figw{width:100%}
+.fig{display:block;width:100%;max-width:460px;height:auto;max-height:56vh;background:#fff;border:2px solid var(--line);border-radius:14px;user-select:none;-webkit-user-select:none}
+.fig text,.anim text{font-family:'Baloo 2',sans-serif;font-weight:800;text-anchor:middle;dominant-baseline:central}
+.fig text.h,.anim text.h{paint-order:stroke;stroke:#fff;stroke-width:3.5px;stroke-linejoin:round}
+#plotg{touch-action:none;cursor:pointer}
+.nw{white-space:nowrap}
+.frc{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;margin:0 2px;line-height:1.15}
+.frc>span:first-child{border-bottom:2px solid currentColor;padding:0 3px}
+.frc>span:last-child{padding:0 3px}
+.lim{display:inline-flex;flex-direction:column;align-items:center;vertical-align:middle;line-height:1;margin-right:2px}
+.lim small{font-size:.62em}
+.intg{font-size:1.25em;display:inline-flex;align-items:center;vertical-align:middle}
+.intg .bd{display:inline-flex;flex-direction:column;font-size:.5em;line-height:1.1;margin-left:1px}
+.rd{text-align:center;font-weight:800;font-size:1.05rem;line-height:1.35;min-height:2.7em;display:flex;align-items:center;justify-content:center}
+.chips{display:flex;justify-content:center;gap:8px;flex-wrap:wrap}
+.chips span{border:2px solid var(--line);border-radius:999px;padding:2px 10px;font-weight:800;font-size:.9rem;color:var(--muted)}
+.chips span.on{border-color:var(--green);color:var(--green);background:#ECFDF5}
+.xy .fld{min-width:64px}
+.tpb{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.xy{display:flex;align-items:center;justify-content:center;gap:4px;font-weight:800;font-size:1.35rem;flex-wrap:wrap}
+.xy .fld{min-width:76px}
+.sd{cursor:pointer}
+.vt{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.vt span{background:var(--soft);border:1px solid #A5F3FC;border-radius:8px;padding:2px 8px;font-weight:700;font-size:.88rem;white-space:nowrap}
+.frm{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:800;font-size:1.25rem}
+.frac{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+.frac .sl{min-width:92px;padding:4px 10px;border-radius:10px;border:2px dashed var(--line);text-align:center;background:var(--bg);font-size:1rem}
+.frac .sl.on{border-style:solid;border-color:var(--gr);background:#fff}
+.frac hr{width:100%;border:0;border-top:3px solid var(--ink);margin:0}
+.dt{border-collapse:collapse;margin:0 auto;font-weight:700;font-size:1rem;min-width:240px}
+.dt caption{font-weight:800;color:var(--muted);font-size:.85rem;padding-bottom:4px}
+.dt th,.dt td{border:1px solid var(--line);padding:5px 10px;text-align:left}
+.dt th{background:var(--soft);font-size:.85rem}
+.dt td.v{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dt tr.tot td{font-weight:800;background:#FAFAF9}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.bsl{display:flex;flex-direction:column;gap:8px}
+.bsr{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:var(--bg);border-radius:12px;padding:8px 10px;font-weight:700;line-height:1.35}
+.bsr .tg{display:flex;gap:4px}
+.bsr button{border:2px solid var(--line);background:#fff;border-radius:10px;padding:6px 8px;font-weight:800;cursor:pointer;font-size:.85rem}
+.bsr button[aria-pressed="true"].b{background:#DCFCE7;border-color:#16A34A;color:#14532D}
+.bsr button[aria-pressed="true"].s{background:#FFE4E6;border-color:#E11D48;color:#881337}
+.op svg{display:block;width:100%;max-width:120px;margin:0 auto}
+.op.txt{text-align:left;font-size:.98rem;font-weight:700;line-height:1.35}
+.ops.one{grid-template-columns:1fr}
+.nudge{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.tools .btn{width:100%}
+.ref{background:var(--soft);border-radius:12px;padding:6px 10px;text-align:center;font-weight:700;font-size:.92rem}
+.story{font-size:1.05rem;line-height:1.5;font-weight:700;text-align:left;background:var(--soft);border-radius:14px;padding:10px 14px}
+.story .ic{font-size:2.1rem;float:left;margin:0 10px 0 0;line-height:1}
+.ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.op{border:3px solid var(--line);background:#fff;border-radius:14px;padding:10px 6px;font-weight:800;font-size:1.1rem;cursor:pointer;color:var(--ink);font-family:inherit;line-height:1.15}
+.op:disabled{opacity:.3;cursor:default}
+.op small{display:block;font-size:.72rem;font-weight:700;color:var(--muted);margin-top:2px}
+.ans{text-align:center;font-weight:800;font-size:1.3rem;color:var(--gr-d)}
+.animw{display:flex;flex-direction:column;align-items:center;gap:6px;background:#fff!important;padding:6px!important}
+.anim{display:block;width:100%;max-width:440px;height:auto}
+.replay{padding:4px 12px!important;font-size:.9rem!important}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.form sup{font-size:.7em}
+.fld{min-width:60px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.pw{display:inline-flex;align-items:flex-start;gap:2px}
+.pw>span:first-child{padding-top:14px;font-size:1.5rem}
+.fld.sm{min-width:34px;height:32px;font-size:1.05rem;padding:0 4px}
+.fld.act{border-color:var(--gr);background:#fff;box-shadow:0 0 0 3px #86EFAC}
+.fld.ph{color:#9CA3AF}
+.fld.bad{border-color:var(--rose);background:#FFE4E6}
+.pad{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:var(--soft);font-weight:800;font-size:1.3rem;cursor:pointer}
+.pad button:disabled{opacity:.3;cursor:default}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+#ctrlBody{display:flex;flex-direction:column;gap:10px}
+#ctrlBody .btn{width:100%}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--gr);color:#fff;box-shadow:0 3px 0 var(--gr-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--gr-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.btn.alt{background:#FEF9C3;color:var(--ink);box-shadow:0 3px 0 #EAB308}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#E7DCC4}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--gr-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(31,42,46,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .qtext{font-size:1.45rem} .kelas .qtext.long{font-size:1.2rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:56px;min-width:100px} .kelas .fld.sm{height:44px;min-width:56px;font-size:1.4rem}
+  .kelas .pad button{height:52px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem}
+  .kelas .ans{font-size:2rem} .kelas .op{font-size:1.4rem} .kelas .story{font-size:1.3rem}
+  .kelas .fig{max-width:700px;max-height:max(250px,calc(100vh - 505px))}
+  .kelas #ctrl,.kelas #ctrlBody{gap:8px} .kelas .seg button{padding:4px 3px} .kelas .wrap{gap:8px}
+  .kelas .grid2{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Laju <span>Kurva</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button>
+        <button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="−" aria-label="Negatif">−</button><button type="button" data-k=",">,</button><button type="button" data-k="/" aria-label="Per">/</button><button type="button" data-k="del" aria-label="Hapus">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Petunjuk</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li><b>🎯 Limit</b>: substitusi dulu. Kalau hasilnya 0/0, faktorkan lalu coret, atau kalikan dengan akar sekawan. Untuk x → ∞, bandingkan suku berpangkat tertinggi.</li>
+      <li><b>📈 Turunan</b>: (axⁿ)' = n·a·xⁿ⁻¹. Perkalian (uv)' = u'v + uv', pembagian (u/v)' = (u'v − uv')/v², rantai: kalikan dengan turunan bagian dalam. f'(a) = gradien garis singgung di x = a.</li>
+      <li><b>⛰️ Aplikasi Turunan</b>: titik stasioner saat f'(x) = 0; f naik bila f'(x) &gt; 0, turun bila f'(x) &lt; 0. Untuk nilai maksimum pada interval, cek juga ujung interval.</li>
+      <li><b>🧱 Integral</b>: ∫axⁿ dx = a/(n + 1)·xⁿ⁺¹ + C. Integral tentu = F(b) − F(a). Luas selalu positif.</li>
+      <li>Isi pecahan dengan tombol <b>/</b> (mis. 2/3) dan negatif dengan <b>−</b>. Pada isian koefisien, ketuk kotaknya dulu. Mudah dan Sedang kelas 11, Sulit kelas 12.</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Petunjuk</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+<script>/* ================= INTI: pembuat soal kalkulus ================= */
+/* ===== Laju Kurva: kalkulus SMA kelas 11–12 (limit, turunan, aplikasi turunan, integral) ===== */
+const KINDS={limit:{label:"Limit",icon:"🎯"},turunan:{label:"Turunan",icon:"📈"},aplikasi:{label:"Aplikasi Turunan",icon:"⛰️"},integral:{label:"Integral",icon:"🧱"}};
+const LEVELS={mudah:{label:"Mudah",sub:"kelas 11"},sedang:{label:"Sedang",sub:"kelas 11"},sulit:{label:"Sulit",sub:"kelas 12"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const gcd=(a,b)=>b?gcd(b,a%b):Math.abs(a);
+const grp=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,".");
+const num=x=>{ const r=Math.round(x*100)/100, [i,f]=String(Math.abs(r)).split("."); return (r<0?"−":"")+grp(i)+(f?","+f:""); };
+const B=s=>`<b>${s}</b>`;
+const nz=v=>v===0?0:v;
+
+/* ---------- pecahan ---------- */
+function Q(n,d){ d=d===undefined?1:d; if(d<0){ n=-n; d=-d; } const g=gcd(n,d)||1; return {n:nz(n/g),d:d/g}; }
+const qv=q=>q.n/q.d, qeq=(a,b)=>a.n*b.d===b.n*a.d;
+const qadd=(a,b)=>Q(a.n*b.d+b.n*a.d,a.d*b.d), qsub=(a,b)=>Q(a.n*b.d-b.n*a.d,a.d*b.d), qmul=(a,b)=>Q(a.n*b.n,a.d*b.d), qdiv=(a,b)=>Q(a.n*b.d,a.d*b.n);
+const qi=n=>Q(n,1), qneg=a=>Q(-a.n,a.d);
+const qfmt=q=>(q.n<0?"−":"")+(q.d===1?grp(Math.abs(q.n)):`${Math.abs(q.n)}/${q.d}`);
+const tq=x=>typeof x==="number"?qi(x):x;
+
+/* ---------- polinomial (koefisien naik: c[k] untuk x^k, boleh bilangan atau pecahan) ---------- */
+const SUP=["","","²","³","⁴","⁵","⁶"];
+function polyS(c,v){ v=v||"x"; let s=""; for(let k=c.length-1;k>=0;k--){ const q=tq(c[k]); if(!q.n) continue; const neg=q.n<0, a=neg?qneg(q):q;
+    const coef=k===0?qfmt(a):(a.n===1&&a.d===1?"":a.d===1?qfmt(a):`(${qfmt(a)})`); const t=coef+(k?v+SUP[k]:"");
+    s+=s?(neg?" − ":" + ")+t:(neg?"−":"")+t; } return s||"0"; }
+const pev=(c,x)=>c.reduce((s,a,k)=>qadd(s,qmul(tq(a),pw(x,k))),qi(0));
+const pw=(x,k)=>{ let r=qi(1); for(let i=0;i<k;i++) r=qmul(r,tq(x)); return r; };
+const pder=c=>c.slice(1).map((a,k)=>qmul(tq(a),qi(k+1)));
+const pint=c=>[qi(0)].concat(c.map((a,k)=>qdiv(tq(a),qi(k+1))));
+const pmul=(a,b)=>{ const o=Array(a.length+b.length-1).fill(0).map(()=>qi(0)); a.forEach((x,i)=>b.forEach((y,j)=>{ o[i+j]=qadd(o[i+j],qmul(tq(x),tq(y))); })); return o; };
+const padd=(a,b)=>{ const n=Math.max(a.length,b.length), o=[]; for(let i=0;i<n;i++) o.push(qadd(tq(a[i]||0),tq(b[i]||0))); return o; };
+const pnum=c=>c.map(a=>qv(tq(a)));
+/* tampilan pecahan bersusun, limit, dan integral */
+const fac=r=>r===0?"x":`(x ${r<0?"+":"−"} ${num(Math.abs(r))})`;
+const nw=t=>{ const i=t.indexOf(" = "); return i>0&&i<12?`<span class="nw">${t.slice(0,i)} =</span> <span class="nw">${t.slice(i+3)}</span>`:`<span class="nw">${t}</span>`; };
+const frc=(t,b)=>`<span class="frc"><span>${t}</span><span>${b}</span></span>`;
+const limH=a=>`<span class="lim">lim<small>${a}</small></span>`;
+const intH=(a,b)=>`<span class="intg">∫${a===undefined?"":`<span class="bd"><small>${b}</small><small>${a}</small></span>`}</span>`;
+const par=s=>/[+−]/.test(s.slice(1))?`(${s})`:s;
+/* jebakan yang hasilnya sama dengan jawaban atau kembar dibuang */
+function finishSteps(steps){ for(const s of steps){ if(!s.traps) continue; const A=Array.isArray(s.ans)?s.ans:[s.ans];
+    s.traps=s.traps.filter((t,i,arr)=>{ if(!t||t[0]===null) return false; const v=Array.isArray(t[0])?t[0]:[t[0]]; if(v.some(x=>!x||!isFinite(x.n/x.d))) return false; if(v.length===A.length&&v.every((x,j)=>qeq(x,A[j]))) return false; return arr.findIndex(u=>u&&JSON.stringify(u[0])===JSON.stringify(t[0]))===i; }); }
+  return steps; }
+/* jendela grafik yang memuat titik-titik penting */
+function win(xs,ys,mx,my){ const x0=Math.floor(Math.min(...xs))-(mx||1), x1=Math.ceil(Math.max(...xs))+(mx||1), y0=Math.floor(Math.min(...ys))-(my||1), y1=Math.ceil(Math.max(...ys))+(my||1); return {xr:[x0,x1],yr:[y0,y1]}; }
+const sampleY=(c,x0,x1)=>{ const o=[]; for(let i=0;i<=40;i++){ const x=x0+(x1-x0)*i/40; o.push(c.reduce((s,a,k)=>s+qv(tq(a))*x**k,0)); } return o; };
+const plotFig=(xr,yr,ex)=>Object.assign({k:"plot",xr,yr},ex);
+const coefLab=(n)=>["",...["x","x²","x³","x⁴"]].slice(0,n).reverse();
+
+/* ================= 1. LIMIT ================= */
+function genLimit(level,r){ const steps=[];
+  if(level==="mudah"){
+    for(;;){ const a=pick([-3,-2,-1,1,2,3,4],r), s=ri(-4,4,r); if(s===a||a-s===0) continue; const N=[a*s,-(a+s),1], D=[-a,1], L=a-s, g=[-s,1];
+      const xr=[a-4,a+4], ys=sampleY(g,xr[0],xr[1]), W=win(xr,ys.concat([L]),0,1);
+      steps.push({t:"dekati",fig:plotFig(W.xr,W.yr,{fns:[{N:pnum(N),D:pnum(D)}],hole:[a,L]}),a,L,
+        q:`${nw("f(x) = "+frc(polyS(N),polyS(D)))} tidak terdefinisi di x = ${num(a)}. Seret titik P mendekati x = ${num(a)} dari ${B("kiri")} dan dari ${B("kanan")}.`,sub:"Perhatikan nilai f(x) yang muncul di bawah grafik.",
+        how:`Dari kiri maupun kanan, f(x) makin dekat ke ${B(num(L))}, walaupun f(${num(a)}) sendiri tidak terdefinisi.`,chk:{lim:{N,D,a}}}); break; }
+    for(;;){ const c=pick([-3,-2,-1,1,2,3,4,5],r), s=ri(-5,5,r); if(s===c||c-s===0||c+s===c-s) continue; const N=[c*s,-(c+s),1], D=[-c,1], ans=qi(c-s);
+      steps.push({t:"num",ans,q:`Tentukan ${limH("x→"+num(c))} ${frc(polyS(N),polyS(D))}.`,traps:[[qi(0),"Substitusi langsung memberi 0/0 (bentuk tak tentu), bukan 0. Faktorkan pembilangnya, lalu coret (x − "+num(c)+")."],[qi(c+s),`Setelah dicoret, sisanya ${polyS([-s,1])}. Perhatikan tandanya.`]],
+        how:`${polyS(N)} = (${polyS([-c,1])})(${polyS([-s,1])}). Coret (${polyS([-c,1])}), lalu substitusi: ${num(c)} ${s<0?"+ "+num(-s):"− "+num(s)} = ${B(qfmt(ans))}.`,chk:{lim:{N,D,a:c}}}); break; }
+    { const c=ri(-3,3,r), P=[ri(-6,6,r),ri(-5,5,r),pick([-2,-1,1,2,3],r)], ans=pev(P,c);
+      steps.push({t:"num",ans,q:`Tentukan ${limH("x→"+num(c))} (${polyS(P)}).`,traps:[[qadd(qadd(tq(P[0]),qmul(tq(P[1]),qi(c))),qmul(tq(P[2]),qi(2*c))),`x² berarti ${num(c)} × ${num(c)}, bukan 2 × ${num(c)}.`]],
+        how:`Fungsi polinomial kontinu, jadi cukup substitusi x = ${num(c)}: ${B(qfmt(ans))}.`,chk:{lim:{N:P,D:[1],a:c}}}); } }
+  else if(level==="sedang"){
+    for(;;){ const c=pick([-3,-2,-1,1,2,3,4],r), s=ri(-5,5,r), t=ri(-5,5,r); if(s===c||t===c||s===t) continue; const N=[c*s,-(c+s),1], D=[c*t,-(c+t),1], ans=Q(c-s,c-t); if(!ans.n) continue;
+      steps.push({t:"num",ans,q:`Tentukan ${limH("x→"+num(c))} ${frc(polyS(N),polyS(D))}.`,traps:[[qi(0),"Bentuknya 0/0 (tak tentu), bukan 0. Faktorkan pembilang dan penyebut."],[Q(s,t),`Setelah dicoret, x tetap diganti ${num(c)}.`]],
+        how:`= ${frc(`(${polyS([-c,1])})(${polyS([-s,1])})`,`(${polyS([-c,1])})(${polyS([-t,1])})`)} → coret (${polyS([-c,1])}) → ${frc(num(c-s),num(c-t))} = ${B(qfmt(ans))}.`,chk:{lim:{N,D,a:c}}}); break; }
+    for(;;){ const q=ri(2,5,r), a=ri(-3,6,r), p=q*q-a; if(!a||p===0) continue; const ans=Q(1,2*q);
+      steps.push({t:"num",ans,q:`Tentukan ${limH("x→"+num(a))} ${frc(`√(${polyS([p,1])}) − ${q}`,polyS([-a,1]))}.`,traps:[[qi(0),"Bentuknya 0/0. Kalikan dengan akar sekawan √(…) + "+q+"."],[Q(1,q),`Akar sekawannya di x = ${num(a)} bernilai ${q} + ${q} = ${2*q}, bukan ${q}.`],[qi(2*q),"Terbalik: hasilnya 1 dibagi (√… + "+q+")."]],
+        how:`Kalikan dengan √(${polyS([p,1])}) + ${q}: pembilang menjadi x − ${num(a)}, lalu dicoret. Sisa ${frc("1",`√(${polyS([p,1])}) + ${q}`)} → ${frc("1",`${q} + ${q}`)} = ${B(qfmt(ans))}.`.replace("x − −","x + "),chk:{akar:{p,q,a}}}); break; }
+    for(;;){ const a=pick([1,2,3,4,5,6],r), d=pick([1,2,3,4,5],r), b=ri(-6,6,r), c=ri(-9,9,r), e=ri(-6,6,r), f=ri(-9,9,r), lower=r()<.25; if(a===d) continue;
+      const N=lower?[c,b]:[c,b,a], D=[f,e,d], ans=lower?qi(0):Q(a,d); if(!f) continue;
+      steps.push({t:"num",ans,q:`Tentukan ${limH("x→∞")} ${frc(polyS(N),polyS(D))}.`,traps:[[Q(c,f),"Untuk x → ∞, yang menentukan adalah suku berpangkat tertinggi, bukan konstanta."],lower?[Q(b,d),"Pangkat tertinggi pembilang (1) lebih kecil daripada penyebut (2), jadi hasilnya 0."]:[Q(b,e),"Bandingkan koefisien x², bukan x."]],
+        how:lower?`Pangkat pembilang lebih kecil daripada pangkat penyebut, jadi limitnya ${B("0")}.`:`Pangkat tertinggi sama (x²), jadi limitnya = ${frc(num(a),num(d))} = ${B(qfmt(ans))}.`,chk:{inf:{N,D}}}); break; } }
+  else {
+    { const a=pick([-3,-2,-1,1,2,3],r), e=pick([null,null,-4,-3,-2,-1,0,1,2,3,4].filter(v=>v!==a),r), N=[-(a**3),0,0,1], D=e===null?[-a,1]:[a*e,-(a+e),1], ans=e===null?qi(3*a*a):Q(3*a*a,a-e);
+      steps.push({t:"num",ans,q:`Tentukan ${limH("x→"+num(a))} ${frc(polyS(N),polyS(D))}.`,traps:[[qi(0),"Bentuknya 0/0. Faktorkan: x³ − a³ = (x − a)(x² + ax + a²)."],[e===null?qi(a*a):Q(a*a,a-e),`Faktor kedua x² + ax + a² di x = ${num(a)} bernilai 3 × ${num(a*a)}, bukan ${num(a*a)}.`]],
+        how:`${polyS(N)} = (${polyS([-a,1])})(${polyS([a*a,a,1])})${e===null?"":`, ${polyS(D)} = ${e===0?`x(${polyS([-a,1])})`:`(${polyS([-a,1])})${fac(e)}`}`}. Coret (${polyS([-a,1])}) lalu substitusi x = ${num(a)}: ${e===null?"3 × "+num(a*a):frc("3 × "+num(a*a),e===0?num(a):`${num(a)} − ${e<0?"("+num(e)+")":num(e)}`)} = ${B(qfmt(ans))}.`,chk:{lim:{N,D,a}}}); }
+    for(;;){ const k=pick([1,2,3],r), b=ri(-8,8,r), c=ri(-6,6,r), p=ri(-8,8,r), q=ri(-6,6,r); if(b===p) continue; const ans=Q(b-p,2*k);
+      const A=polyS([c,b,k*k]), Bq=polyS([q,p,k*k]);
+      steps.push({t:"num",ans,q:`Tentukan ${limH("x→∞")} (√(${A}) − √(${Bq})).`,traps:[[qi(b-p),`Masih harus dibagi 2√${k*k} = ${2*k}.`],[Q(b-p,k),"Lupa dibagi 2: hasilnya (b − p) : (2√a)."],[qi(0),"Bentuk ∞ − ∞ belum tentu 0. Pakai rumus (b − p) : (2√a)."]],
+        how:`Untuk √(ax² + bx + c) − √(ax² + px + q) dengan x → ∞, hasilnya ${frc("b − p","2√a")} = ${frc(`${num(b)} − (${num(p)})`,`2 × ${k}`)} = ${B(qfmt(ans))}.`,chk:{selisih:{k,b,c,p,q}}}); break; }
+    for(;;){ const cub=r()<.5, F=cub?[ri(-5,5,r),ri(-4,4,r),ri(-3,3,r),pick([1,-1,2],r)]:[ri(-5,5,r),ri(-6,6,r),pick([1,2,3,-1,-2],r)], a=ri(-3,3,r), ans=pev(pder(F),a);
+      steps.push({t:"num",ans,q:`${nw("f(x) = "+polyS(F))}.<br>Tentukan ${limH("h→0")} ${frc(`f(${num(a)} + h) − f(${num(a)})`,"h")}.`,traps:[[pev(F,a),`Itu f(${num(a)}). Limit ini adalah definisi turunan f'(${num(a)}).`],[qi(0),"Bentuknya 0/0, bukan 0. Ini definisi turunan: hitung f'(x) lalu substitusi."]],
+        how:`Limit ini adalah definisi turunan: f'(x) = ${polyS(pder(F))}, jadi f'(${num(a)}) = ${B(qfmt(ans))}.`,chk:{defH:{F,a}}}); break; } }
+  return {kind:"limit",level,steps:finishSteps(steps)}; }
+
+/* ================= 2. TURUNAN ================= */
+function genTurunan(level,r){ const steps=[];
+  if(level==="mudah"){
+    let F,a;
+    for(;;){ const p=pick([1,-1],r), q=ri(-4,4,r), c=ri(-3,3,r); F=[c,q,p]; a=ri(-3,3,r); const m=2*p*a+q; if(!m||Math.abs(m)>4) continue;
+      const fa=qv(pev(F,a)), xr=[a-3,a+3], ys=sampleY(F,xr[0],xr[1]).filter(y=>Math.abs(y-fa)<9), W=win(xr,ys.concat([fa]),0,1);
+      steps.push({t:"singgung",fig:plotFig(W.xr,W.yr,{fns:[{N:F,D:[1]}],pts:[{p:[a,fa],nm:"P"}]}),a,m,m0:m+(r()<.5?2.5:-2.5),
+        q:`Putar garis yang melalui P sampai ${B("menyinggung")} kurva ${nw("f(x) = "+polyS(F))} di titik ${nw(`P(${num(a)}, ${num(fa)})`)}.`,sub:"Seret titik bulat di ujung garis. Garis menyinggung bila hanya menempel kurva di sekitar P.",
+        how:`Garis singgung di x = ${num(a)} punya gradien f'(${num(a)}) = ${B(num(m))}.`,chk:{sing:{F,a}}}); break; }
+    { const C=[ri(-9,9,r),ri(-9,9,r),ri(-6,6,r),pick([1,-1,2,-2,3,4],r)], ans=pder(C);
+      steps.push({t:"coef",lead:"f'(x) =",terms:coefLab(3),ans:ans.slice().reverse(),q:`Tentukan turunan dari ${nw("f(x) = "+polyS(C))}.`,
+        traps:[[C.slice(1).reverse().map(tq),"Koefisien dikali pangkatnya dulu, lalu pangkatnya turun 1: (axⁿ)' = n·a·xⁿ⁻¹."]],
+        how:`(axⁿ)' = n·a·xⁿ⁻¹, konstanta hilang: f'(x) = ${B(polyS(ans))}.`,chk:{der:{F:C}}}); }
+    { const fa=pev(F,a), ans=pev(pder(F),a);
+      steps.push({t:"num",ans,q:`Untuk ${nw("f(x) = "+polyS(F))} tadi, berapa ${B(`gradien garis singgung di x = ${num(a)}`)}?`,traps:[[fa,`Itu nilai f(${num(a)}) (tinggi titik P). Gradien = f'(${num(a)}).`]],
+        how:`f'(x) = ${polyS(pder(F))}, jadi f'(${num(a)}) = ${B(qfmt(ans))}. Cocok dengan kemiringan garis yang tadi menyinggung.`,chk:{dval:{F,a}}}); } }
+  else if(level==="sedang"){
+    { const m=pick([1,2,3,-1,-2],r), n=ri(-5,5,r), p=ri(-6,6,r); if(!n||!p) return genTurunan(level,r); const F=pmul([n,m],[p,0,1]), ans=pder(F);
+      steps.push({t:"coef",lead:"f'(x) =",terms:coefLab(3),ans:ans.slice().reverse(),q:`Tentukan turunan dari ${nw(`f(x) = (${polyS([n,m])})(${polyS([p,0,1])})`)}.`,
+        traps:[[[qi(0),qi(2*m),qi(0)],"Turunan perkalian bukan perkalian turunan: (uv)' = u'v + uv'."]],
+        how:`u = ${polyS([n,m])}, v = ${polyS([p,0,1])}. u'v + uv' = ${m}(${polyS([p,0,1])}) + (${polyS([n,m])})(2x) = ${B(polyS(ans))}.`.replace(/\b1\(/,"(").replace(/\+ \(/,"+ (").replace(/^u/,"u"),chk:{der:{F,shown:{prod:[[n,m],[p,0,1]]}}}}); }
+    for(;;){ const a=ri(-4,4,r), b=ri(-6,6,r), c=pick([1,2,-1],r), d=ri(-5,5,r), x0=ri(-3,3,r), den=c*x0+d; if(!den||a*d-b*c===0||!a||!b) continue; const ans=Q(a*d-b*c,den*den);
+      steps.push({t:"num",ans,q:`${nw("f(x) = "+frc(polyS([b,a]),polyS([d,c])))}. Tentukan ${B(`f'(${num(x0)})`)}.`,traps:[[Q(a,c),"Turunan pembagian bukan pembagian turunan: (u/v)' = (u'v − uv') : v²."],[Q(b*c-a*d,den*den),"Urutannya u'v − uv', bukan uv' − u'v."],[Q(a*d-b*c,den),"Penyebutnya dikuadratkan: v²."]],
+        how:`f'(x) = ${frc(`${num(a)}(${polyS([d,c])}) − (${polyS([b,a])})·${num(c)}`,`(${polyS([d,c])})²`)} = ${frc(num(a*d-b*c),`(${polyS([d,c])})²`)}. Di x = ${num(x0)}: ${frc(num(a*d-b*c),num(den*den))} = ${B(qfmt(ans))}.`,chk:{quot:{a,b,c,d,x0}}}); break; }
+    for(;;){ const a=ri(-6,6,r), b=ri(-8,8,r), x0=pick([1,4,9],r), s=Math.sqrt(x0); if(!a||!b) continue; const ans=qsub(Q(a,2*s),Q(b,x0*x0));
+      steps.push({t:"num",ans,q:`${nw(`f(x) = ${a===1?"":a===-1?"−":num(a)}√x ${b<0?"− "+num(-b):"+ "+num(b)}/x`)}. Tentukan ${B(`f'(${x0})`)}.`,traps:[[qadd(Q(a,2*s),Q(b,x0*x0)),"Turunan 1/x adalah −1/x², tandanya negatif."],[qsub(Q(a,s),Q(b,x0*x0)),"Turunan √x adalah 1/(2√x), jangan lupa dibagi 2."]],
+        how:`(√x)' = ${frc("1","2√x")} dan (${frc("1","x")})' = −${frc("1","x²")}. f'(x) = ${frc(num(a),"2√x")} ${b>0?"−":"+"} ${frc(num(Math.abs(b)),"x²")}. Di x = ${x0}: ${frc(num(a),num(2*s))} ${b>0?"−":"+"} ${frc(num(Math.abs(b)),num(x0*x0))} = ${B(qfmt(ans))}.`,chk:{akarx:{a,b,x0}}}); break; } }
+  else {
+    for(;;){ const a=pick([1,2,3,-1,-2],r), b=ri(-4,4,r), n=pick([3,4,5],r), x0=ri(-2,2,r), base=a*x0+b; if(!b||Math.abs(base)>3||!base) continue; const ans=qi(n*a*base**(n-1));
+      steps.push({t:"num",ans,q:`${nw(`f(x) = (${polyS([b,a])})${SUP[n]}`)}. Tentukan ${B(`f'(${num(x0)})`)}.`,traps:a===1?[[qi(base**n),"Itu f(x). Turunkan dulu."]]:[[qi(n*base**(n-1)),`Aturan rantai: kalikan juga dengan turunan bagian dalam, yaitu ${num(a)}.`],[qi(base**n),"Itu f(x). Turunkan dulu."]],
+        how:`Aturan rantai: f'(x) = ${n}(${polyS([b,a])})${SUP[n-1]} × ${num(a)}. Di x = ${num(x0)}: ${n} × (${num(base)})${SUP[n-1]} × ${num(a)} = ${B(qfmt(ans))}.`,chk:{chain:{a,b,n,x0}}}); break; }
+    for(;;){ const a=pick([1,2,3,5,7,8],r), x0=pick([1,2,3,-1,-2],r), s=ri(2,10,r), b=s*s-a*x0*x0; if(!b) continue; const ans=Q(a*x0,s);
+      steps.push({t:"num",ans,q:`${nw(`f(x) = √(${polyS([b,0,a])})`)}. Tentukan ${B(`f'(${num(x0)})`)}.`,traps:[[Q(1,2*s),`Kalikan dengan turunan bagian dalam: ${num(2*a)}x.`],[Q(2*a*x0,s),"Turunan √u adalah u' : (2√u); angka 2 di penyebut jangan dilupakan."]],
+        how:`f'(x) = ${frc(`${num(2*a)}x`,`2√(${polyS([b,0,a])})`)} = ${frc(polyS([0,a]),`√(${polyS([b,0,a])})`)}. Di x = ${num(x0)}: ${frc(num(a*x0),`√${s*s}`)} = ${B(qfmt(ans))}.`,chk:{sqrtc:{a,b,x0}}}); break; }
+    { const p=pick([-4,-3,-2,-1,1,2,3,4],r), q=ri(-3,3,r), F=pmul([q,p,1],[q,p,1]), ans=pder(F);
+      steps.push({t:"coef",lead:"f'(x) =",terms:coefLab(4),ans:ans.slice().reverse(),q:`Tentukan turunan dari ${nw(`f(x) = (${polyS([q,p,1])})²`)}.`,
+        traps:[[[qi(0),qi(2),qi(2*p),qi(2*q)],`Aturan rantai: 2(${polyS([q,p,1])}) masih dikali turunan bagian dalam (${polyS([p,2])}).`]],
+        how:`f'(x) = 2(${polyS([q,p,1])})(${polyS([p,2])}) = ${B(polyS(ans))}.`,chk:{der:{F,shown:{sq:[q,p,1]}}}}); } }
+  return {kind:"turunan",level,steps:finishSteps(steps)}; }
+
+/* ================= 3. APLIKASI TURUNAN ================= */
+function genAplikasi(level,r){ const steps=[];
+  if(level==="mudah"){
+    for(;;){ const p=pick([1,-1],r), h=ri(-3,3,r), k=ri(-4,4,r), F=[p*h*h+k,-2*p*h,p]; if(!h) continue;
+      const xr=[h-4,h+4], ys=sampleY(F,xr[0],xr[1]).filter(y=>Math.abs(y-k)<10), W=win(xr,ys.concat([k]),0,1);
+      steps.push({t:"puncak",fig:plotFig(W.xr,W.yr,{fns:[{N:F,D:[1]}]}),x0:h,y0:k,start:h+(r()<.5?2.5:-2.5),
+        q:`Seret titik P di kurva ${nw("f(x) = "+polyS(F))} ke ${B(p<0?"puncak":"lembah")}nya.`,sub:"Garis kecil di P menunjukkan kemiringan kurva (garis singgung).",
+        how:`Di ${p<0?"puncak":"lembah"}, garis singgung mendatar: f'(x) = ${polyS(pder(F))} = 0 → x = ${num(h)}, f(${num(h)}) = ${B(num(k))}.`,chk:{stat:{F,x:h}}}); break; }
+    for(;;){ const p=pick([1,-1,2,-2,3],r), h=ri(-4,4,r), k=ri(-6,6,r), F=[p*h*h+k,-2*p*h,p]; if(!h) continue;
+      steps.push({t:"xy",lab:"(x, y) =",ans:[qi(h),qi(k)],q:`Tentukan ${B("titik stasioner")} kurva ${nw("y = "+polyS(F))}.`,traps:[[[qi(-h),pev(F,-h)],"Perhatikan tanda: f'(x) = 0 → x = −b : (2a)."],[[qi(h),qi(F[0])],`y dihitung dari f(${num(h)}), bukan konstanta saja.`]],
+        how:`f'(x) = ${polyS(pder(F))} = 0 → x = ${num(h)}. y = f(${num(h)}) = ${num(k)}. Titik stasioner ${B(`(${num(h)}, ${num(k)})`)}.`,chk:{stat:{F,x:h,y:k}}}); break; }
+    for(;;){ const F=[ri(-5,5,r),ri(-5,5,r),pick([1,-1,2],r)], a=ri(-3,3,r), m=pev(pder(F),a), fa=pev(F,a), c=qsub(fa,qmul(m,qi(a))); if(!m.n) continue;
+      steps.push({t:"coef",lead:"y =",terms:["x",""],ans:[m,c],q:`Tentukan ${B("persamaan garis singgung")} kurva ${nw("y = "+polyS(F))} di titik yang absisnya x = ${num(a)}.`,
+        traps:[[[fa,m],"Gradien = f'(a), sedangkan titik singgungnya (a, f(a))."],[[m,fa],`Garis melalui (${num(a)}, ${qfmt(fa)}): c = f(a) − m·a.`]],
+        how:`Titik singgung (${num(a)}, ${qfmt(fa)}), gradien m = f'(${num(a)}) = ${qfmt(m)}. ${fa.n===0?"y":`y ${fa.n<0?"+":"−"} ${qfmt(qv(fa)<0?qneg(fa):fa)}`} = ${qv(m)===1?fac(a).replace(/^\((.*)\)$/,"$1"):(qv(m)===-1?"−":qfmt(m))+fac(a)} → ${B("y = "+polyS([c,m]))}.`,chk:{tan:{F,a}}}); break; } }
+  else if(level==="sedang"){
+    const cubic=(r1,r2,k,d)=>[d,3*k*r1*r2,-3*k*(r1+r2)/2,k];
+    for(;;){ const r1=ri(-4,3,r), r2=r1+2*ri(1,3,r), k=pick([1,-1],r), F=cubic(r1,r2,k,ri(-5,5,r));
+      const up=`naik pada x < ${num(r1)} atau x > ${num(r2)}, turun pada ${num(r1)} < x < ${num(r2)}`, dn=`turun pada x < ${num(r1)} atau x > ${num(r2)}, naik pada ${num(r1)} < x < ${num(r2)}`;
+      const opts=[[up,k>0],[dn,k<0],[`naik pada x < ${num(r2)}, turun pada x > ${num(r2)}`,false],["naik untuk semua x",false]], sh=shuffle(opts,r);
+      steps.push({t:"pilih",opts:sh.map(([s,ok])=>({s:(s[0].toUpperCase()+s.slice(1)).replace(/ ([<>]) /g,"\u00A0$1\u00A0"),m:ok?null:`f'(x) = ${polyS(pder(F))} = ${num(3*k)}${r2===0?fac(r2)+fac(r1):fac(r1)+fac(r2)}. Cek tanda f'(x) di kiri ${num(r1)}, di antara, dan di kanan ${num(r2)}.`})),ans:sh.findIndex(([,ok])=>ok),
+        q:`Kapan ${nw("f(x) = "+polyS(F))} naik dan kapan turun?`,how:`f'(x) = ${num(3*k)}${r2===0?fac(r2)+fac(r1):fac(r1)+fac(r2)}. f'(x) ${k>0?"positif":"negatif"} di luar ${num(r1)} dan ${num(r2)}, ${k>0?"negatif":"positif"} di antaranya: ${B((k>0?up:dn).replace(/</g,"&lt;").replace(/>/g,"&gt;"))}.`,chk:{naik:{F,r1,r2,k}}}); break; }
+    for(;;){ const r1=ri(-4,2,r), r2=r1+2*ri(1,2,r), k=pick([1,-1],r), F=cubic(r1,r2,k,ri(-5,5,r)), xm=k>0?r1:r2, xn=k>0?r2:r1;
+      steps.push({t:"xy",lab:"(x, y) =",ans:[qi(xm),pev(F,xm)],q:`Tentukan ${B("titik balik maksimum")} kurva ${nw("y = "+polyS(F))}.`,traps:[[[qi(xn),pev(F,xn)],"Itu titik balik minimum. Di titik maksimum, f' berubah dari positif ke negatif."]],
+        how:`f'(x) = ${polyS(pder(F))} = 0 → x = ${num(r1)} atau x = ${num(r2)}. f' berubah dari + ke − di x = ${num(xm)}, jadi titik balik maksimum ${B(`(${num(xm)}, ${qfmt(pev(F,xm))})`)}.`,chk:{maxpt:{F}}}); break; }
+    for(;;){ const p=pick([-1,-2,1],r), h=ri(-3,3,r), k=ri(-5,8,r), F=[p*h*h+k,-2*p*h,p], lo=ri(-5,2,r), hi=lo+ri(3,6,r); const xs=[lo,hi].concat(lo<h&&h<hi?[h]:[]), vals=xs.map(x=>pev(F,x)), best=vals.reduce((m,v)=>qv(v)>qv(m)?v:m);
+      const atStat=lo<h&&h<hi&&qeq(best,qi(k)), endBest=qv(pev(F,lo))>qv(pev(F,hi))?pev(F,lo):pev(F,hi); if(p>0&&!(lo<h&&h<hi)) continue;
+      steps.push({t:"num",ans:best,q:`Berapa ${B("nilai maksimum")} ${nw("f(x) = "+polyS(F))} pada interval ${nw(`${num(lo)} ≤ x ≤ ${num(hi)}`)}?`,traps:[[atStat?endBest:(lo<h&&h<hi?qi(k):null),atStat?"Nilai di titik stasioner lebih besar daripada di ujung interval.":"Cek juga nilai di ujung interval; nilai maksimum bisa ada di ujung."]],
+        how:`Bandingkan nilai di titik stasioner (bila ada di dalam interval) dan di kedua ujung: ${xs.map((x,i)=>`f(${num(x)}) = ${qfmt(vals[i])}`).join(", ")}. Terbesar: ${B(qfmt(best))}.`,chk:{maxint:{F,lo,hi}}}); break; } }
+  else {
+    { const [a,b]=pick([[6,6],[12,12],[18,18],[24,24],[30,30],[36,36],[42,42],[48,48],[8,5],[24,9],[16,10],[48,13],[30,14],[24,15],[21,16],[48,18],[32,20],[45,24],[40,25],[60,28],[48,30],[42,32],[40,33],[56,35]],r), sq=a===b, x=sq?a/6:(a+b-Math.round(Math.sqrt(a*a-a*b+b*b)))/6, V=x*(a-2*x)*(b-2*x);
+      steps.push({t:"num",ans:qi(V),unit:"cm³",q:`Dari karton ${sq?`persegi bersisi ${a} cm`:`persegi panjang berukuran ${a} cm × ${b} cm`}, keempat pojoknya dipotong persegi bersisi x cm, lalu dilipat menjadi kotak tanpa tutup. Berapa ${B("volume maksimum")} kotak itu?`,traps:[[qi(x),"Itu ukuran potongan x. Yang ditanya volumenya."]].concat(sq?[[qi((a/4)*(a/2)**2),"Cari x dari V'(x) = 0, bukan dengan menebak."]]:[]),
+        how:sq?`V(x) = x(${a} − 2x)². V'(x) = (${a} − 2x)(${a} − 6x) = 0 → x = ${x} (x = ${a/2} membuat volume 0). V(${x}) = ${x} × ${a-2*x}² = ${B(grp(V)+" cm³")}.`
+          :`V(x) = x(${a} − 2x)(${b} − 2x) = 4x³ − ${2*(a+b)}x² + ${a*b}x. V'(x) = 12x² − ${4*(a+b)}x + ${a*b} = 0 → x = ${x} atau x = ${qfmt(Q(a*b,12*x))}. Potongan harus kurang dari ${num(b/2)} cm (setengah sisi pendek), jadi x = ${x}. V(${x}) = ${x} × ${a-2*x} × ${b-2*x} = ${B(grp(V)+" cm³")}.`,chk:{kotak:{a,b}}}); }
+    { const P=4*ri(5,40,r), L=P*P/8;
+      steps.push({t:"num",ans:qi(L),unit:"m²",q:`Kebun persegi panjang di tepi tembok dipagari pada tiga sisi saja dengan pagar sepanjang ${P} m. Berapa ${B("luas maksimum")} kebun itu?`,traps:[[qi(P*P/16),"Satu sisi berupa tembok, jadi pagar hanya untuk tiga sisi."],[qi(P/4),"Itu panjang sisi yang tegak lurus tembok. Yang ditanya luasnya."]],
+        how:`Misal sisi tegak lurus tembok x, sisi sejajar tembok ${P} − 2x. L(x) = x(${P} − 2x), L'(x) = ${P} − 4x = 0 → x = ${P/4}. L = ${P/4} × ${P/2} = ${B(grp(L)+" m²")}.`,chk:{pagar:{P}}}); }
+    for(;;){ const a=ri(2,6,r), b=ri(1,12,r), t0=ri(1,4,r), S=[0,b,-a,1], v=pev(pder(S),t0), acc=pev(pder(pder(S)),t0), askA=r()<.5;
+      if(qeq(v,acc)) continue;
+      steps.push({t:"num",ans:askA?acc:v,unit:askA?"m/s²":"m/s",q:`Posisi benda ${nw("s(t) = "+polyS(S,"t"))} meter (t dalam detik). Berapa ${B(askA?"percepatan":"kecepatan")} benda saat t = ${t0}?`,traps:askA?[[v,"Itu kecepatan v(t) = s'(t). Percepatan = v'(t) = s''(t)."],[pev(S,t0),"Itu posisi s(t)."]]:[[pev(S,t0),"Itu posisi s(t). Kecepatan = s'(t)."],[acc,"Itu percepatan. Kecepatan cukup s'(t)."]],
+        how:`v(t) = s'(t) = ${polyS(pder(S),"t")}${askA?`, a(t) = v'(t) = ${polyS(pder(pder(S)),"t")}`:""}. Saat t = ${t0}: ${B(qfmt(askA?acc:v)+" "+(askA?"m/s²":"m/s"))}.`,chk:{gerak:{S,t0,askA}}}); break; } }
+  return {kind:"aplikasi",level,steps:finishSteps(steps)}; }
+
+/* ================= 4. INTEGRAL ================= */
+function genIntegral(level,r){ const steps=[];
+  if(level==="mudah"){
+    { const a=pick([1,2,-1,3],r), b=ri(-5,5,r), c=ri(-9,9,r), f=[c,2*b,3*a];
+      steps.push({t:"coef",lead:"F(x) =",terms:coefLab(4).slice(0,3),tail:"+ C",ans:[qi(a),qi(b),qi(c)],q:`Tentukan ${intH()} (${polyS(f)}) dx.`,traps:[[[qi(3*a),qi(2*b),qi(c)],"Pangkat naik 1, lalu koefisien dibagi pangkat yang baru."],[[qi(9*a),qi(4*b),qi(c)],"Koefisien dibagi pangkat baru, bukan dikali."]],
+        how:`∫axⁿ dx = ${frc("a","n + 1")}xⁿ⁺¹: ${B(polyS([0,c,b,a])+" + C")}.`,chk:{anti:{f}}}); }
+    for(;;){ const p=pick([1,-1],r), q=ri(-3,3,r), x0=ri(-2,2,r), C=ri(-4,4,r), F0=[0,q,p], y0=qv(pev(F0,x0))+C; if(x0===0||Math.abs(y0)>8) continue;
+      const W=win([-4,4],sampleY(F0,-4,4).map(y=>y+C).filter(y=>Math.abs(y)<12).concat([y0,C]),0,2);
+      steps.push({t:"geserC",fig:plotFig(W.xr,W.yr,{fns:[{N:F0,D:[1]}],pts:[{p:[x0,y0],nm:"P"}]}),C,C0:C+(r()<.5?3:-3),F0,
+        q:`${nw("F'(x) = "+polyS(pder(F0)))}, jadi ${nw("F(x) = "+polyS(F0)+" + C")}. Geser kurva naik atau turun (mengubah C) sampai melalui titik ${nw(`P(${num(x0)}, ${num(y0)})`)}.`,sub:"Seret di mana saja pada grafik ke atas atau ke bawah.",
+        how:`F(${num(x0)}) = ${num(qv(pev(F0,x0)))} + C = ${num(y0)} → C = ${B(num(C))}.`,chk:{c:{F0,x0,y0}}});
+      steps.push({t:"num",ans:qi(C),q:`Berapa nilai ${B("C")} untuk kurva yang melalui ${nw(`P(${num(x0)}, ${num(y0)})`)} tadi?`,traps:[[qi(y0),`Itu nilai F(${num(x0)}). Kurangi dulu dengan ${polyS(F0).replace(/x/g,"("+num(x0)+")")}.`],[qi(y0+qv(pev(F0,x0))),"Dikurangi, bukan ditambah."]],
+        how:`${num(qv(pev(F0,x0)))} + C = ${num(y0)} → C = ${B(num(C))}. Kurvanya memotong sumbu y di (0, ${num(C)}).`,chk:{c:{F0,x0,y0}}}); break; } }
+  else if(level==="sedang"){
+    for(;;){ const a=ri(-6,6,r), b=ri(-7,7,r), c=ri(-9,9,r); if(!a||a%3===0||!b||b%2===0) continue; const f=[c,b,a], ans=pint(f).slice(1).reverse();
+      steps.push({t:"coef",lead:"F(x) =",terms:coefLab(4).slice(0,3),tail:"+ C",ans,q:`Tentukan ${intH()} (${polyS(f)}) dx.`,traps:[[[qi(a),qi(b),qi(c)],"Pangkat naik 1, lalu koefisien dibagi pangkat yang baru."],[[Q(a,2),qi(b),qi(c)],"Bagi dengan pangkat baru: x² menjadi x³/3, x menjadi x²/2."]],
+        how:`${B(polyS(pint(f))+" + C")}.`,chk:{anti:{f}}}); break; }
+    for(;;){ const m=pick([1,2,3,-1],r), n=ri(-5,5,r), p=ri(-5,5,r); if(!n||!p||(m===1&&n===p)) continue; const f=pmul([n,m],[p,1]), ans=pint(f).slice(1).reverse();
+      steps.push({t:"coef",lead:"F(x) =",terms:coefLab(4).slice(0,3),tail:"+ C",ans,q:`Tentukan ${intH()} (${polyS([n,m])})(${polyS([p,1])}) dx.`,traps:[[f.slice().reverse(),"Itu baru hasil penjabarannya. Lanjutkan mengintegralkan."]],
+        how:`Jabarkan dulu: ${polyS(f)}. Lalu integralkan: ${B(polyS(pint(f))+" + C")}.`,chk:{anti:{f,shown:{prod:[[n,m],[p,1]]}}}}); break; }
+    for(;;){ const f=[ri(-6,6,r),ri(-6,6,r),pick([3,-3,6],r)], a=ri(-2,2,r), b=ri(-8,8,r), c=ri(-3,3,r); if(a===c) continue; const F=pint(f), C=qsub(qi(b),pev(F,a)), ans=qadd(pev(F,c),C);
+      steps.push({t:"num",ans,q:`${nw("F'(x) = "+polyS(f))} dan ${nw(`F(${num(a)}) = ${num(b)}`)}. Tentukan ${B(`F(${num(c)})`)}.`,traps:[[pev(F,c),`Cari C dulu dari F(${num(a)}) = ${num(b)}.`]],
+        how:`F(x) = ${polyS(F)} + C. F(${num(a)}) = ${qfmt(pev(F,a))} + C = ${num(b)} → C = ${qfmt(C)}. F(${num(c)}) = ${qfmt(pev(F,c))} + ${qfmt(C)} = ${B(qfmt(ans))}.`.replace(/\+ −/g,"− "),chk:{fval:{f,a,b,c}}}); break; } }
+  else {
+    for(;;){ const f=[ri(-6,6,r),ri(-6,6,r),pick([1,2,3,-1,-3],r)], a=ri(-2,1,r), b=a+ri(1,3,r), F=pint(f), ans=qsub(pev(F,b),pev(F,a)); if(!ans.n) continue;
+      steps.push({t:"num",ans,q:`Hitung ${intH(num(a),num(b))} (${polyS(f)}) dx.`,traps:[[pev(F,b),`Masih harus dikurangi F(${num(a)}).`],[qneg(ans),"Urutannya F(b) − F(a): batas atas dikurangi batas bawah."]],
+        how:`F(x) = ${polyS(F)}. F(${num(b)}) − F(${num(a)}) = ${qfmt(pev(F,b))} − (${qfmt(pev(F,a))}) = ${B(qfmt(ans))}.`,chk:{def:{f,a,b}}}); break; }
+    for(;;){ const k=pick([1,-1,2],r), r1=ri(-3,1,r), r2=r1+ri(2,4,r), f=[k*r1*r2,-k*(r1+r2),k], ans=Q(Math.abs(k)*(r2-r1)**3,6), I=qneg(qmul(qi(k),ans));
+      const W=win([r1-1,r2+1],sampleY(f,r1-1,r2+1),0,1);
+      steps.push({t:"num",ans,unit:"satuan luas",fig:plotFig(W.xr,W.yr,{fns:[{N:f,D:[1]}],area:{f,g:[0],a:r1,b:r2}}),q:`Berapa ${B("luas daerah")} yang dibatasi kurva ${nw("y = "+polyS(f))} dan sumbu x?`,traps:k>0?[[I,"Daerahnya di bawah sumbu x, jadi integralnya negatif. Luas selalu positif."]]:[[qneg(ans),"Luas selalu positif."]],
+        how:`Kurva memotong sumbu x di x = ${num(r1)} dan x = ${num(r2)}. Luas = |${intH(num(r1),num(r2))} (${polyS(f)}) dx| = |${qfmt(k>0?I:ans)}| = ${B(qfmt(ans))}.`,chk:{area:{f,g:[0],a:r1,b:r2}}}); break; }
+    for(;;){ const r1=ri(-3,1,r), r2=r1+ri(2,4,r), m=ri(-2,3,r), c=ri(-3,3,r), g=[c,m], f=padd([r1*r2,-(r1+r2),1],g), ans=Q((r2-r1)**3,6);
+      if(f.every(x=>qv(tq(x))===0)) continue; const W=win([r1-1,r2+1],sampleY(f,r1-1,r2+1).concat(sampleY(g,r1-1,r2+1)),0,1);
+      steps.push({t:"num",ans,unit:"satuan luas",fig:plotFig(W.xr,W.yr,{fns:[{N:pnum(f),D:[1]},{N:g,D:[1],col:1}],area:{f:pnum(f),g,a:r1,b:r2}}),q:`Berapa ${B("luas daerah")} yang dibatasi kurva ${nw("y = "+polyS(f))} dan garis ${nw("y = "+polyS(g))}?`,traps:[[qneg(ans),"Luas selalu positif: kurangkan kurva bawah dari kurva atas."],[qi((r2-r1)**3),"Hasil integral (x − a)(x − b) dari a sampai b dibagi 6."]],
+        how:`Titik potong: ${polyS(f)} = ${polyS(g)} → ${polyS([r1*r2,-(r1+r2),1])} = 0 → x = ${num(r1)} dan x = ${num(r2)}. Garis di atas kurva, jadi luas = ${intH(num(r1),num(r2))} (garis − kurva) dx = ${B(qfmt(ans))}.`,chk:{area:{f:pnum(f),g,a:r1,b:r2}}}); break; } }
+  return {kind:"integral",level,steps:finishSteps(steps)}; }
+
+const explain=p=>p.steps.map(s=>s.how);
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0); return {limit:genLimit,turunan:genTurunan,aplikasi:genAplikasi,integral:genIntegral}[kind](level,r); }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify(p.steps.map(s=>[s.t,s.q,s.ans,s.fig&&JSON.stringify(s.fig)]));
+const DAILY={};
+/* rantai per blok 365 hari: soal tidak berulang dalam setahun dan biaya hitungnya tidak terus bertambah */
+function dailyPuzzle(kind,level,n){
+  const blk=Math.floor((n-1)/365), id=kind+"|"+level+"|"+blk, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()}), m=n-blk*365;
+  while(c.list.length<m){ const d=blk*365+c.list.length+1; let p=null,best=null,bestAge=-1;
+    for(let k=0;k<30;k++){ const q=makePuzzle(kind,level,hashStr(`laju-kurva|${kind}|${level}|${d}|${k}`)), key=puzzleKey(q), age=c.last.has(key)?d-c.last.get(key):1e9;
+      if(age>365){ p=q; break; } if(age>bestAge){ best=q; bestAge=age; } }
+    p=p||best; c.list.push(p); c.last.set(puzzleKey(p),d); }
+  return c.list[m-1];
+}
+/* ================= AKHIR INTI ================= */</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"limit",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("lk_prefs",{}));
+if(!KINDS[P.kind]) P.kind="limit"; if(!LEVELS[P.level]) P.level="mudah";
+const saveP=()=>lsSet("lk_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2600); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function resetStep(){ const st=cur(); G.fields=Array(st.t==="coef"?st.terms.length:st.t==="xy"?2:1).fill(""); G.act=0; G.struck=[]; G.lock=false;
+  G.x=st.t==="dekati"?(st.fig.xr[0]+st.a)/2:st.t==="puncak"?st.start:0; G.seen={L:false,R:false}; G.m=st.m0; G.C=st.C0; }
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,step:0,tok:0};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","step"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  resetStep(); $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`lk_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,step:G.step}); }
+const cur=()=>G.p.steps[Math.min(G.step,G.p.steps.length-1)];
+
+/* ---------- grafik ---------- */
+const f1=n=>+n.toFixed(1);
+const tx=(x,y,s,fs,fill,extra)=>`<text class="h" x="${f1(x)}" y="${f1(y)}" font-size="${fs||13}" fill="${fill||"#1F2A2E"}"${extra||""}>${esc(s)}</text>`;
+const PW=340, PH=260, PM=22;
+const pt=f=>{ const [x0,x1]=f.xr, [y0,y1]=f.yr, sx=(PW-2*PM)/(x1-x0), sy=(PH-2*PM)/(y1-y0); return {x0,x1,y0,y1,X:x=>f1(PM+(x-x0)*sx),Y:y=>f1(PH-PM-(y-y0)*sy),sx,sy,iX:X=>(X-PM)/sx+x0,iY:Y=>(PH-PM-Y)/sy+y0}; };
+const pval=(c,x)=>c.reduce((s,a,k)=>s+a*x**k,0);
+const fval=(fn,x)=>pval(fn.N,x)/pval(fn.D||[1],x);
+const dval=(c,x)=>c.reduce((s,a,k)=>k?s+k*a*x**(k-1):s,0);
+const CURVE=["#047857","#2563EB"];
+function curvePath(T,fn,shift){ let d="", pen=false; const n=260;
+  for(let i=0;i<=n;i++){ const x=T.x0+(T.x1-T.x0)*i/n, den=pval(fn.D||[1],x); if(Math.abs(den)<1e-9){ pen=false; continue; } const y=fval(fn,x)+(shift||0);
+    if(y<T.y0-50||y>T.y1+50){ pen=false; continue; } d+=(pen?"L":"M")+T.X(x)+" "+f1(Math.max(-8,Math.min(PH+8,PH-PM-(y-T.y0)*T.sy))); pen=true; } return d; }
+function plotInner(st){ const f=st.fig, T=pt(f), xs=T.x1-T.x0, ys=T.y1-T.y0, gx=xs>12?2:1, gy=ys>16?(ys>30?5:2):1; let s=`<rect width="${PW}" height="${PH}" fill="#fff"/>`, g="";
+  for(let x=Math.ceil(T.x0);x<=T.x1;x++) g+=`M${T.X(x)} ${T.Y(T.y0)}V${T.Y(T.y1)}`; for(let y=Math.ceil(T.y0);y<=T.y1;y++) g+=`M${T.X(T.x0)} ${T.Y(y)}H${T.X(T.x1)}`;
+  s+=`<path d="${g}" stroke="#EEF2F0" stroke-width="1"/>`;
+  if(T.y0<=0&&T.y1>=0) s+=`<path d="M${T.X(T.x0)} ${T.Y(0)}H${T.X(T.x1)}" stroke="#64748B" stroke-width="1.6"/>`; if(T.x0<=0&&T.x1>=0) s+=`<path d="M${T.X(0)} ${T.Y(T.y0)}V${T.Y(T.y1)}" stroke="#64748B" stroke-width="1.6"/>`;
+  const ly=T.y0<=0&&T.y1>=0?T.Y(0)+10:T.Y(T.y0)-6, lx=T.x0<=0&&T.x1>=0?T.X(0)-9:T.X(T.x0)+9;
+  for(let x=Math.ceil(T.x0/gx)*gx;x<=T.x1;x+=gx) if(x) s+=`<text x="${T.X(x)}" y="${f1(ly)}" font-size="9.5" fill="#94A3B8">${num(x)}</text>`;
+  for(let y=Math.ceil(T.y0/gy)*gy;y<=T.y1;y+=gy) if(y) s+=`<text x="${f1(lx)}" y="${T.Y(y)}" font-size="9.5" fill="#94A3B8">${num(y)}</text>`;
+  if(f.area){ const A=f.area; let pts=[]; for(let i=0;i<=80;i++){ const x=A.a+(A.b-A.a)*i/80; pts.push(T.X(x)+","+T.Y(pval(A.f,x))); } for(let i=80;i>=0;i--){ const x=A.a+(A.b-A.a)*i/80; pts.push(T.X(x)+","+T.Y(pval(A.g,x))); } s+=`<polygon points="${pts.join(" ")}" fill="rgba(4,120,87,.22)"/>`; }
+  const shift=st.t==="geserC"?(G.done?st.C:G.C):0;
+  f.fns.forEach((fn,i)=>{ s+=`<path d="${curvePath(T,fn,i===0?shift:0)}" fill="none" stroke="${G.lock&&st.t==="geserC"||G.done&&st.t==="geserC"?"#15803D":CURVE[fn.col||0]}" stroke-width="2.6" stroke-linejoin="round"/>`; });
+  if(f.hole){ const [a,L]=f.hole; s+=`<path d="M${T.X(a)} ${T.Y(T.y0)}V${T.Y(T.y1)}" stroke="#94A3B8" stroke-width="1.2" stroke-dasharray="4 4"/><circle cx="${T.X(a)}" cy="${T.Y(L)}" r="5.5" fill="#fff" stroke="${CURVE[0]}" stroke-width="2.4"/>`; }
+  for(const z of f.pts||[]) s+=`<circle cx="${T.X(z.p[0])}" cy="${T.Y(z.p[1])}" r="5" fill="#DC2626"/>`+tx(T.X(z.p[0])+12,T.Y(z.p[1])-12,z.nm,13,"#DC2626");
+  if(st.t==="dekati"&&!G.done){ const y=fval(f.fns[0],G.x); s+=`<circle cx="${T.X(G.x)}" cy="${T.Y(y)}" r="8" fill="#F59E0B" stroke="#fff" stroke-width="2"/>`+tx(T.X(G.x),T.Y(y)-16,"P",13,"#B45309"); }
+  if(st.t==="singgung"){ const [a,b]=f.pts[0].p, m=G.done?st.m:G.m, ok=G.done||G.lock, len=Math.hypot(T.sx,m*T.sy)||1, ux=T.sx/len, uy=-m*T.sy/len, cx=T.X(a), cy=T.Y(b);
+    s+=`<path d="M${f1(cx-ux*400)} ${f1(cy-uy*400)}L${f1(cx+ux*400)} ${f1(cy+uy*400)}" stroke="${ok?"#15803D":"#DC2626"}" stroke-width="${ok?3:2.2}"/>`;
+    if(!G.done){ const inV=(d,sg)=>{ const hx=cx+sg*ux*d, hy=cy+sg*uy*d; return hx>12&&hx<PW-12&&hy>12&&hy<PH-12?[hx,hy]:null; }; const h=inV(80,1)||inV(80,-1)||inV(50,1)||inV(50,-1)||inV(32,1)||[cx+ux*32,cy+uy*32];
+      s+=`<circle class="hd" cx="${f1(h[0])}" cy="${f1(h[1])}" r="10" fill="#fff" stroke="${ok?"#15803D":"#DC2626"}" stroke-width="3"/>`; } }
+  if(st.t==="puncak"){ const x=G.done?st.x0:G.x, F=f.fns[0].N, y=pval(F,x), m=dval(F,x), ok=G.done||G.lock, len=Math.hypot(T.sx,m*T.sy)||1, ux=T.sx/len, uy=-m*T.sy/len, cx=T.X(x), cy=T.Y(y);
+    s+=`<path d="M${f1(cx-ux*45)} ${f1(cy-uy*45)}L${f1(cx+ux*45)} ${f1(cy+uy*45)}" stroke="${ok?"#15803D":"#DC2626"}" stroke-width="3"/><circle cx="${cx}" cy="${cy}" r="8" fill="#F59E0B" stroke="#fff" stroke-width="2"/>`+tx(cx,cy-17,"P",13,"#B45309"); }
+  return s; }
+const plotSVG=(st,live)=>`<div class="figw"><svg class="fig" ${live?'id="plotg"':""} viewBox="0 0 ${PW} ${PH}" role="img" aria-label="Grafik fungsi">${plotInner(st)}</svg></div>`;
+let drag=null;
+function svgPt(svg,e){ const m=svg.getScreenCTM(); if(!m) return null; const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse()); return [p.x,p.y]; }
+function onDrag(e){ const st=cur(), svg=$("plotg"); if(!svg||G.lock) return; const p=svgPt(svg,e); if(!p) return; const T=pt(st.fig), wx=T.iX(p[0]), wy=T.iY(p[1]);
+  if(st.t==="dekati"){ let x=Math.round(Math.max(T.x0+0.05,Math.min(T.x1-0.05,wx))*100)/100; if(Math.abs(x-st.a)<0.01) x=st.a+(x<st.a||(x===st.a&&G.x<st.a)?-0.01:0.01); G.x=x;
+    if(Math.abs(x-st.a)<=0.05){ if(x<st.a) G.seen.L=true; else G.seen.R=true; } if(G.seen.L&&G.seen.R) lockNext("Dari kedua sisi, f(x) mendekati bilangan yang sama."); }
+  else if(st.t==="singgung"){ const [a,b]=st.fig.pts[0].p, dx=wx-a; if(Math.abs(dx)<0.05) return; let m=(wy-b)/dx; m=Math.max(-30,Math.min(30,m)); if(Math.abs(m-st.m)<=0.35){ m=st.m; G.m=m; lockNext("Garis menyinggung kurva!"); } else G.m=m; }
+  else if(st.t==="puncak"){ let x=Math.round(Math.max(T.x0+0.2,Math.min(T.x1-0.2,wx))*20)/20; if(Math.abs(x-st.x0)<=0.12){ x=st.x0; G.x=x; lockNext("Garis singgungnya mendatar: f'(x) = 0."); } else G.x=x; }
+  else if(st.t==="geserC"){ let C=Math.round((drag.C0+(wy-drag.y0))*10)/10; C=Math.max(-12,Math.min(12,C)); if(Math.abs(C-st.C)<=0.25){ C=st.C; G.C=C; lockNext("Kurva melalui P!"); } else G.C=C; }
+  redraw(); }
+function lockNext(msg){ G.lock=true; const tok=++G.tok; redraw(); renderCtrl(); setTimeout(()=>{ if(G&&G.tok===tok&&!G.done) nextStep(msg); },650); }
+$("play").addEventListener("pointerdown",e=>{ if(!G||G.done||G.lock) return; const st=cur(); if(!["dekati","singgung","puncak","geserC"].includes(st.t)||!e.target.closest("#plotg")) return;
+  e.preventDefault(); const svg=$("plotg"), p=svgPt(svg,e); if(!p) return; const T=pt(st.fig);
+  if(st.t==="singgung"&&!e.target.closest(".hd")){ const [a,b]=st.fig.pts[0].p; if(Math.hypot(p[0]-T.X(a),p[1]-T.Y(b))<14) return; }
+  drag={id:e.pointerId,C0:G.C,y0:T.iY(p[1])}; try{ svg.setPointerCapture(e.pointerId); }catch(_){} if(st.t!=="geserC") onDrag(e); });
+$("play").addEventListener("pointermove",e=>{ if(drag&&e.pointerId===drag.id) onDrag(e); });
+const endDrag=()=>{ drag=null; }; window.addEventListener("pointerup",endDrag); window.addEventListener("pointercancel",endDrag);
+let raf=0; function redraw(){ if(raf) return; raf=requestAnimationFrame(()=>{ raf=0; const st=cur(); if($("plotg")) $("plotg").innerHTML=plotInner(st); if(st.t==="dekati") renderCtrl(); }); }
+
+/* ---------- tampilan ---------- */
+const fld=i=>`<span class="fld${G.act===i?" act":""}${G.fields[i]?"":" ph"}" data-f="${i}">${G.fields[i]?esc(G.fields[i]):"?"}</span>`;
+function ctrlHTML(st){ const done=G.done;
+  if(done) return `<div class="ans">${ansText(st)}</div>`;
+  if(st.t==="pilih") return `<div class="ops one">${st.opts.map((o,i)=>`<button type="button" class="op" data-o="${i}" ${G.struck.includes(i)?"disabled":""}>${esc(o.s)}</button>`).join("")}</div>`;
+  if(st.t==="dekati"){ const y=fval(st.fig.fns[0],G.x); return `<div class="rd">x = ${num(G.x)} → f(x) = ${num(Math.round(y*100)/100)}</div><div class="chips"><span class="${G.seen.L?"on":""}">dari kiri ${G.seen.L?"✓":""}</span><span class="${G.seen.R?"on":""}">dari kanan ${G.seen.R?"✓":""}</span></div>`; }
+  if(st.t==="singgung") return `<div class="rd">${G.lock?"✓ Menyinggung!":"Seret titik bulat untuk memutar garis."}</div>`;
+  if(st.t==="puncak") return `<div class="rd">${G.lock?"✓ Garis singgung mendatar.":"Seret titik P di sepanjang kurva."}</div>`;
+  if(st.t==="geserC") return `<div class="rd">${G.lock?"✓ Kurva melalui P.":"Seret grafik ke atas atau ke bawah."}</div>`;
+  if(st.t==="coef") return `<div class="xy">${esc(st.lead)}&nbsp;${st.terms.map((t,i)=>`${i?"&nbsp;+&nbsp;":""}<span style="white-space:nowrap">${fld(i)}${t}</span>`).join("")}${st.tail?"&nbsp;"+esc(st.tail):""}</div>`;
+  if(st.t==="xy") return `<div class="xy">${esc(st.lab)} (${fld(0)},${fld(1)})</div>`;
+  return `<div class="form">${fld(0)}<span>${esc(st.unit||"")}</span></div>`; }
+function ansText(st){ if(st.t==="pilih") return `✓ ${esc(st.opts[st.ans].s)}`; if(st.t==="coef"){ const asc=st.ans.slice().reverse(), c=st.terms.length===2?asc:st.tail?[0].concat(asc):asc; return `${esc(st.lead)} ${polyS(c)}${st.tail?" "+st.tail:""}`; }
+  if(st.t==="xy") return `${esc(st.lab)} (${qfmt(st.ans[0])}, ${qfmt(st.ans[1])})`; if(st.t==="num") return qfmt(st.ans)+(st.unit?" "+(st.unit==="°"?"":"")+st.unit:"");
+  return "✓"; }
+function renderCtrl(){ const st=cur(); $("ctrlBody").innerHTML=ctrlHTML(st); }
+const INTER=["dekati","singgung","puncak","geserC"];
+function render(){
+  const st=cur(), n=G.p.steps.length, done=G.done;
+  let h=n>1?`<div class="prog" aria-label="Soal ${G.step+1} dari ${n}">${G.p.steps.map((_,i)=>`<i class="${i<G.step||done?"d":i===G.step?"c":""}"></i>`).join("")}</div>`:"";
+  const qlen=st.q.replace(/<[^>]+>/g,"").length;
+  h+=`<div class="qtext${qlen>125?" long":""}">${st.q}${st.sub&&!done?`<small>${st.sub}</small>`:""}</div>`+(st.fig?plotSVG(st,INTER.includes(st.t)&&!done):"");
+  $("play").innerHTML=h; renderCtrl();
+  const typed=["num","coef","xy"].includes(st.t);
+  $("pad").hidden=!typed||done; $("okBtn").hidden=!typed||done;
+  $("hintBtn").hidden=!(G.wrong>=3&&!done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0, short={limit:"Limit",turunan:"Turunan",aplikasi:"Aplikasi",integral:"Integral"};
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`lk_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}"><span style="display:block">${v.icon}</span>${short[k]}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}<small>${l.sub}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+
+/* ---------- interaksi ---------- */
+function nextStep(msg){ G.tok++; G.step++; $("fb").innerHTML=msg?`<span class="ok">✓ ${msg}</span>`:"";
+  if(G.step>=G.p.steps.length){ G.step=G.p.steps.length-1; return finish(); } resetStep(); saveDay(); render(); }
+function miss(msg){ G.wrong++; $("fb").innerHTML=`<span class="no">✗ ${msg}</span>`; saveDay(); render(); }
+$("ctrlBody").addEventListener("click",e=>{ if(!G||G.done) return; const st=cur();
+  const fl=e.target.closest("[data-f]"); if(fl){ G.act=+fl.dataset.f; renderCtrl(); return; }
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.o!==undefined&&st.t==="pilih"){ const i=+b.dataset.o; if(i===st.ans) return nextStep("Benar!"); G.struck.push(i); return miss(st.opts[i].m||"Belum tepat."); } });
+function press(k){
+  if(!G||G.done||$("pad").hidden) return;
+  if(k==="ok") return check();
+  const i=G.act; let v=G.fields[i];
+  if(k==="del") v=v.slice(0,-1);
+  else if(k==="−") v=v.startsWith("−")?v.slice(1):"−"+v;
+  else if(k===","){ if(!/\d$/.test(v)||/[,\/]/.test(v)) return; v+=","; }
+  else if(k==="/"){ if(!/\d$/.test(v)||/[,\/]/.test(v)) return; v+="/"; }
+  else if(v.replace("−","").length<7) v+=k;
+  G.fields[i]=v; renderCtrl();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b&&!b.disabled&&b.dataset.k) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G||G.done) return;
+  if(e.key==="Enter"){ if(document.activeElement&&document.activeElement.tagName==="BUTTON") return; e.preventDefault(); if(!$("okBtn").hidden) check(); return; }
+  if($("pad").hidden) return;
+  if(e.key==="Tab"||e.key==="ArrowRight"||e.key==="ArrowLeft"){ const n=G.fields.length; if(n<2) return; e.preventDefault(); G.act=(G.act+(e.key==="ArrowLeft"?n-1:1))%n; renderCtrl(); return; }
+  const m={Backspace:"del",".":",","/":"/","-":"−"}; if(/^[0-9]$/.test(e.key)||m[e.key]||e.key===","){ e.preventDefault(); press(m[e.key]||e.key); }
+});
+/* isian → pecahan; simple = sudah bentuk paling sederhana */
+function parseQ(t){ let m=/^(−?)(\d+)(?:,(\d+))?$/.exec(t); if(m){ const f=m[3]||""; return {q:Q((m[1]?-1:1)*+(m[2]+f),10**f.length),simple:true,dec:!!f}; }
+  m=/^(−?)(\d+)\/(\d+)$/.exec(t); if(m&&+m[3]){ const q=Q((m[1]?-1:1)*+m[2],+m[3]); return {q,simple:Math.abs(q.n)===+m[2]&&q.d===+m[3]&&q.d!==1}; } return null; }
+function check(){
+  if(G.done) return; const st=cur(); if(!["num","coef","xy"].includes(st.t)) return;
+  const t=G.fields; const empty=t.findIndex(x=>!x||/[,\/−]$/.test(x)); if(empty>=0){ G.act=empty; renderCtrl(); return toast(t.length>1?"Isi semua kotak dulu (tulis 0 bila tidak ada).":"Isi jawabannya dulu."); }
+  const ps=t.map(parseQ); if(ps.some(x=>!x)) return toast("Contoh penulisan: 3, −2, 2/3, atau −5/2.");
+  const A=Array.isArray(st.ans)?st.ans:[st.ans], V=ps.map(x=>x.q);
+  if(V.every((v,i)=>qeq(v,A[i]))){ if(ps.some(x=>!x.simple)) return toast("Nilainya sudah benar. Tulis pecahannya dalam bentuk paling sederhana.",3200); return nextStep("Benar!"); }
+  const close=V.map((v,i)=>!qeq(v,A[i])&&ps[i].dec&&Math.abs(qv(v)-qv(A[i]))<0.01); if(close.some(Boolean)) return toast("Hampir. Tulis sebagai pecahan biasa, mis. 2/3, bukan desimal yang dibulatkan.",3400);
+  const tr=(st.traps||[]).find(([v])=>{ const a=Array.isArray(v)?v:[v]; return a.length===V.length&&a.every((x,i)=>qeq(x,V[i])); });
+  if(tr) return miss(tr[1]);
+  if(st.t==="coef"){ const ok=V.filter((v,i)=>qeq(v,A[i])).length; return miss(ok?`${ok} dari ${A.length} koefisien sudah tepat. Cek lagi yang lain.`:"Belum tepat. Coba hitung lagi suku demi suku."); }
+  return miss("Belum tepat. Coba hitung lagi langkah demi langkah.");
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${G.p.steps.map((s,i)=>`<div>${G.p.steps.length>1?`<b>${i+1}.</b> `:""}${s.how}</div>`).join("")}</div>`;
+function playAnims(){}
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Petunjuk</h2><div class="how"><div>${cur().how}</div></div><p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("lk_st_"+l,{})); }
+function recordDay(){
+  const allk=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`lk_day_${G.level}_${k}`,null));
+  if(!allk.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=allk.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("lk_st_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Petunjuk":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`lk_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h; playAnims(r);
+  const dt=r.querySelector("details"); if(dt) dt.addEventListener("toggle",()=>{ if(dt.open) playAnims(dt); });
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`lk_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Laju Kurva #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.step||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
