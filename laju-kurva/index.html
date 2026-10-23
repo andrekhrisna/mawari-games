@@ -296,9 +296,9 @@ function genLimit(level,r){ const steps=[];
       steps.push({t:"num",ans,q:`Tentukan ${limH("x→∞")} ${frc(polyS(N),polyS(D))}.`,traps:[[Q(c,f),"Untuk x → ∞, yang menentukan adalah suku berpangkat tertinggi, bukan konstanta."],lower?[Q(b,d),"Pangkat tertinggi pembilang (1) lebih kecil daripada penyebut (2), jadi hasilnya 0."]:[Q(b,e),"Bandingkan koefisien x², bukan x."]],
         how:lower?`Pangkat pembilang lebih kecil daripada pangkat penyebut, jadi limitnya ${B("0")}.`:`Pangkat tertinggi sama (x²), jadi limitnya = ${frc(num(a),num(d))} = ${B(qfmt(ans))}.`,chk:{inf:{N,D}}}); break; } }
   else {
-    { const a=pick([-3,-2,-1,1,2,3],r), two=r()<.5, N=[-(a**3),0,0,1], D=two?[-(a*a),0,1]:[-a,1], ans=two?Q(3*a,2):qi(3*a*a);
-      steps.push({t:"num",ans,q:`Tentukan ${limH("x→"+num(a))} ${frc(polyS(N),polyS(D))}.`,traps:[[qi(0),"Bentuknya 0/0. Faktorkan: x³ − a³ = (x − a)(x² + ax + a²)."],[two?Q(a,2):qi(a*a),`Faktor kedua x² + ax + a² di x = ${num(a)} bernilai 3 × ${num(a*a)}, bukan ${num(a*a)}.`]],
-        how:`${polyS(N)} = (${polyS([-a,1])})(${polyS([a*a,a,1])})${two?`, ${polyS(D)} = (${polyS([-a,1])})(${polyS([a,1])})`:""}. Coret (${polyS([-a,1])}) lalu substitusi x = ${num(a)}: ${two?frc("3 × "+num(a*a),"2 × ("+num(a)+")").replace("("+num(a)+")",a<0?"("+num(a)+")":num(a)):"3 × "+num(a*a)} = ${B(qfmt(ans))}.`,chk:{lim:{N,D,a}}}); }
+    { const a=pick([-3,-2,-1,1,2,3],r), e=pick([null,null,-4,-3,-2,-1,0,1,2,3,4].filter(v=>v!==a),r), N=[-(a**3),0,0,1], D=e===null?[-a,1]:[a*e,-(a+e),1], ans=e===null?qi(3*a*a):Q(3*a*a,a-e);
+      steps.push({t:"num",ans,q:`Tentukan ${limH("x→"+num(a))} ${frc(polyS(N),polyS(D))}.`,traps:[[qi(0),"Bentuknya 0/0. Faktorkan: x³ − a³ = (x − a)(x² + ax + a²)."],[e===null?qi(a*a):Q(a*a,a-e),`Faktor kedua x² + ax + a² di x = ${num(a)} bernilai 3 × ${num(a*a)}, bukan ${num(a*a)}.`]],
+        how:`${polyS(N)} = (${polyS([-a,1])})(${polyS([a*a,a,1])})${e===null?"":`, ${polyS(D)} = ${e===0?`x(${polyS([-a,1])})`:`(${polyS([-a,1])})${fac(e)}`}`}. Coret (${polyS([-a,1])}) lalu substitusi x = ${num(a)}: ${e===null?"3 × "+num(a*a):frc("3 × "+num(a*a),e===0?num(a):`${num(a)} − ${e<0?"("+num(e)+")":num(e)}`)} = ${B(qfmt(ans))}.`,chk:{lim:{N,D,a}}}); }
     for(;;){ const k=pick([1,2,3],r), b=ri(-8,8,r), c=ri(-6,6,r), p=ri(-8,8,r), q=ri(-6,6,r); if(b===p) continue; const ans=Q(b-p,2*k);
       const A=polyS([c,b,k*k]), Bq=polyS([q,p,k*k]);
       steps.push({t:"num",ans,q:`Tentukan ${limH("x→∞")} (√(${A}) − √(${Bq})).`,traps:[[qi(b-p),`Masih harus dibagi 2√${k*k} = ${2*k}.`],[Q(b-p,k),"Lupa dibagi 2: hasilnya (b − p) : (2√a)."],[qi(0),"Bentuk ∞ − ∞ belum tentu 0. Pakai rumus (b − p) : (2√a)."]],
@@ -342,10 +342,10 @@ function genTurunan(level,r){ const steps=[];
     for(;;){ const a=pick([1,2,3,5,7,8],r), x0=pick([1,2,3,-1,-2],r), s=ri(2,10,r), b=s*s-a*x0*x0; if(!b) continue; const ans=Q(a*x0,s);
       steps.push({t:"num",ans,q:`${nw(`f(x) = √(${polyS([b,0,a])})`)}. Tentukan ${B(`f'(${num(x0)})`)}.`,traps:[[Q(1,2*s),`Kalikan dengan turunan bagian dalam: ${num(2*a)}x.`],[Q(2*a*x0,s),"Turunan √u adalah u' : (2√u); angka 2 di penyebut jangan dilupakan."]],
         how:`f'(x) = ${frc(`${num(2*a)}x`,`2√(${polyS([b,0,a])})`)} = ${frc(polyS([0,a]),`√(${polyS([b,0,a])})`)}. Di x = ${num(x0)}: ${frc(num(a*x0),`√${s*s}`)} = ${B(qfmt(ans))}.`,chk:{sqrtc:{a,b,x0}}}); break; }
-    { const p=pick([-4,-3,-2,-1,1,2,3,4],r), F=pmul([0,p,1],[0,p,1]), ans=pder(F);
-      steps.push({t:"coef",lead:"f'(x) =",terms:coefLab(4),ans:ans.slice().reverse(),q:`Tentukan turunan dari ${nw(`f(x) = (${polyS([0,p,1])})²`)}.`,
-        traps:[[[qi(0),qi(2),qi(2*p),qi(0)],`Aturan rantai: 2(${polyS([0,p,1])}) masih dikali turunan bagian dalam (${polyS([p,2])}).`]],
-        how:`f'(x) = 2(${polyS([0,p,1])})(${polyS([p,2])}) = ${B(polyS(ans))}.`,chk:{der:{F,shown:{sq:[0,p,1]}}}}); } }
+    { const p=pick([-4,-3,-2,-1,1,2,3,4],r), q=ri(-3,3,r), F=pmul([q,p,1],[q,p,1]), ans=pder(F);
+      steps.push({t:"coef",lead:"f'(x) =",terms:coefLab(4),ans:ans.slice().reverse(),q:`Tentukan turunan dari ${nw(`f(x) = (${polyS([q,p,1])})²`)}.`,
+        traps:[[[qi(0),qi(2),qi(2*p),qi(2*q)],`Aturan rantai: 2(${polyS([q,p,1])}) masih dikali turunan bagian dalam (${polyS([p,2])}).`]],
+        how:`f'(x) = 2(${polyS([q,p,1])})(${polyS([p,2])}) = ${B(polyS(ans))}.`,chk:{der:{F,shown:{sq:[q,p,1]}}}}); } }
   return {kind:"turunan",level,steps:finishSteps(steps)}; }
 
 /* ================= 3. APLIKASI TURUNAN ================= */
@@ -378,10 +378,11 @@ function genAplikasi(level,r){ const steps=[];
       steps.push({t:"num",ans:best,q:`Berapa ${B("nilai maksimum")} ${nw("f(x) = "+polyS(F))} pada interval ${nw(`${num(lo)} ≤ x ≤ ${num(hi)}`)}?`,traps:[[atStat?endBest:(lo<h&&h<hi?qi(k):null),atStat?"Nilai di titik stasioner lebih besar daripada di ujung interval.":"Cek juga nilai di ujung interval; nilai maksimum bisa ada di ujung."]],
         how:`Bandingkan nilai di titik stasioner (bila ada di dalam interval) dan di kedua ujung: ${xs.map((x,i)=>`f(${num(x)}) = ${qfmt(vals[i])}`).join(", ")}. Terbesar: ${B(qfmt(best))}.`,chk:{maxint:{F,lo,hi}}}); break; } }
   else {
-    { const s=pick([12,18,24,30],r), x=s/6, V=x*(s-2*x)**2;
-      steps.push({t:"num",ans:qi(V),unit:"cm³",q:`Dari karton persegi bersisi ${s} cm, keempat pojoknya dipotong persegi bersisi x cm, lalu dilipat menjadi kotak tanpa tutup. Berapa ${B("volume maksimum")} kotak itu?`,traps:[[qi(x),"Itu ukuran potongan x. Yang ditanya volumenya."],[qi((s/4)*(s/2)**2),"Cari x dari V'(x) = 0, bukan dengan menebak."]],
-        how:`V(x) = x(${s} − 2x)². V'(x) = (${s} − 2x)(${s} − 6x) = 0 → x = ${x} (x = ${s/2} membuat volume 0). V(${x}) = ${x} × ${s-2*x}² = ${B(grp(V)+" cm³")}.`,chk:{kotak:{s}}}); }
-    { const P=pick([40,48,60,80,100,120],r), L=P*P/8;
+    { const [a,b]=pick([[6,6],[12,12],[18,18],[24,24],[30,30],[36,36],[42,42],[48,48],[8,5],[24,9],[16,10],[48,13],[30,14],[24,15],[21,16],[48,18],[32,20],[45,24],[40,25],[60,28],[48,30],[42,32],[40,33],[56,35]],r), sq=a===b, x=sq?a/6:(a+b-Math.round(Math.sqrt(a*a-a*b+b*b)))/6, V=x*(a-2*x)*(b-2*x);
+      steps.push({t:"num",ans:qi(V),unit:"cm³",q:`Dari karton ${sq?`persegi bersisi ${a} cm`:`persegi panjang berukuran ${a} cm × ${b} cm`}, keempat pojoknya dipotong persegi bersisi x cm, lalu dilipat menjadi kotak tanpa tutup. Berapa ${B("volume maksimum")} kotak itu?`,traps:[[qi(x),"Itu ukuran potongan x. Yang ditanya volumenya."]].concat(sq?[[qi((a/4)*(a/2)**2),"Cari x dari V'(x) = 0, bukan dengan menebak."]]:[]),
+        how:sq?`V(x) = x(${a} − 2x)². V'(x) = (${a} − 2x)(${a} − 6x) = 0 → x = ${x} (x = ${a/2} membuat volume 0). V(${x}) = ${x} × ${a-2*x}² = ${B(grp(V)+" cm³")}.`
+          :`V(x) = x(${a} − 2x)(${b} − 2x) = 4x³ − ${2*(a+b)}x² + ${a*b}x. V'(x) = 12x² − ${4*(a+b)}x + ${a*b} = 0 → x = ${x} atau x = ${qfmt(Q(a*b,12*x))}. Potongan harus kurang dari ${num(b/2)} cm (setengah sisi pendek), jadi x = ${x}. V(${x}) = ${x} × ${a-2*x} × ${b-2*x} = ${B(grp(V)+" cm³")}.`,chk:{kotak:{a,b}}}); }
+    { const P=4*ri(5,40,r), L=P*P/8;
       steps.push({t:"num",ans:qi(L),unit:"m²",q:`Kebun persegi panjang di tepi tembok dipagari pada tiga sisi saja dengan pagar sepanjang ${P} m. Berapa ${B("luas maksimum")} kebun itu?`,traps:[[qi(P*P/16),"Satu sisi berupa tembok, jadi pagar hanya untuk tiga sisi."],[qi(P/4),"Itu panjang sisi yang tegak lurus tembok. Yang ditanya luasnya."]],
         how:`Misal sisi tegak lurus tembok x, sisi sejajar tembok ${P} − 2x. L(x) = x(${P} − 2x), L'(x) = ${P} − 4x = 0 → x = ${P/4}. L = ${P/4} × ${P/2} = ${B(grp(L)+" m²")}.`,chk:{pagar:{P}}}); }
     for(;;){ const a=ri(2,6,r), b=ri(1,12,r), t0=ri(1,4,r), S=[0,b,-a,1], v=pev(pder(S),t0), acc=pev(pder(pder(S)),t0), askA=r()<.5;
