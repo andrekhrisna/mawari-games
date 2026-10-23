@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#FAF6EE">
+<title>Petak Bayangan</title>
+<meta name="description" content="Petak Bayangan untuk SMP kelas 9: transformasi geometri di kertas berpetak. Translasi, refleksi, rotasi, dan dilatasi: seret bangun, ketuk letak titik bayangan, cari vektor, garis cermin, pusat rotasi, dan faktor skala, sampai komposisi transformasi. Mode Harian, Latihan, dan Kelas 2 Tim.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23C2410C'/%3E%3Cpath d='M32 6V58M6 32H58' stroke='%23FED7AA' stroke-width='3'/%3E%3Cpath d='M12 26L22 12L28 26Z' fill='%23fff'/%3E%3Cpath d='M36 38L46 52L52 38Z' fill='%23FDBA74'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --bg:#FAF6EE;
+  --card:#FFFFFF;
+  --ink:#1F2A2E;
+  --muted:#5B6466;
+  --line:#E7DCC4;
+  --gr:#C2410C;
+  --gr-d:#9A3412;
+  --soft:#FFF7ED;
+  --rose:#E11D48;
+  --green:#059669;
+  --gold:#F2B705;
+  --blue:#2563EB;
+  --red:#E4572E;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  display:flex;justify-content:center;padding:10px 12px calc(16px + env(safe-area-inset-bottom))}
+button{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible{outline:3px solid var(--blue);outline-offset:2px}
+.wrap{width:100%;max-width:540px;display:flex;flex-direction:column;gap:10px}
+.kelas .wrap{max-width:1100px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;
+  border:1px solid var(--line);background:var(--card);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.2rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand span{color:var(--gr)}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:var(--card);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;padding:4px;border-radius:12px;background:var(--card);border:1px solid var(--line)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:6px 3px;font-weight:800;font-size:.9rem;cursor:pointer;color:var(--muted);line-height:1.1}
+.seg button small{display:block;font-weight:700;font-size:.68rem}
+@media (max-width:360px){#segKind button{font-size:.76rem;letter-spacing:-.2px} .brand{font-size:1.04rem}}
+.seg button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.info{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--muted);font-size:.9rem;font-weight:700;min-height:1.6em}
+.info b{color:var(--ink)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.sub{color:var(--muted);text-align:center;font-size:.9rem;margin:0}
+.qtext{font-weight:800;font-size:1.12rem;line-height:1.45;text-align:center}
+.qtext small{display:block;font-weight:700;font-size:.85rem;color:var(--muted)}
+.prog{display:flex;justify-content:center;gap:6px;flex-wrap:wrap}
+.prog i{width:12px;height:12px;border-radius:50%;background:var(--line)}
+.prog i.d{background:var(--green)} .prog i.c{background:var(--gr);transform:scale(1.25)}
+/* gambar, kertas berpetak, papan titik, animasi */
+.figw{display:flex;justify-content:center}
+.kl{display:grid;gap:8px;justify-items:center}
+@media (min-width:600px){.kl{grid-template-columns:3fr 2fr;align-items:center}}
+.kl .figw{width:100%}
+.fig{display:block;width:100%;max-width:460px;height:auto;max-height:56vh;background:#fff;border:2px solid var(--line);border-radius:14px;user-select:none;-webkit-user-select:none}
+.fig text,.anim text{font-family:'Baloo 2',sans-serif;font-weight:800;text-anchor:middle;dominant-baseline:central}
+.fig text.h,.anim text.h{paint-order:stroke;stroke:#fff;stroke-width:3.5px;stroke-linejoin:round}
+#gridg{touch-action:none;cursor:pointer}
+#gridg .mv{cursor:grab}
+.tpb{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.xy{display:flex;align-items:center;justify-content:center;gap:4px;font-weight:800;font-size:1.35rem;flex-wrap:wrap}
+.xy .fld{min-width:76px}
+.sd{cursor:pointer}
+.vt{display:flex;flex-wrap:wrap;justify-content:center;gap:6px}
+.vt span{background:var(--soft);border:1px solid #A5F3FC;border-radius:8px;padding:2px 8px;font-weight:700;font-size:.88rem;white-space:nowrap}
+.frm{display:flex;align-items:center;justify-content:center;gap:10px;font-weight:800;font-size:1.25rem}
+.frac{display:inline-flex;flex-direction:column;align-items:center;gap:4px}
+.frac .sl{min-width:92px;padding:4px 10px;border-radius:10px;border:2px dashed var(--line);text-align:center;background:var(--bg);font-size:1rem}
+.frac .sl.on{border-style:solid;border-color:var(--gr);background:#fff}
+.frac hr{width:100%;border:0;border-top:3px solid var(--ink);margin:0}
+.dt{border-collapse:collapse;margin:0 auto;font-weight:700;font-size:1rem;min-width:240px}
+.dt caption{font-weight:800;color:var(--muted);font-size:.85rem;padding-bottom:4px}
+.dt th,.dt td{border:1px solid var(--line);padding:5px 10px;text-align:left}
+.dt th{background:var(--soft);font-size:.85rem}
+.dt td.v{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.dt tr.tot td{font-weight:800;background:#FAFAF9}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.bsl{display:flex;flex-direction:column;gap:8px}
+.bsr{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;background:var(--bg);border-radius:12px;padding:8px 10px;font-weight:700;line-height:1.35}
+.bsr .tg{display:flex;gap:4px}
+.bsr button{border:2px solid var(--line);background:#fff;border-radius:10px;padding:6px 8px;font-weight:800;cursor:pointer;font-size:.85rem}
+.bsr button[aria-pressed="true"].b{background:#DCFCE7;border-color:#16A34A;color:#14532D}
+.bsr button[aria-pressed="true"].s{background:#FFE4E6;border-color:#E11D48;color:#881337}
+.op svg{display:block;width:100%;max-width:120px;margin:0 auto}
+.op.txt{text-align:left;font-size:.98rem;font-weight:700;line-height:1.35}
+.ops.one{grid-template-columns:1fr}
+.nudge{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tools{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.tools .btn{width:100%}
+.ref{background:var(--soft);border-radius:12px;padding:6px 10px;text-align:center;font-weight:700;font-size:.92rem}
+.story{font-size:1.05rem;line-height:1.5;font-weight:700;text-align:left;background:var(--soft);border-radius:14px;padding:10px 14px}
+.story .ic{font-size:2.1rem;float:left;margin:0 10px 0 0;line-height:1}
+.ops{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:8px}
+.op{border:3px solid var(--line);background:#fff;border-radius:14px;padding:10px 6px;font-weight:800;font-size:1.1rem;cursor:pointer;color:var(--ink);font-family:inherit;line-height:1.15}
+.op:disabled{opacity:.3;cursor:default}
+.op small{display:block;font-size:.72rem;font-weight:700;color:var(--muted);margin-top:2px}
+.ans{text-align:center;font-weight:800;font-size:1.3rem;color:var(--gr-d)}
+.animw{display:flex;flex-direction:column;align-items:center;gap:6px;background:#fff!important;padding:6px!important}
+.anim{display:block;width:100%;max-width:440px;height:auto}
+.replay{padding:4px 12px!important;font-size:.9rem!important}
+/* isian */
+.form{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800;font-size:1.35rem}
+.form sup{font-size:.7em}
+.fld{min-width:60px;height:48px;border-radius:10px;border:2px solid var(--line);background:var(--bg);display:inline-flex;align-items:center;justify-content:center;padding:0 8px;cursor:pointer;font-weight:800;font-size:1.35rem}
+.pw{display:inline-flex;align-items:flex-start;gap:2px}
+.pw>span:first-child{padding-top:14px;font-size:1.5rem}
+.fld.sm{min-width:34px;height:32px;font-size:1.05rem;padding:0 4px}
+.fld.act{border-color:var(--gr);background:#fff;box-shadow:0 0 0 3px #86EFAC}
+.fld.ph{color:#9CA3AF}
+.fld.bad{border-color:var(--rose);background:#FFE4E6}
+.pad{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.pad button{height:48px;border:0;border-radius:10px;background:var(--soft);font-weight:800;font-size:1.3rem;cursor:pointer}
+.pad button:disabled{opacity:.3;cursor:default}
+.fb{text-align:center;font-weight:700;min-height:1.4em}
+.fb .ok{color:var(--green)} .fb .no{color:var(--rose)}
+#ctrlBody{display:flex;flex-direction:column;gap:10px}
+#ctrlBody .btn{width:100%}
+.btn{border:0;border-radius:12px;padding:10px 14px;font-weight:800;font-size:1.02rem;cursor:pointer;background:var(--gr);color:#fff;box-shadow:0 3px 0 var(--gr-d)}
+.btn:active{transform:translateY(2px);box-shadow:0 1px 0 var(--gr-d)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.btn.dark{background:var(--ink);box-shadow:0 3px 0 #000}
+.btn.alt{background:#FEF9C3;color:var(--ink);box-shadow:0 3px 0 #EAB308}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stars{font-size:2.6rem;text-align:center;line-height:1;letter-spacing:4px}
+.stars span{color:var(--gold)} .stars .off{color:#E7DCC4}
+.res h2{margin:0;text-align:center;font-size:1.3rem}
+.res p{margin:0;text-align:center;color:var(--muted)}
+.how{display:flex;flex-direction:column;gap:8px}
+.how div{background:var(--bg);border-radius:12px;padding:8px 12px;line-height:1.5;overflow-wrap:anywhere}
+.how b{color:var(--gr-d)}
+.sts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;text-align:center}
+.sts b{display:block;font-size:1.5rem;line-height:1.1}
+.sts small{color:var(--muted);font-size:.72rem;font-weight:700}
+.teams{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
+.teams span{border-radius:999px;padding:4px 14px;font-weight:800;border:2px solid transparent;font-size:1.05rem}
+.teams span.turn{border-color:currentColor}
+.toast{position:fixed;left:50%;top:84px;transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:20}
+.modal{position:fixed;inset:0;background:rgba(31,42,46,.45);display:flex;align-items:flex-start;justify-content:center;padding:40px 12px;z-index:30;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.modal h2{margin:0;font-size:1.3rem}
+.modal ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:4px}
+@media (min-width:900px){
+  .kelas .qtext{font-size:1.45rem} .kelas .qtext.long{font-size:1.2rem} .kelas .form,.kelas .fld{font-size:2rem} .kelas .fld{height:56px;min-width:100px} .kelas .fld.sm{height:44px;min-width:56px;font-size:1.4rem}
+  .kelas .pad button{height:52px;font-size:1.6rem} .kelas .teams span{font-size:1.4rem}
+  .kelas .ans{font-size:2rem} .kelas .op{font-size:1.4rem} .kelas .story{font-size:1.3rem}
+  .kelas .fig{max-width:700px;max-height:max(250px,calc(100vh - 505px))}
+  .kelas #ctrl,.kelas #ctrlBody{gap:8px} .kelas .seg button{padding:4px 3px} .kelas .wrap{gap:8px}
+  .kelas .grid2{display:grid;grid-template-columns:1.25fr 1fr;gap:12px;align-items:start}
+}
+footer{text-align:center;color:var(--muted);font-size:.74rem}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Petak <span>Bayangan</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+    <button class="ibtn" type="button" id="statBtn" aria-label="Statistik">📊</button>
+  </div>
+  <div class="seg" id="segMode"><button type="button" data-v="harian">Harian</button><button type="button" data-v="latihan">Latihan</button><button type="button" data-v="kelas">Kelas · 2 Tim</button></div>
+  <div class="seg" id="segKind"></div>
+  <div class="seg" id="segLevel"></div>
+  <div class="info"><span id="infoL"></span><span id="infoR"></span></div>
+  <div class="teams" id="teams" hidden></div>
+  <div class="grid2">
+    <div class="card" id="play"></div>
+    <div class="card" id="ctrl">
+      <div id="ctrlBody"></div>
+      <div class="fb" id="fb" aria-live="polite"></div>
+      <div class="pad" id="pad">
+        <button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button>
+        <button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><button type="button" data-k="0">0</button><button type="button" data-k="−" aria-label="Negatif">−</button><button type="button" data-k=",">,</button><button type="button" data-k="/" aria-label="Per">/</button><button type="button" data-k="del" aria-label="Hapus">⌫</button>
+      </div>
+      <button class="btn" type="button" id="okBtn">Cek ✓</button>
+      <button class="btn ghost" type="button" id="hintBtn" hidden>💡 Petunjuk</button>
+    </div>
+  </div>
+  <div class="card res" id="res" hidden></div>
+  <footer>Kemajuan disimpan di perangkat ini.</footer>
+</div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="help" hidden>
+  <div class="card">
+    <h2>Cara main</h2>
+    <ul>
+      <li><b>➡️ Translasi</b> T(a, b): geser a satuan mendatar (positif ke kanan) dan b satuan tegak (positif ke atas). (x, y) → (x + a, y + b).</li>
+      <li><b>🪞 Refleksi</b>: sumbu x (x, −y), sumbu y (−x, y), y = x (y, x), y = −x (−y, −x), garis x = h (2h − x, y), garis y = k (x, 2k − y).</li>
+      <li><b>🔄 Rotasi</b> terhadap O: 90° berlawanan arah jarum jam (−y, x), 180° (−x, −y), 90° searah jarum jam (y, −x). Untuk pusat P, geser dulu agar P di O, putar, lalu geser kembali.</li>
+      <li><b>🔎 Dilatasi</b> [P, k]: A' = P + k(A − P). Terhadap O: (kx, ky). k negatif: bayangan di seberang pusat.</li>
+      <li>Soal gambar: ketuk letak A', B', C' berurutan di kertas berpetak. Soal isian: ketuk kotak x atau y, lalu ketik; desimal dengan koma (1,5), negatif dengan tombol −. Semua level untuk kelas 9.</li>
+      <li>⭐⭐⭐ tanpa salah · ⭐⭐ 1–2 salah · ⭐ 3 salah atau lebih. Salah 3 kali? <b>💡 Petunjuk</b> muncul.</li>
+    </ul>
+    <button class="btn" type="button" id="helpClose">Mengerti</button>
+  </div>
+</div>
+<div class="modal" id="statM" hidden><div class="card" id="statBody"></div></div>
+<script>/* ================= INTI: pembuat soal transformasi geometri ================= */
+/* ===== Petak Bayangan: transformasi geometri SMP kelas 9 ===== */
+const KINDS={translasi:{label:"Translasi",icon:"➡️"},refleksi:{label:"Refleksi",icon:"🪞"},rotasi:{label:"Rotasi",icon:"🔄"},dilatasi:{label:"Dilatasi",icon:"🔎"}};
+const LEVELS={mudah:{label:"Mudah",sub:"kelas 9"},sedang:{label:"Sedang",sub:"kelas 9"},sulit:{label:"Sulit",sub:"kelas 9"}};
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+const ri=(a,b,r)=>a+Math.floor(r()*(b-a+1));
+const pick=(arr,r)=>arr[Math.floor(r()*arr.length)];
+function shuffle(a,r){ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const grp=n=>String(n).replace(/\B(?=(\d{3})+(?!\d))/g,".");
+const num=x=>{ const r=Math.round(x*100)/100, [i,f]=String(Math.abs(r)).split("."); return (r<0?"−":"")+grp(i)+(f?","+f:""); };
+const B=s=>`<b>${s}</b>`;
+const nz=v=>v===0?0:v;
+/* koordinat: (3, −2); bila ada desimal pakai titik koma: (1,5; −2) */
+const cf=p=>Number.isInteger(p[0])&&Number.isInteger(p[1])?`(${num(p[0])}, ${num(p[1])})`:`(${num(p[0])}; ${num(p[1])})`;
+const kf=k=>k===0.5?"½":k===-0.5?"−½":num(k);
+
+/* ---------- transformasi ---------- */
+const mapP=(P,f)=>{ const o={}; for(const n in P) o[n]=f(P[n]).map(nz); return o; };
+const TR=(a,b)=>p=>[p[0]+a,p[1]+b];
+const RF={x:p=>[p[0],-p[1]],y:p=>[-p[0],p[1]],yx:p=>[p[1],p[0]],ymx:p=>[-p[1],-p[0]],o:p=>[-p[0],-p[1]]};
+const RFh=h=>p=>[2*h-p[0],p[1]], RFk=k=>p=>[p[0],2*k-p[1]];
+/* rotasi d derajat berlawanan arah jarum jam terhadap c */
+const ROT=(d,c)=>p=>{ c=c||[0,0]; const x=p[0]-c[0], y=p[1]-c[1], m=((d%360)+360)%360, q=m===90?[-y,x]:m===180?[-x,-y]:m===270?[y,-x]:[x,y]; return [q[0]+c[0],q[1]+c[1]]; };
+const DIL=(k,c)=>p=>{ c=c||[0,0]; return [c[0]+k*(p[0]-c[0]),c[1]+k*(p[1]-c[1])]; };
+const LN={x:"sumbu x",y:"sumbu y",yx:"garis y = x",ymx:"garis y = −x",o:"titik O"};
+const RULE={x:"(x, y) → (x, −y)",y:"(x, y) → (−x, y)",yx:"(x, y) → (y, x)",ymx:"(x, y) → (−y, −x)",o:"(x, y) → (−x, −y)"};
+const rotName=d=>d===90?"90° berlawanan arah jarum jam":d===180?"180°":"90° searah jarum jam";
+const rotRule=d=>d===90?"(x, y) → (−y, x)":d===180?"(x, y) → (−x, −y)":"(x, y) → (y, −x)";
+const same=(P,Q)=>Object.keys(P).every(n=>P[n][0]===Q[n][0]&&P[n][1]===Q[n][1]);
+const eq2=(p,q)=>p[0]===q[0]&&p[1]===q[1];
+const inWin=(P,W)=>Object.values(P).every(p=>Math.abs(p[0])<=W&&Math.abs(p[1])<=W);
+const span=(...ps)=>Math.max(6,...ps.flat().map(v=>Math.ceil(Math.abs(v))+1));
+const area=P=>Math.abs((P.B[0]-P.A[0])*(P.C[1]-P.A[1])-(P.C[0]-P.A[0])*(P.B[1]-P.A[1]))/2;
+/* segitiga dengan titik sudut bulat di kotak [x0, x1] × [y0, y1] */
+function tri(r,x0,x1,y0,y1){ for(;;){ const P={A:[ri(x0,x1,r),ri(y0,y1,r)],B:[ri(x0,x1,r),ri(y0,y1,r)],C:[ri(x0,x1,r),ri(y0,y1,r)]}, a=area(P);
+    if(a<2.5||a>14) continue; const d=[["A","B"],["B","C"],["C","A"]].map(([u,v])=>Math.hypot(P[u][0]-P[v][0],P[u][1]-P[v][1])); if(Math.min(...d)<2) continue; const mx=Math.max(...d); if(4*a/(mx*mx)<0.3) continue; return P; } }
+const ptsTxt=(P,Q,suf)=>Object.keys(P).map(n=>`${n}${cf(P[n])} → ${B(n+(suf||"'")+cf(Q[n]))}`).join(", ");
+/* pilihan salah yang hasilnya sama dengan jawaban dibuang; jebakan kembar dibuang */
+function finishSteps(steps){ for(const s of steps){
+    if(s.alts&&s.t==="gambar") s.alts=s.alts.filter((a,i,arr)=>!same(a.P,s.ans)&&arr.findIndex(b=>same(b.P,a.P))===i);
+    if(s.traps){ const ans=s.t==="num"?[s.ans]:s.ans; s.traps=s.traps.filter((t,i,arr)=>{ const v=s.t==="num"?[t[0]]:t[0]; return !v.every((x,j)=>Math.abs(x-ans[j])<1e-9)&&arr.findIndex(u=>JSON.stringify(u[0])===JSON.stringify(t[0]))===i; }); } }
+  return steps; }
+const fig=(W,ex)=>Object.assign({k:"grid",win:W},ex);
+const gambar=(W,P,ans,alts,q,how,ex)=>({t:"gambar",fig:fig(W,Object.assign({src:P},ex||{})),ans,alts,q,sub:"Ketuk letak A', lalu B', lalu C' di kertas berpetak.",how});
+const geser=(a,b)=>`${a?`${Math.abs(a)} satuan ke ${a>0?"kanan":"kiri"}`:"tidak bergeser mendatar"} dan ${b?`${Math.abs(b)} satuan ke ${b>0?"atas":"bawah"}`:"tidak bergeser tegak"}`;
+
+/* ================= 1. TRANSLASI ================= */
+function genTranslasi(level,r){ const steps=[];
+  const vec=(m,mn)=>{ for(;;){ const a=ri(-m,m,r), b=ri(-m,m,r); if(Math.abs(a)+Math.abs(b)>=mn&&a!==b&&a!==-b) return [a,b]; } };
+  if(level==="mudah"){
+    for(;;){ const [a,b]=vec(4,3), P=tri(r,-4,4,-4,4), I=mapP(P,TR(a,b)); if(!inWin(I,6)) continue;
+      steps.push({t:"seret",fig:fig(6,{src:P}),ans:[a,b],alts:[[b,a,"Tertukar: angka pertama menggeser mendatar (kanan +, kiri −), angka kedua menggeser tegak (atas +, bawah −)."],[-a,-b,"Arahnya terbalik: positif ke kanan/atas, negatif ke kiri/bawah."],[-a,b,"Perhatikan tanda angka pertama: positif ke kanan, negatif ke kiri."],[a,-b,"Perhatikan tanda angka kedua: positif ke atas, negatif ke bawah."]].filter(([x,y])=>!(x===a&&y===b)),
+        q:`Geser ΔABC dengan translasi T(${num(a)}, ${num(b)}).`,sub:"Seret segitiga oranye, atau ketuk tempat baru untuk titik A'.",how:`T(${num(a)}, ${num(b)}): setiap titik ${geser(a,b)}. ${ptsTxt(P,I)}.`}); break; }
+    { const [a,b]=vec(5,3), p=[ri(-5,5,r),ri(-5,5,r)], q=[p[0]+a,p[1]+b];
+      steps.push({t:"xy",fig:fig(span(p,q),{pts:[{p,nm:"P"}]}),lab:"P'",ans:q,traps:[[[p[0]-a,p[1]-b],"Translasi menambah, bukan mengurangi: x' = x + a, y' = y + b."],[[p[0]+b,p[1]+a],"Tertukar: angka pertama ditambahkan ke x, angka kedua ke y."]],
+        q:`Titik P${cf(p)} ditranslasi oleh T(${num(a)}, ${num(b)}). Tentukan koordinat bayangannya, P'.`,how:`P' = (${num(p[0])} + ${num(a)}, ${num(p[1])} + ${num(b)}) = ${B(cf(q))}.`.replace(/\+ −/g,"− "),chk:{tr:[p,[a,b]]}}); }
+    for(;;){ const [a,b]=vec(5,3), P=tri(r,-5,5,-5,5), I=mapP(P,TR(a,b)); if(!inWin(I,7)) continue;
+      steps.push({t:"xy",fig:fig(7,{src:P,img:I}),lab:"T",ans:[a,b],traps:[[[-a,-b],"Itu dari bayangan ke asal. Vektor = koordinat bayangan − koordinat asal."],[[b,a],"Tertukar: angka pertama untuk geser mendatar, angka kedua untuk geser tegak."]],
+        q:`ΔA'B'C' adalah bayangan ΔABC oleh suatu translasi T. Tentukan T.`,how:`A${cf(P.A)} → A'${cf(I.A)}: x bergeser ${num(a)}, y bergeser ${num(b)}. Jadi ${B(`T(${num(a)}, ${num(b)})`)}.`,chk:{vec:[P.A,I.A]}}); break; } }
+  else if(level==="sedang"){
+    for(;;){ const [a,b]=vec(6,4), P=tri(r,-6,6,-6,6), I=mapP(P,TR(a,b)); if(!inWin(I,7)) continue;
+      const alts=[[b,a,"Tertukar: angka pertama menggeser mendatar, angka kedua menggeser tegak."],[-a,-b,"Arahnya terbalik: positif ke kanan/atas, negatif ke kiri/bawah."],[-a,b,"Perhatikan tanda angka pertama."],[a,-b,"Perhatikan tanda angka kedua."]].map(([x,y,m])=>({P:mapP(P,TR(x,y)),m}));
+      steps.push(gambar(7,P,I,alts,`Gambar bayangan ΔABC oleh translasi T(${num(a)}, ${num(b)}).`,`Setiap titik ${geser(a,b)}: ${ptsTxt(P,I)}.`)); break; }
+    { const [a,b]=vec(6,4), A=[ri(-6,6,r),ri(-6,6,r)], A2=[A[0]+a,A[1]+b];
+      steps.push({t:"xy",fig:fig(span(A2),{pts:[{p:A2,nm:"A'"}]}),lab:"A",ans:A,traps:[[[A2[0]+a,A2[1]+b],"Itu A' digeser lagi. Untuk mencari titik asal, kurangi: A = A' − T."],[[A2[0]-b,A2[1]-a],"Tertukar: angka pertama untuk x, angka kedua untuk y."]],
+        q:`A'${cf(A2)} adalah bayangan titik A oleh translasi T(${num(a)}, ${num(b)}). Tentukan koordinat A.`,how:`A = A' − T = (${num(A2[0])} − (${num(a)}), ${num(A2[1])} − (${num(b)})) = ${B(cf(A))}.`,chk:{inv:[A2,[a,b]]}}); }
+    for(;;){ const [a,b]=vec(6,4), A=[ri(-5,5,r),ri(-5,5,r)], A2=[A[0]+a,A[1]+b], Bp=[ri(-5,5,r),ri(-5,5,r)], B2=[Bp[0]+a,Bp[1]+b]; if(eq2(A,Bp)||[A,A2].some(z=>eq2(z,B2))||Math.max(...A2.map(Math.abs),...B2.map(Math.abs))>10) continue;
+      steps.push({t:"xy",fig:fig(span(A,A2,Bp),{pts:[{p:A,nm:"A"},{p:A2,nm:"A'"},{p:Bp,nm:"B"}],arrow:[A,A2]}),lab:"B'",ans:B2,traps:[[[Bp[0]-a,Bp[1]-b],"Arah translasinya dari A ke A'. Tambahkan T = A' − A ke B."],[[Bp[0]+b,Bp[1]+a],"Tertukar: geser mendatar dan tegak tertukar."]],
+        q:`Translasi T memetakan A${cf(A)} ke A'${cf(A2)}. Dengan translasi yang sama, tentukan bayangan B${cf(Bp)}.`,how:`T = A' − A = (${num(a)}, ${num(b)}). B' = B + T = ${B(cf(B2))}.`,chk:{tr:[Bp,[a,b]]}}); break; } }
+  else {
+    { const [a,b]=vec(6,3), [c,d]=vec(6,3), s=[a+c,b+d]; if(s[0]===0&&s[1]===0) return genTranslasi(level,r);
+      steps.push({t:"xy",fig:null,lab:"T",ans:s,traps:[[[a-c,b-d],"Komposisi translasi berarti dijumlahkan: T = T₁ + T₂."],[[a+d,b+c],"Jumlahkan komponen yang sama: pertama dengan pertama, kedua dengan kedua."]],
+        q:`Translasi T₁(${num(a)}, ${num(b)}) dilanjutkan T₂(${num(c)}, ${num(d)}) sama dengan satu translasi T. Tentukan T.`,how:`T = (${num(a)} + ${num(c)}, ${num(b)} + ${num(d)}) = ${B(`T(${num(s[0])}, ${num(s[1])})`)}.`.replace(/\+ −/g,"− "),chk:{comp:[[a,b],[c,d]]}}); }
+    for(;;){ const p=ri(-6,6,r), y=ri(-6,6,r), a=ri(-6,6,r), q=ri(-6,6,r), A2=[p+a,y+q]; if(!a||!q||Math.abs(A2[0])>9||Math.abs(A2[1])>9||p===a||y===q) continue;
+      steps.push({t:"xy",fig:null,lab:"pq",ans:[p,q],traps:[[[A2[0]+a,A2[1]+y],`Translasi menambah: p + ${num(a)} = ${num(A2[0])}, jadi p = ${num(A2[0])} − ${num(a)}.`.replace(/\+ −(\d)/,"− $1").replace(/− −/,"+ ")],[[q,p],"Isian p dan q tertukar."]],
+        q:`Titik A(p, ${num(y)}) ditranslasi oleh T(${num(a)}, q) menjadi A'${cf(A2)}. Tentukan p dan q.`,how:`p + (${num(a)}) = ${num(A2[0])} → p = ${B(num(p))}. ${num(y)} + q = ${num(A2[1])} → q = ${B(num(q))}.`,chk:{pq:[y,a,A2]}}); break; }
+    for(;;){ const [a,b]=vec(5,2), [c,d]=vec(5,2), P=tri(r,-5,5,-5,5), I1=mapP(P,TR(a,b)), I=mapP(I1,TR(c,d)); if(!inWin(I,7)||(a+c===0&&b+d===0)) continue;
+      steps.push(gambar(7,P,I,[{P:I1,m:"Itu baru translasi pertama. Lanjutkan dengan translasi kedua."},{P:mapP(P,TR(c,d)),m:"Itu hanya translasi kedua. Lakukan keduanya berurutan."},{P:mapP(P,TR(a-c,b-d)),m:"Translasi berurutan berarti vektornya dijumlahkan."}],
+        `Gambar bayangan ΔABC oleh translasi T₁(${num(a)}, ${num(b)}) dilanjutkan T₂(${num(c)}, ${num(d)}).`,`T₁ lalu T₂ sama dengan T(${num(a+c)}, ${num(b+d)}): ${ptsTxt(P,I)}.`)); break; } }
+  return {kind:"translasi",level,steps:finishSteps(steps)}; }
+
+/* ================= 2. REFLEKSI ================= */
+const RF_MSG={x:"Refleksi terhadap sumbu x hanya mengubah tanda y.",y:"Refleksi terhadap sumbu y hanya mengubah tanda x.",yx:"Refleksi terhadap y = x menukar x dan y.",ymx:"Refleksi terhadap y = −x menukar x dan y sekaligus mengubah kedua tandanya.",o:"Refleksi terhadap titik O mengubah tanda x dan y."};
+function genRefleksi(level,r){ const steps=[];
+  if(level==="mudah"){
+    for(;;){ const ax=pick(["x","y"],r), P=ax==="x"?tri(r,-5,5,1,5):tri(r,1,5,-5,5); if(r()<.5){ const f=ax==="x"?RF.x:RF.y; for(const n in P) P[n]=f(P[n]).map(nz); } const I=mapP(P,RF[ax]);
+      const alts=["x","y","o"].filter(z=>z!==ax).map(z=>({P:mapP(P,RF[z]),m:`Itu ${z==="o"?"pencerminan terhadap titik O":"pencerminan terhadap "+LN[z]}. ${RF_MSG[ax]}`}));
+      steps.push(gambar(6,P,I,alts,`Gambar bayangan ΔABC oleh refleksi terhadap ${B(LN[ax])}.`,`Refleksi terhadap ${LN[ax]}: ${RULE[ax]}. ${ptsTxt(P,I)}.`,{line:{t:ax}})); break; }
+    for(;;){ const ax=pick(["x","y"],r), p=[ri(-6,6,r),ri(-6,6,r)]; if(!p[0]||!p[1]) continue; const q=RF[ax](p).map(nz);
+      steps.push({t:"xy",fig:fig(6,{pts:[{p,nm:"P"}],line:{t:ax}}),lab:"P'",ans:q,traps:["x","y","o"].filter(z=>z!==ax).map(z=>[RF[z](p).map(nz),`Itu pencerminan terhadap ${LN[z]}. ${RF_MSG[ax]}`]),
+        q:`Tentukan bayangan P${cf(p)} oleh refleksi terhadap ${LN[ax]}.`,how:`${RULE[ax]}, jadi P' = ${B(cf(q))}.`,chk:{rf:[ax,p]}}); break; }
+    for(;;){ const ax=pick(["x","y"],r), P=tri(r,-5,5,-5,5), I=mapP(P,RF[ax]), opts=["x","y","yx","o"]; if(!inWin(I,6)||opts.some(z=>z!==ax&&same(mapP(P,RF[z]),I))) continue;
+      steps.push({t:"pilih",fig:fig(6,{src:P,img:I}),opts:opts.map(z=>({s:"Refleksi terhadap "+LN[z],m:z===ax?null:`Bandingkan A${cf(P.A)} dengan A'${cf(I.A)}. ${RF_MSG[z]}`})),ans:opts.indexOf(ax),
+        q:`ΔA'B'C' adalah bayangan ΔABC. Transformasi apa yang dipakai?`,how:`A${cf(P.A)} → A'${cf(I.A)}: ${ax==="x"?"y berubah tanda, x tetap":"x berubah tanda, y tetap"}. Jadi ${B("refleksi terhadap "+LN[ax])}.`,chk:{pick:{t:"rf",opts}}}); break; } }
+  else if(level==="sedang"){
+    for(;;){ const ax=pick(["yx","ymx"],r), P=tri(r,-6,6,-6,6), I=mapP(P,RF[ax]); if(Object.values(P).filter(p=>eq2(RF[ax](p),p)).length>1) continue;
+      const alts=["yx","ymx","x","y"].filter(z=>z!==ax).map(z=>({P:mapP(P,RF[z]),m:`Itu pencerminan terhadap ${LN[z]}. ${RF_MSG[ax]}`}));
+      steps.push(gambar(7,P,I,alts,`Gambar bayangan ΔABC oleh refleksi terhadap ${B(LN[ax])}.`,`Refleksi terhadap ${LN[ax]}: ${RULE[ax]}. ${ptsTxt(P,I)}.`,{line:{t:ax}})); break; }
+    for(;;){ const vert=r()<.5, h=pick([-4,-3,-2,2,3,4],r), p=[ri(-6,6,r),ri(-6,6,r)], q=vert?RFh(h)(p):RFk(h)(p); if(Math.abs(q[0])>10||Math.abs(q[1])>10||(vert?p[0]===h:p[1]===h)) continue;
+      const tr=vert?[[[h-p[0],p[1]],"Jarak titik ke garis cermin harus sama di kedua sisi: x' = 2h − x."],[[-p[0],p[1]],`Itu pencerminan terhadap sumbu y. Garis cerminnya x = ${num(h)}.`]]:[[[p[0],h-p[1]],"Jarak titik ke garis cermin harus sama di kedua sisi: y' = 2k − y."],[[p[0],-p[1]],`Itu pencerminan terhadap sumbu x. Garis cerminnya y = ${num(h)}.`]];
+      steps.push({t:"xy",fig:fig(span(p,q),{pts:[{p,nm:"P"}],line:{t:vert?"h":"k",v:h}}),lab:"P'",ans:q.map(nz),traps:tr,
+        q:`Tentukan bayangan P${cf(p)} oleh refleksi terhadap garis ${vert?"x":"y"} = ${num(h)}.`,how:vert?`x' = 2 × ${num(h)} − (${num(p[0])}) = ${num(q[0])}, y tetap. P' = ${B(cf(q))}.`:`y' = 2 × ${num(h)} − (${num(p[1])}) = ${num(q[1])}, x tetap. P' = ${B(cf(q))}.`,chk:{rh:[vert,h,p]}}); break; }
+    for(;;){ const vert=r()<.5, h=ri(-4,4,r), d=ri(2,6,r), u=ri(-6,6,r), A=vert?[h-d,u]:[u,h-d], A2=vert?[h+d,u]:[u,h+d]; if(!h||Math.abs(A2[0])>9||Math.abs(A2[1])>9) continue; const sw=r()<.5, P1=sw?A2:A, P2=sw?A:A2;
+      steps.push({t:"num",fig:fig(span(A,A2),{pts:[{p:P1,nm:"A"},{p:P2,nm:"A'"}]}),ans:h,unit:"",traps:[[2*d,`Itu jarak A ke A'. Garis cermin ada di tengahnya: ${vert?"h":"k"} = (${vert?"x + x'":"y + y'"}) : 2.`],[d,`Itu setengah jarak AA'. Garis cermin ada di tengah: ${vert?"h":"k"} = (${vert?"x + x'":"y + y'"}) : 2.`],[vert?P1[0]+P2[0]:P1[1]+P2[1],"Lupa dibagi 2."]],
+        q:`A${cf(P1)} dicerminkan terhadap garis ${vert?"x = h":"y = k"} menjadi A'${cf(P2)}. Berapa nilai ${B(vert?"h":"k")}?`,how:`Garis cermin terletak tepat di tengah A dan A': ${vert?"h":"k"} = (${num(vert?P1[0]:P1[1])} + ${num(vert?P2[0]:P2[1])}) : 2 = ${B(num(h))}.`.replace(/\+ −/,"− "),chk:{mid:[vert,P1,P2]}}); break; } }
+  else {
+    for(;;){ const h=pick([-3,-2,-1,1,2,3],r), k=pick([-3,-2,-1,1,2,3],r), p=[ri(-6,6,r),ri(-6,6,r)], q=[2*h-p[0],2*k-p[1]]; if(p[0]===h||p[1]===k||Math.abs(q[0])>10||Math.abs(q[1])>10) continue;
+      steps.push({t:"xy",fig:fig(span(p,q),{pts:[{p,nm:"P"}],lines:[{t:"h",v:h},{t:"k",v:k}]}),lab:"P''",ans:q,traps:[[[2*h-p[0],p[1]],`Itu baru pencerminan pertama. Lanjutkan terhadap y = ${num(k)}.`],[[p[0],2*k-p[1]],`Itu hanya pencerminan kedua. Mulai dari x = ${num(h)}.`],[[-p[0],-p[1]],"Garis cerminnya bukan sumbu koordinat."]],
+        q:`P${cf(p)} dicerminkan terhadap garis x = ${num(h)}, lalu hasilnya dicerminkan terhadap garis y = ${num(k)}. Tentukan bayangan akhirnya, P''.`,how:`Terhadap x = ${num(h)}: P' = ${cf([2*h-p[0],p[1]])}. Terhadap y = ${num(k)}: P'' = ${B(cf(q))}.`,chk:{rr:[h,k,p]}}); break; }
+    for(;;){ const vert=r()<.5, h=pick([-2,-1,1,2],r), P=vert?tri(r,h+1,h+5,-6,6):tri(r,-6,6,h+1,h+5), f=vert?RFh(h):RFk(h), I=mapP(P,f); if(!inWin(P,7)||!inWin(I,7)) continue;
+      const alts=[{P:mapP(P,vert?RF.y:RF.x),m:`Itu pencerminan terhadap ${vert?"sumbu y":"sumbu x"}. Garis cerminnya ${vert?"x":"y"} = ${num(h)}.`},{P:mapP(P,vert?(p=>[h-p[0],p[1]]):(p=>[p[0],h-p[1]])),m:"Jarak setiap titik ke garis cermin harus sama di kedua sisi."}];
+      steps.push(gambar(7,P,I,alts,`Gambar bayangan ΔABC oleh refleksi terhadap garis ${B(`${vert?"x":"y"} = ${num(h)}`)}.`,`${vert?"x' = 2h − x, y tetap":"y' = 2k − y, x tetap"}: ${ptsTxt(P,I)}.`,{line:{t:vert?"h":"k",v:h}})); break; }
+    { const tpl=pick(["xy","hh","yxx"],r); let P,f,opts,ans,lines,q2;
+      for(;;){ P=tri(r,-4,4,-4,4); if(tpl==="xy"){ f=p=>RF.y(RF.x(p)); lines=[{t:"x"},{t:"y"}]; q2="Refleksi terhadap sumbu x dilanjutkan refleksi terhadap sumbu y sama dengan…"; opts=[["rotasi 180° terhadap O",p=>ROT(180)(p)],["refleksi terhadap garis y = x",RF.yx],["rotasi 90° berlawanan arah jarum jam terhadap O",ROT(90)],["refleksi terhadap garis y = −x",RF.ymx]]; }
+        else if(tpl==="hh"){ const h1=ri(-2,1,r), d=ri(1,3,r), h2=h1+d; f=p=>RFh(h2)(RFh(h1)(p)); lines=[{t:"h",v:h1},{t:"h",v:h2}]; q2=`Refleksi terhadap garis x = ${num(h1)} dilanjutkan refleksi terhadap garis x = ${num(h2)} sama dengan…`; opts=[[`translasi T(${2*d}, 0)`,TR(2*d,0)],[`translasi T(${d}, 0)`,TR(d,0)],[`translasi T(${-2*d}, 0)`.replace("-","−"),TR(-2*d,0)],["rotasi 180° terhadap O",ROT(180)]]; }
+        else { f=p=>RF.x(RF.yx(p)); lines=[{t:"yx"},{t:"x"}]; q2="Refleksi terhadap garis y = x dilanjutkan refleksi terhadap sumbu x sama dengan…"; opts=[["rotasi 90° searah jarum jam terhadap O",ROT(270)],["rotasi 90° berlawanan arah jarum jam terhadap O",ROT(90)],["refleksi terhadap garis y = −x",RF.ymx],["rotasi 180° terhadap O",ROT(180)]]; }
+        const I=mapP(P,f); if(!inWin(I,7)) continue; if(opts.slice(1).some(([,g])=>same(mapP(P,g),I))) continue; ans=I; break; }
+      const sh=shuffle(opts.map((o,i)=>[o[0],i]),r);
+      steps.push({t:"pilih",fig:fig(7,{src:P,img:ans,imgSuf:"''",lines}),opts:sh.map(([s,i])=>({s:s[0].toUpperCase()+s.slice(1),m:i===0?null:"Ikuti satu titik, mis. A, lewat kedua pencerminan berturut-turut, lalu bandingkan A dengan A''."})),ans:sh.findIndex(([,i])=>i===0),
+        q:q2,how:`A${cf(P.A)} → A''${cf(ans.A)}. Hasil akhirnya sama dengan ${B(opts[0][0])}.`,chk:{pick:{t:"comp",tpl}}}); } }
+  return {kind:"refleksi",level,steps:finishSteps(steps)}; }
+
+/* ================= 3. ROTASI ================= */
+function genRotasi(level,r){ const steps=[];
+  if(level==="mudah"){
+    for(;;){ const sx=pick([1,-1],r), sy=pick([1,-1],r), P=mapP(tri(r,1,5,1,5),p=>[p[0]*sx,p[1]*sy]), I=mapP(P,ROT(180));
+      steps.push(gambar(6,P,I,[{P:mapP(P,RF.x),m:"Itu pencerminan terhadap sumbu x. Rotasi 180° mengubah tanda x dan y."},{P:mapP(P,RF.y),m:"Itu pencerminan terhadap sumbu y. Rotasi 180° mengubah tanda x dan y."},{P:mapP(P,ROT(90)),m:"Itu baru diputar 90°. Putar 180° (setengah putaran)."}],
+        `Gambar bayangan ΔABC oleh rotasi ${B("180°")} terhadap titik O.`,`Rotasi 180° terhadap O: ${rotRule(180)}. ${ptsTxt(P,I)}.`,{cen:[0,0]})); break; }
+    for(;;){ const p=[ri(-6,6,r),ri(-6,6,r)]; if(!p[0]||!p[1]||Math.abs(p[0])===Math.abs(p[1])) continue; const q=ROT(90)(p).map(nz);
+      steps.push({t:"xy",fig:fig(6,{pts:[{p,nm:"P"}],cen:[0,0]}),lab:"P'",ans:q,traps:[[ROT(270)(p).map(nz),"Itu diputar searah jarum jam. Yang diminta berlawanan arah jarum jam: (x, y) → (−y, x)."],[ROT(180)(p).map(nz),"Itu diputar 180°. Rotasi 90°: (x, y) → (−y, x)."],[[p[1],p[0]],"Itu pencerminan terhadap y = x. Rotasi 90° juga mengubah tanda: (x, y) → (−y, x)."]],
+        q:`Tentukan bayangan P${cf(p)} oleh rotasi 90° berlawanan arah jarum jam terhadap O.`,how:`Rotasi 90° berlawanan arah jarum jam: ${rotRule(90)}. P' = ${B(cf(q))}.`,chk:{rot:[90,p,[0,0]]}}); break; }
+    for(;;){ const d=pick([90,180,270],r), P=tri(r,-5,5,-5,5), I=mapP(P,ROT(d)), opts=[90,270,180,"y"]; if(!inWin(I,6)) continue; const fs=opts.map(o=>o==="y"?RF.y:ROT(o)); if(fs.some((g,i)=>opts[i]!==d&&same(mapP(P,g),I))) continue;
+      steps.push({t:"pilih",fig:fig(6,{src:P,img:I,cen:[0,0]}),opts:opts.map(o=>({s:o==="y"?"Refleksi terhadap sumbu y":`Rotasi ${rotName(o)} terhadap O`,m:o===d?null:"Ikuti titik A ke A'. Putaran berlawanan arah jarum jam: dari kanan ke atas ke kiri ke bawah."})),ans:opts.indexOf(d),
+        q:`ΔA'B'C' adalah bayangan ΔABC. Transformasi apa yang dipakai?`,how:`A${cf(P.A)} → A'${cf(I.A)} cocok dengan ${rotRule(d)}: ${B("rotasi "+rotName(d)+" terhadap O")}.`,chk:{pick:{t:"rot",opts}}}); break; } }
+  else if(level==="sedang"){
+    for(;;){ const d=pick([90,270],r), P=tri(r,-6,6,-6,6), I=mapP(P,ROT(d)); if(!inWin(I,7)) continue;
+      steps.push(gambar(7,P,I,[{P:mapP(P,ROT(360-d)),m:`Arah putarnya terbalik. Yang diminta ${d===90?"berlawanan arah":"searah"} jarum jam.`},{P:mapP(P,ROT(180)),m:"Itu diputar 180°. Putar 90° saja (seperempat putaran)."},{P:mapP(P,d===90?RF.yx:RF.ymx),m:"Itu pencerminan. Rotasi 90° mengubah tanda salah satu koordinat setelah ditukar."}],
+        `Gambar bayangan ΔABC oleh rotasi ${B(rotName(d))} terhadap titik O.`,`Rotasi ${rotName(d)}: ${rotRule(d)}. ${ptsTxt(P,I)}.`,{cen:[0,0]})); break; }
+    for(;;){ const d=pick([90,270],r), A=[ri(-7,7,r),ri(-7,7,r)]; if(!A[0]||!A[1]||Math.abs(A[0])===Math.abs(A[1])) continue; const A2=ROT(d)(A).map(nz);
+      steps.push({t:"xy",fig:fig(span(A2),{pts:[{p:A2,nm:"A'"}],cen:[0,0]}),lab:"A",ans:A,traps:[[ROT(d)(A2).map(nz),"Itu A' diputar sekali lagi. Untuk mencari A, putar A' ke arah sebaliknya."],[ROT(180)(A2).map(nz),"Putar balik 90°, bukan 180°."]],
+        q:`A'${cf(A2)} adalah bayangan titik A oleh rotasi ${rotName(d)} terhadap O. Tentukan koordinat A.`,how:`Putar balik A' ${rotName(360-d)}: ${rotRule(360-d)}. A = ${B(cf(A))}.`,chk:{rot:[360-d,A2,[0,0]]}}); break; }
+    for(;;){ const d=pick([90,180,270],r), A=[ri(-6,6,r),ri(-6,6,r)]; if(!A[0]||!A[1]||Math.abs(A[0])===Math.abs(A[1])) continue; const A2=ROT(d)(A).map(nz);
+      steps.push({t:"num",fig:fig(span(A,A2),{pts:[{p:A,nm:"A"},{p:A2,nm:"A'"}],cen:[0,0]}),ans:d,unit:"°",traps:[[360-d,"Itu besar sudut jika diputar searah jarum jam. Yang diminta berlawanan arah jarum jam."]],
+        q:`Rotasi berlawanan arah jarum jam terhadap O memetakan A${cf(A)} ke A'${cf(A2)}. Berapa ${B("besar sudut rotasinya")} (0°–360°)?`,how:`${rotRule(d)} cocok dengan A → A'. Berlawanan arah jarum jam sebesar ${B(d+"°")}.`,chk:{ang:[A,A2]}}); break; } }
+  else {
+    for(;;){ const d=pick([90,180,270],r), c=[ri(-3,3,r),ri(-3,3,r)]; if(!c[0]&&!c[1]) continue; const P=tri(r,c[0]-4,c[0]+4,c[1]-4,c[1]+4), I=mapP(P,ROT(d,c)); if(!inWin(P,7)||!inWin(I,7)||Object.values(P).some(p=>eq2(p,c))) continue;
+      const alts=[{P:mapP(P,ROT(d)),m:"Itu diputar terhadap O. Pusat rotasinya titik P."}].concat(d===180?[]:[{P:mapP(P,ROT(360-d,c)),m:`Arah putarnya terbalik. Yang diminta ${d===90?"berlawanan arah":"searah"} jarum jam.`}]);
+      steps.push(gambar(7,P,I,alts,`Gambar bayangan ΔABC oleh rotasi ${B(rotName(d))} terhadap titik P${cf(c)}.`,`Geser dulu agar P di O, putar ${rotName(d)} dengan ${rotRule(d)}, lalu geser kembali. ${ptsTxt(P,I)}.`,{cen:c,cenNm:"P"})); break; }
+    for(;;){ const d=pick([90,180,270],r), c=[ri(-3,3,r),ri(-3,3,r)], p=[ri(-6,6,r),ri(-6,6,r)]; if((!c[0]&&!c[1])||eq2(p,c)) continue; const q=ROT(d,c)(p).map(nz); if(Math.max(...q.map(Math.abs))>10) continue;
+      const rel=[p[0]-c[0],p[1]-c[1]], rq=ROT(d)(rel).map(nz);
+      steps.push({t:"xy",fig:fig(span(p,q,c),{pts:[{p,nm:"A"}],cen:c,cenNm:"P"}),lab:"A'",ans:q,traps:[[ROT(d)(p).map(nz),"Itu diputar terhadap O. Pusatnya P: geser dulu, putar, lalu geser kembali."]].concat(d===180?[]:[[ROT(360-d,c)(p).map(nz),"Arah putarnya terbalik."]]),
+        q:`Tentukan bayangan A${cf(p)} oleh rotasi ${rotName(d)} terhadap titik P${cf(c)}.`,how:`A − P = ${cf(rel)}. Diputar: ${cf(rq)}. Ditambah P lagi: A' = ${B(cf(q))}.`,chk:{rot:[d,p,c]}}); break; }
+    for(;;){ const c=[ri(-4,4,r),ri(-4,4,r)], A=[ri(-6,6,r),ri(-6,6,r)], A2=[2*c[0]-A[0],2*c[1]-A[1]]; if(eq2(A,c)||Math.max(...A2.map(Math.abs))>9) continue;
+      steps.push({t:"xy",fig:fig(span(A,A2),{pts:[{p:A,nm:"A"},{p:A2,nm:"A'"}]}),lab:"P",ans:c.map(nz),traps:[[[A[0]+A2[0],A[1]+A2[1]],"Lupa dibagi 2: pusat rotasi 180° adalah titik tengah AA'."],[[A2[0]-A[0],A2[1]-A[1]],"Itu selisih koordinat. Pusat rotasi 180° adalah titik tengah AA'."]],
+        q:`Rotasi 180° terhadap titik P memetakan A${cf(A)} ke A'${cf(A2)}. Tentukan koordinat ${B("P")}.`,how:`Pada rotasi 180°, P tepat di tengah A dan A': P = ((${num(A[0])} + ${num(A2[0])}) : 2, (${num(A[1])} + ${num(A2[1])}) : 2) = ${B(cf(c))}.`.replace(/\+ −/g,"− "),chk:{mid2:[A,A2]}}); break; } }
+  return {kind:"rotasi",level,steps:finishSteps(steps)}; }
+
+/* ================= 4. DILATASI ================= */
+function genDilatasi(level,r){ const steps=[];
+  if(level==="mudah"){
+    for(;;){ const P=tri(r,-3,3,-3,3), I=mapP(P,DIL(2)); if(Object.values(P).some(p=>!p[0]&&!p[1])||!inWin(I,6)) continue;
+      steps.push(gambar(6,P,I,[{P:mapP(P,TR(2,2)),m:"Dilatasi mengalikan koordinat dengan k, bukan menambah k."},{P:mapP(P,DIL(-2)),m:"k positif: bayangan berada di pihak yang sama dari O."},{P:mapP(P,DIL(3)),m:"Faktor skalanya 2, bukan 3."}],
+        `Gambar bayangan ΔABC oleh dilatasi dengan faktor skala ${B("2")} terhadap titik O.`,`Dilatasi [O, 2]: (x, y) → (2x, 2y). ${ptsTxt(P,I)}.`,{cen:[0,0]})); break; }
+    for(;;){ const p=[ri(-3,3,r),ri(-3,3,r)]; if(!p[0]||!p[1]) continue; const q=DIL(3)(p).map(nz);
+      steps.push({t:"xy",fig:fig(span(p,q),{pts:[{p,nm:"P"}],cen:[0,0]}),lab:"P'",ans:q,traps:[[[p[0]+3,p[1]+3],"Dilatasi mengalikan koordinat dengan k, bukan menambah k."],[[3*p[0],p[1]],"Kedua koordinat dikali k."]],
+        q:`Tentukan bayangan P${cf(p)} oleh dilatasi dengan faktor skala 3 terhadap O.`,how:`[O, 3]: (x, y) → (3x, 3y). P' = ${B(cf(q))}.`,chk:{dil:[3,p,[0,0]]}}); break; }
+    for(;;){ const k=pick([2,3],r), A=[ri(-3,3,r),ri(-3,3,r)]; if(!A[0]||!A[1]||A[0]===A[1]) continue; const A2=DIL(k)(A).map(nz);
+      steps.push({t:"num",fig:fig(span(A,A2),{pts:[{p:A,nm:"A"},{p:A2,nm:"A'"}],cen:[0,0]}),ans:k,unit:"",traps:[[A2[0]-A[0],"Faktor skala = koordinat bayangan : koordinat asal (dibagi), bukan selisihnya."],[A2[1]-A[1],"Faktor skala = koordinat bayangan : koordinat asal (dibagi), bukan selisihnya."]],
+        q:`Dilatasi terhadap O memetakan A${cf(A)} ke A'${cf(A2)}. Berapa ${B("faktor skala k")}?`,how:`k = ${num(A2[0])} : ${num(A[0])} = ${num(A2[1])} : ${num(A[1])} = ${B(num(k))}.`,chk:{kk:[A,A2]}}); break; } }
+  else if(level==="sedang"){
+    for(;;){ const k=pick([2,3],r), P=k===3?tri(r,-2,2,-2,2):tri(r,-3,3,-3,3), I=mapP(P,DIL(k)); if(Object.values(P).some(p=>!p[0]&&!p[1])||!inWin(I,7)) continue;
+      steps.push(gambar(7,P,I,[{P:mapP(P,TR(k,k)),m:"Dilatasi mengalikan koordinat dengan k, bukan menambah k."},{P:mapP(P,DIL(5-k)),m:`Faktor skalanya ${k}, bukan ${5-k}.`},{P:mapP(P,DIL(-k)),m:"k positif: bayangan berada di pihak yang sama dari O."}],
+        `Gambar bayangan ΔABC oleh dilatasi dengan faktor skala ${B(k)} terhadap titik O.`,`[O, ${k}]: (x, y) → (${k}x, ${k}y). ${ptsTxt(P,I)}.`,{cen:[0,0]})); break; }
+    for(;;){ const k=pick([2,3,4],r), A=[ri(-3,3,r),ri(-3,3,r)]; if(!A[0]||!A[1]) continue; const A2=DIL(k)(A).map(nz);
+      steps.push({t:"xy",fig:fig(span(A2),{pts:[{p:A2,nm:"A'"}],cen:[0,0]}),lab:"A",ans:A,traps:[[DIL(k)(A2).map(nz),"Itu A' dikali lagi. Untuk mencari titik asal, bagi dengan k."],[[A2[0]-k,A2[1]-k],"Bagi dengan k, bukan dikurangi k."]],
+        q:`A'${cf(A2)} adalah bayangan titik A oleh dilatasi [O, ${k}]. Tentukan koordinat A.`,how:`A = A' : ${k} = ${B(cf(A))}.`,chk:{dil:[1/k,A2,[0,0]]}}); break; }
+    for(;;){ const k=pick([2,3],r), A=[ri(-3,3,r),ri(-3,3,r)], Bp=[ri(-3,3,r),ri(-3,3,r)]; if(!A[0]||!A[1]||eq2(A,Bp)||(!Bp[0]&&!Bp[1])) continue; const A2=DIL(k)(A).map(nz), B2=DIL(k)(Bp).map(nz); if([A,A2].some(z=>eq2(z,B2))) continue;
+      steps.push({t:"xy",fig:fig(span(A,A2,Bp,B2),{pts:[{p:A,nm:"A"},{p:A2,nm:"A'"},{p:Bp,nm:"B"}],cen:[0,0]}),lab:"B'",ans:B2,traps:[[[Bp[0]+A2[0]-A[0],Bp[1]+A2[1]-A[1]],"Itu translasi. Dilatasi mengalikan: cari k dari A dan A' dulu."]],
+        q:`Dilatasi terhadap O memetakan A${cf(A)} ke A'${cf(A2)}. Dengan dilatasi yang sama, tentukan bayangan B${cf(Bp)}.`,how:`k = ${num(A2[0])} : ${num(A[0])} = ${k}. B' = ${k} × B = ${B(cf(B2))}.`,chk:{dil:[k,Bp,[0,0]]}}); break; } }
+  else {
+    for(;;){ const c=[ri(-3,3,r),ri(-3,3,r)]; if(!c[0]&&!c[1]) continue; const P=tri(r,c[0]-3,c[0]+3,c[1]-3,c[1]+3), I=mapP(P,DIL(2,c)); if(Object.values(P).some(p=>eq2(p,c))||!inWin(P,7)||!inWin(I,7)) continue;
+      steps.push(gambar(7,P,I,[{P:mapP(P,DIL(2)),m:"Itu terhadap O. Pusat dilatasinya titik P: jarak dari P yang dikali 2."},{P:mapP(P,DIL(-2,c)),m:"k positif: bayangan berada di pihak yang sama dari P."}],
+        `Gambar bayangan ΔABC oleh dilatasi dengan faktor skala ${B("2")} terhadap titik P${cf(c)}.`,`A' = P + 2 × (A − P). ${ptsTxt(P,I)}.`,{cen:c,cenNm:"P"})); break; }
+    for(;;){ const v=pick(["h","n2","p1"],r), k=v==="h"?-0.5:v==="n2"?-2:-1, c=v==="p1"?[ri(-3,3,r),ri(-3,3,r)]:[0,0], p=[ri(-6,6,r),ri(-6,6,r)]; if(eq2(p,c)||(v==="p1"&&!c[0]&&!c[1])||(v!=="h"&&(Math.abs(p[0])>4||Math.abs(p[1])>4))) continue;
+      const q=DIL(k,c)(p).map(nz); if(Math.max(...q.map(Math.abs))>10||!(p[0]%2)&&!(p[1]%2)&&v==="h"&&r()<.5) continue;
+      steps.push({t:"xy",fig:fig(span(p,q,c),{pts:[{p,nm:"A"}],cen:c,cenNm:v==="p1"?"P":"O"}),lab:"A'",ans:q,traps:[[DIL(-k,c)(p).map(nz),"k negatif: bayangan berada di seberang pusat, jadi tandanya ikut berubah."]].concat(v==="h"?[[DIL(-2)(p).map(nz),"k = −½ berarti dibagi 2 (dan berubah tanda), bukan dikali 2."]]:v==="p1"?[[DIL(k)(p).map(nz),"Itu terhadap O. Pusatnya P."]]:[]),
+        q:`Tentukan bayangan A${cf(p)} oleh dilatasi dengan faktor skala ${B(kf(k))} terhadap ${v==="p1"?`titik P${cf(c)}`:"O"}.`,how:v==="p1"?`A' = P + (−1) × (A − P) = 2P − A = ${B(cf(q))}.`:`(x, y) → (${kf(k)}x, ${kf(k)}y). A' = ${B(cf(q))}.`,chk:{dil:[k,p,c]}}); break; }
+    for(;;){ const k=pick([2,3,-1,-2],r), c=[ri(-4,4,r),ri(-4,4,r)], A=[ri(-5,5,r),ri(-5,5,r)]; if(eq2(A,c)) continue; const A2=DIL(k,c)(A).map(nz); if(Math.max(...A2.map(Math.abs))>10||Math.hypot(A2[0]-A[0],A2[1]-A[1])<2) continue;
+      const mid=[(A[0]+A2[0])/2,(A[1]+A2[1])/2];
+      steps.push({t:"xy",fig:fig(span(A,A2),{pts:[{p:A,nm:"A"},{p:A2,nm:"A'"}]}),lab:"P",ans:c.map(nz),traps:(k===-1?[]:[[mid,"Pusat dilatasi bukan titik tengah AA' (kecuali k = −1). Pakai A' = P + k(A − P)."]]).concat([[[A2[0]-k*A[0],A2[1]-k*A[1]],`Masih harus dibagi (1 − k) = ${num(1-k)}.`]]),
+        q:`Dilatasi dengan faktor skala ${kf(k)} terhadap titik P memetakan A${cf(A)} ke A'${cf(A2)}. Tentukan koordinat ${B("P")}.`,how:`A' = P + k(A − P) → P = (A' − kA) : (1 − k) = ${cf([A2[0]-k*A[0],A2[1]-k*A[1]])} : ${1-k<0?"("+num(1-k)+")":num(1-k)} = ${B(cf(c))}.`,chk:{cen:[k,A,A2]}}); break; } }
+  return {kind:"dilatasi",level,steps:finishSteps(steps)}; }
+
+const explain=p=>p.steps.map(s=>s.how);
+function makePuzzle(kind,level,seed){ const r=mulberry32(seed>>>0); return {translasi:genTranslasi,refleksi:genRefleksi,rotasi:genRotasi,dilatasi:genDilatasi}[kind](level,r); }
+const starsWrong=w=>w===0?3:w<=2?2:1;
+const EPOCH=Date.UTC(2026,9,1);
+function dayKey(d){ d=d||new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`; }
+function dayNumber(key){ const [y,m,dd]=key.split("-").map(Number); return Math.max(1,Math.round((Date.UTC(y,m-1,dd)-EPOCH)/864e5)+1); }
+const puzzleKey=p=>JSON.stringify(p.steps.map(s=>[s.t,s.q,s.ans,s.fig&&JSON.stringify(s.fig)]));
+const DAILY={};
+/* rantai per blok 365 hari: soal tidak berulang dalam setahun dan biaya hitungnya tidak terus bertambah */
+function dailyPuzzle(kind,level,n){
+  const blk=Math.floor((n-1)/365), id=kind+"|"+level+"|"+blk, c=DAILY[id]||(DAILY[id]={list:[],last:new Map()}), m=n-blk*365;
+  while(c.list.length<m){ const d=blk*365+c.list.length+1; let p=null,best=null,bestAge=-1;
+    for(let k=0;k<30;k++){ const q=makePuzzle(kind,level,hashStr(`petak-bayangan|${kind}|${level}|${d}|${k}`)), key=puzzleKey(q), age=c.last.has(key)?d-c.last.get(key):1e9;
+      if(age>365){ p=q; break; } if(age>bestAge){ best=q; bestAge=age; } }
+    p=p||best; c.list.push(p); c.last.set(puzzleKey(p),d); }
+  return c.list[m-1];
+}
+/* ================= AKHIR INTI ================= */</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+function lsGet(k,d){ try{ const v=localStorage.getItem(k); return v==null?d:JSON.parse(v); }catch(e){ return d; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,JSON.stringify(v)); }catch(e){} }
+const P=Object.assign({mode:"harian",kind:"translasi",level:"mudah",names:["Tim Merah","Tim Biru"],seen:false},lsGet("pb_prefs",{}));
+if(!KINDS[P.kind]) P.kind="translasi"; if(!LEVELS[P.level]) P.level="mudah";
+const saveP=()=>lsSet("pb_prefs",P);
+const TEAMC=["var(--red)","var(--blue)"], ROUNDS=5;
+let G=null, K=null, toastT=null;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2600); }
+const starsHTML=n=>`<div class="stars">${[1,2,3].map(i=>`<span class="${i<=n?"":"off"}">★</span>`).join("")}</div>`;
+function newPuzzle(){
+  if(P.mode==="harian"){ const key=dayKey(); return {p:dailyPuzzle(P.kind,P.level,dayNumber(key)),n:dayNumber(key),key}; }
+  return {p:makePuzzle(P.kind,P.level,(Math.random()*4294967296)>>>0)};
+}
+function resetStep(){ G.fields=["",""]; G.act=0; G.struck=[]; G.placed=[]; G.off=[0,0]; }
+function startGame(fromKelas){
+  document.documentElement.classList.toggle("kelas",P.mode==="kelas");
+  if(P.mode==="kelas"&&!fromKelas) K={round:1,turn:0,score:[0,0],over:false};
+  if(P.mode!=="kelas") K=null;
+  const np=newPuzzle(), p=np.p;
+  G={p,n:np.n,key:np.key,kind:P.kind,level:P.level,mode:P.mode,wrong:0,done:false,stars:0,usedHint:false,step:0};
+  if(G.mode==="harian"){ const s=lsGet(storeKey(),null); if(s&&s.n===G.n){ for(const k of ["wrong","done","stars","usedHint","step"]) if(s[k]!==undefined) G[k]=s[k]; } }
+  resetStep(); $("res").hidden=true; $("fb").innerHTML="";
+  render(); if(G.done) showResult();
+}
+const storeKey=()=>`pb_day_${G.level}_${G.kind}`;
+function saveDay(){ if(G.mode==="harian") lsSet(storeKey(),{n:G.n,wrong:G.wrong,done:G.done,stars:G.stars,usedHint:G.usedHint,step:G.step}); }
+const cur=()=>G.p.steps[Math.min(G.step,G.p.steps.length-1)];
+const NM=["A","B","C"];
+
+/* ---------- kertas berpetak (koordinat dunia → layar) ---------- */
+const f1=n=>+n.toFixed(1);
+const tx=(x,y,s,fs,fill,extra)=>`<text class="h" x="${f1(x)}" y="${f1(y)}" font-size="${fs||13}" fill="${fill||"#1F2A2E"}"${extra||""}>${esc(s)}</text>`;
+const GW=320, GM=18;
+const gt=w=>{ const c=(GW-2*GM)/(2*w); return {c,w,X:x=>f1(GM+(x+w)*c),Y:y=>f1(GM+(w-y)*c)}; };
+const COL={src:"#6D28D9",img:"#DB2777",me:"#0F766E",ln:"#DC2626"};
+function polyS(T,P,col,fill,dash,suf,dots){ let s=`<polygon points="${NM.map(n=>T.X(P[n][0])+","+T.Y(P[n][1])).join(" ")}" fill="${fill}" stroke="${col}" stroke-width="2.4" stroke-linejoin="round"${dash?' stroke-dasharray="6 4"':""}/>`;
+  const cx=(P.A[0]+P.B[0]+P.C[0])/3, cy=(P.A[1]+P.B[1]+P.C[1])/3;
+  for(const n of NM){ const dx=P[n][0]-cx, dy=P[n][1]-cy, l=Math.hypot(dx,dy)||1; if(dots) s+=`<circle cx="${T.X(P[n][0])}" cy="${T.Y(P[n][1])}" r="3.6" fill="${col}"/>`; s+=tx(T.X(P[n][0])+dx/l*13,T.Y(P[n][1])-dy/l*13,n+(suf||""),12,col); }
+  return s; }
+function lineS(T,L){ const w=T.w, e=w+0.5; let a,b,lab;
+  if(L.t==="x"){ a=[-e,0]; b=[e,0]; lab="sumbu x"; } else if(L.t==="y"){ a=[0,-e]; b=[0,e]; lab="sumbu y"; } else if(L.t==="yx"){ a=[-e,-e]; b=[e,e]; lab="y = x"; } else if(L.t==="ymx"){ a=[-e,e]; b=[e,-e]; lab="y = −x"; }
+  else if(L.t==="h"){ a=[L.v,-e]; b=[L.v,e]; lab="x = "+num(L.v); } else { a=[-e,L.v]; b=[e,L.v]; lab="y = "+num(L.v); }
+  const lx=L.t==="h"?T.X(L.v)+4+lab.length*3.3:L.t==="x"||L.t==="k"?GW-GM-lab.length*3.4:L.t==="y"?T.X(0)+6+lab.length*3.3:T.X(b[0])-16, ly=L.t==="h"||L.t==="y"?GM+8:L.t==="x"||L.t==="k"?T.Y(L.t==="x"?0:L.v)-9:T.Y(b[1])+(L.t==="yx"?14:-10);
+  return `<path d="M${T.X(a[0])} ${T.Y(a[1])}L${T.X(b[0])} ${T.Y(b[1])}" stroke="${COL.ln}" stroke-width="2" stroke-dasharray="7 4"/>`+tx(lx,ly,lab,11,COL.ln); }
+function gridInner(st){ const f=st.fig, T=gt(f.win), w=f.win, step=w<=7?1:2; let s=`<rect width="${GW}" height="${GW}" fill="#fff"/>`, g="";
+  for(let i=-w;i<=w;i++) g+=`M${T.X(i)} ${T.Y(-w)}V${T.Y(w)}M${T.X(-w)} ${T.Y(i)}H${T.X(w)}`;
+  s+=`<path d="${g}" stroke="#E5E7EB" stroke-width="1"/><path d="M${T.X(-w)} ${T.Y(0)}H${T.X(w)}M${T.X(0)} ${T.Y(-w)}V${T.Y(w)}" stroke="#64748B" stroke-width="1.6"/>`;
+  for(let i=-w;i<=w;i++) if(i&&!(i%step)){ s+=`<text x="${T.X(i)}" y="${f1(T.Y(0)+9)}" font-size="9.5" fill="#94A3B8">${num(i)}</text><text x="${f1(T.X(0)-8)}" y="${T.Y(i)}" font-size="9.5" fill="#94A3B8">${num(i)}</text>`; }
+  s+=tx(f1(T.X(w)+7),T.Y(0),"x",11,"#64748B")+tx(T.X(0),f1(T.Y(w)-8),"y",11,"#64748B")+tx(f1(T.X(0)-8),f1(T.Y(0)+9),"O",10,"#64748B");
+  for(const L of (f.lines||[]).concat(f.line?[f.line]:[])) s+=lineS(T,L);
+  if(f.arrow){ const [a,b]=f.arrow; s+=`<path d="M${T.X(a[0])} ${T.Y(a[1])}L${T.X(b[0])} ${T.Y(b[1])}" stroke="#94A3B8" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#ah)"/>`; }
+  if(f.src&&st.t!=="seret") s+=polyS(T,f.src,COL.src,"rgba(124,58,237,.16)",false,"",true);
+  if(f.img) s+=polyS(T,f.img,COL.img,"rgba(219,39,119,.10)",true,f.imgSuf||"'",true);
+  if(st.t==="seret"){ s+=polyS(T,f.src,COL.src,"rgba(124,58,237,.10)",false,"",true); const off=G.done?st.ans:G.off, M={}; for(const n of NM) M[n]=[f.src[n][0]+off[0],f.src[n][1]+off[1]];
+    const moved=off[0]||off[1]; s+=`<g class="mv">${polyS(T,M,G.done?"#15803D":"#EA580C","rgba(234,88,12,.22)",false,"'",true).replace(moved?/$^/:/<text[^>]*>[^<]*<\/text>/g,"")}</g>`; }
+  if(st.t==="gambar"){ const pts=G.done?NM.map(n=>st.ans[n]):G.placed; if(pts.length===3){ const M={A:pts[0],B:pts[1],C:pts[2]}; s+=polyS(T,M,G.done?"#15803D":COL.me,"rgba(15,118,110,.14)",false,"'",true); }
+    else pts.forEach((p,i)=>{ s+=`<circle cx="${T.X(p[0])}" cy="${T.Y(p[1])}" r="5" fill="${COL.me}"/>`+tx(T.X(p[0])+11,T.Y(p[1])-11,NM[i]+"'",12,COL.me); });
+    if(pts.length===2) s+=`<path d="M${T.X(pts[0][0])} ${T.Y(pts[0][1])}L${T.X(pts[1][0])} ${T.Y(pts[1][1])}" stroke="${COL.me}" stroke-width="2"/>`; }
+  if(f.cen){ const c=f.cen; s+=`<circle cx="${T.X(c[0])}" cy="${T.Y(c[1])}" r="4.5" fill="#fff" stroke="${COL.ln}" stroke-width="2.5"/>`; if(f.cenNm==="P") s+=tx(T.X(c[0])+11,T.Y(c[1])+11,"P",12,COL.ln); }
+  for(const z of f.pts||[]){ const pr=z.nm.includes("'"), col=pr?COL.img:COL.src; s+=`<circle cx="${T.X(z.p[0])}" cy="${T.Y(z.p[1])}" r="4.5" fill="${col}"/>`+tx(T.X(z.p[0])+12,T.Y(z.p[1])-11,z.nm,12,col); }
+  return `<defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#94A3B8"/></marker></defs>`+s; }
+const gridSVG=(st,o)=>`<div class="figw"><svg class="fig" ${o&&o.live?'id="gridg"':""} viewBox="0 0 ${GW} ${GW}" role="img" aria-label="Kertas berpetak">${gridInner(st)}</svg></div>`;
+let drag=null;
+function svgPt(svg,e){ const m=svg.getScreenCTM(); if(!m) return null; const p=new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse()); return [p.x,p.y]; }
+const toW=(T,p)=>[(p[0]-GM)/T.c-T.w,T.w-(p[1]-GM)/T.c];
+function lattice(e){ const st=cur(), T=gt(st.fig.win), p=svgPt($("gridg"),e); if(!p) return null; const q=toW(T,p), r=[Math.round(q[0]),Math.round(q[1])]; if(Math.abs(r[0])>T.w||Math.abs(r[1])>T.w) return null; return {r,raw:q}; }
+function clampOff(st,off){ const f=st.fig, w=f.win; let [dx,dy]=off; const xs=NM.map(n=>f.src[n][0]), ys=NM.map(n=>f.src[n][1]);
+  dx=Math.max(-w-Math.min(...xs),Math.min(w-Math.max(...xs),dx)); dy=Math.max(-w-Math.min(...ys),Math.min(w-Math.max(...ys),dy)); return [dx,dy]; }
+$("play").addEventListener("pointerdown",e=>{ if(!G||G.done) return; const st=cur(); if(!e.target.closest("#gridg")) return;
+  if(st.t==="seret"){ e.preventDefault(); const L=lattice(e); if(!L) return; const svg=$("gridg");
+    if(e.target.closest(".mv")){ drag={id:e.pointerId,start:L.raw,off:G.off.slice()}; try{ svg.setPointerCapture(e.pointerId); }catch(_){} }
+    else { G.off=clampOff(st,[L.r[0]-st.fig.src.A[0],L.r[1]-st.fig.src.A[1]]); redraw(); } return; }
+  if(st.t==="gambar"){ e.preventDefault(); const L=lattice(e); if(!L||G.placed.length>=3) return; G.placed.push(L.r); render(); } });
+$("play").addEventListener("pointermove",e=>{ if(!drag||e.pointerId!==drag.id) return; const L=lattice(e), st=cur(); const T=gt(st.fig.win), p=svgPt($("gridg"),e); if(!p) return; const q=toW(T,p);
+  G.off=clampOff(st,[drag.off[0]+Math.round(q[0]-drag.start[0]),drag.off[1]+Math.round(q[1]-drag.start[1])]); redraw(); });
+const endDrag=()=>{ drag=null; }; window.addEventListener("pointerup",endDrag); window.addEventListener("pointercancel",endDrag);
+let raf=0; function redraw(){ if(raf) return; raf=requestAnimationFrame(()=>{ raf=0; const st=cur(); if(st.t==="seret"&&$("gridg")) $("gridg").innerHTML=gridInner(st); }); }
+
+/* ---------- tampilan ---------- */
+const labHTML=st=>{ const fld=i=>`<span class="fld${G.act===i?" act":""}${G.fields[i]?"":" ph"}" data-f="${i}">${G.fields[i]?esc(G.fields[i]):i?"y":"x"}</span>`;
+  if(st.lab==="pq") return `<div class="xy">p =${fld(0)}<span style="width:14px"></span>q =${fld(1)}</div>`;
+  return `<div class="xy">${esc(st.lab)}(${fld(0)},${fld(1)})</div>`; };
+function ansText(st){ if(st.t==="gambar") return "✓ "+NM.map(n=>`${n}'${cf(st.ans[n])}`).join(", "); if(st.t==="seret") return `✓ T(${num(st.ans[0])}, ${num(st.ans[1])})`;
+  if(st.t==="pilih") return `✓ ${esc(st.opts[st.ans].s)}`; if(st.t==="xy") return st.lab==="pq"?`p = ${num(st.ans[0])}, q = ${num(st.ans[1])}`:`${esc(st.lab)}${cf(st.ans)}`; return num(st.ans)+(st.unit||""); }
+function render(){
+  const st=cur(), n=G.p.steps.length, done=G.done; let h="", c="", needPad=false, ok=true;
+  h+=n>1?`<div class="prog" aria-label="Soal ${G.step+1} dari ${n}">${G.p.steps.map((_,i)=>`<i class="${i<G.step||done?"d":i===G.step?"c":""}"></i>`).join("")}</div>`:"";
+  const qlen=st.q.replace(/<[^>]+>/g,"").length;
+  h+=`<div class="qtext${qlen>125?" long":""}">${st.q}${st.sub&&!done?`<small>${st.sub}</small>`:""}</div>`+(st.fig?gridSVG(st,{live:(st.t==="seret"||st.t==="gambar")&&!done}):"");
+  if(done){ c=`<div class="ans">${ansText(st)}</div>`; ok=false; }
+  else if(st.t==="pilih"){ c=`<div class="ops${st.opts.some(o=>o.s.length>22)?" one":""}">${st.opts.map((o,i)=>`<button type="button" class="op" data-o="${i}" ${G.struck.includes(i)?"disabled":""}>${esc(o.s)}</button>`).join("")}</div>`; ok=false; }
+  else if(st.t==="gambar") c=`<div class="ans" style="font-size:1.05rem;color:var(--ink)">${G.placed.length<3?`Ketuk letak <b>${NM[G.placed.length]}'</b>`:"Semua titik sudah diletakkan."}</div><div class="tpb"><button type="button" class="btn ghost" data-act="undo">↶ Hapus titik</button><button type="button" class="btn ghost" data-act="clr">Ulang</button></div>`;
+  else if(st.t==="seret") c=`<div class="ans" style="font-size:1.05rem;color:var(--ink)">Seret segitiga oranye ke tempat barunya.</div><div class="tpb"><button type="button" class="btn ghost" data-act="clr">Ulang</button></div>`;
+  else if(st.t==="xy"){ c=labHTML(st); needPad=true; }
+  else { c=`<div class="form"><span class="fld act${G.fields[0]?"":" ph"}" data-f="0" style="min-width:120px">${G.fields[0]?esc(G.fields[0]):"?"}</span><span>${esc(st.unit||"")}</span></div>`; needPad=true; }
+  $("play").innerHTML=h; $("ctrlBody").innerHTML=c;
+  $("pad").hidden=!needPad; $("okBtn").hidden=!ok;
+  $("hintBtn").hidden=!(G.wrong>=3&&!done&&G.mode!=="kelas");
+  renderInfo(); renderSegs();
+}
+function renderInfo(){
+  const L=LEVELS[G.level].label, Kd=KINDS[G.kind];
+  $("infoL").innerHTML=G.mode==="harian"?`Harian <b>#${G.n}</b> · ${Kd.label} · ${L}`:G.mode==="latihan"?`Latihan · ${Kd.label} · ${L}`:`Ronde <b>${K.round}</b>/${ROUNDS} · ${Kd.label} · ${L}`;
+  $("infoR").innerHTML=`Salah: <b>${G.wrong}</b>`;
+  $("teams").hidden=G.mode!=="kelas";
+  if(K) $("teams").innerHTML=[0,1].map(t=>`<span class="${t===K.turn&&!K.over?"turn":""}" style="color:${TEAMC[t]}">${esc(P.names[t])} · ${K.score[t]} ⭐</span>`).join("");
+}
+function renderSegs(){
+  const day=P.mode==="harian"?dayNumber(dayKey()):0;
+  $("segKind").innerHTML=Object.entries(KINDS).map(([k,v])=>{ let badge=""; if(day){ const s=lsGet(`pb_day_${P.level}_${k}`,null); if(s&&s.n===day&&s.done) badge=`<small>${"⭐".repeat(s.stars)}</small>`; } return `<button type="button" data-v="${k}" aria-label="${v.label}"><span style="display:block">${v.icon}</span>${v.label}${badge}</button>`; }).join("");
+  $("segLevel").innerHTML=Object.entries(LEVELS).map(([k,l])=>`<button type="button" data-v="${k}">${l.label}<small>${l.sub}</small></button>`).join("");
+  $("segMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.mode));
+  $("segKind").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.kind));
+  $("segLevel").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===P.level));
+  $("statBtn").hidden=P.mode!=="harian";
+}
+
+/* ---------- interaksi ---------- */
+function nextStep(msg){ G.step++; $("fb").innerHTML=msg?`<span class="ok">✓ ${msg}</span>`:"";
+  if(G.step>=G.p.steps.length){ G.step=G.p.steps.length-1; return finish(); } resetStep(); saveDay(); render(); }
+function miss(msg){ G.wrong++; $("fb").innerHTML=`<span class="no">✗ ${msg}</span>`; saveDay(); render(); }
+$("ctrlBody").addEventListener("click",e=>{ if(!G||G.done) return; const st=cur();
+  const fl=e.target.closest("[data-f]"); if(fl){ G.act=+fl.dataset.f; render(); return; }
+  const b=e.target.closest("button"); if(!b) return;
+  if(b.dataset.o!==undefined&&st.t==="pilih"){ const i=+b.dataset.o; if(i===st.ans) return nextStep("Benar!"); G.struck.push(i); return miss(st.opts[i].m||"Belum tepat."); }
+  if(b.dataset.act==="undo"){ G.placed.pop(); render(); } else if(b.dataset.act==="clr"){ G.placed=[]; G.off=[0,0]; render(); } });
+function press(k){
+  if(!G||G.done||$("pad").hidden) return;
+  if(k==="ok") return check();
+  const i=G.act; let v=G.fields[i];
+  if(k==="del") v=v.slice(0,-1);
+  else if(k==="−") v=v.startsWith("−")?v.slice(1):"−"+v;
+  else if(k===","){ if(!/\d$/.test(v)||/[,\/]/.test(v)) return; v+=","; }
+  else if(k==="/"){ if(!/\d$/.test(v)||/[,\/]/.test(v)) return; v+="/"; }
+  else if(v.replace("−","").length<6) v+=k;
+  G.fields[i]=v; render();
+}
+$("pad").addEventListener("click",e=>{ const b=e.target.closest("button"); if(b&&!b.disabled&&b.dataset.k) press(b.dataset.k); });
+$("okBtn").onclick=()=>check();
+document.addEventListener("keydown",e=>{
+  if(e.ctrlKey||e.metaKey||e.altKey||!$("help").hidden||!$("statM").hidden||!G||G.done) return;
+  if(e.key==="Enter"){ if(document.activeElement&&document.activeElement.tagName==="BUTTON") return; e.preventDefault(); if(!$("okBtn").hidden) check(); return; }
+  if($("pad").hidden) return;
+  if((e.key==="Tab"||e.key==="ArrowRight"||e.key==="ArrowLeft")&&cur().t==="xy"){ e.preventDefault(); G.act=e.key==="ArrowLeft"?0:e.key==="ArrowRight"?1:1-G.act; render(); return; }
+  const m={Backspace:"del",".":",","/":"/","-":"−"}; if(/^[0-9]$/.test(e.key)||m[e.key]||e.key===","){ e.preventDefault(); press(m[e.key]||e.key); }
+});
+/* "−1,5" atau "3/2" → bilangan; null bila tidak terbaca */
+function val(t){ let m=/^(−?)(\d+)(?:,(\d+))?$/.exec(t); if(m) return (m[1]?-1:1)*+(m[2]+"."+(m[3]||"0")); m=/^(−?)(\d+)\/(\d+)$/.exec(t); if(m&&+m[3]) return (m[1]?-1:1)*m[2]/m[3]; return null; }
+const near=(a,b)=>Math.abs(a-b)<1e-9;
+function check(){
+  if(G.done) return; const st=cur();
+  if(st.t==="gambar"){ if(G.placed.length<3) return toast("Letakkan ketiga titik dulu: A', B', lalu C'."); const pl=G.placed, M={A:pl[0],B:pl[1],C:pl[2]}; G.placed=[];
+    if(NM.every(n=>near(M[n][0],st.ans[n][0])&&near(M[n][1],st.ans[n][1]))) return nextStep("Tepat!");
+    const alt=(st.alts||[]).find(a=>NM.every(n=>near(M[n][0],a.P[n][0])&&near(M[n][1],a.P[n][1]))); if(alt) return miss(alt.m);
+    const okN=NM.filter(n=>near(M[n][0],st.ans[n][0])&&near(M[n][1],st.ans[n][1])).map(n=>n+"'"), noN=NM.filter(n=>!okN.includes(n+"'")).map(n=>n+"'");
+    return miss(okN.length?`${okN.join(" dan ")} sudah tepat; ${noN.join(" dan ")} belum. Ketuk ulang ketiga titiknya.`:"Belum tepat. Hitung koordinat setiap titik bayangan, lalu ketuk lagi."); }
+  if(st.t==="seret"){ const o=G.off; if(!o[0]&&!o[1]) return toast("Seret segitiga oranye dulu."); if(o[0]===st.ans[0]&&o[1]===st.ans[1]) return nextStep("Tepat!");
+    const alt=(st.alts||[]).find(([a,b])=>a===o[0]&&b===o[1]); return miss(alt?alt[2]:"Belum tepat. Angka pertama: geser mendatar; angka kedua: geser tegak."); }
+  if(st.t==="xy"){ const t=G.fields; if(!t[0]||!t[1]){ G.act=t[0]?1:0; render(); return toast("Isi kedua kotak dulu."); } const v=t.map(val); if(v.some(x=>x===null)) return toast("Contoh penulisan: 3, −2, 1,5, atau 1/2.");
+    if(near(v[0],st.ans[0])&&near(v[1],st.ans[1])) return nextStep("Benar!");
+    const tr=(st.traps||[]).find(([p])=>near(p[0],v[0])&&near(p[1],v[1])); return miss(tr?tr[1]:"Belum tepat. Coba hitung lagi langkah demi langkah."); }
+  if(st.t==="num"){ const t=G.fields[0]; if(!t||/[,\/−]$/.test(t)) return toast("Isi jawabannya dulu."); const v=val(t); if(v===null) return toast("Contoh penulisan: 3, −2, 1,5, atau 1/2.");
+    if(near(v,st.ans)) return nextStep("Benar!"); const tr=(st.traps||[]).find(([p])=>near(p,v)); return miss(tr?tr[1]:"Belum tepat. Coba hitung lagi langkah demi langkah."); }
+}
+$("hintBtn").onclick=()=>{ G.usedHint=true; saveDay(); showHow(); };
+const howHTML=()=>`<div class="how">${G.p.steps.map((s,i)=>`<div>${G.p.steps.length>1?`<b>${i+1}.</b> `:""}${s.how}</div>`).join("")}</div>`;
+function playAnims(){}
+function showHow(){
+  $("res").hidden=false;
+  $("res").innerHTML=`<h2>💡 Petunjuk</h2><div class="how"><div>${cur().how}</div></div><p>Kamu tetap bisa menyelesaikannya (bintang maksimal ⭐).</p><button class="btn ghost" type="button" id="closeHow">Tutup</button>`;
+  $("closeHow").onclick=()=>{ $("res").hidden=true; };
+  $("res").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function finish(){
+  G.done=true; G.stars=G.usedHint?1:starsWrong(G.wrong);
+  if(G.mode==="harian") recordDay();
+  if(K) K.score[K.turn]+=G.stars;
+  saveDay(); render(); setTimeout(showResult,300);
+}
+function getStats(l){ return Object.assign({days:0,streak:0,best:0,lastN:0,stars:0},lsGet("pb_st_"+l,{})); }
+function recordDay(){
+  const allk=Object.keys(KINDS).map(k=>k===G.kind?{n:G.n,done:true,stars:G.stars}:lsGet(`pb_day_${G.level}_${k}`,null));
+  if(!allk.every(s=>s&&s.n===G.n&&s.done)) return;
+  const s=getStats(G.level); if(s.lastN===G.n) return;
+  s.days++; s.streak=s.lastN===G.n-1?s.streak+1:1; s.best=Math.max(s.best,s.streak); s.stars+=allk.reduce((a,x)=>a+x.stars,0); s.lastN=G.n; lsSet("pb_st_"+G.level,s);
+}
+const statsHTML=l=>{ const s=getStats(l); return `<div class="sts"><div><b>${s.days}</b><small>hari tuntas</small></div><div><b>${s.streak}</b><small>beruntun</small></div><div><b>${s.best}</b><small>terbaik</small></div><div><b>${s.stars}</b><small>total ⭐</small></div></div>`; };
+function untilMidnight(){ const n=new Date(), m=new Date(n); m.setHours(24,0,0,0); const s=Math.max(0,Math.floor((m-n)/1000)); return `${Math.floor(s/3600)} jam ${Math.floor(s%3600/60)} menit`; }
+function showResult(){
+  const r=$("res"); r.hidden=false;
+  let h=`${starsHTML(G.stars)}<h2>${G.stars===3?"Sempurna!":G.stars===2?"Bagus!":"Selesai!"}</h2><p>${G.wrong} kali salah${G.usedHint?" · memakai Petunjuk":""}</p>
+    <details${G.mode==="latihan"?" open":""}><summary style="cursor:pointer;font-weight:800">Pembahasan</summary>${howHTML()}</details>`;
+  if(G.mode==="harian"){
+    const left=Object.keys(KINDS).filter(k=>{ const s=lsGet(`pb_day_${G.level}_${k}`,null); return !(s&&s.n===G.n&&s.done); });
+    h+=left.length?`<button class="btn" type="button" id="nextKind">Lanjut ${KINDS[left[0]].icon} ${KINDS[left[0]].label} →</button>`
+      :`${statsHTML(G.level)}<p>Keempat soal hari ini selesai! Soal baru dalam <b>${untilMidnight()}</b>.</p><button class="btn" type="button" id="share">Salin hasil</button>`;
+    if(left.length) setTimeout(()=>{ const b=$("nextKind"); if(b) b.onclick=()=>{ P.kind=left[0]; saveP(); startGame(); }; },0);
+  }else if(G.mode==="latihan") h+=`<button class="btn" type="button" id="again">Soal baru →</button>`;
+  else if(K.turn===1&&K.round>=ROUNDS){ K.over=true; renderInfo(); const [a,b]=K.score;
+    h+=`<h2 style="margin-top:6px">${a===b?"Seri!":`🏆 ${esc(P.names[a>b?0:1])} menang!`}</h2><p>${esc(P.names[0])} ${a} ⭐ · ${esc(P.names[1])} ${b} ⭐</p>
+      <div class="row2"><button class="btn" type="button" id="newKelas">Main lagi</button><button class="btn ghost" type="button" id="rename">Ganti nama tim</button></div>`; }
+  else h+=`<button class="btn dark" type="button" id="nextTurn">Giliran ${esc(P.names[1-K.turn])} →</button>`;
+  r.innerHTML=h; playAnims(r);
+  const dt=r.querySelector("details"); if(dt) dt.addEventListener("toggle",()=>{ if(dt.open) playAnims(dt); });
+  if($("again")) $("again").onclick=()=>startGame();
+  if($("share")) $("share").onclick=async()=>{ const line=Object.keys(KINDS).map(k=>{ const s=lsGet(`pb_day_${G.level}_${k}`,null); return KINDS[k].icon+"⭐".repeat(s&&s.done?s.stars:0); }).join(" ");
+    const t=`Petak Bayangan #${G.n} · ${LEVELS[G.level].label}\n${line}\n${location.href.split(/[?#]/)[0]}`;
+    try{ await navigator.clipboard.writeText(t); toast("Hasil disalin. Tempel di WA atau grup kelas."); }catch(e){ prompt("Salin teks ini:",t); } };
+  if($("nextTurn")) $("nextTurn").onclick=()=>{ if(K.turn===1) K.round++; K.turn=1-K.turn; startGame(true); };
+  if($("newKelas")) $("newKelas").onclick=()=>startGame();
+  if($("rename")) $("rename").onclick=()=>{ for(const i of [0,1]){ const v=prompt(`Nama tim ${i+1}:`,P.names[i]); if(v&&v.trim()) P.names[i]=v.trim().slice(0,14); } saveP(); renderInfo(); showResult(); };
+}
+const busy=()=>G&&!G.done&&G.mode!=="harian"&&(G.wrong||G.step||(K&&(K.round>1||K.turn)));
+function change(fn){ if(busy()&&!confirm("Tinggalkan soal yang sedang dikerjakan?")) return; fn(); saveP(); startGame(); }
+$("segMode").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.mode) change(()=>P.mode=b.dataset.v); };
+$("segKind").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.kind) change(()=>P.kind=b.dataset.v); };
+$("segLevel").onclick=e=>{ const b=e.target.closest("button"); if(b&&b.dataset.v!==P.level) change(()=>P.level=b.dataset.v); };
+$("helpBtn").onclick=()=>$("help").hidden=false;
+const closeHelp=()=>{ $("help").hidden=true; P.seen=true; saveP(); };
+$("helpClose").onclick=closeHelp; $("help").onclick=e=>{ if(e.target===$("help")) closeHelp(); };
+$("statBtn").onclick=()=>{ $("statBody").innerHTML=`<h2>Statistik harian · ${LEVELS[P.level].label}</h2>${statsHTML(P.level)}<p class="sub">Satu hari dihitung tuntas kalau keempat soal selesai.</p><button class="btn" type="button" id="statClose">Tutup</button>`; $("statM").hidden=false; $("statClose").onclick=()=>$("statM").hidden=true; };
+$("statM").onclick=e=>{ if(e.target===$("statM")) $("statM").hidden=true; };
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="visible"&&G&&G.mode==="harian"&&dayKey()!==G.key) startGame(); });
+startGame();
+if(!P.seen) $("help").hidden=false;
+</script>
+</body>
+</html>
