@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#7C3AED">
+<title>Kalimon</title>
+<meta name="description" content="Kalimon: jinakkan 15 monster perkalian. Anak kelas 3–6 belajar jurus dulu (×1, ×10, ×2, ×5, ×9, bolak-balik, ×3, ×4, ×6, ×8, 7×7), lalu berlatih 10 menit sehari sampai perkalian 1–10 lancar dan hafal. Peta 10×10 per anak, mode HP guru dengan rekap kelas dan rapor, kode kemajuan lewat WhatsApp, dan pembagian yang dibuka guru.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%237C3AED'/%3E%3Cpath d='M12 44C10 24 22 14 32 14S54 24 52 44C50 54 40 56 32 56S14 54 12 44Z' fill='%23FB923C' stroke='%23111' stroke-width='3'/%3E%3Ccircle cx='25' cy='34' r='6' fill='%23fff'/%3E%3Ccircle cx='39' cy='34' r='6' fill='%23fff'/%3E%3Ccircle cx='26' cy='35' r='3' fill='%23111'/%3E%3Ccircle cx='40' cy='35' r='3' fill='%23111'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  color-scheme:light;
+  --ink:#1F2937;
+  --muted:#5B6474;
+  --line:#E2E8F0;
+  --card:#FFFFFF;
+  --vio:#7C3AED;
+  --vio-d:#5B21B6;
+  --soft:#F5F3FF;
+  --gold:#FACC15;
+  --green:#16A34A;
+  --rose:#E11D48;
+  --sky:#E0F2FE;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+[hidden]{display:none!important}
+html,body{min-height:100%}
+body{margin:0;color:var(--ink);font-family:'Baloo 2','Segoe UI Rounded',system-ui,sans-serif;font-weight:500;font-variant-numeric:tabular-nums;
+  background:linear-gradient(180deg,#BAE6FD 0%,#E0F2FE 40%,#DCFCE7 100%) fixed #E0F2FE;display:flex;justify-content:center;padding:10px 12px calc(18px + env(safe-area-inset-bottom))}
+button,input,select,textarea{font-family:inherit;color:inherit}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--vio);outline-offset:2px}
+.wrap{width:100%;max-width:560px;display:flex;flex-direction:column;gap:10px}
+.topbar{display:flex;align-items:center;gap:6px}
+.home{display:none;align-items:center;gap:4px;color:inherit;text-decoration:none;font-weight:700;font-size:.85rem;border:1px solid #fff;background:rgba(255,255,255,.7);border-radius:999px;padding:6px 10px;white-space:nowrap;flex:none}
+.onweb .home{display:inline-flex}
+.brand{flex:1;min-width:0;font-weight:800;font-size:1.3rem;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--vio-d)}
+.brand span{color:#EA580C}
+.ibtn{width:36px;height:36px;border-radius:50%;border:1px solid #fff;background:rgba(255,255,255,.75);font-weight:800;cursor:pointer;flex:none;font-size:1rem}
+.card{background:var(--card);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:10px;box-shadow:0 6px 0 rgba(91,33,182,.12),0 10px 26px rgba(15,23,42,.08)}
+h1,h2,h3{margin:0;line-height:1.15}
+h1{font-size:1.6rem} h2{font-size:1.25rem} h3{font-size:1.05rem}
+p{margin:0}
+.sub{color:var(--muted);font-size:.92rem;line-height:1.4}
+.center{text-align:center}
+.btn{border:0;border-radius:14px;padding:11px 14px;font-weight:800;font-size:1.05rem;cursor:pointer;background:linear-gradient(135deg,#8B5CF6,var(--vio));color:#fff;box-shadow:0 4px 0 var(--vio-d);touch-action:manipulation;text-decoration:none;text-align:center}
+.btn:active{transform:translateY(2px);box-shadow:0 2px 0 var(--vio-d)}
+.btn.go{background:linear-gradient(135deg,#FDE047,var(--gold) 45%,#F59E0B);color:#422006;box-shadow:0 5px 0 #CA8A04;font-size:1.3rem;padding:14px}
+.btn.wa{background:linear-gradient(135deg,#4ADE80,#16A34A);box-shadow:0 4px 0 #15803D}
+.btn.ghost{background:#fff;color:var(--ink);border:2px solid var(--line);box-shadow:none}
+.btn.red{background:#FFE4E6;color:#9F1239;border:2px solid #FECDD3;box-shadow:none}
+.btn.sm{padding:6px 10px;font-size:.9rem;border-radius:10px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.row3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;padding:4px;border-radius:12px;background:var(--soft)}
+.seg button{border:0;background:transparent;border-radius:9px;padding:7px 2px;font-weight:800;font-size:.92rem;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--vio);color:#fff}
+.choice{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;border:2px solid var(--line);background:#fff;border-radius:16px;padding:12px 14px;cursor:pointer;font-size:1.1rem}
+.choice small{color:var(--muted);font-size:.86rem;font-weight:600;line-height:1.35}
+.choice:hover{border-color:var(--vio)}
+label.f{display:flex;flex-direction:column;gap:3px;font-weight:800;font-size:.9rem}
+label.f input,label.f select,textarea{border:2px solid var(--line);border-radius:12px;padding:9px 10px;font-size:1.05rem;font-weight:700;background:#fff;width:100%}
+textarea{font-size:.9rem;font-weight:600;min-height:90px}
+.logo{display:flex;justify-content:center;align-items:flex-end;gap:2px}
+.logo svg{width:84px;height:84px}
+.logo .mon{width:110px;height:110px}
+.hero{width:64px;height:64px;flex:none}
+.hero.xl{width:104px;height:104px}
+.card.center>.hero,.card.center>.logo{align-self:center}
+.mon{width:120px;height:120px}
+.mon.wild{opacity:.45}
+.cert{border:3px double var(--vio);border-radius:18px;padding:12px;text-align:center;background:#FAF5FF}
+/* kartu murid / profil */
+.kids{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.kid{display:flex;flex-direction:column;align-items:center;gap:2px;border:0;background:#fff;border-radius:18px;padding:10px 8px;cursor:pointer;box-shadow:0 4px 0 rgba(91,33,182,.12)}
+.kid b{font-size:1.1rem;line-height:1.1;text-align:center;overflow-wrap:anywhere}
+.kid small{color:var(--muted);font-weight:700;font-size:.8rem}
+.kid .bar{width:100%}
+.bar{height:10px;border-radius:999px;background:var(--line);overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#A78BFA,var(--vio));border-radius:999px}
+.kidtop{display:flex;align-items:center;gap:10px}
+.dexrow{display:grid;grid-template-columns:repeat(8,1fr);gap:2px}
+.dexrow svg{width:100%;height:auto}
+.dex{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.dexc{background:#fff;border-radius:16px;padding:8px;display:flex;flex-direction:column;align-items:center;text-align:center;border:2px solid var(--line)}
+.dexc.jinak{border-color:#86EFAC;background:#F0FDF4}
+.dexc.evo{border-color:#FDE047;background:#FEFCE8}
+.dexc svg{width:96px;height:96px}
+.dexc b{font-size:1.05rem}
+.dexc small{color:var(--muted);font-weight:700;font-size:.8rem;line-height:1.25}
+.hearts{letter-spacing:2px;font-size:.95rem}
+/* peta */
+.map{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:2px;font-weight:800;font-size:.72rem}
+.map i{font-style:normal;display:flex;align-items:center;justify-content:center;aspect-ratio:1;border-radius:6px;min-width:0}
+.map i.hd{background:transparent;color:var(--muted);font-size:.8rem}
+.map.sm{font-size:.5rem;gap:1px} .map.sm i{border-radius:3px} .map.sm i.hd{font-size:.55rem}
+.st0{background:#E5E7EB;color:transparent} .st1{background:#FCA5A5;color:#7F1D1D} .st2{background:#FDE68A;color:#78350F} .st3{background:#86EFAC;color:#14532D} .st4{background:#16A34A;color:#fff}
+.rv0{background:#BBF7D0;color:#166534} .rv1{background:#8B5CF6;box-shadow:inset 0 0 0 2px #4C1D95} .rv2{background:#EDE9FE}
+.lg{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:.82rem;font-weight:700;color:var(--muted)}
+.lg span{display:inline-flex;align-items:center;gap:4px} .lg i{width:14px;height:14px;border-radius:4px;display:inline-block}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;text-align:center}
+.stat div{background:var(--soft);border-radius:12px;padding:6px 2px}
+.stat b{display:block;font-size:1.4rem;line-height:1.1}
+.stat small{color:var(--muted);font-size:.72rem;font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chips span{background:#FEF3C7;border-radius:999px;padding:2px 10px;font-weight:800;font-size:.9rem}
+.chips span.more{background:#EDE9FE;color:var(--vio-d)}
+/* sesi */
+#app.playing{min-height:calc(100dvh - 30px)}
+.ptop{display:flex;align-items:center;gap:8px}
+.phase{background:var(--vio);color:#fff;border-radius:999px;padding:3px 12px;font-weight:800;font-size:.9rem;white-space:nowrap}
+.tbar{flex:1;height:14px;border-radius:999px;background:rgba(255,255,255,.8);overflow:hidden}
+.tbar i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#34D399,#FACC15);transform-origin:left;border-radius:999px}
+.tleft{font-weight:800;min-width:44px;text-align:right}
+.xbtn{border:0;background:rgba(255,255,255,.85);border-radius:999px;width:34px;height:34px;font-weight:800;cursor:pointer}
+.stage{position:relative;display:flex;align-items:flex-end;justify-content:center;gap:6px;min-height:132px}
+.stage .mon{width:124px;height:124px}
+.stage .hero{width:96px;height:96px}
+.stage .who{position:absolute;left:0;top:0;background:#fff;border-radius:12px;padding:2px 10px;font-weight:800;font-size:.85rem;box-shadow:0 2px 0 rgba(0,0,0,.06)}
+.stage .hp{position:absolute;right:0;top:0;background:#fff;border-radius:12px;padding:2px 10px;font-weight:800;font-size:.85rem}
+.hit{animation:hit .35s ease-out} .tease{animation:tease .5s ease-in-out}
+.qcard{background:#fff;border-radius:22px;padding:14px 10px;display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;box-shadow:0 6px 0 rgba(91,33,182,.14);font-weight:800}
+.qtxt{font-size:clamp(2.2rem,11vw,3.2rem);line-height:1;white-space:nowrap}
+.blanks{display:flex;gap:6px}
+.blanks span{width:clamp(38px,11vw,52px);height:clamp(52px,14vw,66px);border-radius:12px;border:3px solid var(--line);background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:clamp(2rem,10vw,2.8rem);line-height:1}
+.blanks span.cur{border-color:var(--vio);background:#fff}
+.qcard.ok{box-shadow:0 0 0 5px #4ADE80,0 6px 0 rgba(91,33,182,.14)}
+.qcard.slow{box-shadow:0 0 0 5px #FACC15,0 6px 0 rgba(91,33,182,.14)}
+.qcard.no{box-shadow:0 0 0 5px #FB7185,0 6px 0 rgba(91,33,182,.14);animation:shake .3s}
+.fb{min-height:1.6em;text-align:center;font-weight:800;font-size:1.05rem}
+.fb .ok{color:var(--green)} .fb .slow{color:#B45309} .fb .no{color:var(--rose)}
+.sol{background:#FFF1F2;border:2px solid #FECDD3;border-radius:16px;padding:10px 12px;display:flex;flex-direction:column;gap:6px}
+.sol b.ans{font-size:1.5rem}
+.steps{display:flex;flex-wrap:wrap;gap:6px}
+.steps span{background:#fff;border:2px solid #FBCFE8;border-radius:10px;padding:2px 10px;font-weight:800}
+.kp{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:auto}
+.kp button{height:58px;border:0;border-radius:16px;background:#fff;font-weight:800;font-size:1.7rem;cursor:pointer;box-shadow:0 4px 0 #C4B5FD;touch-action:manipulation;user-select:none;-webkit-user-select:none;-webkit-touch-callout:none}
+.kp button.fn{font-size:1rem;background:#EDE9FE;color:var(--vio-d)}
+.kp button.dn{transform:translateY(3px);box-shadow:0 1px 0 #C4B5FD;background:#FEF9C3}
+.lesson .vis{display:block;width:100%;max-width:360px;height:auto;margin:0 auto}
+.lesson .vis.tri{max-width:220px}
+.vlab{text-align:center;font-weight:800;color:var(--vio-d)}
+.big0{display:flex;justify-content:center;align-items:center;gap:12px;font-weight:800;font-size:3rem;line-height:1}
+.big0 .z{color:#EA580C;animation:pop .6s ease-out .3s both}
+.big0 .arr{color:var(--muted);font-size:2rem}
+.s58 span{width:52px;height:64px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:2.4rem}
+.s58 .n5{background:#FDE68A} .s58 .n7{background:#C4B5FD} .s58 .eq,.s58 .x{width:auto;color:var(--muted)}
+.chain{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:6px;font-weight:800}
+.chain span{background:#DBEAFE;border-radius:12px;padding:4px 12px;font-size:1.6rem}
+.chain span.hl{background:#C4B5FD}
+.chain i{font-style:normal;color:var(--muted);font-size:.8rem}
+.row-vis{display:flex;align-items:center;justify-content:center;gap:8px}
+.row-vis .vis{max-width:42%}
+.ltxt{font-size:1.1rem;line-height:1.45;text-align:center}
+.ltxt b{color:var(--vio-d)}
+.celebrate{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;background:linear-gradient(135deg,#FEF9C3,#FDE68A);border-radius:18px;padding:10px}
+.celebrate svg{width:120px;height:120px;animation:pop .6s ease-out}
+/* guru */
+.tabs{display:flex;flex-wrap:wrap;gap:4px;padding-bottom:2px}
+.nw{white-space:nowrap}
+.tabs button{flex:none;border:0;border-radius:999px;padding:6px 12px;font-weight:800;background:#fff;cursor:pointer;color:var(--muted)}
+.tabs button[aria-pressed="true"]{background:var(--vio);color:#fff}
+.tbl{width:100%;border-collapse:collapse;font-size:.86rem}
+.tbl th{font-size:.7rem;color:var(--muted);text-align:left;padding:4px}
+.tbl td{border-top:1px solid var(--line);padding:6px 4px;vertical-align:top}
+.heat{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));gap:2px;font-weight:800;font-size:.72rem}
+.heat i{font-style:normal;display:flex;align-items:center;justify-content:center;aspect-ratio:1;border-radius:6px}
+.heat i.hd{color:var(--muted)}
+.lst{display:flex;flex-direction:column;gap:8px}
+.lst .it{display:flex;align-items:center;gap:8px;background:var(--soft);border-radius:14px;padding:8px}
+.lst .it .hero{width:44px;height:44px}
+.lst .it .nm{flex:1;min-width:0}
+.lst .it .nm b{display:block;overflow-wrap:anywhere}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:#fff;border-radius:12px;padding:8px 14px;font-weight:700;max-width:min(92vw,460px);text-align:center;z-index:70}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.5);display:flex;align-items:flex-start;justify-content:center;padding:32px 12px;z-index:60;overflow:auto}
+.modal .card{max-width:480px;width:100%}
+.pin{display:flex;justify-content:center;gap:12px;margin:4px 0}
+.pin i{width:18px;height:18px;border-radius:50%;border:3px solid var(--vio)}
+.pin i.on{background:var(--vio)}
+.msg{white-space:pre-wrap;background:var(--soft);border-radius:12px;padding:8px 10px;font-size:.82rem;font-weight:600;max-height:160px;overflow:auto;overflow-wrap:anywhere}
+footer{text-align:center;color:var(--muted);font-size:.76rem}
+main.playing+footer{display:none}
+#print{display:none}
+@keyframes hit{0%{transform:translateX(0)}30%{transform:translateX(10px) rotate(6deg)}60%{transform:translateX(-6px)}100%{transform:none}}
+@keyframes tease{0%,100%{transform:none}25%{transform:translateY(-10px)}50%{transform:none}75%{transform:translateY(-6px)}}
+@keyframes shake{20%{transform:translateX(-8px)}40%{transform:translateX(7px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}
+@keyframes pop{0%{transform:scale(.3);opacity:0}70%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){ *{animation:none!important;transition:none!important} }
+@media (max-width:360px){ .kp button{height:52px} .brand{font-size:1.1rem} }
+/* cetak rapor */
+@media print{
+  body{background:#fff;padding:0;display:block}
+  body.printing .wrap,body.printing .modal,body.printing .toast{display:none!important}
+  body.printing #print{display:block}
+  #print{font-family:'Baloo 2',system-ui,sans-serif;color:#000}
+  #print .pg{page-break-after:always;padding:6mm}
+  #print .pg:last-child{page-break-after:auto}
+  #print h1{font-size:20pt} #print h2{font-size:14pt;margin-top:4mm}
+  #print .two{display:grid;grid-template-columns:1fr 1fr;gap:6mm}
+  #print .map{font-size:7pt} #print .map i{border-radius:2px}
+  #print .heat{font-size:7pt}
+  #print .tbl{font-size:9pt}
+  #print .cert{border:3px double #7C3AED;border-radius:6mm;padding:8mm;text-align:center;margin-top:6mm}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+</style>
+</head>
+<body>
+<script>if(/^https?:$/.test(location.protocol))document.documentElement.classList.add('onweb');</script>
+<div class="wrap">
+  <div class="topbar">
+    <a class="home" href="../" aria-label="Kembali ke menu"><span aria-hidden="true">←</span>&nbsp;Menu</a>
+    <div class="brand">Kali<span>mon</span></div>
+    <button class="ibtn" type="button" id="helpBtn" aria-label="Cara main">?</button>
+  </div>
+  <main id="app"></main>
+  <footer>Kemajuan disimpan di HP ini. Kirim ke Kakak Guru lewat WhatsApp supaya masuk rapor.</footer>
+</div>
+<div id="print" aria-hidden="true"></div>
+<div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+<div class="modal" id="modal" hidden><div class="card" id="mbody"></div></div>
+<script>
+/* ================= INTI: Kalimon (fakta, jurus, status, jadwal, kode, gabung) ================= */
+function mulberry32(a){ return function(){ a|=0; a=a+0x6D2B79F5|0; let t=Math.imul(a^a>>>15,1|a); t=t+Math.imul(t^t>>>7,61|t)^t; return ((t^t>>>14)>>>0)/4294967296; }; }
+function hashStr(s){ let h=2166136261; for(const c of s){ h^=c.charCodeAt(0); h=Math.imul(h,16777619); } return h>>>0; }
+function shuffle(a,r){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(r()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+const DAY0=Date.UTC(2026,0,1);
+function dayOf(dt){ dt=dt||new Date(); return Math.round((Date.UTC(dt.getFullYear(),dt.getMonth(),dt.getDate())-DAY0)/864e5); }
+function minOf(dt){ dt=dt||new Date(); return dt.getHours()*60+dt.getMinutes(); }
+function dateOf(d){ const t=new Date(DAY0+d*864e5); return `${t.getUTCDate()}/${t.getUTCMonth()+1}/${t.getUTCFullYear()}`; }
+
+/* ---------- fakta: 55 pasangan perkalian a ≤ b (1–10); 0–54 = kali, 55–109 = bagi (keluarga fakta) ---------- */
+const PAIRS=[], PI={};
+for(let a=1;a<=10;a++) for(let b=a;b<=10;b++){ PI[a+"x"+b]=PI[b+"x"+a]=PAIRS.length; PAIRS.push([a,b]); }
+const NP=PAIRS.length, NF=2*NP;
+const pidx=(a,b)=>PI[a+"x"+b];
+const pairOf=f=>PAIRS[f%NP];
+const isDiv=f=>f>=NP;
+const CORE=[3,4,6,7,8];
+const isCore=(a,b)=>CORE.includes(a)&&CORE.includes(b);
+const CORE_PAIRS=PAIRS.map((_,i)=>i).filter(i=>isCore(...PAIRS[i]));
+
+/* ---------- urutan jurus (unit); tiap pasangan tepat di satu unit ---------- */
+const UNITS=[
+  {id:"u1",n:"×1 dan ×10",has:(a,b)=>a===1||b===10,extra:[[7,8]]},
+  {id:"u2",n:"×2 kembar",has:(a,b)=>a===2&&b<10},
+  {id:"u5",n:"×5",has:(a,b)=>(a===5||b===5)&&a>2&&b<10},
+  {id:"u9",n:"×9",has:(a,b)=>b===9&&a>2&&a!==5},
+  {id:"ubb",n:"Bolak-balik",has:()=>false},
+  {id:"u3",n:"×3",has:(a,b)=>a===3&&isCore(a,b)},
+  {id:"u4",n:"×4",has:(a,b)=>a===4&&isCore(a,b)},
+  {id:"u6",n:"×6",has:(a,b)=>a===6&&isCore(a,b)},
+  {id:"u8",n:"×8",has:(a,b)=>a===8&&b===8},
+  {id:"u7",n:"7 × 7",has:(a,b)=>a===7&&b===7}
+];
+UNITS.forEach(u=>{ u.pairs=PAIRS.map((_,i)=>i).filter(i=>u.has(...PAIRS[i])).concat((u.extra||[]).map(([a,b])=>pidx(a,b))); });
+const unitOfPair=p=>UNITS.findIndex(u=>u.pairs.includes(p));
+
+/* ---------- 15 Kalimon = 15 fakta inti ---------- */
+const MON=[
+  {p:[7,8],nm:"Gembul",b:"blob",c:"#FB923C",x:"horns",pt:"spots",e:2,m:"fang"},
+  {p:[3,3],nm:"Bobi",b:"round",c:"#60A5FA",x:"ears",pt:"belly",e:2,m:"smile"},
+  {p:[3,4],nm:"Cimol",b:"bean",c:"#F472B6",x:"antenna",pt:"spots",e:2,m:"o"},
+  {p:[3,6],nm:"Dodo",b:"tall",c:"#34D399",x:"leaf",pt:"stripes",e:2,m:"smile"},
+  {p:[3,7],nm:"Kriuk",b:"square",c:"#FBBF24",x:"spikes",pt:"spots",e:1,m:"fang"},
+  {p:[3,8],nm:"Lumpi",b:"drop",c:"#A78BFA",x:"ears",pt:"belly",e:2,m:"o"},
+  {p:[4,4],nm:"Moci",b:"round",c:"#FDA4AF",x:"leaf",pt:"belly",e:3,m:"smile"},
+  {p:[4,6],nm:"Nori",b:"blob",c:"#2DD4BF",x:"antenna",pt:"stripes",e:2,m:"fang"},
+  {p:[4,7],nm:"Ogi",b:"bean",c:"#F87171",x:"horns",pt:"belly",e:1,m:"o"},
+  {p:[4,8],nm:"Pupu",b:"tall",c:"#818CF8",x:"spikes",pt:"spots",e:2,m:"smile"},
+  {p:[6,6],nm:"Rambu",b:"square",c:"#4ADE80",x:"horns",pt:"stripes",e:3,m:"fang"},
+  {p:[6,7],nm:"Sasa",b:"drop",c:"#38BDF8",x:"leaf",pt:"spots",e:2,m:"smile"},
+  {p:[6,8],nm:"Tutu",b:"round",c:"#C084FC",x:"spikes",pt:"belly",e:1,m:"o"},
+  {p:[8,8],nm:"Ubi",b:"blob",c:"#A3A3F5",x:"ears",pt:"stripes",e:2,m:"fang"},
+  {p:[7,7],nm:"Zuzu",b:"bean",c:"#F59E0B",x:"antenna",pt:"belly",e:3,m:"smile"}
+];
+MON.forEach((m,i)=>{ m.pi=pidx(...m.p); m.i=i; });
+const monOfPair=p=>MON.find(m=>m.pi===p)||null;
+
+/* ---------- status per fakta ---------- */
+/* riwayat per fakta: [hari, hasil, desidetik, menit] — satu entri per hari (jawaban terakhir hari itu). hasil 0 = salah/lewati, 1 = benar lambat, 2 = benar cepat */
+const HMAX=12;
+const ST={BELUM:0,SALAH:1,LAMBAT:2,LANCAR:3,HAFAL:4};
+function stat(c,f){ const H=c.h[f]; if(!H||!H.length) return ST.BELUM; const L=H[H.length-1];
+  if(L[1]===0) return ST.SALAH; if(L[1]===1) return ST.LAMBAT;
+  return H.filter(e=>e[1]===2).length>=3?ST.HAFAL:ST.LANCAR; }
+const fastDays=(c,f)=>(c.h[f]||[]).filter(e=>e[1]===2).length;
+function record(c,f,r,ds,d,m){ const H=c.h[f]||(c.h[f]=[]); const e=H.find(x=>x[0]===d);
+  if(e){ if(m>=e[3]){ e[1]=r; e[2]=ds; e[3]=m; } }
+  else { H.push([d,r,ds,m]); H.sort((x,y)=>x[0]-y[0]||x[3]-y[3]); if(H.length>HMAX) H.splice(0,H.length-HMAX); } }
+/* jadwal ulang: salah → hari ini, lambat → besok, cepat → 1/2/4/7/14/30 hari sesuai jumlah hari cepat */
+const IV=[1,2,4,7,14,30];
+function dueDay(c,f){ const H=c.h[f]; if(!H||!H.length) return null; const L=H[H.length-1];
+  if(L[1]===0) return L[0]; if(L[1]===1) return L[0]+1; return L[0]+IV[Math.min(fastDays(c,f),IV.length)-1]; }
+
+function newChild(o){ o=o||{}; return {id:o.id||rid(),name:o.name||"Anak",hero:o.hero||{k:"kucing",c:0},grade:o.grade||3,h:{},units:0,test:false,tamed:0,evo:0,dl:false,uS:0,snap:null,ss:[],
+  set:Object.assign({dur:10,thr:3,dx:15},o.set||{}),dv:o.dv||"auto",k:o.k||""}; }
+function rid(){ const A="abcdefghjkmnpqrstuvwxyz23456789"; let s=""; for(let i=0;i<8;i++) s+=A[Math.floor(Math.random()*A.length)]; return s; }
+
+const unitOn=(c,i)=>!!(c.units>>i&1);
+const activeMul=c=>UNITS.flatMap((u,i)=>unitOn(c,i)?u.pairs:[]);
+const masteredCore=c=>CORE_PAIRS.filter(p=>stat(c,p)===ST.HAFAL).length;
+function divOpen(c,set){ if(c.dv==="open") return true; if(c.dv==="lock") return false; return masteredCore(c)>=set.dx; }
+const activeDiv=c=>PAIRS.map((_,p)=>p).filter(p=>stat(c,p)>=ST.LANCAR).map(p=>NP+p);
+function countStat(c,div){ const n=[0,0,0,0,0]; for(let p=0;p<NP;p++) n[stat(c,div?NP+p:p)]++; return n; }
+function refreshBadges(c){ let t=c.tamed,e=c.evo; MON.forEach((m,i)=>{ if(stat(c,m.pi)===ST.HAFAL) t|=1<<i; if(stat(c,NP+m.pi)===ST.HAFAL&&(t>>i&1)) e|=1<<i; }); const nt=t&~c.tamed, ne=e&~c.evo; c.tamed=t; c.evo=e; return {nt,ne}; }
+const bits=n=>{ let k=0; while(n){ k+=n&1; n>>>=1; } return k; };
+
+/* ---------- jurus berikutnya ---------- */
+function nextLesson(c,set){ const i=UNITS.findIndex((_,k)=>!unitOn(c,k));
+  if(i===0) return "u1";
+  if(!c.dl&&divOpen(c,set)) return "ud";
+  if(i>0){ const act=activeMul(c), ok=act.filter(f=>stat(c,f)>=ST.LANCAR).length;
+    if(!act.length||ok/act.length>=0.7||c.ss.length-c.uS>=3) return UNITS[i].id; }
+  return null; }
+function learnLesson(c,id){ if(id==="ud"){ c.dl=true; return; } const i=UNITS.findIndex(u=>u.id===id); if(i>=0){ c.units|=1<<i; c.uS=c.ss.length; } }
+
+/* ---------- pilihan soal ---------- */
+function testFacts(r){ const pick=(arr,n)=>shuffle(arr.slice(),r).slice(0,n);
+  const u=id=>UNITS.find(x=>x.id===id).pairs.filter(p=>!monOfPair(p));
+  return shuffle(CORE_PAIRS.concat(pick(u("u1"),2),pick(u("u2"),3),pick(u("u5"),3),pick(u("u9"),2)),r); }
+function warmFacts(c,set,today,lim){ const pool=activeMul(c).concat(c.dl&&divOpen(c,set)?activeDiv(c):[]);
+  return pool.map(f=>({f,d:dueDay(c,f)})).filter(x=>x.d!=null&&x.d<=today&&(c.h[x.f]||[]).some(e=>e[0]<today))
+    .sort((x,y)=>x.d-y.d||stat(c,x.f)-stat(c,y.f)).slice(0,lim).map(x=>x.f); }
+function pools(c,set,r){
+  const act=activeMul(c).concat(c.dl&&divOpen(c,set)?activeDiv(c):[]);
+  const unk=act.filter(f=>stat(c,f)<ST.LANCAR), kn=shuffle(act.filter(f=>stat(c,f)>=ST.LANCAR),r);
+  if(unk.length){ let last=-1; UNITS.forEach((u,i)=>{ if(unitOn(c,i)&&u.pairs.length) last=i; });
+    const inLast=f=>!isDiv(f)&&last>=0&&UNITS[last].pairs.includes(f);
+    const A=shuffle(unk.filter(inLast),r).sort((x,y)=>(monOfPair(y%NP)?1:0)-(monOfPair(x%NP)?1:0));
+    const order=[ST.SALAH,ST.BELUM,ST.LAMBAT];
+    const B=shuffle(unk.filter(f=>!inLast(f)),r).sort((x,y)=>(isDiv(x)-isDiv(y))||order.indexOf(stat(c,x))-order.indexOf(stat(c,y)));
+    return {mode:"learn",newQ:A.concat(B),known:kn}; }
+  const w=act.slice().sort((x,y)=>fastDays(c,x)-fastDays(c,y)||lastDs(c,y)-lastDs(c,x)).slice(0,6);
+  return {mode:"sarang",newQ:w,known:kn.filter(f=>!w.includes(f))}; }
+const lastDs=(c,f)=>{ const H=c.h[f]; return H&&H.length?H[H.length-1][2]:0; };
+function slowest(c,n,div){ const fs=[]; for(let p=0;p<NP;p++){ const f=div?NP+p:p, s=stat(c,f); if(s===ST.SALAH||s===ST.LAMBAT) fs.push(f); }
+  return fs.sort((x,y)=>stat(c,x)-stat(c,y)||lastDs(c,y)-lastDs(c,x)).slice(0,n); }
+
+/* ---------- penjadwal dalam sesi (incremental rehearsal) ---------- */
+/* batas fakta baru (cap) hanya untuk fakta yang tidak bebas; fakta berpola (×1, ×10, ×2, ×5, ×9) bebas karena jurusnya sudah menyelesaikannya */
+function Drill(o){ this.newQ=o.newQ.slice(); this.known=o.known.slice(); this.cap=o.cap; this.free=o.free||(()=>false); this.active=[]; this.intro=0; this.n=0; this.wrong=[]; this.lastF=-1; this.ki=0; this.done=[]; }
+Drill.prototype._pick=function(f,kind){ this.n++; this.lastF=f; this.active.forEach(a=>{ a.since=a.f===f?0:a.since+1; }); return {f,kind}; };
+Drill.prototype.next=function(){
+  const wi=this.wrong.findIndex(x=>x.at<=this.n&&x.f!==this.lastF);
+  if(wi>=0) return this._pick(this.wrong.splice(wi,1)[0].f,"ulang");
+  while(this.active.length<2&&this.newQ.length){ const capOK=this.intro<this.cap||!this.known.length, i=capOK?0:this.newQ.findIndex(f=>this.free(f)); if(i<0) break;
+    const f=this.newQ.splice(i,1)[0]; this.active.push({f,gap:0,since:99,ok:0,seen:0}); if(!this.free(f)) this.intro++; }
+  const ready=this.active.filter(a=>a.since>=a.gap&&a.f!==this.lastF).sort((x,y)=>y.since-x.since)[0];
+  if(ready) return this._pick(ready.f,"baru");
+  for(let t=0;t<this.known.length;t++){ const f=this.known[this.ki++%this.known.length]; if(f!==this.lastF&&!this.active.some(a=>a.f===f)) return this._pick(f,"kenal"); }
+  const any=this.active.find(a=>a.f!==this.lastF); if(any) return this._pick(any.f,"baru");
+  const w=this.wrong.find(x=>x.f!==this.lastF); if(w){ this.wrong.splice(this.wrong.indexOf(w),1); return this._pick(w.f,"ulang"); }
+  return null; };
+Drill.prototype.answer=function(f,r){ const a=this.active.find(x=>x.f===f);
+  if(r===0){ if(!this.wrong.some(x=>x.f===f)) this.wrong.push({f,at:this.n+2}); if(a){ a.gap=1; a.ok=0; a.seen++; } return; }
+  if(!a) return; a.seen++; if(r===2){ a.ok++; a.gap=Math.min(a.gap+1,3); }
+  if(a.ok>=2||a.seen>=6){ this.active.splice(this.active.indexOf(a),1); this.done.push(f); if(!this.known.includes(f)) this.known.push(f); } };
+
+/* ---------- soal & petunjuk ---------- */
+function question(f,r){ const [a,b]=pairOf(f), P=a*b;
+  if(!isDiv(f)){ const sw=a!==b&&r()<.5; return {f,op:"×",x:sw?b:a,y:sw?a:b,ans:P,text:`${sw?b:a} × ${sw?a:b}`}; }
+  const d=a!==b&&r()<.5?b:a, q=P/d; return {f,op:":",x:P,y:d,ans:q,text:`${P} : ${d}`}; }
+/* langkah jurus: tiap langkah [ekspresi, nilai] supaya bisa dicek */
+function hintMul(a,b){ if(a>b) [a,b]=[b,a]; const P=a*b;
+  if(a===1) return {j:"×1",t:"Dikali 1, angkanya tetap.",s:[[`1 × ${b}`,b]]};
+  if(b===10) return {j:"×10",t:"Dikali 10: tempel nol di belakang.",s:[[`${a} × 10`,P]]};
+  if(a===7&&b===8) return {j:"5-6-7-8",t:"Ingat urutan 5, 6, 7, 8: 56 = 7 × 8.",s:[["7 × 8",56]]};
+  if(a===2) return {j:"×2 kembar",t:`Kembar: ${b} ditambah ${b}.`,s:[[`${b} + ${b}`,P]]};
+  if(a===5||b===5){ const n=a===5?b:a; return {j:"×5",t:`Setengah dari ${n} × 10.`,s:[[`${n} × 10`,n*10],[`${n*10} : 2`,P]]}; }
+  if(b===9){ const n=a; return {j:"×9",t:`${n} × 10, lalu kurangi ${n}.`,s:[[`${n} × 10`,n*10],[`${n*10} − ${n}`,P]]}; }
+  if(a===7&&b===7) return {j:"7 × 7",t:"7 × 5 ditambah 7 × 2.",s:[["7 × 5",35],["7 × 2",14],["35 + 14",49]]};
+  if(a===3) return {j:"×3",t:`×2, lalu tambah satu kelompok ${b}.`,s:[[`${b} × 2`,2*b],[`${2*b} + ${b}`,P]]};
+  if(a===4) return {j:"×4",t:"Dobel, lalu dobel lagi.",s:[[`${b} + ${b}`,2*b],[`${2*b} + ${2*b}`,P]]};
+  if(a===6) return {j:"×6",t:`×5, lalu tambah satu kelompok ${b}.`,s:[[`${b} × 5`,5*b],[`${5*b} + ${b}`,P]]};
+  return {j:"×8",t:"Dobel tiga kali.",s:[[`${a} + ${a}`,2*a],[`${2*a} + ${2*a}`,4*a],[`${4*a} + ${4*a}`,P]]}; }
+function hintFor(q){ if(q.op==="×") return hintMul(q.x,q.y);
+  const h=hintMul(q.y,q.ans); return {j:"keluarga fakta",t:`Cari: ${q.y} × berapa = ${q.x}?`,s:h.s.concat([[`${q.y} × ${q.ans}`,q.x],[`${q.x} : ${q.y}`,q.ans]])}; }
+
+/* ---------- pelajaran jurus: halaman berisi penjelasan, gambar, dan soal terbimbing [ekspresi, jawaban] ---------- */
+const LESSONS={
+  u1:{t:"Jurus ×1 dan ×10",p:[
+    {x:"Dikali 1, angkanya <b>tetap</b>.",v:{k:"kali1",n:5},q:[["1 × 7",7],["9 × 1",9]]},
+    {x:"Dikali 10, <b>tempel nol</b> di belakang.",v:{k:"nol",n:3},q:[["7 × 10",70],["10 × 4",40]]},
+    {x:"Kalimon pertama muncul! Ingat urutan <b>5, 6, 7, 8</b>: 56 = 7 × 8.",v:{k:"5678"},q:[["7 × 8",56]],mon:0}]},
+  u2:{t:"Jurus ×2 kembar",p:[
+    {x:"× 2 artinya bilangan itu ditambah <b>kembarannya</b>.",v:{k:"titik",r:2,c:6,h:1},q:[["6 + 6",12],["2 × 6",12]]},
+    {x:"Coba yang lain.",v:{k:"titik",r:2,c:8,h:1},q:[["8 + 8",16],["8 × 2",16]]}]},
+  u5:{t:"Jurus ×5",p:[
+    {x:"× 5 = <b>setengah</b> dari × 10.",v:{k:"setengah",n:8},q:[["8 × 10",80],["80 : 2",40],["8 × 5",40]]},
+    {x:"Untuk bilangan ganjil juga bisa.",v:{k:"setengah",n:7},q:[["7 × 10",70],["70 : 2",35],["5 × 7",35]]}]},
+  u9:{t:"Jurus ×9",p:[
+    {x:"× 9 = × 10, lalu <b>kurangi satu kelompok</b>.",v:{k:"titik",r:9,c:7,h:-1},q:[["7 × 10",70],["70 − 7",63],["9 × 7",63]]},
+    {x:"Cek dengan jari: tekuk jari ke-7. Kiri <b>6</b> jari, kanan <b>3</b> jari → 63.",v:{k:"jari",n:7},q:[["9 × 7",63],["9 × 4",36]]}]},
+  ubb:{t:"Jurus bolak-balik",p:[
+    {x:"3 × 5 sama dengan 5 × 3. Putar susunannya, <b>jumlahnya tetap</b>.",v:{k:"putar",r:3,c:5},q:[["3 × 5",15],["5 × 3",15]]},
+    {x:"Lihat petamu! Dengan jurus-jurus tadi, yang benar-benar perlu dihafal tinggal <b>15 Kalimon</b>.",v:{k:"peta15"},q:[]}]},
+  u3:{t:"Jurus ×3",p:[{x:"× 3 = × 2, lalu <b>tambah satu kelompok</b> lagi.",v:{k:"titik",r:3,c:7,h:2},q:[["7 × 2",14],["14 + 7",21],["3 × 7",21]]},
+    {x:"Coba lagi.",v:{k:"titik",r:3,c:6,h:2},q:[["6 × 2",12],["12 + 6",18],["3 × 6",18]]}]},
+  u4:{t:"Jurus ×4",p:[{x:"× 4 = <b>dobel</b>, lalu <b>dobel lagi</b>.",v:{k:"titik",r:4,c:6,h:2},q:[["6 + 6",12],["12 + 12",24],["4 × 6",24]]},
+    {x:"Coba lagi.",v:{k:"titik",r:4,c:7,h:2},q:[["7 + 7",14],["14 + 14",28],["4 × 7",28]]}]},
+  u6:{t:"Jurus ×6",p:[{x:"× 6 = × 5, lalu <b>tambah satu kelompok</b>.",v:{k:"titik",r:6,c:7,h:5},q:[["7 × 5",35],["35 + 7",42],["6 × 7",42]]},
+    {x:"Coba lagi.",v:{k:"titik",r:6,c:8,h:5},q:[["8 × 5",40],["40 + 8",48],["6 × 8",48]]}]},
+  u8:{t:"Jurus ×8",p:[{x:"× 8 = <b>dobel tiga kali</b>.",v:{k:"dobel",n:8},q:[["8 + 8",16],["16 + 16",32],["32 + 32",64],["8 × 8",64]]},
+    {x:"Kalimon pertama juga bisa dijinakkan dengan dobel: 7 → 14 → 28 → 56.",v:{k:"dobel",n:7},q:[["7 + 7",14],["14 + 14",28],["28 + 28",56],["7 × 8",56]]}]},
+  u7:{t:"Jurus 7 × 7",p:[{x:"7 × 7 = 7 × 5 <b>ditambah</b> 7 × 2.",v:{k:"titik",r:7,c:7,h:5},q:[["7 × 5",35],["7 × 2",14],["35 + 14",49],["7 × 7",49]]}]},
+  ud:{t:"Jurus pembagian: keluarga fakta",p:[
+    {x:"7 × 8 = 56, jadi <b>56 : 7 = 8</b> dan <b>56 : 8 = 7</b>. Membagi = mencari pasangan kalinya.",v:{k:"keluarga",a:7,b:8},q:[["7 × 8",56],["56 : 7",8],["56 : 8",7]]},
+    {x:"Untuk 42 : 6, cari: 6 × berapa = 42?",v:{k:"keluarga",a:6,b:7},q:[["6 × 7",42],["42 : 6",7]]}]}
+};
+const lessonTitle=id=>LESSONS[id].t;
+
+/* ---------- kode kemajuan (tanpa server): biner ringkas → base64url ---------- */
+function b64e(u8){ let s=""; for(const x of u8) s+=String.fromCharCode(x); return btoa(s).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+function b64d(s){ s=s.replace(/-/g,"+").replace(/_/g,"/"); while(s.length%4) s+="="; const t=atob(s); return Uint8Array.from(t,ch=>ch.charCodeAt(0)); }
+const utf8e=s=>new TextEncoder().encode(s), utf8d=u=>new TextDecoder().decode(u);
+/* type: "p" = dari rumah ke HP guru, "u" = dari guru ke HP rumah (undangan/pembaruan) */
+function encodeChild(c,type,today){
+  const ss=c.ss.filter(s=>today-s[0]>=0&&today-s[0]<256).slice(-40).map(s=>[today-s[0],s[1],s[2],s[3],s[4],s[5]]);
+  const meta={id:c.id,n:c.name,hr:[c.hero.k==="kapi"?1:0,c.hero.c],g:c.grade,u:c.units,te:c.test?1:0,tm:c.tamed,ev:c.evo,dl:c.dl?1:0,us:c.uS,
+    sn:c.snap&&today-c.snap.d>=0&&today-c.snap.d<256?[today-c.snap.d,c.snap.st]:0,ss,k:c.k,st:[c.set.dur,c.set.thr,c.set.dx],dv:c.dv};
+  const mj=utf8e(JSON.stringify(meta)), ent=[];
+  for(let f=0;f<NF;f++) for(const e of c.h[f]||[]){ const o=today-e[0]; if(o<0||o>255) continue; ent.push(f,o,(e[1]<<6)|Math.min(63,e[2]),e[3]>>8,e[3]&255); }
+  const out=new Uint8Array(6+mj.length+ent.length+2);
+  out.set([1,type==="u"?2:1,today>>8,today&255,mj.length>>8,mj.length&255],0); out.set(mj,6); out.set(ent,6+mj.length);
+  let ck=0; for(let i=0;i<out.length-2;i++) ck=(ck+out[i]*(i%7+1))&65535; out[out.length-2]=ck>>8; out[out.length-1]=ck&255;
+  return b64e(out); }
+function decodeChild(str){
+  const m=/[#&?]?([pu])=([A-Za-z0-9_-]{16,})/.exec(String(str).trim()); const raw=m?m[2]:String(str).trim();
+  let u; try{ u=b64d(raw); }catch(e){ return null; } if(u.length<10||u[0]!==1) return null;
+  let ck=0; for(let i=0;i<u.length-2;i++) ck=(ck+u[i]*(i%7+1))&65535; if(ck!==(u[u.length-2]<<8|u[u.length-1])) return null;
+  const type=u[1]===2?"u":"p", today=u[2]<<8|u[3], ml=u[4]<<8|u[5]; let meta; try{ meta=JSON.parse(utf8d(u.slice(6,6+ml))); }catch(e){ return null; }
+  const c=newChild({id:meta.id,name:meta.n,hero:{k:meta.hr&&meta.hr[0]?"kapi":"kucing",c:meta.hr?meta.hr[1]:0},grade:meta.g,k:meta.k,dv:meta.dv,set:meta.st?{dur:meta.st[0],thr:meta.st[1],dx:meta.st[2]}:{}});
+  c.units=meta.u|0; c.test=!!meta.te; c.tamed=meta.tm|0; c.evo=meta.ev|0; c.dl=!!meta.dl; c.uS=meta.us|0;
+  c.snap=meta.sn?{d:today-meta.sn[0],st:meta.sn[1]}:null; c.ss=(meta.ss||[]).map(s=>[today-s[0],s[1],s[2],s[3],s[4],s[5]]);
+  for(let i=6+ml;i+4<u.length-2;i+=5){ const f=u[i]; if(f>=NF) return null; (c.h[f]=c.h[f]||[]).push([today-u[i+1],u[i+2]>>6,u[i+2]&63,u[i+3]<<8|u[i+4]]); }
+  for(const f in c.h) c.h[f].sort((x,y)=>x[0]-y[0]||x[3]-y[3]);
+  return {type,today,child:c}; }
+/* gabung dua salinan anak yang sama: riwayat per hari digabung (hari sama → jawaban yang lebih akhir), lencana di-OR.
+   mode "p": identitas & pengaturan tetap milik base (HP guru); mode "u": ambil dari inc (kiriman guru) */
+function mergeChild(base,inc,mode){ const c=JSON.parse(JSON.stringify(base));
+  const keys=new Set(Object.keys(base.h).concat(Object.keys(inc.h)));
+  for(const f of keys){ const by={}; for(const e of (base.h[f]||[]).concat(inc.h[f]||[])){ const o=by[e[0]]; if(!o||e[3]>o[3]||(e[3]===o[3]&&e[1]>o[1])) by[e[0]]=e.slice(); }
+    c.h[f]=Object.values(by).sort((x,y)=>x[0]-y[0]||x[3]-y[3]).slice(-HMAX); }
+  c.units=base.units|inc.units; c.test=base.test||inc.test; c.tamed=base.tamed|inc.tamed; c.evo=base.evo|inc.evo; c.dl=base.dl||inc.dl; c.uS=Math.max(base.uS,inc.uS);
+  if(!base.snap||(inc.snap&&inc.snap.d<base.snap.d)) c.snap=inc.snap?JSON.parse(JSON.stringify(inc.snap)):c.snap;
+  const seen={}; c.ss=base.ss.concat(inc.ss).filter(s=>{ const k=s[0]+"-"+s[1]+"-"+s[2]; if(seen[k]) return false; seen[k]=1; return true; }).sort((x,y)=>x[0]-y[0]||x[1]-y[1]).slice(-200);
+  if(mode==="u"){ c.name=inc.name; c.hero=inc.hero; c.grade=inc.grade; c.set=Object.assign({},inc.set); c.dv=inc.dv; c.k=inc.k; }
+  return c; }
+const snapOf=c=>PAIRS.map((_,p)=>stat(c,p)).join("");
+/* ================= AKHIR INTI ================= */
+
+/* ================= GAMBAR: hero, Kalimon, ilustrasi jurus ================= */
+const CAPES=["#EF4444","#3B82F6","#22C55E","#A855F7","#F97316","#EC4899"];
+const CAPE_N=["Merah","Biru","Hijau","Ungu","Oranye","Merah muda"];
+function heroSVG(h,cls){ const cp=CAPES[h.c%CAPES.length], kapi=h.k==="kapi";
+  const cape=`<path d="M30 74 Q60 50 90 74 L104 116 Q60 104 16 116 Z" fill="${cp}" stroke="#1F2937" stroke-width="3" stroke-linejoin="round"/>`;
+  const body=`<ellipse cx="60" cy="98" rx="24" ry="16" fill="${kapi?"#B07A4F":"#FDBA74"}" stroke="#1F2937" stroke-width="3"/><path d="M60 88l3.5 7 7.5 1-5.5 5 1.5 7.5-7-3.8-7 3.8 1.5-7.5-5.5-5 7.5-1z" fill="#FDE047" stroke="#1F2937" stroke-width="1.5"/>`;
+  let head;
+  if(kapi) head=`<circle cx="36" cy="38" r="8" fill="#8B5A33" stroke="#1F2937" stroke-width="3"/><circle cx="84" cy="38" r="8" fill="#8B5A33" stroke="#1F2937" stroke-width="3"/>
+    <ellipse cx="60" cy="58" rx="34" ry="28" fill="#B07A4F" stroke="#1F2937" stroke-width="3"/><ellipse cx="60" cy="72" rx="21" ry="14" fill="#C9925F" stroke="#1F2937" stroke-width="2.5"/>
+    <path d="M30 52 Q60 40 90 52 Q88 63 74 62 Q60 58 46 62 Q32 63 30 52Z" fill="${cp}" stroke="#1F2937" stroke-width="2.5"/>
+    <circle cx="45" cy="53" r="4.5" fill="#fff"/><circle cx="75" cy="53" r="4.5" fill="#fff"/><circle cx="46" cy="54" r="2.6" fill="#111"/><circle cx="76" cy="54" r="2.6" fill="#111"/>
+    <ellipse cx="53" cy="69" rx="3" ry="2.2" fill="#4A2E1A"/><ellipse cx="67" cy="69" rx="3" ry="2.2" fill="#4A2E1A"/><path d="M54 78 Q60 82 66 78" fill="none" stroke="#4A2E1A" stroke-width="2.5" stroke-linecap="round"/>`;
+  else head=`<path d="M34 46 L30 16 L54 34 Z" fill="#FDBA74" stroke="#1F2937" stroke-width="3" stroke-linejoin="round"/><path d="M86 46 L90 16 L66 34 Z" fill="#FDBA74" stroke="#1F2937" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M36 38 L34 24 L46 33 Z M84 38 L86 24 L74 33 Z" fill="#F9A8D4"/>
+    <circle cx="60" cy="60" r="30" fill="#FDBA74" stroke="#1F2937" stroke-width="3"/><path d="M42 36 Q48 44 46 52 M60 32 L60 44 M78 36 Q72 44 74 52" fill="none" stroke="#EA580C" stroke-width="3" stroke-linecap="round"/>
+    <path d="M30 56 Q60 44 90 56 Q88 69 74 67 Q60 63 46 67 Q32 69 30 56Z" fill="${cp}" stroke="#1F2937" stroke-width="2.5"/>
+    <ellipse cx="46" cy="58" rx="5" ry="5.5" fill="#fff"/><ellipse cx="74" cy="58" rx="5" ry="5.5" fill="#fff"/><circle cx="47" cy="59" r="3" fill="#111"/><circle cx="75" cy="59" r="3" fill="#111"/>
+    <path d="M57 70 L63 70 L60 74 Z" fill="#EC4899"/><path d="M53 77 Q56.5 81 60 77 Q63.5 81 67 77" fill="none" stroke="#1F2937" stroke-width="2.2" stroke-linecap="round"/>
+    <path d="M28 70 L44 72 M28 77 L44 76 M92 70 L76 72 M92 77 L76 76" stroke="#1F2937" stroke-width="1.8" stroke-linecap="round"/>`;
+  return `<svg class="${cls||"hero"}" viewBox="0 0 120 120" aria-hidden="true">${cape}${body}${head}</svg>`; }
+
+const SHAPE={
+  blob:{d:"M20 78 C14 40 40 22 60 22 C86 22 106 42 100 78 C96 100 74 106 60 104 C42 106 24 98 20 78Z",top:24,eye:56,mo:74,be:84},
+  round:{d:"M60 28 A38 38 0 1 1 59.9 28Z",top:30,eye:58,mo:76,be:86},
+  bean:{d:"M26 72 C20 42 50 26 70 32 C94 40 104 74 88 94 C72 110 32 102 26 72Z",top:32,eye:60,mo:78,be:88},
+  tall:{d:"M60 20 C80 20 90 44 90 66 C90 92 78 106 60 106 C42 106 30 92 30 66 C30 44 40 20 60 20Z",top:22,eye:54,mo:72,be:88},
+  square:{d:"M48 28 H72 C88 28 98 38 98 54 V82 C98 96 88 104 72 104 H48 C32 104 22 96 22 82 V54 C22 38 32 28 48 28Z",top:28,eye:58,mo:78,be:90},
+  drop:{d:"M60 18 C76 44 98 58 98 80 C98 100 82 108 60 108 C38 108 22 100 22 80 C22 58 44 44 60 18Z",top:40,eye:66,mo:84,be:94}
+};
+function shade(hex,k){ const n=parseInt(hex.slice(1),16); let r=n>>16,g=n>>8&255,b=n&255; const f=v=>Math.max(0,Math.min(255,Math.round(k>0?v+(255-v)*k:v*(1+k)))); return "#"+[f(r),f(g),f(b)].map(v=>v.toString(16).padStart(2,"0")).join(""); }
+function monSVG(m,o){ o=o||{}; const S=SHAPE[m.b], sil=o.sil, col=sil?"#475569":m.c, dk=sil?"#334155":shade(m.c,-.35), lt=sil?"#475569":shade(m.c,.45), ln=sil?"#1E293B":"#1F2937";
+  let s=`<svg class="${o.cls||"mon"}" viewBox="0 0 120 120" aria-hidden="true">`;
+  if(o.evo&&!sil) s+=`<circle cx="60" cy="66" r="54" fill="${shade(m.c,.7)}" opacity=".7"/>`;
+  const T=S.top;
+  if(m.x==="horns") s+=`<path d="M42 ${T+8} Q34 ${T-14} 30 ${T-10} Q36 ${T-2} 40 ${T+12}Z M78 ${T+8} Q86 ${T-14} 90 ${T-10} Q84 ${T-2} 80 ${T+12}Z" fill="${sil?col:"#FEF3C7"}" stroke="${ln}" stroke-width="2.5" stroke-linejoin="round"/>`;
+  if(m.x==="ears") s+=`<circle cx="38" cy="${T+6}" r="11" fill="${col}" stroke="${ln}" stroke-width="3"/><circle cx="82" cy="${T+6}" r="11" fill="${col}" stroke="${ln}" stroke-width="3"/><circle cx="38" cy="${T+6}" r="5" fill="${lt}"/><circle cx="82" cy="${T+6}" r="5" fill="${lt}"/>`;
+  if(m.x==="antenna") s+=`<path d="M60 ${T+4} Q56 ${T-12} 66 ${T-18}" fill="none" stroke="${ln}" stroke-width="3" stroke-linecap="round"/><circle cx="67" cy="${T-19}" r="6" fill="${sil?col:"#FDE047"}" stroke="${ln}" stroke-width="2.5"/>`;
+  if(m.x==="leaf") s+=`<path d="M60 ${T+4} L60 ${T-8}" stroke="${ln}" stroke-width="3"/><path d="M60 ${T-8} Q72 ${T-24} 84 ${T-16} Q74 ${T-4} 60 ${T-8}Z M60 ${T-6} Q48 ${T-20} 38 ${T-12} Q48 ${T-2} 60 ${T-6}Z" fill="${sil?col:"#4ADE80"}" stroke="${ln}" stroke-width="2.5" stroke-linejoin="round"/>`;
+  if(m.x==="spikes") s+=`<path d="M38 ${T+12} L44 ${T-6} L52 ${T+6} L60 ${T-10} L68 ${T+6} L76 ${T-6} L82 ${T+12}Z" fill="${dk}" stroke="${ln}" stroke-width="2.5" stroke-linejoin="round"/>`;
+  s+=`<ellipse cx="44" cy="${S.be+16}" rx="10" ry="6" fill="${dk}" stroke="${ln}" stroke-width="2.5"/><ellipse cx="76" cy="${S.be+16}" rx="10" ry="6" fill="${dk}" stroke="${ln}" stroke-width="2.5"/>`;
+  s+=`<path d="${S.d}" fill="${col}" stroke="${ln}" stroke-width="3" stroke-linejoin="round"/>`;
+  if(!sil){
+    if(m.pt==="belly") s+=`<ellipse cx="60" cy="${S.be}" rx="22" ry="14" fill="${lt}"/>`;
+    if(m.pt==="spots") s+=`<circle cx="38" cy="${S.eye+20}" r="5" fill="${lt}"/><circle cx="84" cy="${S.eye+16}" r="4" fill="${lt}"/><circle cx="78" cy="${S.be+4}" r="6" fill="${lt}"/><circle cx="46" cy="${S.top+14}" r="4" fill="${lt}"/>`;
+    if(m.pt==="stripes") s+=`<path d="M44 ${S.top+8} Q60 ${S.top+2} 76 ${S.top+8} M40 ${S.top+16} Q60 ${S.top+9} 80 ${S.top+16}" fill="none" stroke="${dk}" stroke-width="4" stroke-linecap="round"/>`;
+    const E=S.eye, eye=(x,r)=>`<circle cx="${x}" cy="${E}" r="${r}" fill="#fff" stroke="${ln}" stroke-width="2.5"/><circle cx="${x+1}" cy="${E+1}" r="${r*.55}" fill="#111"/><circle cx="${x-r*.25}" cy="${E-r*.35}" r="${r*.22}" fill="#fff"/>`;
+    s+=m.e===1?eye(60,13):m.e===3?eye(42,7)+eye(60,8)+eye(78,7):eye(46,10)+eye(74,10);
+    s+=`<ellipse cx="${m.e===1?40:34}" cy="${S.mo-2}" rx="6" ry="3.5" fill="#F9A8D4" opacity=".8"/><ellipse cx="${m.e===1?80:86}" cy="${S.mo-2}" rx="6" ry="3.5" fill="#F9A8D4" opacity=".8"/>`;
+    const M=S.mo; s+=m.m==="o"?`<ellipse cx="60" cy="${M}" rx="5" ry="6" fill="#7F1D1D" stroke="${ln}" stroke-width="2"/>`
+      :`<path d="M50 ${M-2} Q60 ${M+8} 70 ${M-2}" fill="${m.m==="fang"?"#7F1D1D":"none"}" stroke="${ln}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`+(m.m==="fang"?`<path d="M55 ${M} L57 ${M+5} L59 ${M+1}Z" fill="#fff"/>`:"");
+    if(o.evo) s+=`<path d="M44 ${T-6} L48 ${T-20} L54 ${T-10} L60 ${T-24} L66 ${T-10} L72 ${T-20} L76 ${T-6}Z" fill="#FDE047" stroke="${ln}" stroke-width="2.5" stroke-linejoin="round"/><circle cx="60" cy="${T-14}" r="2.5" fill="#EF4444"/>`;
+  } else s+=`<text x="60" y="${S.eye+12}" text-anchor="middle" font-size="34" font-weight="800" fill="#CBD5E1" font-family="sans-serif">?</text>`;
+  return s+"</svg>"; }
+
+/* ilustrasi jurus */
+function dotsSVG(r,c,h){ const extra=h===-1?1:0, R=r+extra, cs=Math.min(26,300/c), W=c*cs+8, H=R*cs+8; let s=`<svg class="vis" viewBox="0 0 ${W} ${H}">`;
+  for(let i=0;i<R;i++) for(let j=0;j<c;j++){ const gone=h===-1&&i===R-1, hl=h>0&&i<h; s+=`<circle cx="${4+cs*j+cs/2}" cy="${4+cs*i+cs/2}" r="${cs*.36}" fill="${gone?"#E2E8F0":hl?"#3B82F6":"#F59E0B"}" stroke="${gone?"#94A3B8":"#1F2937"}" stroke-width="1.5"${gone?' stroke-dasharray="3 2"':""}/>`; }
+  if(h===-1) s+=`<path d="M4 ${4+cs*(R-1)+cs/2} H${W-4}" stroke="#EF4444" stroke-width="3"/>`;
+  return s+"</svg>"; }
+function visSVG(v,ctx){
+  if(v.k==="titik") return dotsSVG(v.r,v.c,v.h);
+  if(v.k==="kali1") return dotsSVG(1,v.n,0)+`<div class="vlab">1 × ${v.n} = ${v.n}</div>`;
+  if(v.k==="nol") return `<div class="big0"><span>${v.n}</span><span class="arr">→</span><span>${v.n}<b class="z">0</b></span></div>`;
+  if(v.k==="5678") return `<div class="big0 s58"><span class="n5">5</span><span class="n5">6</span><span class="eq">=</span><span class="n7">7</span><span class="x">×</span><span class="n7">8</span></div>`;
+  if(v.k==="setengah"){ const n=v.n; let s=`<svg class="vis" viewBox="0 0 268 ${n*26+8}">`; for(let i=0;i<n;i++) for(let j=0;j<10;j++) s+=`<circle cx="${17+26*j}" cy="${17+26*i}" r="9" fill="${j<5?"#3B82F6":"#E2E8F0"}" stroke="#1F2937" stroke-width="1.5"/>`;
+    return s+`<path d="M134 2 V${n*26+6}" stroke="#EF4444" stroke-width="3" stroke-dasharray="6 4"/></svg><div class="vlab">${n} × 10, lalu ambil setengahnya (yang biru)</div>`; }
+  if(v.k==="jari"){ const n=v.n; let s=`<svg class="vis" viewBox="0 0 310 120">`; for(let i=1;i<=10;i++){ const x=8+(i-1)*30+(i>5?6:0), fold=i===n; s+=`<rect x="${x}" y="${fold?62:18}" width="22" height="${fold?36:80}" rx="11" fill="${fold?"#F87171":"#FDBA74"}" stroke="#1F2937" stroke-width="2"/>`; }
+    return s+`</svg><div class="vlab">9 × ${n}: tekuk jari ke-${n} → kiri ${n-1} jari, kanan ${10-n} jari</div>`; }
+  if(v.k==="putar") return `<div class="row-vis">${dotsSVG(v.r,v.c,0)}<b>=</b>${dotsSVG(v.c,v.r,0)}</div>`;
+  if(v.k==="dobel"){ const n=v.n; return `<div class="chain"><span>${n}</span><i>dobel</i><span>?</span><i>dobel</i><span>?</span><i>dobel</i><span class="hl">?</span></div>`; }
+  if(v.k==="keluarga") return `<svg class="vis tri" viewBox="0 0 200 150"><path d="M100 18 L26 128 L174 128Z" fill="#FEF3C7" stroke="#1F2937" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="100" cy="30" r="24" fill="#fff" stroke="#1F2937" stroke-width="3"/><text x="100" y="38" text-anchor="middle" font-size="22" font-weight="800">${v.a*v.b}</text>
+    <circle cx="44" cy="118" r="22" fill="#DBEAFE" stroke="#1F2937" stroke-width="3"/><text x="44" y="126" text-anchor="middle" font-size="22" font-weight="800">${v.a}</text>
+    <circle cx="156" cy="118" r="22" fill="#DBEAFE" stroke="#1F2937" stroke-width="3"/><text x="156" y="126" text-anchor="middle" font-size="22" font-weight="800">${v.b}</text>
+    <text x="100" y="124" text-anchor="middle" font-size="20" font-weight="800">×</text><text x="100" y="84" text-anchor="middle" font-size="15" font-weight="700" fill="#92400E">: dan ×</text></svg>`;
+  if(v.k==="peta15") return mapHTML(ctx&&ctx.kid,{reveal:true});
+  return ""; }
+/* peta 10×10: status per pasangan (simetris). opsi: div (peta pembagian), snap (string status lama), reveal (peta "15 Kalimon") */
+const STC=["st0","st1","st2","st3","st4"], STN=["Belum dites","Salah","Lambat","Lancar","Hafal"];
+function mapHTML(c,o){ o=o||{}; let s=`<div class="map${o.small?" sm":""}"><i class="hd">${o.div?":":"×"}</i>`;
+  for(let j=1;j<=10;j++) s+=`<i class="hd">${j}</i>`;
+  for(let i=1;i<=10;i++){ s+=`<i class="hd">${i}</i>`; for(let j=1;j<=10;j++){ const p=pidx(i,j);
+      if(o.reveal){ const core=isCore(i,j), lead=core&&i<=j; s+=`<i class="${core?(lead?"rv1":"rv2"):"rv0"}">${lead?"":i*j}</i>`; continue; }
+      const st=o.snap?+o.snap[p]:c?stat(c,o.div?NP+p:p):0; s+=`<i class="${STC[st]}" title="${i} × ${j} = ${i*j}: ${STN[st]}">${st?i*j:""}</i>`; } }
+  return s+"</div>"; }
+const legendHTML=()=>`<div class="lg">${[4,3,2,1,0].map(k=>`<span><i class="${STC[k]}"></i>${STN[k]}</span>`).join("")}</div>`;
+/* ================= AKHIR GAMBAR ================= */
+</script>
+<script>
+const $=id=>document.getElementById(id);
+const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const APP=$("app");
+function load(){ try{ const d=JSON.parse(localStorage.getItem("km_data")||"null"); if(d&&d.v===1&&d.kids) return d; }catch(e){} return null; }
+const fresh=()=>({v:1,role:null,pin:null,cls:[],kids:{},home:[],cc:null,seen:false});
+let D=load()||fresh();
+function save(){ try{ localStorage.setItem("km_data",JSON.stringify(D)); }catch(e){ toast("Gagal menyimpan: penyimpanan HP penuh atau diblokir.",4000); } }
+let toastT=0;
+function toast(m,ms){ const t=$("toast"); t.textContent=m; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,ms||2600); }
+const today=()=>dayOf(new Date());
+const kidOf=id=>D.kids[id];
+const clsOf=id=>D.cls.find(c=>c.kids.includes(id));
+const curCls=()=>D.cls.find(c=>c.id===D.cc)||D.cls[0]||null;
+const setOf=k=>{ if(D.role==="guru"){ const c=clsOf(k.id); if(c) return c.set; } return k.set; };
+const sesMin=k=>D.role==="guru"?setOf(k).dur:10;
+const baseURL=()=>location.origin+location.pathname;
+const hashPin=p=>String(hashStr("kalimon|"+p));
+const countLancar=(k,div)=>{ let n=0; for(let p=0;p<NP;p++) if(stat(k,div?NP+p:p)>=ST.LANCAR) n++; return n; };
+const countHafal=(k,div)=>{ let n=0; for(let p=0;p<NP;p++) if(stat(k,div?NP+p:p)===ST.HAFAL) n++; return n; };
+const factTxt=f=>{ const [a,b]=pairOf(f); return isDiv(f)?`${a*b} : ${a} = ${b}`:`${a} × ${b} = ${a*b}`; };
+const monSeen=(k,m)=>unitOn(k,unitOfPair(m.pi))||!!(k.h[m.pi]&&k.h[m.pi].length);
+const sesCount=(k,w,days)=>k.ss.filter(s=>(!w||s[2]===w)&&(!days||today()-s[0]<days));
+const lastPlay=k=>k.ss.length?`terakhir ${dateOf(k.ss[k.ss.length-1][0])}`:"belum main";
+const mins=a=>Math.round(a.reduce((t,s)=>t+s[3],0)/60);
+const hearts=n=>"❤️".repeat(n)+"🤍".repeat(3-n);
+const rnd=()=>Math.random;
+
+/* ---------- navigasi ---------- */
+let SCR={name:"role",arg:null};
+const SCREENS={}, AFTER={}, ACT={};
+function go(name,arg){ SCR={name,arg}; APP.className=""; APP.innerHTML=SCREENS[name](arg); if(AFTER[name]) AFTER[name](arg); window.scrollTo(0,0); }
+const homeScreen=()=>go(D.role==="guru"?"kelas":D.role==="rumah"?"rumah":"role");
+APP.addEventListener("click",e=>{ const b=e.target.closest("[data-a]"); if(b&&ACT[b.dataset.a]){ e.preventDefault(); ACT[b.dataset.a](b.dataset,b); } });
+APP.addEventListener("change",e=>{ const t=e.target; if(t.dataset.ch==="cls"){ D.cc=t.value; save(); go("kelas"); } if(t.dataset.ch==="restore") restoreFile(t.files[0]); });
+function modal(html,lock){ $("mbody").innerHTML=html; $("modal").hidden=false; $("modal").dataset.lock=lock?"1":""; }
+function closeModal(){ $("modal").hidden=true; $("mbody").innerHTML=""; }
+$("modal").addEventListener("click",e=>{ if(e.target===$("modal")&&!$("modal").dataset.lock) return closeModal(); const b=e.target.closest("[data-m]"); if(b&&MACT[b.dataset.m]) MACT[b.dataset.m](b.dataset,b,e); });
+const MACT={close:closeModal};
+
+/* ---------- PIN ---------- */
+let pinCB=null, pinBuf="", guruOK=false;
+function askPin(cb){ if(guruOK) return cb(); pinCB=cb; pinBuf="";
+  modal(`<h2>PIN Kakak Guru</h2><p class="sub">Menu ini untuk Kakak Guru.</p><div class="pin" id="pinDots">${"<i></i>".repeat(4)}</div>
+  <div class="kp">${[1,2,3,4,5,6,7,8,9].map(n=>`<button type="button" data-m="pk" data-k="${n}">${n}</button>`).join("")}<button type="button" class="fn" data-m="close">Batal</button><button type="button" data-m="pk" data-k="0">0</button><button type="button" class="fn" data-m="pk" data-k="del">⌫</button></div>`); }
+MACT.pk=d=>{ if(d.k==="del") pinBuf=pinBuf.slice(0,-1); else if(pinBuf.length<4) pinBuf+=d.k;
+  [...$("pinDots").children].forEach((x,i)=>x.classList.toggle("on",i<pinBuf.length));
+  if(pinBuf.length===4){ if(hashPin(pinBuf)===D.pin){ guruOK=true; const cb=pinCB; closeModal(); cb(); } else { toast("PIN salah."); pinBuf=""; [...$("pinDots").children].forEach(x=>x.classList.remove("on")); } } };
+
+/* ---------- peran HP ---------- */
+SCREENS.role=()=>`<div class="card center"><div class="logo">${heroSVG({k:"kucing",c:0})}${monSVG(MON[0])}${heroSVG({k:"kapi",c:1})}</div>
+  <h1>Kalimon</h1><p class="sub">Jinakkan 15 monster perkalian. Belajar jurus dulu, lalu latihan 10 menit sehari sampai perkalian 1–10 lancar di luar kepala.</p></div>
+  <div class="card"><h2>HP ini dipakai di mana?</h2>
+  <button type="button" class="choice" data-a="role" data-v="guru"><span>🏫 <b>HP Kakak Guru</b></span><small>Dipakai bergantian oleh murid di kelas. Ada rekap kelas, rapor, kunci pembagian, dan pengaturan (dikunci PIN).</small></button>
+  <button type="button" class="choice" data-a="role" data-v="rumah"><span>🏠 <b>HP di rumah</b></span><small>Anak latihan 10 menit sehari, lalu kemajuannya dikirim ke Kakak Guru lewat WhatsApp.</small></button></div>`;
+ACT.role=d=>{ if(d.v==="guru") return go("guruSetup"); D.role="rumah"; save(); go("rumah"); runPending(); };
+SCREENS.guruSetup=()=>`<div class="card"><h2>Siapkan HP Kakak Guru</h2>
+  <label class="f">Buat PIN 4 angka<input id="p1" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label>
+  <label class="f">Ulangi PIN<input id="p2" type="password" inputmode="numeric" maxlength="4" autocomplete="off"></label>
+  <label class="f">Nama kelas pertama<input id="cn" maxlength="40" placeholder="mis. Pusat · Selasa · Sesi 1"></label>
+  <p class="sub">PIN membuka Menu Guru (rekap, rapor, pengaturan). PIN tidak bisa dipulihkan, jadi catat baik-baik.</p>
+  <button type="button" class="btn" data-a="guruSave">Simpan</button><button type="button" class="btn ghost" data-a="toRole">Kembali</button></div>`;
+ACT.toRole=()=>go("role");
+const newCls=name=>({id:rid(),name,set:{dur:5,thr:3,dx:15},kids:[]});
+ACT.guruSave=()=>{ const p1=$("p1").value.trim(), p2=$("p2").value.trim(), cn=$("cn").value.trim();
+  if(!/^\d{4}$/.test(p1)) return toast("PIN harus 4 angka."); if(p1!==p2) return toast("Kedua PIN belum sama."); if(!cn) return toast("Isi nama kelas.");
+  D.role="guru"; D.pin=hashPin(p1); const c=newCls(cn); D.cls=[c]; D.cc=c.id; save(); guruOK=true; go("kelas"); runPending(); };
+
+/* ---------- daftar murid (HP guru) & profil (HP rumah) ---------- */
+const kidCard=k=>{ const l=countLancar(k); return `<button type="button" class="kid" data-a="openKid" data-id="${k.id}">${heroSVG(k.hero)}<b>${esc(k.name)}</b><small>🐾 ${bits(k.tamed)}/15 · ✅ ${l}/55</small><span class="bar"><i style="width:${Math.round(l/55*100)}%"></i></span><small>${lastPlay(k)}</small></button>`; };
+SCREENS.kelas=()=>{ const c=curCls(); if(!c) return `<div class="card"><p>Belum ada kelas.</p><button type="button" class="btn" data-a="guruMenu">🔒 Menu Guru</button></div>`;
+  const ks=c.kids.map(kidOf).filter(Boolean);
+  return `<div class="card"><div class="row2" style="align-items:end"><label class="f">Kelas<select data-ch="cls">${D.cls.map(x=>`<option value="${x.id}"${x.id===c.id?" selected":""}>${esc(x.name)}</option>`).join("")}</select></label><button type="button" class="btn ghost" data-a="guruMenu">🔒 Menu Guru</button></div>
+    <p class="sub">Sesi ${c.set.dur} menit per anak · lancar ≤ ${c.set.thr} detik · pembagian terbuka setelah ${c.set.dx}/15 Kalimon jinak.</p></div>
+    ${ks.length?`<div class="kids">${ks.map(kidCard).join("")}</div>`:`<div class="card center"><p class="sub">Belum ada murid di kelas ini. Tambahkan lewat tombol di bawah.</p></div>`}
+    <button type="button" class="btn ghost" data-a="addKid">＋ Tambah murid</button>`; };
+SCREENS.rumah=()=>{ const ks=D.home.map(kidOf).filter(Boolean);
+  return `<div class="card center"><div class="logo">${heroSVG({k:"kucing",c:0})}${monSVG(MON[0])}${heroSVG({k:"kapi",c:1})}</div><h2>Siapa yang mau latihan?</h2></div>
+    ${ks.length?`<div class="kids">${ks.map(kidCard).join("")}</div>`:`<div class="card center"><p class="sub">Dapat tautan dari Kakak Guru? Buka tautannya di HP ini, profil anak langsung terpasang. Atau buat profil sendiri.</p></div>`}
+    <button type="button" class="btn ghost" data-a="addHome">＋ Tambah profil</button>
+    <button type="button" class="btn ghost sm" data-a="wipe">Hapus semua data di HP ini</button>`; };
+ACT.openKid=d=>go("kid",d.id);
+ACT.home=()=>homeScreen();
+let FORM=null;
+function kidForm(title,k,onSave){ FORM={hk:k?k.hero.k:"kucing",hc:k?k.hero.c:Math.floor(Math.random()*6),onSave};
+  modal(`<h2>${title}</h2><label class="f">Nama panggilan<input id="kn" maxlength="20" value="${k?esc(k.name):""}"></label>
+    <div class="seg" id="khk"><button type="button" data-m="hk" data-v="kucing">🐱 Kucing</button><button type="button" data-m="hk" data-v="kapi">Capybara</button></div>
+    <div class="row3" id="khc">${CAPES.map((c,i)=>`<button type="button" class="btn sm ghost" data-m="hc" data-v="${i}" style="border-color:${c}">${CAPE_N[i]}</button>`).join("")}</div>
+    <div class="center" id="kpv"></div>
+    <label class="f">Kelas SD<select id="kg">${[3,4,5,6].map(g=>`<option${(k?k.grade:3)===g?" selected":""}>${g}</option>`).join("")}</select></label>
+    <button type="button" class="btn" data-m="kidSave">Simpan</button><button type="button" class="btn ghost" data-m="close">Batal</button>`);
+  drawForm(); }
+function drawForm(){ $("kpv").innerHTML=heroSVG({k:FORM.hk,c:FORM.hc},"hero xl"); $("khk").querySelectorAll("button").forEach(b=>b.setAttribute("aria-pressed",b.dataset.v===FORM.hk)); $("khc").querySelectorAll("button").forEach(b=>b.style.background=+b.dataset.v===FORM.hc?CAPES[FORM.hc]:"#fff"); }
+MACT.hk=d=>{ FORM.hk=d.v; drawForm(); }; MACT.hc=d=>{ FORM.hc=+d.v; drawForm(); };
+MACT.kidSave=()=>{ const name=$("kn").value.trim(); if(!name) return toast("Isi nama dulu."); FORM.onSave({name,hero:{k:FORM.hk,c:FORM.hc},grade:+$("kg").value}); };
+ACT.addKid=()=>askPin(()=>{ const c=curCls(); if(!c) return; if(c.kids.length>=12) return toast("Satu kelas maksimal 12 murid.");
+  kidForm("Murid baru",null,o=>{ const k=newChild(o); k.k=c.name; D.kids[k.id]=k; c.kids.push(k.id); save(); closeModal(); go("kelas"); toast(`${o.name} ditambahkan.`); }); });
+ACT.addHome=()=>{ if(D.home.length>=6) return toast("Maksimal 6 profil di satu HP.");
+  modal(`<h2>Tambah profil</h2><p class="sub">Punya tautan atau kode dari Kakak Guru? Tempel di sini supaya kemajuan anak tersambung ke kelasnya.</p>
+    <textarea id="pc" placeholder="Tempel tautan dari Kakak Guru"></textarea><button type="button" class="btn" data-m="pasteU">Masukkan</button>
+    <p class="sub center">atau</p><button type="button" class="btn ghost" data-m="selfKid">Buat profil sendiri (tanpa kelas)</button><button type="button" class="btn ghost" data-m="close">Batal</button>`); };
+MACT.pasteU=()=>{ const v=$("pc").value; closeModal(); handleCode(v); };
+MACT.selfKid=()=>kidForm("Profil baru",null,o=>{ const k=newChild(o); D.kids[k.id]=k; D.home.push(k.id); save(); closeModal(); go("kid",k.id); });
+ACT.wipe=()=>{ if(!confirm("Hapus SEMUA data Kalimon di HP ini? Ini tidak bisa dibatalkan.")) return; D=fresh(); save(); guruOK=false; go("role"); };
+
+/* ---------- beranda anak ---------- */
+SCREENS.kid=id=>{ const k=kidOf(id); if(!k) return SCREENS[D.role==="guru"?"kelas":"rumah"]();
+  const set=setOf(k), L=nextLesson(k,set), doneToday=k.ss.some(s=>s[0]===today()), rN=sesCount(k,"r").length-(k.sentN||0);
+  return `<div class="card"><div class="kidtop">${heroSVG(k.hero,"hero xl")}<div><h1>${esc(k.name)}</h1><p class="sub">${esc(D.role==="guru"?(clsOf(k.id)||{}).name:k.k||"Latihan di rumah")} · kelas ${k.grade} SD</p></div></div>
+    <div class="dexrow">${MON.map((m,i)=>monSVG(m,{sil:!monSeen(k,m)&&!(k.tamed>>i&1),evo:!!(k.evo>>i&1),cls:"mon"+(k.tamed>>i&1?"":" wild")})).join("")}</div>
+    <p class="center"><b>${bits(k.tamed)}/15</b> Kalimon jinak · <b>${countLancar(k)}/55</b> fakta lancar${divOpen(k,set)?" · pembagian terbuka ➗":""}</p>
+    <button type="button" class="btn go" data-a="start" data-id="${k.id}">⚔️ Mulai petualangan · ${sesMin(k)} menit</button>
+    ${D.role==="rumah"&&doneToday?`<button type="button" class="btn ghost" data-a="bonus" data-id="${k.id}">🎁 Ronde bonus 2 menit</button>`:""}
+    ${L?`<p class="sub center">Berikutnya: <b>${esc(lessonTitle(L))}</b></p>`:""}
+    <div class="row2"><button type="button" class="btn ghost" data-a="map" data-id="${k.id}">🗺️ Peta saya</button><button type="button" class="btn ghost" data-a="dex" data-id="${k.id}">📖 Kalidex</button></div>
+    ${D.role==="rumah"?`<button type="button" class="btn wa" data-a="sendHome" data-id="${k.id}">📤 Kirim kemajuan ke Kakak Guru</button><p class="sub center">${k.sent?`Terakhir dikirim ${dateOf(k.sent)}`:"Belum pernah dikirim"} · ${Math.max(0,rN)} sesi baru sejak itu.</p>`:""}
+    <button type="button" class="btn ghost" data-a="home">← ${D.role==="guru"?"Daftar murid":"Ganti pemain"}</button></div>`; };
+ACT.map=d=>{ MAPTAB="mul"; go("map",d.id); }; ACT.dex=d=>go("dex",d.id);
+let MAPTAB="mul";
+const slowList=(k,div)=>{ const s=slowest(k,6,div); return s.length?`<div><b>Perlu dilatih:</b><div class="chips">${s.map(f=>`<span>${factTxt(f)}</span>`).join("")}</div></div>`:""; };
+SCREENS.map=id=>{ const k=kidOf(id), set=setOf(k), dv=k.dl&&divOpen(k,set), div=dv&&MAPTAB==="div", n=countStat(k,div);
+  return `<div class="card"><h2>Peta ${div?"pembagian":"perkalian"} ${esc(k.name)}</h2>
+    ${dv?`<div class="seg"><button type="button" data-a="mtab" data-id="${k.id}" data-v="mul" aria-pressed="${!div}">× Perkalian</button><button type="button" data-a="mtab" data-id="${k.id}" data-v="div" aria-pressed="${div}">: Pembagian</button></div>`:""}
+    ${mapHTML(k,{div})}${legendHTML()}
+    <div class="stat"><div><b>${n[4]}</b><small>hafal</small></div><div><b>${n[3]}</b><small>lancar</small></div><div><b>${n[1]+n[2]}</b><small>perlu latihan</small></div></div>
+    <p class="sub">Dari 55 fakta (7 × 8 dan 8 × 7 dihitung satu). Hafal = benar ≤ ${set.thr} detik di 3 hari berbeda.</p>
+    ${k.snap&&!div?`<details><summary><b>Bandingkan dengan peta awal (${dateOf(k.snap.d)})</b></summary>${mapHTML(null,{snap:k.snap.st})}</details>`:""}
+    ${slowList(k,div)}
+    <div class="row2"><button type="button" class="btn ghost" data-a="openKid" data-id="${k.id}">← Kembali</button><button type="button" class="btn ghost" data-a="rapor" data-id="${k.id}">📄 Rapor</button></div></div>`; };
+ACT.mtab=d=>{ MAPTAB=d.v; go("map",d.id); };
+function dexCard(k,m,i){ const tam=k.tamed>>i&1, ev=k.evo>>i&1, seen=monSeen(k,m)||tam, fd=Math.min(3,fastDays(k,m.pi)), st=stat(k,m.pi);
+  return `<div class="dexc${ev?" evo":tam?" jinak":""}">${monSVG(m,{sil:!seen,evo:!!ev})}<b>${seen?m.nm:"???"}</b>
+    <small>${tam?`${m.p[0]} × ${m.p[1]} = ${m.p[0]*m.p[1]}`:seen?"Liar, belum jinak":"Belum muncul"}</small>${seen?`<span class="hearts" title="hari cepat">${hearts(fd)}</span>`:""}
+    ${tam&&st<ST.HAFAL?`<small>Perlu dilatih lagi</small>`:""}${ev?`<small>✨ Berevolusi: pembagiannya hafal</small>`:""}</div>`; }
+SCREENS.dex=id=>{ const k=kidOf(id), set=setOf(k);
+  return `<div class="card"><h2>Kalidex ${esc(k.name)}</h2><p class="sub">Kalimon jinak kalau faktanya dijawab benar ≤ ${set.thr} detik di 3 hari berbeda (❤️ = satu hari). Setelah pembagian terbuka, Kalimon yang sudah jinak bisa berevolusi lewat soal pembagiannya.</p>
+    <div class="dex">${MON.map((m,i)=>dexCard(k,m,i)).join("")}</div><button type="button" class="btn ghost" data-a="openKid" data-id="${k.id}">← Kembali</button></div>`; };
+
+/* ---------- sesi bermain ---------- */
+let G=null;
+const KEYS=["1","2","3","4","5","6","7","8","9","skip","0","del"];
+const kpHTML=()=>`<div class="kp" id="kp">${KEYS.map(k=>`<button type="button" data-k="${k}"${k.length>1?' class="fn"':""}>${k==="skip"?"Lewati":k==="del"?"⌫":k}</button>`).join("")}</div>`;
+ACT.start=d=>startSession(kidOf(d.id),false); ACT.bonus=d=>startSession(kidOf(d.id),true);
+function startSession(k,bonus){ const set=setOf(k), min=bonus?2:sesMin(k);
+  G={k,set,bonus,min,dur:min*60000,t0:performance.now(),m0:minOf(),plan:[],n:0,nf:0,nw:0,touched:{},retried:{},retry:[],items:[],lesson:null,learned:false,tam0:k.tamed,evo0:k.evo,div0:divOpen(k,set),q:null,lock:true};
+  if(bonus) G.plan=["drill"]; else { if(!k.test) G.plan.push("test"); G.plan.push("warm"); G.lesson=nextLesson(k,set); if(G.lesson) G.plan.push("lesson"); G.plan.push("drill"); }
+  SCR={name:"play",arg:k.id}; APP.className="playing";
+  APP.innerHTML=`<div class="ptop"><span class="phase" id="ph"></span><div class="tbar"><i id="tfill"></i></div><span class="tleft" id="tleft"></span><button type="button" class="xbtn" data-a="quit" aria-label="Akhiri sesi">✕</button></div><div id="pbody" style="display:flex;flex-direction:column;gap:10px;flex:1"></div>`;
+  G.tick=setInterval(drawTime,250); drawTime(); nextPhase(); }
+const elapsed=()=>performance.now()-G.t0;
+function drawTime(){ if(!G) return; const left=Math.max(0,G.dur-elapsed()); $("tfill").style.transform=`scaleX(${left/G.dur})`; const s=Math.ceil(left/1000); $("tleft").textContent=`${Math.floor(s/60)}:${String(s%60).padStart(2,"0")}`; }
+const PHN={test:"Tes Awal",warm:"Pemanasan",lesson:"Jurus Baru",drill:"Latihan"};
+function nextPhase(){ G.phase=G.plan.shift(); if(!G.phase) return endSession(false);
+  $("ph").textContent=G.bonus?"Ronde Bonus":PHN[G.phase]; G.ps=elapsed();
+  if(G.phase==="test"){ G.items=testFacts(rnd()); G.cap=Math.min(180000,G.dur*.6); return advance(); }
+  if(G.phase==="warm"){ G.items=warmFacts(G.k,G.set,today(),8); G.cap=G.dur*.2; if(!G.items.length) return nextPhase(); return advance(); }
+  if(G.phase==="lesson") return showLesson(0,0);
+  if(G.phase==="drill"){ let P=pools(G.k,G.set,rnd()); if(G.bonus&&P.mode==="learn"&&P.known.length>=4) P={mode:"bonus",newQ:[],known:P.known};
+    G.drill=new Drill({newQ:P.newQ,known:P.known,cap:G.bonus?0:G.min>=10?4:G.min>=5?3:2,free:f=>!monOfPair(f%NP)}); G.mode=P.mode; return advance(); } }
+function advance(){ const el=elapsed();
+  if(G.phase==="test"){ if(!G.items.length||el-G.ps>=G.cap||el>=G.dur) return finishTest(); return ask(G.items.shift()); }
+  if(G.phase==="warm"){ if(el>=G.dur) return endSession(false); const f=G.items.length&&el-G.ps<G.cap?G.items.shift():G.retry.shift(); if(f==null) return nextPhase(); return ask(f); }
+  if(G.phase==="drill"){ if(el>=G.dur) return endSession(false); const q=G.drill.next(); if(!q) return endSession(false); return ask(q.f); } }
+function finishTest(){ G.k.test=true; G.touched={}; /* "mulai lancar" dihitung setelah tes, bukan hasil tes */ if(!G.k.snap) G.k.snap={d:today(),st:snapOf(G.k)}; save(); const n=countStat(G.k);
+  $("pbody").innerHTML=`<div class="card center"><h2>Ini peta perkalianmu sekarang</h2>${mapHTML(G.k,{small:true})}${legendHTML()}
+    <div class="stat"><div><b>${n[3]+n[4]}</b><small>sudah lancar</small></div><div><b>${n[2]}</b><small>benar tapi lambat</small></div><div><b>${n[1]}</b><small>belum bisa</small></div></div>
+    <p class="sub">Tenang, kita pakai jurus supaya yang perlu dihafal jauh lebih sedikit.</p><button type="button" class="btn go" data-a="cont">Lanjut ⚔️</button></div>`; }
+ACT.cont=()=>{ if(elapsed()>=G.dur) return endSession(false); nextPhase(); };
+function stageHTML(q){ const m=monOfPair(q.f%NP);
+  if(m&&G.phase!=="test"){ const fd=Math.min(3,fastDays(G.k,q.f)), tm=G.k.tamed>>m.i&1, ev=G.k.evo>>m.i&1;
+    return `<span class="who">${isDiv(q.f)?(ev?"✨ Sudah berevolusi":tm?"✨ Menuju evolusi":"Kalimon liar"):tm?"Kalimon jinak":"Kalimon liar"}: ${m.nm}</span><span class="hp">${hearts(fd)}</span>${heroSVG(G.k.hero)}<span id="mon">${monSVG(m,{evo:!!ev})}</span>`; }
+  const [a,b]=pairOf(q.f); return `<span class="who">${G.phase==="test"?"Tes awal: jawab yang kamu bisa":isDiv(q.f)?"Jurus keluarga fakta":"Jurus "+esc(hintMul(a,b).j)}</span>${heroSVG(G.k.hero,"hero")}`; }
+function blanksHTML(){ const L=String(G.q.ans).length; let s=""; for(let i=0;i<L;i++) s+=`<span class="${i===G.typed.length?"cur":""}">${G.typed[i]||""}</span>`; return s; }
+function ask(f){ const q=question(f,rnd()); G.q=q; G.typed=""; G.lock=false; G.les=null;
+  $("pbody").innerHTML=`<div class="stage" id="stage">${stageHTML(q)}</div><div class="qcard" id="qcard"><span class="qtxt">${q.text} =</span><span class="blanks" id="blanks">${blanksHTML()}</span></div><div class="fb" id="fb"></div><div id="solw"></div>${kpHTML()}`;
+  G.qT=performance.now(); }
+function press(k){ if(!G||G.lock||!G.q) return;
+  if(k==="del") G.typed=G.typed.slice(0,-1); else if(k==="skip") return G.les?lessonJudge(null):judge(null);
+  else if(/^\d$/.test(k)&&G.typed.length<String(G.q.ans).length) G.typed+=k;
+  $("blanks").innerHTML=blanksHTML();
+  if(G.typed.length===String(G.q.ans).length) return G.les?lessonJudge(+G.typed):judge(+G.typed); }
+const dtk=ms=>String(Math.round(ms/100)/10).replace(".",",");
+function judge(v){ G.lock=true; const q=G.q, ms=performance.now()-G.qT, ok=v===q.ans, r=ok?(ms<=G.set.thr*1000?2:1):0;
+  if(!(q.f in G.touched)) G.touched[q.f]=stat(G.k,q.f);
+  record(G.k,q.f,r,Math.min(255,Math.round(ms/100)),today(),minOf()); save();
+  G.n++; if(r===2) G.nf++; if(r===0) G.nw++;
+  if(G.phase==="drill") G.drill.answer(q.f,r);
+  if(G.phase==="warm"&&r===0&&!G.retried[q.f]){ G.retried[q.f]=1; G.retry.push(q.f); }
+  const card=$("qcard"), mon=$("mon");
+  if(r>0){ card.classList.add(r===2?"ok":"slow"); $("fb").innerHTML=r===2?`<span class="ok">⚡ Kilat! ${dtk(ms)} detik</span>`:`<span class="slow">Benar! ${dtk(ms)} detik. Coba lebih cepat.</span>`;
+    if(mon) mon.firstChild.classList.add("hit"); setTimeout(advance,r===2?450:850); return; }
+  card.classList.add("no"); if(mon) mon.firstChild.classList.add("tease");
+  if(G.phase==="test"){ $("fb").innerHTML=`<span class="no">Jawabannya ${q.ans}</span>`; setTimeout(advance,900); return; }
+  const h=hintFor(q);
+  $("solw").innerHTML=`<div class="sol"><div><b class="ans">${q.text} = ${q.ans}</b></div><div><b>Jurus ${esc(h.j)}:</b> ${esc(h.t)}</div><div class="steps">${h.s.map(([e,v])=>`<span>${e} = ${v}</span>`).join("")}</div><button type="button" class="btn" data-a="solNext">Lanjut</button></div>`;
+  $("kp").hidden=true; G.solT=performance.now(); }
+/* abaikan klik sisa dari ketukan angka terakhir (kotak solusi muncul di tempat papan angka) */
+ACT.solNext=()=>{ if(G&&performance.now()-(G.solT||0)<400) return; advance(); };
+/* pelajaran jurus */
+function showLesson(pi,qi){ const L=LESSONS[G.lesson], pg=L.p[pi]; G.les={pi,qi}; G.lock=false;
+  const qq=pg.q[qi]; G.q=qq?{ans:qq[1],text:qq[0]}:null; G.typed="";
+  $("pbody").innerHTML=`<div class="card lesson"><h2>🥋 ${esc(L.t)}</h2><p class="sub">Halaman ${pi+1} dari ${L.p.length}</p>
+    ${pg.mon!=null?`<div class="celebrate">${monSVG(MON[pg.mon])}<b>Kalimon pertama: ${MON[pg.mon].nm}!</b></div>`:""}
+    ${visSVG(pg.v,{kid:G.k})}<p class="ltxt">${pg.x}</p></div>
+    ${qq?`<div class="qcard" id="qcard"><span class="qtxt">${qq[0]} =</span><span class="blanks" id="blanks">${blanksHTML()}</span></div><div class="fb" id="fb"></div>${kpHTML()}`
+      :`<button type="button" class="btn go" data-a="lesNext">${pi+1<L.p.length?"Lanjut →":"Mulai latihan ⚔️"}</button>`}`;
+  G.qT=performance.now(); }
+function lessonJudge(v){ G.lock=true; const ok=v===G.q.ans; $("qcard").classList.add(ok?"ok":"no");
+  $("fb").innerHTML=ok?`<span class="ok">Betul!</span>`:`<span class="no">${G.q.text} = ${G.q.ans}</span>`;
+  setTimeout(()=>{ const pg=LESSONS[G.lesson].p[G.les.pi]; if(G.les.qi+1<pg.q.length) showLesson(G.les.pi,G.les.qi+1); else ACT.lesNext(); },ok?600:1500); }
+ACT.lesNext=()=>{ const L=LESSONS[G.lesson]; if(G.les&&G.les.pi+1<L.p.length) return showLesson(G.les.pi+1,0);
+  learnLesson(G.k,G.lesson); G.learned=true; save(); if(elapsed()>=G.dur) return endSession(false); nextPhase(); };
+ACT.quit=()=>{ if(confirm("Akhiri sesi sekarang? Jawaban yang sudah masuk tetap tersimpan.")) endSession(true); };
+function endSession(quit){ if(!G) return; clearInterval(G.tick); const k=G.k, d=today();
+  if(G.n>0||G.learned) k.ss.push([d,G.m0,D.role==="guru"?"k":"r",Math.round(Math.min(elapsed(),G.dur)/1000),G.n,G.nf]);
+  const {nt,ne}=refreshBadges(k), divNew=!G.div0&&divOpen(k,G.set);
+  const up=[], haf=[]; for(const f in G.touched){ const a=G.touched[f], b=stat(k,+f); if(b===ST.HAFAL&&a<ST.HAFAL) haf.push(+f); else if(b>=ST.LANCAR&&a<ST.LANCAR) up.push(+f); }
+  save(); const res={id:k.id,quit,n:G.n,nf:G.nf,nw:G.nw,min:Math.max(1,Math.round(Math.min(elapsed(),G.dur)/60000)),nt,ne,divNew,up,haf,thr:G.set.thr,learned:G.learned?G.lesson:null};
+  G=null; go("sum",res); }
+/* fakta inti (monster) didahulukan; daftar panjang diringkas supaya ringkasan tetap pendek */
+function chipsHTML(fs){ const w=f=>monOfPair(f%NP)?0:1, a=fs.slice().sort((p,q)=>w(p)-w(q)||p-q), N=12;
+  return `<div class="chips">${a.slice(0,N).map(f=>`<span>${factTxt(f)}</span>`).join("")}${a.length>N?`<span class="more">+${a.length-N} lainnya</span>`:""}</div>`; }
+SCREENS.sum=x=>{ const k=kidOf(x.id); const mon=(bm,evo)=>MON.filter((_,i)=>bm>>i&1).map(m=>`<div class="celebrate">${monSVG(m,{evo})}<b>${evo?"Berevolusi":"Jinak"}: ${m.nm}!</b><span>${m.p[0]} × ${m.p[1]} = ${m.p[0]*m.p[1]}</span></div>`).join("");
+  return `<div class="card center"><h1>${x.quit?"Sesi diakhiri":"Sesi selesai! 🎉"}</h1>${heroSVG(k.hero,"hero xl")}
+    <div class="stat"><div><b>${x.n}</b><small>soal dijawab</small></div><div><b>${x.nf}</b><small>kilat ≤ ${x.thr} detik</small></div><div><b>${x.min}</b><small>menit</small></div></div>
+    ${x.learned?`<p>🥋 Jurus baru: <b>${esc(lessonTitle(x.learned))}</b></p>`:""}
+    ${mon(x.nt,false)}${mon(x.ne,true)}${x.divNew?`<div class="celebrate"><b>➗ Pembagian terbuka!</b><span>Mulai sesi berikutnya ada jurus keluarga fakta.</span></div>`:""}
+    ${x.haf.length?`<p><b>Hafal hari ini:</b></p>${chipsHTML(x.haf)}`:""}
+    ${x.up.length?`<p><b>Mulai lancar:</b></p>${chipsHTML(x.up)}`:""}
+    ${mapHTML(k,{small:true})}
+    ${D.role==="rumah"?`<button type="button" class="btn wa" data-a="sendHome" data-id="${k.id}">📤 Kirim kemajuan ke Kakak Guru</button>`:""}
+    <div class="row2"><button type="button" class="btn ghost" data-a="map" data-id="${k.id}">🗺️ Lihat peta</button><button type="button" class="btn" data-a="${D.role==="guru"?"home":"openKid"}" data-id="${k.id}">${D.role==="guru"?"Murid berikutnya →":"Selesai"}</button></div></div>`; };
+/* papan angka: pointerdown supaya cepat; klik dari keyboard (detail 0) tetap jalan */
+APP.addEventListener("pointerdown",e=>{ const b=e.target.closest(".kp [data-k]"); if(!b||!G) return; e.preventDefault(); press(b.dataset.k); b.classList.add("dn"); setTimeout(()=>b.classList.remove("dn"),90); });
+APP.addEventListener("click",e=>{ const b=e.target.closest(".kp [data-k]"); if(b&&G&&e.detail===0) press(b.dataset.k); });
+document.addEventListener("keydown",e=>{ if(!G||e.ctrlKey||e.metaKey||e.altKey||!$("modal").hidden) return;
+  if(/^[0-9]$/.test(e.key)){ e.preventDefault(); press(e.key); } else if(e.key==="Backspace"){ e.preventDefault(); press("del"); } });
+
+/* ---------- kirim & terima kode ---------- */
+let MSG="";
+function shareBox(title,text,onSent){ MSG=text; MACT._sent=onSent||null;
+  modal(`<h2>${title}</h2><div class="msg">${esc(text)}</div><a class="btn wa" data-m="sent" href="https://wa.me/?text=${encodeURIComponent(text)}" target="_blank" rel="noopener">Kirim lewat WhatsApp</a>
+    <button type="button" class="btn ghost" data-m="copy">Salin pesan</button><button type="button" class="btn ghost" data-m="close">Tutup</button>`); }
+MACT.sent=()=>{ if(MACT._sent) MACT._sent(); };
+MACT.copy=async()=>{ try{ await navigator.clipboard.writeText(MSG); toast("Pesan disalin. Tempel di WhatsApp."); }catch(e){ prompt("Salin pesan ini:",MSG); } if(MACT._sent) MACT._sent(); };
+ACT.sendHome=d=>{ const k=kidOf(d.id), t=today(), code=encodeChild(k,"p",t);
+  const text=`Kemajuan Kalimon: ${k.name}${k.k?` (${k.k})`:""}\n🐾 ${bits(k.tamed)}/15 Kalimon jinak · ✅ ${countLancar(k)}/55 fakta lancar · ${sesCount(k,"r",7).length} sesi di rumah minggu ini\nKakak Guru, ketuk tautan ini di HP kelas untuk memasukkan kemajuannya:\n${baseURL()}#p=${code}`;
+  shareBox("Kirim ke Kakak Guru",text,()=>{ k.sent=t; k.sentN=sesCount(k,"r").length; save(); if(SCR.name==="kid") go("kid",k.id); }); };
+function codeForHome(k){ const c=clsOf(k.id), cp=JSON.parse(JSON.stringify(k)); if(c){ cp.set=Object.assign({},c.set,{dur:10}); cp.k=c.name; } return encodeChild(cp,"u",today()); }
+function sendToHome(k){ const text=`Halo Ayah/Bunda ${k.name}! Ini tautan Kalimon untuk latihan perkalian 10 menit sehari di rumah. Buka di HP yang dipakai ${k.name}:\n${baseURL()}#u=${codeForHome(k)}\nSelesai latihan, tekan "Kirim kemajuan ke Kakak Guru" supaya hasilnya masuk rapor kelas.`;
+  shareBox(`Kirim ke rumah ${esc(k.name)}`,text); }
+function handleCode(str){ const r=decodeChild(str||""); if(!r){ toast("Kode tidak terbaca. Pastikan seluruh tautan tersalin.",3500); return; }
+  if(r.type==="p"){ if(D.role!=="guru"){ toast("Kode ini untuk HP Kakak Guru. Teruskan ke Kakak Guru lewat WhatsApp.",4000); return; } return importP(r.child); }
+  if(D.role==="guru"){ toast("Ini tautan untuk HP rumah. Kirimkan ke orang tua.",3500); return; }
+  if(!D.role){ D.role="rumah"; save(); } importU(r.child); }
+let PEND=null;
+function importP(inc){ const ex=D.kids[inc.id]||Object.values(D.kids).find(k=>(k.alias||[]).includes(inc.id));
+  if(ex&&clsOf(ex.id)) return mergeInto(ex,inc);
+  PEND=inc; const c=curCls(), ks=c?c.kids.map(kidOf).filter(Boolean):[];
+  modal(`<h2>Kemajuan dari rumah: ${esc(inc.name)}</h2><p class="sub">Anak ini belum terdaftar di HP ini. Gabungkan ke murid yang sama, atau tambahkan sebagai murid baru di kelas <b>${esc(c?c.name:"-")}</b>.</p>
+    <div class="lst">${ks.map(k=>`<button type="button" class="btn ghost" data-m="joinP" data-id="${k.id}">Gabungkan ke ${esc(k.name)}</button>`).join("")}</div>
+    <button type="button" class="btn" data-m="newP">＋ Murid baru: ${esc(inc.name)}</button><button type="button" class="btn ghost" data-m="close">Batal</button>`); }
+function mergeInto(ex,inc){ const b={t:bits(ex.tamed),l:countLancar(ex),r:sesCount(ex,"r").length};
+  const al=new Set((ex.alias||[]).concat(inc.id!==ex.id?[inc.id]:[])); const m=mergeChild(ex,Object.assign({},inc,{id:ex.id}),"p"); m.alias=[...al]; refreshBadges(m); D.kids[ex.id]=m; save(); closeModal();
+  modal(`<h2>✅ Kemajuan ${esc(m.name)} masuk</h2><div class="stat"><div><b>+${sesCount(m,"r").length-b.r}</b><small>sesi rumah baru</small></div><div><b>${b.t} → ${bits(m.tamed)}</b><small>Kalimon jinak</small></div><div><b>${b.l} → ${countLancar(m)}</b><small>fakta lancar</small></div></div>
+    <button type="button" class="btn" data-m="close">Oke</button>`); if(["kelas","guru","kid","map"].includes(SCR.name)) go(SCR.name,SCR.arg); }
+MACT.joinP=d=>{ const inc=PEND; PEND=null; closeModal(); mergeInto(kidOf(d.id),inc); };
+MACT.newP=()=>{ const inc=PEND, c=curCls(); PEND=null; if(!c) return closeModal(); if(D.kids[inc.id]){ closeModal(); return mergeInto(D.kids[inc.id],inc); }
+  inc.k=c.name; D.kids[inc.id]=inc; c.kids.push(inc.id); refreshBadges(inc); save(); closeModal(); toast(`${inc.name} ditambahkan ke ${c.name}.`); go("kelas"); };
+function importU(inc){ const ex=D.home.map(kidOf).find(k=>k&&k.id===inc.id);
+  if(ex){ D.kids[ex.id]=mergeChild(ex,inc,"u"); refreshBadges(D.kids[ex.id]); save(); toast(`Profil ${inc.name} diperbarui dari Kakak Guru.`); return go("kid",ex.id); }
+  if(!D.home.length) return addU(inc);
+  PEND=inc; modal(`<h2>Tautan untuk ${esc(inc.name)}</h2><p class="sub">Kalau anak ini sudah punya profil di HP ini, gabungkan supaya latihannya tidak terpisah.</p>
+    <div class="lst">${D.home.map(kidOf).filter(Boolean).map(k=>`<button type="button" class="btn ghost" data-m="joinU" data-id="${k.id}">Gabungkan ke ${esc(k.name)}</button>`).join("")}</div>
+    <button type="button" class="btn" data-m="newU">＋ Profil baru: ${esc(inc.name)}</button>`); }
+function addU(inc){ refreshBadges(inc); D.kids[inc.id]=inc; D.home.push(inc.id); save(); closeModal(); toast(`Profil ${inc.name} siap. Selamat berlatih!`); go("kid",inc.id); }
+MACT.newU=()=>{ const inc=PEND; PEND=null; if(D.home.length>=6){ closeModal(); return toast("Maksimal 6 profil."); } addU(inc); };
+MACT.joinU=d=>{ const inc=PEND, ex=kidOf(d.id); PEND=null; const m=mergeChild(Object.assign({},ex,{id:inc.id}),inc,"u"); m.sent=ex.sent; m.sentN=ex.sentN; refreshBadges(m);
+  delete D.kids[ex.id]; D.kids[inc.id]=m; D.home=D.home.map(x=>x===ex.id?inc.id:x); save(); closeModal(); toast("Profil digabung."); go("kid",inc.id); };
+function runPending(){ const p=sessionStorage.getItem("km_pending"); if(p){ sessionStorage.removeItem("km_pending"); handleCode(p); } }
+
+/* ---------- menu guru ---------- */
+let GTAB="rekap";
+ACT.guruMenu=()=>askPin(()=>go("guru"));
+const tabBtn=(v,t)=>`<button type="button" data-a="gtab" data-v="${v}" aria-pressed="${GTAB===v}">${t}</button>`;
+SCREENS.guru=()=>{ const c=curCls();
+  let body="";
+  if(GTAB==="rekap") body=c?rekapHTML(c)+`<button type="button" class="btn" data-a="printRekap">🖨️ Cetak / simpan PDF rekap</button>`:"";
+  if(GTAB==="murid") body=c?muridHTML(c):"";
+  if(GTAB==="impor") body=`<div class="card"><h3>Masukkan kemajuan dari rumah</h3><p class="sub">Ketuk tautan dari orang tua di WhatsApp dengan HP ini, atau salin seluruh pesannya lalu tempel di sini.</p>
+    <textarea id="ic" placeholder="Tempel pesan atau tautan Kalimon"></textarea><button type="button" class="btn" data-a="impor">Masukkan</button></div>`;
+  if(GTAB==="atur") body=c?aturHTML(c):"";
+  if(GTAB==="cadangan") body=`<div class="card"><h3>Cadangan data</h3><p class="sub">Semua data kelas hanya tersimpan di HP ini. Unduh cadangan secara berkala (mis. tiap minggu) dan simpan di Google Drive atau kirim ke diri sendiri.</p>
+    <button type="button" class="btn" data-a="backup">⬇️ Unduh cadangan (.json)</button>
+    <label class="btn ghost" style="display:block">⬆️ Pulihkan dari file cadangan<input type="file" accept=".json,application/json" data-ch="restore" hidden></label>
+    <button type="button" class="btn ghost" data-a="newPin">Ganti PIN</button><button type="button" class="btn red" data-a="wipe">Hapus semua data di HP ini</button></div>`;
+  return `<div class="card"><div class="row2" style="align-items:end"><label class="f">Kelas<select data-ch="cls2">${D.cls.map(x=>`<option value="${x.id}"${c&&x.id===c.id?" selected":""}>${esc(x.name)}</option>`).join("")}</select></label><button type="button" class="btn ghost" data-a="leaveGuru">← Daftar murid</button></div>
+    <div class="tabs">${tabBtn("rekap","📊 Rekap")}${tabBtn("murid","👧 Murid")}${tabBtn("impor","📥 Impor")}${tabBtn("atur","⚙️ Atur")}${tabBtn("cadangan","💾 Cadangan")}</div></div>${body}`; };
+APP.addEventListener("change",e=>{ if(e.target.dataset.ch==="cls2"){ D.cc=e.target.value; save(); go("guru"); } });
+ACT.gtab=d=>{ GTAB=d.v; go("guru"); };
+ACT.leaveGuru=()=>{ guruOK=false; go("kelas"); };
+const heatCol=r=>r>=1?"#16A34A":r>=.75?"#86EFAC":r>=.5?"#FDE68A":r>=.25?"#FDBA74":"#FCA5A5";
+const factShort=f=>{ const [a,b]=pairOf(f); return isDiv(f)?`${a*b} : ${a}`:`${a} × ${b}`; };
+function rekapHTML(c){ const ks=c.kids.map(kidOf).filter(Boolean);
+  if(!ks.length) return `<div class="card"><p class="sub">Belum ada murid.</p></div>`;
+  let h=`<div class="heat"><i class="hd">×</i>${[...Array(10)].map((_,j)=>`<i class="hd">${j+1}</i>`).join("")}`;
+  const miss=[];
+  for(let i=1;i<=10;i++){ h+=`<i class="hd">${i}</i>`; for(let j=1;j<=10;j++){ const p=pidx(i,j), ok=ks.filter(k=>stat(k,p)>=ST.LANCAR).length, no=ks.length-ok;
+      if(i<=j&&no) miss.push([p,no]); h+=`<i style="background:${heatCol(ok/ks.length)};color:${ok===ks.length?"#fff":"#1F2937"}" title="${i} × ${j}: ${ok}/${ks.length} anak lancar">${no||"✓"}</i>`; } }
+  h+="</div>";
+  const top=miss.sort((x,y)=>y[1]-x[1]).slice(0,6);
+  const rows=ks.map(k=>{ const set=c.set, dv=divOpen(k,set); return `<tr><td><b>${esc(k.name)}</b><br><small>kelas ${k.grade}</small></td><td>${bits(k.tamed)}/15</td><td>${countLancar(k)}/55</td>
+    <td>${dv?`terbuka<br><small>${countLancar(k,true)}/55 lancar</small>`:`terkunci<br><small>${masteredCore(k)}/${set.dx}</small>`}</td>
+    <td>${sesCount(k,"k",30).length} · ${sesCount(k,"r",30).length}<br><small>${mins(sesCount(k,"k",30))}′ · ${mins(sesCount(k,"r",30))}′</small></td><td><small>${slowest(k,3).map(f=>`<span class="nw">${factShort(f)}</span>`).join(", ")||"–"}</small></td></tr>`; }).join("");
+  return `<div class="card"><h3>Peta kelas ${esc(c.name)}</h3><p class="sub">Angka = jumlah anak yang belum lancar di fakta itu (✓ = semua lancar). Hijau tua = semua anak lancar.</p>${h}
+    ${top.length?`<p><b>Paling banyak yang belum lancar:</b></p><div class="chips">${top.map(([p,n])=>`<span>${factTxt(p)} (${n})</span>`).join("")}</div>`:""}</div>
+    <div class="card"><h3>Ringkasan murid</h3><table class="tbl"><tr><th>Murid</th><th>Kalimon</th><th>Lancar</th><th>Pembagian</th><th>Sesi kelas · rumah (30 hari)</th><th>Perlu dilatih</th></tr>${rows}</table></div>`; }
+function muridHTML(c){ const ks=c.kids.map(kidOf).filter(Boolean);
+  return `<div class="card"><div class="lst">${ks.map(k=>`<div class="it">${heroSVG(k.hero)}<div class="nm"><b>${esc(k.name)}</b><small>🐾 ${bits(k.tamed)}/15 · ✅ ${countLancar(k)}/55 · ${lastPlay(k)}</small>
+    <div class="seg" style="margin-top:4px">${[["auto","➗ Ikut syarat"],["open","Buka"],["lock","Kunci"]].map(([v,t])=>`<button type="button" data-a="dv" data-id="${k.id}" data-v="${v}" aria-pressed="${k.dv===v}">${t}</button>`).join("")}</div>
+    <div class="row3" style="margin-top:6px"><button type="button" class="btn sm" data-a="rapor" data-id="${k.id}">📄 Rapor</button><button type="button" class="btn sm wa" data-a="toHome" data-id="${k.id}">📤 Ke rumah</button><button type="button" class="btn sm ghost" data-a="editKid" data-id="${k.id}">✏️ Ubah</button></div></div></div>`).join("")||`<p class="sub">Belum ada murid.</p>`}</div>
+    <button type="button" class="btn ghost" data-a="addKid">＋ Tambah murid</button></div>`; }
+ACT.dv=d=>{ const k=kidOf(d.id); k.dv=d.v; save(); go("guru"); toast(d.v==="open"?`Pembagian dibuka untuk ${k.name}.`:d.v==="lock"?`Pembagian dikunci untuk ${k.name}.`:`Pembagian ${k.name} mengikuti syarat kelas.`); };
+ACT.toHome=d=>sendToHome(kidOf(d.id));
+ACT.editKid=d=>{ const k=kidOf(d.id);
+  kidForm(`Ubah ${esc(k.name)}`,k,o=>{ Object.assign(k,o); save(); closeModal(); go("guru"); });
+  $("mbody").insertAdjacentHTML("beforeend",`${D.cls.length>1?`<label class="f">Pindah ke kelas<select id="kmv">${D.cls.map(x=>`<option value="${x.id}"${clsOf(k.id)&&x.id===clsOf(k.id).id?" selected":""}>${esc(x.name)}</option>`).join("")}</select></label><button type="button" class="btn ghost" data-m="moveKid" data-id="${k.id}">Pindahkan</button>`:""}<button type="button" class="btn red" data-m="delKid" data-id="${k.id}">Hapus murid ini</button>`); };
+MACT.moveKid=d=>{ const to=D.cls.find(x=>x.id===$("kmv").value); const fr=clsOf(d.id); if(!to||to===fr) return closeModal(); fr.kids=fr.kids.filter(x=>x!==d.id); to.kids.push(d.id); kidOf(d.id).k=to.name; save(); closeModal(); go("guru"); toast("Murid dipindahkan."); };
+MACT.delKid=d=>{ const k=kidOf(d.id); if(!confirm(`Hapus ${k.name} beserta semua kemajuannya?`)) return; const c=clsOf(d.id); if(c) c.kids=c.kids.filter(x=>x!==d.id); delete D.kids[d.id]; save(); closeModal(); go("guru"); };
+function aturHTML(c){ const s=c.set, seg=(nm,vals,cur,lab)=>`<div class="seg">${vals.map(v=>`<button type="button" data-a="setc" data-k="${nm}" data-v="${v}" aria-pressed="${cur===v}">${v} ${lab}</button>`).join("")}</div>`;
+  return `<div class="card"><h3>Pengaturan ${esc(c.name)}</h3>
+    <label class="f">Nama kelas<input id="cnm" maxlength="40" value="${esc(c.name)}"></label><button type="button" class="btn sm ghost" data-a="renCls">Simpan nama</button>
+    <p><b>Lama sesi per anak di HP ini</b></p>${seg("dur",[3,5,10],s.dur,"menit")}
+    <p><b>Batas "lancar"</b> <small class="sub">(waktu menjawab, termasuk mengetik)</small></p>${seg("thr",[3,4,5],s.thr,"detik")}
+    <p><b>Pembagian terbuka otomatis setelah</b></p><label class="f"><select data-ch="dx">${[...Array(16)].map((_,i)=>`<option value="${i}"${i===s.dx?" selected":""}>${i} dari 15 Kalimon jinak${i===0?" (langsung terbuka)":""}</option>`).join("")}</select></label>
+    <p class="sub">Tiap murid tetap bisa dibuka/dikunci manual di tab Murid. Pengaturan ini ikut terkirim ke HP rumah lewat tombol "Ke rumah" (di rumah sesi tetap 10 menit).</p></div>
+    <div class="card"><button type="button" class="btn" data-a="addCls">＋ Kelas baru</button>${c.kids.length?"":`<button type="button" class="btn red" data-a="delCls">Hapus kelas ini</button>`}</div>`; }
+APP.addEventListener("change",e=>{ if(e.target.dataset.ch==="dx"){ curCls().set.dx=+e.target.value; save(); toast("Syarat pembagian disimpan."); } });
+ACT.setc=d=>{ curCls().set[d.k]=+d.v; save(); go("guru"); };
+ACT.renCls=()=>{ const v=$("cnm").value.trim(); if(!v) return; const c=curCls(); c.name=v; c.kids.forEach(id=>{ if(kidOf(id)) kidOf(id).k=v; }); save(); go("guru"); toast("Nama kelas disimpan."); };
+ACT.addCls=()=>{ const n=prompt("Nama kelas baru (mis. Cabang 2 · Sabtu):"); if(!n||!n.trim()) return; const c=newCls(n.trim()); D.cls.push(c); D.cc=c.id; save(); go("guru"); };
+ACT.delCls=()=>{ const c=curCls(); if(D.cls.length<2) return toast("Minimal harus ada satu kelas."); if(c.kids.length||!confirm(`Hapus kelas ${c.name}?`)) return; D.cls=D.cls.filter(x=>x!==c); D.cc=D.cls[0]?D.cls[0].id:null; save(); go("guru"); };
+ACT.impor=()=>handleCode($("ic").value);
+ACT.newPin=()=>{ const p=prompt("PIN baru (4 angka):"); if(!p) return; if(!/^\d{4}$/.test(p.trim())) return toast("PIN harus 4 angka."); D.pin=hashPin(p.trim()); save(); toast("PIN diganti."); };
+ACT.backup=()=>{ const blob=new Blob([JSON.stringify(D)],{type:"application/json"}), a=document.createElement("a"); const t=new Date();
+  a.href=URL.createObjectURL(blob); a.download=`kalimon-cadangan-${t.getFullYear()}-${String(t.getMonth()+1).padStart(2,"0")}-${String(t.getDate()).padStart(2,"0")}.json`; document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); },800); toast("Cadangan diunduh."); };
+function restoreFile(f){ if(!f) return; const r=new FileReader(); r.onload=()=>{ let o=null; try{ o=JSON.parse(r.result); }catch(e){}
+  if(!o||o.v!==1||!o.kids) return toast("File ini bukan cadangan Kalimon.");
+  if(!confirm(`Ganti semua data di HP ini dengan cadangan (${Object.keys(o.kids).length} anak)?`)) return; D=o; save(); guruOK=false; homeScreen(); toast("Cadangan dipulihkan."); }; r.readAsText(f); }
+
+/* ---------- rapor ---------- */
+function raporHTML(k,print){ const set=setOf(k), dv=divOpen(k,set), n=countStat(k), nd=countStat(k,true), c=clsOf(k.id);
+  const kk=sesCount(k,"k",30), kr=sesCount(k,"r",30), allDone=n[4]===55;
+  return `<h1>Rapor Kalimon · ${esc(k.name)}</h1><p class="sub">${esc(c?c.name:k.k||"Latihan di rumah")} · kelas ${k.grade} SD · dicetak ${dateOf(today())}</p>
+    <div class="stat"><div><b>${bits(k.tamed)}/15</b><small>Kalimon jinak (fakta inti hafal)</small></div><div><b>${n[3]+n[4]}/55</b><small>fakta perkalian lancar</small></div><div><b>${n[4]}/55</b><small>fakta hafal (3 hari)</small></div></div>
+    <div class="${print?"two":""}">${k.snap?`<div><h2>Peta awal · ${dateOf(k.snap.d)}</h2>${mapHTML(null,{snap:k.snap.st})}</div>`:""}<div><h2>Peta sekarang</h2>${mapHTML(k)}</div></div>${legendHTML()}
+    <h2>Pembagian</h2><p>${dv?`Terbuka${k.dv==="open"?" (dibuka guru)":""}. ${nd[3]+nd[4]}/55 fakta pembagian lancar, ${nd[4]} hafal.`:(k.dv==="lock"?`Dikunci oleh Kakak Guru (syarat otomatis kelas: ${set.dx}/15 Kalimon jinak; sekarang ${masteredCore(k)}).`:`Terkunci. Terbuka otomatis setelah ${set.dx}/15 Kalimon jinak (sekarang ${masteredCore(k)}).`)}</p>
+    ${dv&&k.dl?mapHTML(k,{div:true,small:!print}):""}
+    <h2>Latihan 30 hari terakhir</h2><p>Di kelas: <b>${kk.length} sesi</b> (${mins(kk)} menit) · di rumah: <b>${kr.length} sesi</b> (${mins(kr)} menit).</p>
+    <h2>Perlu dilatih</h2><p>${slowest(k,6).map(f=>{ const [a,b]=pairOf(f); return `${factTxt(f)} <small>(jurus ${hintMul(a,b).j})</small>`; }).join(" · ")||"Tidak ada. Hebat!"}</p>
+    <h2>Kalidex</h2><p>${MON.map((m,i)=>`<span class="nw">${k.tamed>>i&1?"✅":"⬜"} ${m.nm} (${m.p[0]} × ${m.p[1]})${k.evo>>i&1?" ✨":""}</span>`).join(" · ")}</p>
+    ${allDone?`<div class="cert"><h1>🏆 Sertifikat Penjinak Kalimon</h1><p>${esc(k.name)} sudah hafal seluruh perkalian 1–10 (benar ≤ ${set.thr} detik di 3 hari berbeda).</p><p>${dateOf(today())}</p></div>`:""}`; }
+ACT.rapor=d=>go("rapor",d.id);
+SCREENS.rapor=id=>{ const k=kidOf(id); return `<div class="card">${raporHTML(k,false)}
+  <button type="button" class="btn" data-a="printRapor" data-id="${k.id}">🖨️ Cetak / simpan PDF</button>
+  ${D.role==="guru"?`<button type="button" class="btn wa" data-a="toHome" data-id="${k.id}">📤 Kirim tautan ke rumah</button><button type="button" class="btn ghost" data-a="sumWA" data-id="${k.id}">💬 Kirim ringkasan ke orang tua</button>`:""}
+  <button type="button" class="btn ghost" data-a="${D.role==="guru"&&guruOK?"backGuru":"openKid"}" data-id="${k.id}">← Kembali</button></div>`; };
+ACT.backGuru=()=>go("guru");
+ACT.sumWA=d=>{ const k=kidOf(d.id), n=countStat(k); const text=`Ringkasan Kalimon ${k.name} (${dateOf(today())})\n🐾 ${bits(k.tamed)}/15 Kalimon jinak · ✅ ${n[3]+n[4]}/55 fakta lancar · ${n[4]} hafal\nLatihan 30 hari: ${sesCount(k,"k",30).length} sesi di kelas, ${sesCount(k,"r",30).length} sesi di rumah\nPerlu dilatih: ${slowest(k,4).map(factTxt).join(", ")||"–"}`;
+  shareBox("Ringkasan untuk orang tua",text); };
+function doPrint(html){ $("print").innerHTML=html; document.body.classList.add("printing"); setTimeout(()=>window.print(),60); }
+window.addEventListener("afterprint",()=>document.body.classList.remove("printing"));
+ACT.printRapor=d=>doPrint(`<div class="pg">${raporHTML(kidOf(d.id),true)}</div>`);
+ACT.printRekap=()=>{ const c=curCls(); doPrint(`<div class="pg"><h1>Rekap Kalimon · ${esc(c.name)}</h1><p>${dateOf(today())}</p>${rekapHTML(c)}</div>`+c.kids.map(kidOf).filter(Boolean).map(k=>`<div class="pg">${raporHTML(k,true)}</div>`).join("")); };
+
+/* ---------- bantuan ---------- */
+$("helpBtn").onclick=()=>modal(`<h2>Cara main Kalimon</h2><ul style="padding-left:18px;line-height:1.45;margin:0">
+  <li>Dari 100 kotak perkalian 1–10, jurus ×1, ×10, ×2, ×5, ×9, dan bolak-balik menyisakan <b>15 fakta inti</b>. Tiap fakta inti adalah satu <b>Kalimon</b> yang harus dijinakkan.</li>
+  <li>Tiap sesi: <b>pemanasan</b> (ulang fakta lama sesuai jadwal), <b>jurus baru</b>, lalu <b>latihan</b>: 2–4 fakta baru diselipkan di antara fakta yang sudah lancar. Yang salah muncul lagi beberapa soal kemudian.</li>
+  <li><b>Lancar</b> = benar dalam batas detik (biasanya 3). <b>Hafal</b> = lancar di 3 hari berbeda. Kalimon jinak kalau faktanya hafal.</li>
+  <li>Ketik jawaban dengan papan angka; jawaban diperiksa begitu semua kotak terisi. Belum tahu? Tekan <b>Lewati</b>, jurusnya akan ditunjukkan.</li>
+  <li><b>Di rumah</b>: 10 menit sehari, lalu tekan "Kirim kemajuan ke Kakak Guru". <b>Di kelas</b>: Kakak Guru memilih murid bergantian di HP kelas.</li>
+  <li><b>Pembagian</b> dibuka Kakak Guru setelah sejumlah Kalimon jinak, lewat jurus keluarga fakta (56 : 7 = 8 karena 7 × 8 = 56).</li></ul>
+  <button type="button" class="btn" data-m="close">Mengerti</button>`);
+
+/* ---------- mulai ---------- */
+function boot(){ const h=location.hash; const code=/^#[pu]=/.test(h)?h.slice(1):null;
+  if(code) history.replaceState(null,"",location.pathname+location.search);
+  if(!D.role&&code){ if(code[0]==="u"){ D.role="rumah"; save(); } else sessionStorage.setItem("km_pending",code); }
+  homeScreen(); if(code&&D.role) handleCode(code); }
+window.addEventListener("hashchange",()=>{ const h=location.hash; if(/^#[pu]=/.test(h)){ history.replaceState(null,"",location.pathname+location.search); if(G) return toast("Selesaikan sesi dulu, lalu buka tautannya lagi."); if(!D.role&&h[1]==="u"){ D.role="rumah"; save(); homeScreen(); } if(D.role) handleCode(h.slice(1)); else sessionStorage.setItem("km_pending",h.slice(1)); } });
+boot();
+</script>
+</body>
+</html>
